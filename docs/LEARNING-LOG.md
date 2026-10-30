@@ -231,3 +231,29 @@ The process was the same as part 2: a Sonnet implementer, an independent Sonnet 
 - **Labels are `textContent`.** "State *" comes from `{{ 'State' | translate }} <span>*</span>`, spacing included.
 
 **Interview angle:** "What breaks in a UI-framework migration that tests miss?" → lifecycle semantics (first-write events, back-button routing through overlay portals), not pixels. Port the framework's own code paths and pin them with tests.
+
+## 2026-10-31 — How the app is connected to the development server
+
+**What:** The RN app talks to the dev server (`devcrm.abacusdesk.com`) out of the box, with no extra setup. The connection is built in four layers:
+1. **The URLs come from the Ionic app.** `dbservice.ts` had a production block and a commented "Testing URL" block. Both were copied unchanged into `clients/topbath/client.json` under `urls.LIVE` and `urls.DEV`, using Ionic's field names (`rootUrl`, `rootUrlSfa`, `image_url`, `upload_url1`…).
+2. **One switch picks the server.** In `src/config/env.ts`, `MODE` (`'MOCK' | 'DEV' | 'LIVE'`) defaults to `'DEV'`. `urlsFor(MODE)` returns that client's DEV URL block, which becomes `URLS`.
+3. **The API client reads `URLS`.** `src/api/client.ts` is a port of `dbservice.ts`. Its `db` object builds `rootUrl`, `server_url = rootUrl + 'index.php/app/'` and the rest from `URLS`, so every screen calls the same methods with the same URLs as Ionic (`onPostRequestDataFromApi(data, 'app_karigar/app_version', db.rootUrl)`).
+4. **A transport seam decides where requests actually go.** Every call becomes an `ApiRequest {method, url, headers, body}` and is handed to a `Transport`:
+   - DEV/LIVE → `networkTransport`, a plain `fetch` over HTTPS.
+   - MOCK → `mockTransport`, which answers from the fixture files.
+   - Jest forces `MODE: 'MOCK'` in `jest.setup.js`, so tests can never reach a server.
+
+**Proof it works:** On launch the version check posts to `app_karigar/app_version` on dev. One approved read-only call returned `{"app_version":"0.1.5", "play_console_flag":0}`, so a 0.1.5 build shows no update popup.
+
+**Why:**
+- The Ionic app hard-coded URLs and switched servers by commenting lines in and out. Here the server is one value (`MODE`), and the URLs live per client in `client.json`. That lets 70 white-label apps share one codebase.
+- Keeping Ionic's field names and request shapes means screens convert 1:1, with no URL rewrites.
+- A seam between "build the request" and "send the request" lets the same code run against real servers, mocks and contract tests.
+
+**Learned:**
+- **Make the safe server the default.** DEV is the default, production needs explicit approval, and tests are hard-wired to mock. Mistakes then fail safe.
+- **Connecting needs no credentials. Using the data does.** Public endpoints like the version check work now. Anything after login needs a dev test account, because OTP goes to a real phone.
+- **Never use "bypass" numbers found in code** to log in on a shared server. They may be real users' accounts.
+- **Separate building the request from sending it.** Tests can check the exact URL, headers and body (`expectContract`) without any network.
+
+**Interview angle:** "How do you manage environments in a mobile app?" → per-client config holds each environment's URLs; one mode switch with a safe default; tests pinned to mocks; a transport seam so the same request code serves real servers, mocks and contract tests.
