@@ -1,14 +1,29 @@
 // Proves the RN API client sends exactly what Ionic's dbservice.ts sent:
-// same URL, same headers, same JSON body. LIVE mode is simulated with a fake fetch.
+// same URL, same headers, same JSON body. A networked mode (DEV, the app default) is simulated with a fake fetch.
 jest.mock('../src/config/env', () => {
   const actual = jest.requireActual('../src/config/env');
-  return { ...actual, MODE: 'LIVE' };
+  return { ...actual, MODE: 'DEV' };
 });
 
 import { db, HttpError } from '../src/api/client';
+import { urlsFor } from '../src/config/env';
 
-const ROOT = 'https://apps.abacusdesk.com/topbathfixtures/dd_api/';
-const SFA = 'https://apps.abacusdesk.com/topbathfixtures/crm/api/app/';
+const ROOT = 'https://devcrm.abacusdesk.com/topbathfixtures/dd_api/';
+const SFA = 'https://devcrm.abacusdesk.com/topbathfixtures/crm/api/app/';
+
+test('app default points at the dev server, never production', () => {
+  const { MODE, URLS } = jest.requireActual('../src/config/env');
+  expect(MODE).toBe('DEV');
+  expect(URLS.rootUrl).toBe(ROOT);
+  expect(JSON.stringify(urlsFor('MOCK'))).not.toContain('apps.abacusdesk.com');
+});
+
+test('LIVE block still matches the Ionic production URLs exactly', () => {
+  const live = urlsFor('LIVE');
+  expect(live.rootUrl).toBe('https://apps.abacusdesk.com/topbathfixtures/dd_api/');
+  expect(live.rootUrlSfa).toBe('https://apps.abacusdesk.com/topbathfixtures/crm/api/app/');
+  expect(live.upload_url3).toBe('https://apps.abacusdesk.com/topbathfixtures/dd_api/app/uploads/');
+});
 
 function fakeFetch(status = 200, body: any = { status: 'success' }) {
   const fn = jest.fn().mockResolvedValue({
@@ -24,7 +39,7 @@ beforeEach(() => {
   db.userStorageData = undefined;
 });
 
-test('URLs match the Ionic LIVE block', () => {
+test('client URLs match the Ionic dev ("Testing URL") block', () => {
   expect(db.rootUrl).toBe(ROOT);
   expect(db.rootUrlSfa).toBe(SFA);
   expect(db.server_url).toBe(ROOT + 'index.php/app/');
