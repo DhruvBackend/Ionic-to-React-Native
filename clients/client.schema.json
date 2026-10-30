@@ -1,0 +1,438 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Client config (mirrors src/config/types.ts ClientConfig)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "appName",
+    "androidPackage",
+    "iosBundleId",
+    "versionName",
+    "versionCode",
+    "playStoreId",
+    "platforms",
+    "urls",
+    "colors",
+    "contact",
+    "companyName",
+    "languages",
+    "countries",
+    "roles",
+    "fcmSenderId",
+    "features",
+    "brandLabels"
+  ],
+  "definitions": {
+    "nonEmpty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https?://.+/$"
+    },
+    "hex": {
+      "type": "string",
+      "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+    },
+    "urls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rootUrl",
+        "rootUrlSfa",
+        "image_url",
+        "upload_url1",
+        "upload_url2",
+        "upload_url3",
+        "video_url",
+        "product_image_url",
+        "category_url",
+        "videoUpload",
+        "legacyImageHost",
+        "gravityImageHost"
+      ],
+      "properties": {
+        "rootUrl": {
+          "$ref": "#/definitions/url"
+        },
+        "rootUrlSfa": {
+          "$ref": "#/definitions/url"
+        },
+        "image_url": {
+          "$ref": "#/definitions/url"
+        },
+        "upload_url1": {
+          "$ref": "#/definitions/url"
+        },
+        "upload_url2": {
+          "$ref": "#/definitions/url"
+        },
+        "upload_url3": {
+          "$ref": "#/definitions/url"
+        },
+        "video_url": {
+          "$ref": "#/definitions/url"
+        },
+        "product_image_url": {
+          "$ref": "#/definitions/url"
+        },
+        "category_url": {
+          "$ref": "#/definitions/url"
+        },
+        "videoUpload": {
+          "type": "string",
+          "description": "Complaint video upload endpoint. Topbath: empty. The Ionic code hardcoded another client's host (grafdoer); never copy it (security)."
+        },
+        "legacyImageHost": {
+          "$ref": "#/definitions/url"
+        },
+        "gravityImageHost": {
+          "$ref": "#/definitions/url"
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "appName": {
+      "$ref": "#/definitions/nonEmpty"
+    },
+    "androidPackage": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "iosBundleId": {
+      "$ref": "#/definitions/nonEmpty"
+    },
+    "versionName": {
+      "type": "string",
+      "pattern": "^\\d+(\\.\\d+)*$"
+    },
+    "versionCode": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "playStoreId": {
+      "$ref": "#/definitions/nonEmpty"
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "android",
+          "ios"
+        ]
+      }
+    },
+    "urls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "LIVE",
+        "DEV"
+      ],
+      "properties": {
+        "LIVE": {
+          "$ref": "#/definitions/urls"
+        },
+        "DEV": {
+          "$ref": "#/definitions/urls"
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary",
+        "statusBar",
+        "ionic",
+        "scss"
+      ],
+      "properties": {
+        "primary": {
+          "$ref": "#/definitions/hex"
+        },
+        "statusBar": {
+          "$ref": "#/definitions/hex"
+        },
+        "ionic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "secondary",
+            "danger",
+            "light",
+            "success",
+            "red",
+            "white",
+            "warning",
+            "dark"
+          ],
+          "properties": {
+            "secondary": {
+              "$ref": "#/definitions/hex"
+            },
+            "danger": {
+              "$ref": "#/definitions/hex"
+            },
+            "light": {
+              "$ref": "#/definitions/hex"
+            },
+            "success": {
+              "$ref": "#/definitions/hex"
+            },
+            "red": {
+              "$ref": "#/definitions/hex"
+            },
+            "white": {
+              "$ref": "#/definitions/hex"
+            },
+            "warning": {
+              "$ref": "#/definitions/hex"
+            },
+            "dark": {
+              "$ref": "#/definitions/hex"
+            }
+          }
+        },
+        "scss": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "secondary",
+            "tertiary",
+            "success",
+            "warning",
+            "danger",
+            "light",
+            "dark",
+            "white",
+            "black",
+            "blue"
+          ],
+          "properties": {
+            "secondary": {
+              "$ref": "#/definitions/hex"
+            },
+            "tertiary": {
+              "$ref": "#/definitions/hex"
+            },
+            "success": {
+              "$ref": "#/definitions/hex"
+            },
+            "warning": {
+              "$ref": "#/definitions/hex"
+            },
+            "danger": {
+              "$ref": "#/definitions/hex"
+            },
+            "light": {
+              "$ref": "#/definitions/hex"
+            },
+            "dark": {
+              "$ref": "#/definitions/hex"
+            },
+            "white": {
+              "$ref": "#/definitions/hex"
+            },
+            "black": {
+              "$ref": "#/definitions/hex"
+            },
+            "blue": {
+              "$ref": "#/definitions/hex"
+            }
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phone",
+        "phoneDisplay",
+        "email",
+        "addressKey",
+        "mapEmbedUrl",
+        "geoLatLng",
+        "geoLabel",
+        "nearestDealerPhone"
+      ],
+      "properties": {
+        "phone": {
+          "$ref": "#/definitions/nonEmpty"
+        },
+        "phoneDisplay": {
+          "$ref": "#/definitions/nonEmpty"
+        },
+        "email": {
+          "type": "string",
+          "pattern": "^[^@\\s]+@[^@\\s]+$"
+        },
+        "addressKey": {
+          "$ref": "#/definitions/nonEmpty"
+        },
+        "mapEmbedUrl": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "geoLatLng": {
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
+        },
+        "geoLabel": {
+          "type": "string"
+        },
+        "nearestDealerPhone": {
+          "type": "string"
+        }
+      }
+    },
+    "companyName": {
+      "$ref": "#/definitions/nonEmpty"
+    },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "en",
+          "hin",
+          "nep",
+          "es"
+        ]
+      }
+    },
+    "countries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Plumber",
+          "Sales_Boy",
+          "Dealer",
+          "Sales_Executive",
+          "Customer",
+          "Retailer"
+        ]
+      }
+    },
+    "fcmSenderId": {
+      "type": "string"
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "push",
+        "sfa",
+        "giftList",
+        "pointDetail",
+        "scanPage",
+        "loginScreen",
+        "digitalCatalog",
+        "editProfile",
+        "enquiry",
+        "favorites",
+        "news",
+        "survey",
+        "nearestDealer",
+        "retailerComplaints",
+        "search",
+        "superPlumber",
+        "quotation",
+        "pointTransfer",
+        "nativeNavigation",
+        "nativeGeocode"
+      ],
+      "properties": {
+        "push": {
+          "type": "boolean"
+        },
+        "sfa": {
+          "type": "boolean"
+        },
+        "giftList": {
+          "type": "boolean"
+        },
+        "pointDetail": {
+          "type": "boolean"
+        },
+        "scanPage": {
+          "type": "boolean"
+        },
+        "loginScreen": {
+          "type": "boolean"
+        },
+        "digitalCatalog": {
+          "type": "boolean"
+        },
+        "editProfile": {
+          "type": "boolean"
+        },
+        "enquiry": {
+          "type": "boolean"
+        },
+        "favorites": {
+          "type": "boolean"
+        },
+        "news": {
+          "type": "boolean"
+        },
+        "survey": {
+          "type": "boolean"
+        },
+        "nearestDealer": {
+          "type": "boolean"
+        },
+        "retailerComplaints": {
+          "type": "boolean"
+        },
+        "search": {
+          "type": "boolean"
+        },
+        "superPlumber": {
+          "type": "boolean"
+        },
+        "quotation": {
+          "type": "boolean"
+        },
+        "pointTransfer": {
+          "type": "boolean"
+        },
+        "nativeNavigation": {
+          "type": "boolean"
+        },
+        "nativeGeocode": {
+          "type": "boolean"
+        }
+      }
+    },
+    "brandLabels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "assetsFrom": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  }
+}

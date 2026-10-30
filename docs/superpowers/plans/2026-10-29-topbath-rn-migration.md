@@ -138,6 +138,16 @@ __tests__/helpers/contract.ts    # expectContract()
 
 ### Task 3: White-label client config
 
+**Status: DONE 2026-10-30.** Tests 6/6 (17/17 total), `tsc` and lint clean. The APK is `com.topsan.app.rn`, versionName `0.1.5`, label "Topsan RN", and the launcher icons are md5-identical to the Ionic `resources/android/icon/*`. A missing `client.properties` fails the build with instructions.
+
+Deviations from the steps below, all in the direction of 1:1:
+1. **Colours.** Ionic has two colour sets with different values (`$colors` map: danger `#54595F`; SCSS variables: `$danger` `#ff0000`). `ClientConfig.colors` is therefore `{ primary, statusBar, ionic: {…8 keys}, scss: {…10 keys} }` (see `src/config/types.ts`), not a single flat list. Task 4 maps the theme from both.
+2. **Icons are copied, not generated.** `use-client.mjs` copies the Ionic `drawable-<dpi>-icon.png` files unchanged into `mipmap-<dpi>/ic_launcher.png` and `ic_launcher_round.png` (Ionic had no round icon). `sharp` is not used. Splash generation moves to Task 8.
+3. **Contact fields** were extended to what the Ionic templates really show: `phone` (tel:) plus `phoneDisplay`, `addressKey` (an i18n key), `mapEmbedUrl`, `geoLatLng`/`geoLabel` (contact.ts geo link), `nearestDealerPhone`.
+4. **`FeatureKey`** includes `nativeNavigation` and `nativeGeocode` (both false for Topbath).
+5. **Test helpers.** `__tests__/use-client.test.ts` runs the script with `--skip-assets` and `--validate <file>`. `@types/node` is referenced only in that test file.
+6. **Lint.** `scripts/*.mjs` are not linted: the RN ESLint parser can't read `import.meta`. They're covered by their tests.
+
 **Files:**
 - Create: `src/config/types.ts`, `clients/client.schema.json`, `clients/topbath/client.json`, `clients/_all-features/client.json`, `scripts/use-client.mjs`, `src/config/client.ts` (generated)
 - Copy (from `$IONIC`): `src/assets/imgs/logo.png`, `src/assets/imgs/banner.png`, `resources/icon.png` and `resources/splash.png` into `clients/topbath/assets/`

@@ -77,6 +77,17 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+/**
+ * White-label: app id, version and name of the selected client, written by
+ * `node scripts/use-client.mjs <client-id>` (see clients/<id>/client.json).
+ */
+def clientPropsFile = rootProject.file("client.properties")
+if (!clientPropsFile.exists()) {
+    throw new GradleException("android/client.properties is missing. Run: node scripts/use-client.mjs <client-id>  (e.g. topbath)")
+}
+def clientProps = new Properties()
+clientPropsFile.withReader("UTF-8") { clientProps.load(it) }
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -84,12 +95,12 @@ android {
 
     namespace "com.topsan.app"
     defaultConfig {
-        applicationId "com.topsan.app"
+        applicationId clientProps.getProperty("applicationId")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        resValue "string", "app_name", "Topsan"
+        versionCode clientProps.getProperty("versionCode").toInteger()
+        versionName clientProps.getProperty("versionName")
+        resValue "string", "app_name", clientProps.getProperty("appName")
     }
     signingConfigs {
         debug {
@@ -102,10 +113,10 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            // Test builds install as com.topsan.app.rn so they sit next to the real
-            // Play Store Topsan app instead of replacing it. Release keeps com.topsan.app.
+            // Test builds install as <applicationId>.rn so they sit next to the client's real
+            // Play Store app instead of replacing it. Release keeps the plain applicationId.
             applicationIdSuffix ".rn"
-            resValue "string", "app_name", "Topsan RN"
+            resValue "string", "app_name", clientProps.getProperty("appName") + " RN"
         }
         release {
             // Caution! In production, you need to generate your own keystore file.

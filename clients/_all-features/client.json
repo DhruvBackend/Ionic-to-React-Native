@@ -1,0 +1,123 @@
+{
+  "id": "_all-features",
+  "appName": "Topsan AllFeatures",
+  "androidPackage": "com.topsan.app",
+  "iosBundleId": "com.topsan.app",
+  "versionName": "0.1.5",
+  "versionCode": 1,
+  "playStoreId": "com.topsan.app",
+  "platforms": [
+    "android"
+  ],
+  "urls": {
+    "LIVE": {
+      "rootUrl": "https://apps.abacusdesk.com/topbathfixtures/dd_api/",
+      "rootUrlSfa": "https://apps.abacusdesk.com/topbathfixtures/crm/api/app/",
+      "image_url": "https://apps.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/categoryImage/",
+      "upload_url1": "https://apps.abacusdesk.com/topbathfixtures/crm/api/uploads/",
+      "upload_url2": "https://apps.abacusdesk.com/topbathfixtures/uploads/order-invoice/",
+      "upload_url3": "https://apps.abacusdesk.com/topbathfixtures/dd_api/app/uploads/",
+      "video_url": "https://apps.abacusdesk.com/topbathfixtures/dd_api/app/uploads/videos/",
+      "product_image_url": "https://apps.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/productImage/",
+      "category_url": "https://apps.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/imageCatalogue/",
+      "videoUpload": "",
+      "legacyImageHost": "http://phpstack-83335-1980946.cloudwaysapps.com/",
+      "gravityImageHost": "http://app.gravitybath.com/"
+    },
+    "DEV": {
+      "rootUrl": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/",
+      "rootUrlSfa": "https://devcrm.abacusdesk.com/topbathfixtures/crm/api/app/",
+      "image_url": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/categoryImage/",
+      "upload_url1": "https://devcrm.abacusdesk.com/topbathfixtures/crm/api/uploads/",
+      "upload_url2": "https://devcrm.abacusdesk.com/topbathfixtures/uploads/order-invoice/",
+      "upload_url3": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/app/uploads/",
+      "video_url": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/app/uploads/videos/",
+      "product_image_url": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/productImage/",
+      "category_url": "https://devcrm.abacusdesk.com/topbathfixtures/dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/imageCatalogue/",
+      "videoUpload": "",
+      "legacyImageHost": "http://phpstack-83335-1980946.cloudwaysapps.com/",
+      "gravityImageHost": "http://app.gravitybath.com/"
+    }
+  },
+  "colors": {
+    "primary": "#002d25",
+    "statusBar": "#002d25",
+    "ionic": {
+      "secondary": "#000000",
+      "danger": "#54595F",
+      "light": "#f4f4f4",
+      "success": "#46ab07",
+      "red": "#eb445a",
+      "white": "#ffffff",
+      "warning": "#ffc409",
+      "dark": "#222"
+    },
+    "scss": {
+      "secondary": "#000000",
+      "tertiary": "#002d25",
+      "success": "#002d25",
+      "warning": "#FFBB00",
+      "danger": "#ff0000",
+      "light": "#c9c9c9",
+      "dark": "#B5B5B5",
+      "white": "#ffffff",
+      "black": "#000000",
+      "blue": "#083143"
+    }
+  },
+  "contact": {
+    "phone": "8655050950",
+    "phoneDisplay": "+91 8655050950",
+    "email": "care@topsan.in",
+    "addressKey": "Plot No. 48/1/1A & 1B, Industrial Area, Site–IV, Sahibabad – 201010 Ghaziabad (Uttar Pradesh)",
+    "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.7192778403887!2d77.35105671494887!3d28.66812298922031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfaed0352779d%3A0xaab24e0e608d3361!2sPlot%20Number%2048%2F1%2C%201%2C%20Block%20B%2C%20Jhandapur%2C%20Sahibabad%20Industrial%20Area%20Site%204%2C%20Sahibabad%2C%20Ghaziabad%2C%20Uttar%20Pradesh%20201010!5e0!3m2!1sen!2sin!4v1656411032757!5m2!1sen!2sin",
+    "geoLatLng": "28.6223767,77.1205522",
+    "geoLabel": "C-50, Phase-II, Mayapuri Industrial Area, New Delhi- 110064",
+    "nearestDealerPhone": "+91 8470012000"
+  },
+  "companyName": "Machino Tech (Topsan)",
+  "languages": [
+    "en",
+    "hin"
+  ],
+  "countries": [
+    "India",
+    "Nepal"
+  ],
+  "roles": [
+    "Plumber",
+    "Sales_Boy",
+    "Dealer",
+    "Sales_Executive",
+    "Customer",
+    "Retailer"
+  ],
+  "fcmSenderId": "849648964768",
+  "features": {
+    "push": true,
+    "sfa": true,
+    "giftList": true,
+    "pointDetail": true,
+    "scanPage": true,
+    "loginScreen": true,
+    "digitalCatalog": true,
+    "editProfile": true,
+    "enquiry": true,
+    "favorites": true,
+    "news": true,
+    "survey": true,
+    "nearestDealer": true,
+    "retailerComplaints": true,
+    "search": true,
+    "superPlumber": true,
+    "quotation": true,
+    "pointTransfer": true,
+    "nativeNavigation": true,
+    "nativeGeocode": true
+  },
+  "brandLabels": {
+    "dealerBrand": "Agmeco",
+    "orderTo": "Gravity"
+  },
+  "assetsFrom": "topbath"
+}
