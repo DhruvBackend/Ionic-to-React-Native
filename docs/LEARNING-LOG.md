@@ -191,3 +191,21 @@ Also `fontFor()`, `IonIcon`, `MaterialIcon`, Ionic md base values with file:line
 - **Google Fonts serves TTF to old user agents;** add `subset=latin,latin-ext` or ₹ is missing.
 - **Bundled debug APKs run release-mode JS** (`__DEV__` false), which silently disabled the debug tools. A tiny native module exposing `BuildConfig.DEBUG` fixed it.
 - **Material Icons uses ligatures,** and they work in Android `Text`. Verified all 57 names on the emulator.
+
+## 2026-10-30 — Task 9 part 2: popups (first subagent build)
+
+**What:** Ionic md replicas of Alert, Loading, Toast and ActionSheet, behind the same `showAlert`-style API the app already used. The process:
+1. A **Sonnet 5.5 implementer** built them with tests and emulator screenshots.
+2. A **separate Sonnet 5.5 reviewer**, who never saw the implementer's reasoning, checked them against Ionic's source and the compiled `main.css` from the shipped `.aab`.
+3. The implementer fixed the 5 confirmed findings.
+4. I re-ran every check and looked at the result on the emulator.
+
+**Why two agents:** The implementer anchors on its own decisions. A fresh reviewer given only the code and the ground truth catches what the author can't, here the tap-block during the *enter* animation and a 4px Cancel offset.
+
+**Learned:**
+- **The compiled CSS settles cascade questions.** Topbath's rules are emitted *before* Ionic's component CSS, so at equal specificity Ionic wins. Two `.alert-modal` rules in the SCSS never apply.
+- **Ionic blocks taps during overlay transitions** (enter + 64 ms, and `max(400, leave + 64)` after closing). That's why you can't double-open a popup in the Ionic app.
+- **Ionic's back button closes the *oldest* popup** (`_overlayPortal._views[0]`), not the newest. Copied, with a note.
+- **Rule out the obvious before calling something a bug.** A "missing page behind the popup" was the placeholder text sitting exactly under the dialog card. A `uiautomator dump` plus comparing coordinates proved it in two commands.
+
+**Interview angle:** "How do you use AI agents safely on a big migration?" → narrow briefs with ground-truth sources, an independent reviewer, every claim re-verified by running the checks yourself, and visual checks on a device.

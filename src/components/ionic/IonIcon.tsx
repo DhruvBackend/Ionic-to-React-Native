@@ -18,16 +18,17 @@ export interface IonIconProps {
   size?: number;
   color?: string;
   style?: StyleProp<TextStyle>;
+  testID?: string;
 }
 
-export function IonIcon({ name, size = 14, color, style }: IonIconProps) {
+export function IonIcon({ name, size = 14, color, style, testID }: IonIconProps) {
   const glyph = ionIconGlyph(name);
   if (!glyph) {
     console.warn(`[IonIcon] unknown ionicons 3 name "${name}"`);
     return null;
   }
   return (
-    <Text style={[styles.icon, { fontSize: size, lineHeight: size, color }, style]} allowFontScaling={false}>
+    <Text testID={testID} style={[styles.icon, { fontSize: size, lineHeight: size, color }, style]} allowFontScaling={false}>
       {glyph}
     </Text>
   );

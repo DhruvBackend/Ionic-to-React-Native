@@ -17,8 +17,24 @@ import { placeholderFor } from './PlaceholderScreen';
 import { RoleTabs } from './RoleTabs';
 import { enabledRoutes } from './routes';
 import { SideMenuProvider } from './SideMenu';
+import { notifyPageChange } from '../ui/overlays';
 
 const Root = createNativeStackNavigator();
+
+// Ionic OverlayPortal dismisses dismissOnPageChange overlays on app.viewDidLeave, which fires when the
+// leaving page's transition has finished: md-transition.js:22 push 280 ms, :19 pop 200 ms.
+let lastRouteKey: string | undefined;
+let lastDepth = 0;
+function onNavigationStateChange() {
+  const key = navigationRef.getCurrentRoute()?.key;
+  const depth = navigationRef.getRootState()?.routes.length ?? 0;
+  if (key !== lastRouteKey) {
+    const popped = depth < lastDepth;
+    lastRouteKey = key;
+    lastDepth = depth;
+    setTimeout(notifyPageChange, popped ? 200 : 280);
+  }
+}
 
 // NOTE (parity): where Ionic sets no root page at all (see src/app/startup.ts), the app shows nothing.
 function BlankScreen() {
@@ -68,7 +84,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
 
   return (
     <SideMenuProvider>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} onStateChange={onNavigationStateChange}>
         <Root.Navigator initialRouteName={initialRouteName} screenOptions={{ headerShown: false }}>
           <Root.Screen name="Tabs" component={RoleTabs} />
           <Root.Screen name="Blank" component={BlankScreen} />

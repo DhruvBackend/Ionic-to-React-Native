@@ -5,6 +5,6 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/__tests__/helpers/'],
   // The preset only transpiles react-native and @react-native/* packages; these ship ES modules too.
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage|@react-navigation|react-native-screens|react-native-safe-area-context)/)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage|@react-navigation|react-native-screens|react-native-safe-area-context|react-native-svg)/)',
   ],
 };

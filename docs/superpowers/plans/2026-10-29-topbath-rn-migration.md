@@ -466,7 +466,35 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 9: Ionic md-mode replica kit and exact fonts
 
-**Done in parts.** Part 1 (fonts, icons, base values) is DONE (2026-10-30). Part 2 (popups), part 3 (pickers), part 4 (page structure) and part 5 (content controls) follow.
+**Done in parts.** Part 1 (fonts, icons, base values) and part 2 (popups) are DONE (2026-10-30). Part 3 (pickers), part 4 (page structure) and part 5 (content controls) follow.
+
+**Part 2 — status.**
+- Built by a Sonnet 5.5 implementer and reviewed by a separate Sonnet 5.5 reviewer against Ionic 3.9.5 source and the shipped `main.css`. All 5 confirmed findings were fixed in one round.
+- Tests 191/191; `tsc` and `eslint .` clean.
+- Verified on the Android 16 emulator: the real hardware-back exit alert, every gallery variant, and the backdrop showing the page through it (action sheet 0.26, alert 0.5).
+
+What landed:
+- `src/ui/overlays.ts` is a stack-backed API: `showAlert`, `showLoading`, `showToast`, `showActionSheet`, `isOverlayOpen`, `dismissTopOverlay`, `notifyPageChange`.
+- `src/ui/useLoader.ts`.
+- Replicas in `src/components/ionic/` (Alert, Loading, Toast, ActionSheet, OverlayHost, Backdrop, Spinner with crescent + the Topbath 8-dot gif loader, RippleButton). Values with citations are in `src/theme/ionicMdOverlays.ts`.
+- `<OverlayHost/>` is mounted inside `AppFrame`, so popups share the app area (94% on Android 15+, as in Ionic). `react-native-svg` was added for the exact crescent arc.
+
+Topbath overrides applied (cascade checked against the compiled `main.css`):
+- `margin:0 !important` on `h1-h6,p,span,button,input` (`variables.scss:390-399`).
+- Alert title 16px (`:12316`).
+- `.alert-modal` (Stop Time; dashboard/end-checkin/travel-add/travel-list): bold title, green and red 50% buttons.
+- Action sheets fully restyled (`:4338-4390`): rounded white sheet, 2-per-row buttons, maroon/green icons, centred bold Cancel.
+- Loading wrapper transparent with a white content box (`:9940-9947`).
+- The `cssClass` values `action-close`, `close-action-sheet`, `sheet-m*` and `cs-*` have no rules and change nothing.
+
+Behaviour copied:
+- Cancel-role handler on backdrop tap; a handler returning `false` keeps the popup open.
+- Radio, checkbox and input values reach the handlers.
+- `onDidDismiss` fires after the leave animation.
+- Click-block on enter (enter + 64 ms) and on leave (max(400, leave + 64) ms); toasts never block.
+- Hardware back dismisses the **oldest** alert or action sheet with no handler (`app.component.ts:167` `_views[0]`). Loading and toast don't count.
+
+Known limits (documented in code): no shadow before Android 9; only plain text plus the Topbath gif `<img>` in popup HTML; `dismissOnPageChange` is timer-based after navigation.
 
 **Part 1 — status.**
 - Tests 139/139; `tsc` and `eslint .` clean.

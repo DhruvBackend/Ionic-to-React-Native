@@ -10,6 +10,7 @@ import { AppFrame } from './src/app/AppFrame';
 import { decideStartRoute, type StartDecision } from './src/app/startup';
 import { useBackButton } from './src/app/useBackButton';
 import { runVersionCheck } from './src/app/versionCheck';
+import { OverlayHost } from './src/components/ionic/OverlayHost';
 import { initPushNotification } from './src/native/push';
 import { RootNavigator } from './src/navigation/RootNavigator';
 
@@ -40,6 +41,8 @@ function App() {
     <SafeAreaProvider>
       <AppFrame>
         <Startup />
+        {/* Ionic overlay portals live inside ion-app, above the navigator */}
+        <OverlayHost />
       </AppFrame>
     </SafeAreaProvider>
   );

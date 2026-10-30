@@ -2,25 +2,245 @@
 // can be checked on a device and captured for the parity report (plan Task 9 step 6).
 // Open with: adb shell am start -a android.intent.action.VIEW -d "topbathrn://open?screen=_ComponentGallery"
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IonIcon } from '../components/ionic/IonIcon';
 import { MaterialIcon } from '../components/ionic/MaterialIcon';
 import { fontFor } from '../theme/typography';
+import {
+  showActionSheet,
+  showAlert,
+  showLoading,
+  showToast,
+} from '../ui/overlays';
 
 // Every name used in the Ionic templates (grep of src/**/*.html).
 const ION_ICONS = [
-  'add', 'arrow-back', 'arrow-forward', 'call', 'clock', 'ios-arrow-forward-outline', 'log-out', 'md-add-circle',
-  'md-create', 'md-more', 'md-share', 'navigate', 'notifications', 'qr-scanner', 'share', 'trash',
+  'add',
+  'arrow-back',
+  'arrow-forward',
+  'call',
+  'clock',
+  'ios-arrow-forward-outline',
+  'log-out',
+  'md-add-circle',
+  'md-create',
+  'md-more',
+  'md-share',
+  'navigate',
+  'notifications',
+  'qr-scanner',
+  'share',
+  'trash',
 ];
 const MATERIAL_ICONS = [
-  'star', 'phone', 'keyboard_arrow_right', 'cancel', 'delete_sweep', 'call', 'date_range', 'camera_alt', 'save',
-  'perm_media', 'clear', 'info', 'hourglass_full', 'create', 'check_circle', 'arrow_right_alt', 'person_add', 'edit',
-  'chevron_right', 'add_circle', 'add', 'place', 'picture_as_pdf', 'person', 'power_settings_new',
-  'keyboard_arrow_left', 'insert_invitation', 'delete', 'call_made', 'apartment', 'work', 'verified_user',
-  'trending_flat', 'store', 'room', 'public', 'note_add', 'my_location', 'menu', 'location_on', 'local_shipping',
-  'local_phone', 'list', 'keyboard_backspace', 'import_contacts', 'how_to_reg', 'fact_check', 'engineering',
-  'emoji_transportation', 'email', 'collections', 'close', 'business', 'arrow_forward', 'arrow_back',
-  'add_shopping_cart', 'account_balance_wallet',
+  'star',
+  'phone',
+  'keyboard_arrow_right',
+  'cancel',
+  'delete_sweep',
+  'call',
+  'date_range',
+  'camera_alt',
+  'save',
+  'perm_media',
+  'clear',
+  'info',
+  'hourglass_full',
+  'create',
+  'check_circle',
+  'arrow_right_alt',
+  'person_add',
+  'edit',
+  'chevron_right',
+  'add_circle',
+  'add',
+  'place',
+  'picture_as_pdf',
+  'person',
+  'power_settings_new',
+  'keyboard_arrow_left',
+  'insert_invitation',
+  'delete',
+  'call_made',
+  'apartment',
+  'work',
+  'verified_user',
+  'trending_flat',
+  'store',
+  'room',
+  'public',
+  'note_add',
+  'my_location',
+  'menu',
+  'location_on',
+  'local_shipping',
+  'local_phone',
+  'list',
+  'keyboard_backspace',
+  'import_contacts',
+  'how_to_reg',
+  'fact_check',
+  'engineering',
+  'emoji_transportation',
+  'email',
+  'collections',
+  'close',
+  'business',
+  'arrow_forward',
+  'arrow_back',
+  'add_shopping_cart',
+  'account_balance_wallet',
+];
+
+// Each button opens one replica variant (plan Task 9 step 6). Texts are the real Ionic call sites.
+const POPUPS: [string, () => void][] = [
+  ['Alert plain', () => showAlert({ title: 'Alert!', buttons: ['OK'] })],
+  [
+    'Alert title+subTitle+message',
+    () =>
+      showAlert({
+        title: 'Are You Sure?',
+        subTitle: 'Your Order Data Will Be Discarded ',
+        message: 'This is a longer message line to show the 15px grey text.',
+        buttons: [{ text: 'Cancel', role: 'cancel' }, { text: 'Confirm' }],
+      }),
+  ],
+  [
+    'Alert radio', // home.ts:318-345
+    () =>
+      showAlert({
+        title: 'Coupon',
+        inputs: [
+          { type: 'radio', label: 'Coupon Scan', value: 'scan', checked: true },
+          { type: 'radio', label: 'Enter Coupon Code', value: 'code' },
+        ],
+        buttons: [
+          'Cancel',
+          { text: 'OK', handler: d => console.log('radio', d) },
+        ],
+      }),
+  ],
+  [
+    'Alert checkbox',
+    () =>
+      showAlert({
+        title: 'Pick',
+        inputs: [
+          { type: 'checkbox', label: 'One', value: '1', checked: true },
+          { type: 'checkbox', label: 'Two', value: '2' },
+          { type: 'checkbox', label: 'Three', value: '3' },
+        ],
+        buttons: [
+          'Cancel',
+          { text: 'OK', handler: d => console.log('checkbox', d) },
+        ],
+      }),
+  ],
+  [
+    'Alert text input',
+    () =>
+      showAlert({
+        title: 'Login',
+        inputs: [
+          { name: 'username', placeholder: 'Username' },
+          { name: 'password', placeholder: 'Password', type: 'password' },
+        ],
+        buttons: [
+          'Cancel',
+          { text: 'Login', handler: d => console.log('inputs', d) },
+        ],
+      }),
+  ],
+  [
+    'Alert version update', // versionCheck.ts presentVersionAlert
+    () =>
+      showAlert({
+        title: 'Update Available',
+        message:
+          'A newer version of this app is available for download. Please update it from PlayStore !',
+        buttons: [{ text: 'Cancel' }, { text: 'Update Now' }],
+      }),
+  ],
+  [
+    'Alert Message! (action-close)', // dbservice.ts:190 onShowMessageAlertHandler
+    () =>
+      showAlert({
+        title: 'Message!',
+        cssClass: 'action-close',
+        subTitle: 'Order placed successfully',
+        buttons: ['OK'],
+      }),
+  ],
+  [
+    'Alert alert-modal (Stop Time)', // dashboard.ts:190
+    () =>
+      showAlert({
+        title: 'Stop Time',
+        message: 'Do you want to stop work time?',
+        cssClass: 'alert-modal',
+        buttons: [{ text: 'Yes' }, { text: 'No', role: 'cancel' }],
+      }),
+  ],
+  [
+    'Alert 3 buttons',
+    () =>
+      showAlert({
+        title: 'Three',
+        message: 'Vertical buttons',
+        buttons: ['One', 'Two', 'Three'],
+      }),
+  ],
+  [
+    'Loading Please wait',
+    () => showLoading({ content: 'Please wait...', duration: 4000 }),
+  ], // dbservice.ts:203
+  [
+    'Loading gif',
+    () =>
+      showLoading({
+        spinner: 'hide',
+        content: '<img src="./assets/imgs/gif.svg" class="h55" />',
+        duration: 4000,
+      }),
+  ],
+  [
+    'Toast bottom',
+    () => showToast('Your Data Is Safe', { position: 'bottom' }),
+  ],
+  [
+    'Toast top',
+    () => showToast('Please Allow Location !!', { position: 'top' }),
+  ],
+  ['Toast middle', () => showToast('Middle toast', { position: 'middle' })],
+  [
+    'Toast close button',
+    () =>
+      showToast('With close button', { duration: 0, showCloseButton: true }),
+  ],
+  [
+    'ActionSheet icons', // customeradd.ts:142
+    () =>
+      showActionSheet({
+        title: 'Profile photo',
+        buttons: [
+          { text: 'Camera', icon: 'camera' },
+          { text: 'Gallery', icon: 'image' },
+          { text: 'Cancel', role: 'cancel' },
+        ],
+      }),
+  ],
+  [
+    'ActionSheet no icons',
+    () =>
+      showActionSheet({
+        title: 'Choose',
+        buttons: [
+          { text: 'First' },
+          { text: 'Second' },
+          { text: 'Cancel', role: 'cancel' },
+        ],
+      }),
+  ],
 ];
 
 const SAMPLE = 'Wallet Balance ₹ 1,250 – Topsan';
@@ -28,16 +248,38 @@ const SAMPLE = 'Wallet Balance ₹ 1,250 – Topsan';
 export function ComponentGallery() {
   return (
     <ScrollView contentContainerStyle={styles.page} testID="component-gallery">
+      <Text style={styles.h}>Popups</Text>
+      {POPUPS.map(([label, open]) => (
+        <Pressable
+          key={label}
+          onPress={open}
+          style={styles.btn}
+          testID={`gallery-popup-${label}`}
+        >
+          <Text style={styles.btnText}>{label}</Text>
+        </Pressable>
+      ))}
+
       <Text style={styles.h}>Fonts (CSS weight → bundled face)</Text>
       {([300, 400, 500, 600, 700] as const).map(w => (
         <Text key={w} style={[styles.sample, fontFor(w)]}>
           {w}: {SAMPLE}
         </Text>
       ))}
-      <Text style={[styles.sample, fontFor(400, { italic: true })]}>400i: {SAMPLE}</Text>
-      <Text style={[styles.sample, fontFor(500, { italic: true })]}>500i: {SAMPLE}</Text>
-      <Text style={[styles.sample, fontFor(400, { family: 'Roboto Condensed' })]}>Condensed: {SAMPLE}</Text>
-      <Text style={[styles.sample, fontFor(400)]}>हिंदी: वॉलेट बैलेंस (system fallback)</Text>
+      <Text style={[styles.sample, fontFor(400, { italic: true })]}>
+        400i: {SAMPLE}
+      </Text>
+      <Text style={[styles.sample, fontFor(500, { italic: true })]}>
+        500i: {SAMPLE}
+      </Text>
+      <Text
+        style={[styles.sample, fontFor(400, { family: 'Roboto Condensed' })]}
+      >
+        Condensed: {SAMPLE}
+      </Text>
+      <Text style={[styles.sample, fontFor(400)]}>
+        हिंदी: वॉलेट बैलेंस (system fallback)
+      </Text>
 
       <Text style={styles.h}>Ionicons 3 ({ION_ICONS.length})</Text>
       <View style={styles.grid}>
@@ -69,4 +311,6 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
   cell: { width: '25%', alignItems: 'center', paddingVertical: 6 },
   label: { fontSize: 8, marginTop: 2 },
+  btn: { padding: 8, marginVertical: 2, backgroundColor: '#e8e8e8' },
+  btnText: { fontSize: 13 },
 });
