@@ -396,6 +396,41 @@ Use placeholder screens for the tests: generated stubs `src/screens/_Placeholder
 
 ### Task 8: App-level behaviour (start-up, session, version check, back button)
 
+**Status: DONE 2026-10-30** (splash moved to Task 8b). Tests 118/118, `tsc` and `eslint .` clean, APK rebuilt (80 MB).
+
+Dev server check (read-only `POST app_karigar/app_version`, Dhruv approved): it returns `{"app_version":"0.1.5","ios_app_version":"0.0.1","play_console_flag":0}`. The version matches, so the DEV APK shows no update alert. `ios_app_version` is ignored by Ionic (Android-only check) and noted for Phase 10.
+
+Findings from reading `app.component.ts` and how they were ported:
+1. **Back rules.** The "select first tab" list is **GiftList, Transaction, Profile, MainHome** only. OfferList and PointList tab roots fall through to the exit question (NOTE parity). The ignore list includes `DealerAddorder`. The tab navigator uses `backBehavior="none"` so only these rules decide.
+2. **Start-up branches** (`src/app/startup.ts`):
+   - no token → Language
+   - token with a non-CMS loginType → **Blank** (SFA branches are commented out in Ionic)
+   - profile `SUCCESS`: `del=='1'` → "Message!"/"Your Account has been suspended"/OK, session `{}`, then Language; otherwise Tabs + push after 2 s
+   - `SUCCESS` without a karigar object → **Blank** (Ionic throws inside subscribe)
+   - other status → session `{}` + **Blank**
+   - request error → Tabs
+   - The plan's `'Blank'` route is an empty root screen.
+3. **Version check** (`src/app/versionCheck.ts`):
+   - Loose `!=`, so a missing `app_version` shows the alert.
+   - The store link is `market://details?id=<playStoreId>&hl=en`.
+   - Forced: both buttons exit, and dismissing re-checks.
+   - The installed version is `client.versionName`. Gradle sets the APK versionName from the same value, which equals Ionic's `AppVersion.getVersionNumber()`. No native dependency is needed. Task 10's `getInstalledVersion` may replace it.
+4. **Status bar / frame** (`src/app/frame.ts`, `AppFrame.tsx`). RN 0.88 is edge-to-edge (`edgeToEdgeEnabled=true`), and `StatusBar` has no `backgroundColor`/`translucent` any more, so the Ionic look is drawn explicitly:
+   - Below Android 15: a `#002d25` band of status-bar height and light icons, plus a black band of nav-bar height (Ionic's WebView ends above the nav bar). **The nav-bar black is to be confirmed on a device against the store app.**
+   - Android 15+: nothing for 2 s, then `body.android-15` (border-top 30 black, height 94%), copied with its delay.
+5. **Overlays.** `src/ui/overlays.ts` (`showAlert`, `isOverlayOpen`, `dismissTopOverlay`) is the overlay interface. For now its body is RN's native `Alert` (same texts and buttons, different look), and **Task 9 replaces the body** with the replica.
+6. **Auth** (`src/auth/otp.ts`, `session.ts`):
+   - The bypass numbers get the **string** `'123456'` and other numbers a **number** (Ionic's body difference is kept), with a loose `==` check.
+   - `session.load()` returns null for missing or corrupt data. `saveLoginResult` adds `token` + `loginType:'CMS'`. `clear()` writes `{}`.
+7. **Push.** `src/native/push.ts` `initPushNotification()` is a no-op unless `features.push` (Topbath is off). It's filled in Phase 8.
+8. **Splash → Task 8b.** cordova-android 12 replaced the splash plugin with the Android 12 SplashScreen API: icon `resources/splash.png`, hidden at `platform.ready` with a 3 s fade (`FadeSplashScreenDuration`). `SplashShowOnlyFirstTime` is not supported by cordova-android ≥ 11. The exact behaviour has to be matched natively and checked on a device against the store app, so it is a separate task.
+
+### Task 8b: Splash screen (Android 12+ SplashScreen API)
+
+- Theme `Theme.SplashScreen` with `windowSplashScreenAnimatedIcon` from the client's `splash.png` (via `use-client.mjs`) and the Cordova default background.
+- Keep it on screen until the start-up decision is made, then fade out over 3000 ms (`FadeSplashScreenDuration`) with `androidx.core:core-splashscreen` `setOnExitAnimationListener`.
+- Verify side by side with the Play Store app on Dhruv's phone before marking done.
+
 **Files:**
 - Create: `src/auth/session.ts`, `src/auth/otp.ts`, `src/app/startup.ts`, `src/app/versionCheck.ts`, `src/app/backButton.ts`
 - Test: `__tests__/startup.test.ts`, `__tests__/versionCheck.test.ts`, `__tests__/backButton.test.ts`, `src/api/contracts/app_karigar__profile.json`, `src/api/contracts/app_karigar__app_version.json`, fixtures for both (variants `default`, `suspended`, `notSuccess`, `forced`, `malformed`)
@@ -748,5 +783,6 @@ GiftList, PointDetail, Scan, LoginScreen, Digitalcatalog, EditProfile, Enquiry, 
 - [ ] Once a Mac or cloud build path is approved:
   - `use-client.mjs` writes the iOS bundle id, display name and asset catalog when `platforms` includes `ios`.
   - `pod install`; Info.plist usage strings (camera, location, photo library).
+  - Version check: the server already returns `ios_app_version` (dev: `"0.0.1"`). Ionic never read it because it was Android-only. Decide with the client whether iOS compares against it (the iOS store link differs too).
   - Run the Maestro flows on the iOS simulator and produce the parity screenshots at an iPhone size.
   - Push needs APNs keys via Firebase.

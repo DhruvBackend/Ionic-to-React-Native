@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/profile",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "7" },
+  "ionicSource": "src/app/app.component.ts:400"
+}

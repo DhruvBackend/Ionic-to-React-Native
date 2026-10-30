@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/app_version",
+  "server": "root",
+  "variants": {
+    "default": { "app_version": "0.1.5", "ios_app_version": "0.0.1", "play_console_flag": 0 },
+    "mismatch": { "app_version": "0.1.6", "ios_app_version": "0.0.1", "play_console_flag": 0 },
+    "forced": { "app_version": "0.1.6", "ios_app_version": "0.0.1", "play_console_flag": 1 },
+    "malformed": {}
+  }
+}

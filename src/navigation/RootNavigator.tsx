@@ -3,7 +3,7 @@
 // (Ionic app.getRootNav().push/setRoot) and every modal route (Ionic ModalController).
 // The start route is decided by the start-up logic (plan Task 8); until then it is Language.
 import React, { useEffect } from 'react';
-import { Linking } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { db } from '../api/client';
@@ -17,6 +17,11 @@ import { enabledRoutes } from './routes';
 import { SideMenuProvider } from './SideMenu';
 
 const Root = createNativeStackNavigator();
+
+// NOTE (parity): where Ionic sets no root page at all (see src/app/startup.ts), the app shows nothing.
+function BlankScreen() {
+  return <View style={StyleSheet.absoluteFill} testID="blank-root" />;
+}
 
 // Entry points that must exist even before their screens are ported.
 const REQUIRED_ROOT_ROUTES = ['Language'];
@@ -64,6 +69,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
       <NavigationContainer ref={navigationRef}>
         <Root.Navigator initialRouteName={initialRouteName} screenOptions={{ headerShown: false }}>
           <Root.Screen name="Tabs" component={RoleTabs} />
+          <Root.Screen name="Blank" component={BlankScreen} />
           {routes.map(r => (
             <Root.Screen
               key={r.name}

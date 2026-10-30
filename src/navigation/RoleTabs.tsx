@@ -44,7 +44,8 @@ export function RoleTabs({ route }: { route: { params?: { index?: number | strin
   const initial = tabs[Number.isInteger(index) && index >= 0 && index < tabs.length ? index : 0];
 
   return (
-    <Tab.Navigator initialRouteName={initial.icon} screenOptions={{ headerShown: false }}>
+    // backBehavior none: the Ionic back rules (src/app/backButton.ts) decide, not the tab bar.
+    <Tab.Navigator initialRouteName={initial.icon} backBehavior="none" screenOptions={{ headerShown: false }}>
       {tabs.map(tab => (
         <Tab.Screen key={tab.icon} name={tab.icon} options={{ title: t(tab.title) }}>
           {() => <TabStackFor tab={tab} />}

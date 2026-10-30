@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/app_version",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": "=",
+  "ionicSource": "src/app/app.component.ts:792"
+}
