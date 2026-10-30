@@ -36,7 +36,7 @@
 - **Straight conversion.** API base URLs, endpoint paths, HTTP method, headers, body key structure and storage keys stay identical to `$IONIC/src` at commit `b33d82f`.
 - **Copy security behaviour unchanged** and mark it `// NOTE (security, not changed): <what>`. Mark parity deviations `// NOTE (parity): <what and why>`.
 - **Every screen file starts with a header:** `// Ported from: src/pages/<path>/<file>.html + .ts + .scss`. Every deviation gets a comment.
-- **`MODE` defaults to `'MOCK'`.** Never run `DEV`/`LIVE`, or any request to `apps.abacusdesk.com`, unless Dhruv explicitly asks in that session.
+- **App builds default to `MODE = 'DEV'`** (`devcrm.abacusdesk.com`), per Dhruv, 2026-10-30. Jest always runs in `MOCK` (forced in `jest.setup.js`), so tests never reach a server. **`LIVE` (`apps.abacusdesk.com`) is never used** unless Dhruv explicitly asks in that session.
 - **Local git only:** never add a remote or push. One commit per screen (`feat(screen): port <IonicClassName>`) or per foundation task.
 - **No client strings in `src/screens/**` or `src/components/**`:** no hex colours, no "Topsan", "Topbath", "Agmeco" or "Gravity" labels, no URLs, no phone numbers. Take them from `client` or `theme`. `'Gravity'` as a data value in `delivery_from` comparisons is the one exception, and it carries a NOTE.
 - **Never commit** `*.keystore` (except `android/app/debug.keystore`), `google-services.json`, `GoogleService-Info.plist`, passwords or `.env` files.
@@ -110,18 +110,28 @@ __tests__/helpers/contract.ts    # expectContract()
 **Interfaces:**
 - Produces: a green `npx jest` baseline; `src/api/client.ts` `db`, `HttpError`; `src/api/mock` `registerMock(fn, handler)`, `mockRequest(method, fn, body?, serverURL?)`, `hasMock(fn)`; `src/storage` `storage.get/set/remove/clear`; `src/i18n` default export `i18n`, `LANGUAGES`.
 
-- [ ] **Step 1: Run the tests to record the current failure.** Run `npx jest`. Expected: FAIL, with "Cannot find module 'jwt-decode'" or the async-storage equivalent.
-- [ ] **Step 2: Install the missing dependencies.** Run `npm i i18next react-i18next jwt-decode @react-native-async-storage/async-storage`.
-- [ ] **Step 3: Set up the async-storage Jest mock.** Create `jest.setup.js` with `jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'))`. Add `setupFiles: ['<rootDir>/jest.setup.js']` to `jest.config.js`.
-- [ ] **Step 4: Extend `.gitignore`.** Add these lines: `google-services.json`, `GoogleService-Info.plist`, `android/client.properties`, `parity/out/`, `parity/reference/work/`, `.env*`.
-- [ ] **Step 5: Run the tests.** Run `npx jest`. Expected: all suites PASS.
-- [ ] **Step 6: Commit.** Run `git add -A && git commit -m "chore: commit foundation WIP (api client, mock, storage, i18n, theme, docs) with deps"`.
+**Status: DONE 2026-10-30** (commits `60193d9`, `1e9ae81`). Two deviations are recorded below.
+
+- [x] **Step 1: Run the tests to record the current failure.** Result: FAIL, "Cannot find module 'jwt-decode'".
+- [x] **Step 2: Install the missing dependencies.** Ran `npm i i18next react-i18next jwt-decode @react-native-async-storage/async-storage` (async-storage resolved to **v3.1.1**).
+- [x] **Step 3: Set up the async-storage Jest mock.** *Deviation: v3 moved the mock.* `jest.setup.js` mocks the module with `require('@react-native-async-storage/async-storage/jest')` (exports `default` and `createAsyncStorage`). `jest.config.js` gets `setupFiles` plus `transformIgnorePatterns` that also allow `@react-native-async-storage`, which ships ESM.
+- [x] **Step 4: Extend `.gitignore`.** Done.
+- [x] **Step 5: Run the tests.** Result: 11/11 PASS, `tsc` clean, lint clean. *Extra fix:* `env.ts` `MODE` was typed as a literal, so `tsc` errored; it's now `'…' as Mode`.
+- [x] **Step 6: Commit.** Done.
+- [x] **Added (Dhruv, 2026-10-30):** the app default is the **DEV** server. `env.ts` exports `urlsFor(mode)`, `MODE = 'DEV'`, and Jest is forced to MOCK. Tests cover "default is dev, MOCK never points at production" and "LIVE equals the Ionic production block".
 
 ### Task 2: First debug APK on the phone (risk gate)
 
 **Files:** none (build only). Record the result in `docs/LEARNING-LOG.md`.
 
-- [ ] **Step 1: Build the debug APK.** Run `cd android && ./gradlew assembleDebug`. Expected: `BUILD SUCCESSFUL`, and `android/app/build/outputs/apk/debug/app-debug.apk` exists.
+**Status: Step 1 DONE 2026-10-30; Steps 2–4 pending.**
+- The toolchain was verified: JDK 17, platform 37, build-tools 37.0.0, NDK 27.1, CMake 3.22.1, Gradle 9.4.1. Nothing needed installing.
+- Dhruv has no cable at the moment. He will sideload the APK, and live reload over USB or wireless debugging starts at Task 13.
+
+- [x] **Step 1: Build the debug APK.**
+  - **Standalone build** (JS bundled, runs without Metro, sideloadable): `cd android && ./gradlew assembleDebug -PbundleDebugJs -PreactNativeArchitectures=armeabi-v7a,arm64-v8a`. The `-PbundleDebugJs` switch is opt-in in `app/build.gradle`.
+  - **Live-reload development:** plain `./gradlew assembleDebug` plus `npx react-native start`, with the phone on USB or wireless debugging.
+  - Result: BUILD SUCCESSFUL (first build 10 min), APK 63 MB, `com.topsan.app.rn` / "Topsan RN".
 - [ ] **Step 2: Install it.** Run `adb devices`, then `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`. Expected: the device is listed and the install prints `Success`. If no device is connected, **stop and ask Dhruv** to connect the phone with USB debugging on. Don't mark this step done on the emulator alone.
 - [ ] **Step 3: Launch it.** Open "Topsan RN" on the phone. Expected: the RN welcome screen appears and the Play Store "Topsan" app is still installed beside it.
 - [ ] **Step 4: Log and commit.** Add a dated entry to `docs/LEARNING-LOG.md` (build time, any fixes), then run `git commit -am "docs: first debug APK verified on device"`.
