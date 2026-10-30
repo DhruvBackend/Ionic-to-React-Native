@@ -1,0 +1,676 @@
+# Topbath Ionic → React Native Migration Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. **Model for implementer and reviewer subagents: `sonnet` (Sonnet 5.5).** The orchestrator is the main session.
+
+**Goal:** Rebuild all 117 screens of the Ionic 3 Topbath loyalty app in bare React Native as a white-label template, with element-for-element parity and byte-identical API requests. Topbath is client #1.
+
+**Architecture:**
+- **Phase 0** builds the shared foundation:
+  - per-client config
+  - API client with a stateful MOCK backend and shared fixtures
+  - per-endpoint contract tests
+  - generated navigation with feature-flag gating
+  - shared components
+  - native wrappers
+  - a visual-parity harness (Ionic web build in Playwright vs RN on an emulator with Maestro)
+  - a screen-card generator
+- **Phases 1–7** port screens with one repeatable per-screen procedure (S-task), run by Sonnet subagents in batches of up to 4 parallel git worktrees. Each screen gets an implementer and an independent reviewer.
+- **Phases 8–10** are native/release, second client, and iOS.
+
+**Tech Stack:**
+- React Native 0.88.1 (New Architecture, Hermes), React 19.3, TypeScript, Jest
+- React Navigation (native-stack, bottom-tabs), AsyncStorage, i18next + react-i18next, jwt-decode
+- react-native-vision-camera, react-native-image-picker, @react-native-community/geolocation, react-native-permissions, react-native-share, react-native-webview, react-native-device-info, @react-native-community/netinfo, react-native-blob-util, @react-native-firebase/messaging (Phase 8)
+- Playwright (Node) for the reference harness, Maestro for RN E2E and screenshots
+
+**Spec:** `docs/superpowers/specs/2026-10-29-topbath-rn-migration-design.md`. Executors read the spec and this plan. The spec wins on any conflict.
+
+**Repos:**
+- RN, working repo: `C:\Users\dhruv\Projects\topbath-rn`. All paths below are relative to it.
+- Ionic source, **read-only**: `C:\Migrations\Topbath_App_loyalty`, referred to as `$IONIC`.
+
+## Global Constraints
+
+- **Exact 1:1 copy: no UI or behaviour changes** (spec §2a). This includes Ionic's broken behaviour, its overlays' look, its transitions and its timings. When in doubt, the Ionic source wins.
+- **Ionic md-mode replicas only.** Screens must not use `Alert.alert`, `ToastAndroid`, native date/time pickers or `react-native-vector-icons/Ionicons`. Use the `src/components/ionic/*` replicas and the bundled Ionicons v3 / Material Icons fonts. The lint rule enforces this.
+- **Straight conversion.** API base URLs, endpoint paths, HTTP method, headers, body key structure and storage keys stay identical to `$IONIC/src` at commit `b33d82f`.
+- **Copy security behaviour unchanged** and mark it `// NOTE (security, not changed): <what>`. Mark parity deviations `// NOTE (parity): <what and why>`.
+- **Every screen file starts with a header:** `// Ported from: src/pages/<path>/<file>.html + .ts + .scss`. Every deviation gets a comment.
+- **`MODE` defaults to `'MOCK'`.** Never run `DEV`/`LIVE`, or any request to `apps.abacusdesk.com`, unless Dhruv explicitly asks in that session.
+- **Local git only:** never add a remote or push. One commit per screen (`feat(screen): port <IonicClassName>`) or per foundation task.
+- **No client strings in `src/screens/**` or `src/components/**`:** no hex colours, no "Topsan", "Topbath", "Agmeco" or "Gravity" labels, no URLs, no phone numbers. Take them from `client` or `theme`. `'Gravity'` as a data value in `delivery_from` comparisons is the one exception, and it carries a NOTE.
+- **Never commit** `*.keystore` (except `android/app/debug.keystore`), `google-services.json`, `GoogleService-Info.plist`, passwords or `.env` files.
+- **Topbath feature flags** are all `false` except the live roles. With all flags off, navigation reachability equals Ionic exactly.
+- **Debug builds** install as `com.topsan.app.rn` with name "Topsan RN". Release uses `client.androidPackage`.
+- **Screen and route names** equal the Ionic page class name without the `Page` suffix (e.g. `PulmberCustomerDetail`, `CoupanCode`). The misspellings are kept for traceability.
+- **Ask Dhruv before** installing global tools, setting system environment variables, deleting files outside the RN repo, or changing package ids.
+
+## Review Focus
+
+1. **Stored session in an unexpected shape.** Logout writes `userStorageData = {}` (not remove), an old install may hold partial data, and the JSON can be corrupt. Start-up must take the same branch Ionic would: no token goes to Language. It must never throw. The one Ionic blank-root case is copied deliberately. Test in Task 8.
+2. **HTTP 200 with an unknown `status` or missing nested objects** (e.g. `karigar: null`, `gift: []`). A screen must render its empty or default state, never a red-box crash. Every S-task adds a `"malformed"` fixture variant and a render test (S-task step 4).
+3. **Permission denied or GPS off** (camera, location, Android 13 notifications). Ionic shows a toast or does nothing, and the RN app must not crash or hang a loader. Test in Task 10 (wrapper returns `{ ok: false, reason }`) plus each native-using S-task.
+4. **Network failure or timeout in LIVE/DEV.** Many Ionic callers have no error callback, so their loaders closed only on page change. RN must close the loader on error, both on failure and when the user leaves the screen, and must never leave a permanent spinner. Test in Task 9 (`useLoader` closes on unmount and on rejected promise).
+5. **Hindi (`hin`) selected, plus keys missing from a locale.** Text falls back to the English key (ngx-translate behaviour), and long Hindi strings must not clip buttons or headers. Test in Task 4 (i18n fallback) plus a `lang: 'hin'` parity state for each screen with translated text (S-task step 6).
+
+---
+
+## File Structure (Phase 0 output)
+
+```
+clients/
+  client.schema.json             # JSON schema for client.json
+  topbath/client.json            # Topbath values (from Ionic audit)
+  topbath/assets/                # logo.png, banner.png, icon.png, splash.png, notification.png (copied from $IONIC)
+  topbath/i18n/{en,hin,nep,es}.json   # brand-text overrides (copied verbatim for parity)
+  _all-features/client.json      # test-only: every flag on; never shipped
+scripts/
+  use-client.mjs                 # node scripts/use-client.mjs <id>  → generated files below
+  gen-routes.mjs                 # src/screens/*/route.ts → src/navigation/routes.generated.ts
+  gen-fixtures.mjs               # src/api/fixtures/*.json → src/api/fixtures.generated.ts
+  screen-card.mjs                # node scripts/screen-card.mjs <IonicClass> → src/screens/<Name>/card.md
+  ionic-inventory.sh             # existing
+docs/inventory.json              # 117 rows: ionicClass, ionicPath, status, roles, backend, feature, phase
+src/
+  config/env.ts                  # MODE; URLs now from client
+  config/client.ts               # GENERATED by use-client.mjs (committed for topbath)
+  config/types.ts                # ClientConfig, FeatureKey, Role
+  api/client.ts                  # existing (DbService)
+  api/mock/index.ts              # existing + fixture auto-registration + variants
+  api/mock/store.ts              # in-memory stateful store
+  api/fixtures/<group>__<action>.json   # one file per endpoint
+  api/contracts/<group>__<action>.json  # Ionic request contract per endpoint
+  auth/{session.ts, otp.ts}      # all security-relevant client logic
+  app/{startup.ts, versionCheck.ts, backButton.ts}
+  navigation/{RootNavigator.tsx, RoleTabs.tsx, SideMenu.tsx, routes.generated.ts, types.ts, debugLinks.ts}
+  screens/<Name>/{index.tsx, route.ts, styles.ts, card.md, <Name>.test.tsx}
+  components/…                   # Task 9
+  native/…                       # Task 10
+  storage/, i18n/, theme/
+parity/
+  reference/                     # build script for Ionic www + Playwright capture
+  states.json                    # every screen state to capture
+  capture-rn.mjs                 # drives Maestro screenshots
+  report.mjs                     # → parity/out/report.html
+.maestro/                        # flows per role
+__tests__/helpers/contract.ts    # expectContract()
+```
+
+---
+
+## Phase 0: Foundation
+
+### Task 1: Repair and commit the existing WIP
+
+**Files:**
+- Modify: `package.json` (add deps), `jest.config.js`, `.gitignore`
+- Create: `jest.setup.js`
+- Test: existing `__tests__/api-client.test.ts`, `__tests__/api-mock.test.ts`, `__tests__/App.test.tsx`
+
+**Interfaces:**
+- Produces: a green `npx jest` baseline; `src/api/client.ts` `db`, `HttpError`; `src/api/mock` `registerMock(fn, handler)`, `mockRequest(method, fn, body?, serverURL?)`, `hasMock(fn)`; `src/storage` `storage.get/set/remove/clear`; `src/i18n` default export `i18n`, `LANGUAGES`.
+
+- [ ] **Step 1: Run the tests to record the current failure.** Run `npx jest`. Expected: FAIL, with "Cannot find module 'jwt-decode'" or the async-storage equivalent.
+- [ ] **Step 2: Install the missing dependencies.** Run `npm i i18next react-i18next jwt-decode @react-native-async-storage/async-storage`.
+- [ ] **Step 3: Set up the async-storage Jest mock.** Create `jest.setup.js` with `jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'))`. Add `setupFiles: ['<rootDir>/jest.setup.js']` to `jest.config.js`.
+- [ ] **Step 4: Extend `.gitignore`.** Add these lines: `google-services.json`, `GoogleService-Info.plist`, `android/client.properties`, `parity/out/`, `parity/reference/work/`, `.env*`.
+- [ ] **Step 5: Run the tests.** Run `npx jest`. Expected: all suites PASS.
+- [ ] **Step 6: Commit.** Run `git add -A && git commit -m "chore: commit foundation WIP (api client, mock, storage, i18n, theme, docs) with deps"`.
+
+### Task 2: First debug APK on the phone (risk gate)
+
+**Files:** none (build only). Record the result in `docs/LEARNING-LOG.md`.
+
+- [ ] **Step 1: Build the debug APK.** Run `cd android && ./gradlew assembleDebug`. Expected: `BUILD SUCCESSFUL`, and `android/app/build/outputs/apk/debug/app-debug.apk` exists.
+- [ ] **Step 2: Install it.** Run `adb devices`, then `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`. Expected: the device is listed and the install prints `Success`. If no device is connected, **stop and ask Dhruv** to connect the phone with USB debugging on. Don't mark this step done on the emulator alone.
+- [ ] **Step 3: Launch it.** Open "Topsan RN" on the phone. Expected: the RN welcome screen appears and the Play Store "Topsan" app is still installed beside it.
+- [ ] **Step 4: Log and commit.** Add a dated entry to `docs/LEARNING-LOG.md` (build time, any fixes), then run `git commit -am "docs: first debug APK verified on device"`.
+
+### Task 3: White-label client config
+
+**Files:**
+- Create: `src/config/types.ts`, `clients/client.schema.json`, `clients/topbath/client.json`, `clients/_all-features/client.json`, `scripts/use-client.mjs`, `src/config/client.ts` (generated)
+- Copy (from `$IONIC`): `src/assets/imgs/logo.png`, `src/assets/imgs/banner.png`, `resources/icon.png` and `resources/splash.png` into `clients/topbath/assets/`
+- Modify: `src/config/env.ts` (URLs come from `client`), `android/app/build.gradle:82-87,102-103` (read `android/client.properties`)
+- Test: `__tests__/use-client.test.ts`, existing `__tests__/api-client.test.ts`
+
+**Interfaces:**
+- Produces:
+  - `type Role = 'Plumber' | 'Sales_Boy' | 'Dealer' | 'Sales_Executive' | 'Customer' | 'Retailer'`
+  - `type FeatureKey = 'push' | 'sfa' | 'giftList' | 'pointDetail' | 'scanPage' | 'loginScreen' | 'digitalCatalog' | 'editProfile' | 'enquiry' | 'favorites' | 'news' | 'survey' | 'nearestDealer' | 'retailerComplaints' | 'search' | 'superPlumber' | 'quotation' | 'pointTransfer'`
+  - `interface ClientConfig { id; appName; androidPackage; iosBundleId; versionName; versionCode; playStoreId; platforms: ('android'|'ios')[]; urls: { LIVE: Urls; DEV: Urls }; colors: { primary; statusBar; secondary; danger; success; warning; light; dark }; contact: { phone; email; address; mapEmbedQuery }; companyName; languages: string[]; countries: string[]; roles: Role[]; fcmSenderId: string; features: Record<FeatureKey, boolean>; brandLabels: Record<string,string> }`
+  - `interface Urls { rootUrl; rootUrlSfa; image_url; upload_url1; upload_url2; upload_url3; video_url; product_image_url; category_url; videoUpload; legacyImageHost; gravityImageHost }`
+  - `export const client: ClientConfig` from `src/config/client.ts`
+  - `node scripts/use-client.mjs <id>` exits 0 and writes `src/config/client.ts`, `android/client.properties` (`applicationId=`, `appName=`, `versionName=`, `versionCode=`), `src/assets/client/*` and the Android mipmaps.
+
+Topbath values (from the spec and the Ionic audit):
+- `androidPackage` `com.topsan.app`, `appName` `Topsan`, `versionName` `0.1.5`, `playStoreId` `com.topsan.app`, `platforms` `["android"]`
+- `urls.LIVE` = the active block in `$IONIC/src/providers/dbservice/dbservice.ts:25-35`; `urls.DEV` = the commented block at `:42-53`
+- `videoUpload` = `""`, with a security note in the schema description
+- `legacyImageHost` = `http://phpstack-83335-1980946.cloudwaysapps.com/`, `gravityImageHost` = `http://app.gravitybath.com/`
+- `colors.primary` and `colors.statusBar` = `#002d25`
+- `contact.phone` `8655050950`, `contact.email` `care@topsan.in`
+- `companyName` `Machino Tech (Topsan)`
+- `languages` `["en","hin"]`, `countries` `["India","Nepal"]`
+- `roles` `["Plumber","Sales_Boy","Dealer","Sales_Executive","Customer","Retailer"]`
+- `fcmSenderId` `849648964768`
+- `features`: `superPlumber`, `quotation` and `pointTransfer` are `true`; everything else is `false`
+- `brandLabels`: `{ "dealerBrand": "Agmeco", "orderTo": "Gravity" }`, copied for parity
+
+- [ ] **Step 1: Write the failing tests** in `__tests__/use-client.test.ts`:
+
+```ts
+test('topbath client.json validates against schema', () => { expect(validate(load('topbath'))).toEqual([]); });
+test('_all-features has every FeatureKey true', () => { expect(Object.values(load('_all-features').features).every(Boolean)).toBe(true); });
+test('generated client.ts for topbath exposes Ionic LIVE rootUrl', () => {
+  run('topbath'); expect(require('../src/config/client').client.urls.LIVE.rootUrl).toBe('https://apps.abacusdesk.com/topbathfixtures/dd_api/');
+});
+test('client.properties carries package and version', () => {
+  expect(read('android/client.properties')).toMatch(/applicationId=com\.topsan\.app[\s\S]*versionName=0\.1\.5/);
+});
+test('schema rejects missing androidPackage', () => { expect(validate({ ...load('topbath'), androidPackage: undefined }).length).toBeGreaterThan(0); });
+```
+(`load`, `validate`, `run` and `read` are small helpers in the test file. `validate` uses `ajv`, installed as a devDependency.)
+
+- [ ] **Step 2: Run the new tests.** Run `npx jest __tests__/use-client.test.ts`. Expected: FAIL, because the files don't exist yet.
+- [ ] **Step 3: Implement the config.**
+  - Write `types.ts`, the schema, both client files and `scripts/use-client.mjs`.
+  - `use-client.mjs` uses only Node built-ins plus `ajv`.
+  - Mipmap and splash generation uses `sharp` (devDependency) to produce the mdpi–xxxhdpi sizes from `icon.png`.
+  - `env.ts` keeps `MODE` and the `URLS` export shape, built as `client.urls[MODE === 'DEV' ? 'DEV' : 'LIVE']`.
+  - `build.gradle` loads `android/client.properties` with `Properties` and uses those values for `applicationId`, `versionName`, `versionCode` and `app_name`. Debug keeps `applicationIdSuffix ".rn"` and appends `" RN"` to the name.
+- [ ] **Step 4: Run all tests.** Run `node scripts/use-client.mjs topbath && npx jest`. Expected: all PASS, including the untouched `api-client.test.ts` URL test.
+- [ ] **Step 5: Rebuild the APK.** Run `cd android && ./gradlew assembleDebug`. Expected: BUILD SUCCESSFUL. Then run `aapt dump badging app/build/outputs/apk/debug/app-debug.apk | grep package`, which should show `com.topsan.app.rn`.
+- [ ] **Step 6: Commit.** Run `git add -A && git commit -m "feat(config): per-client white-label config with topbath + _all-features"`.
+
+### Task 4: Theme, i18n overrides and the no-brand lint rule
+
+**Files:**
+- Modify: `src/theme/index.ts` (colours from `client.colors`), `src/i18n/index.ts` (merge `clients/<id>/i18n` overrides, which `use-client` copies to `src/i18n/client/`), `.eslintrc.js`
+- Test: `__tests__/theme-i18n.test.ts`, plus a lint fixture `__tests__/lint/brand-violation.fixture.tsx`
+
+**Interfaces:**
+- Consumes: `client` (Task 3).
+- Produces: `colors.*`, the same keys as today with `primary` = `client.colors.primary`; `i18n.changeLanguage(code)`; ESLint rule config `no-restricted-syntax` scoped to `src/screens/**` and `src/components/**`.
+
+- [ ] **Step 1: Write the failing tests:**
+
+```ts
+test('primary colour comes from client', () => expect(colors.primary).toBe(client.colors.primary));
+test('missing key falls back to the key itself', async () => { await i18n.changeLanguage('hin'); expect(i18n.t('Some key that does not exist')).toBe('Some key that does not exist'); });
+test('hin translation of a known key differs from English', async () => { await i18n.changeLanguage('hin'); expect(i18n.t('Are you sure you want Exit?')).not.toBe('Are you sure you want Exit?'); });
+test('lint flags hex colour and brand word in screens', () => {
+  const out = execSync('npx eslint --no-ignore __tests__/lint/brand-violation.fixture.tsx -f json || true').toString();
+  expect(out).toMatch(/#002d25/); expect(out).toMatch(/Topsan/);
+});
+```
+Before writing the third test, check that `'Are you sure you want Exit?'` exists in `hin.json`. If it doesn't, use any key that is present in both `en.json` and `hin.json`.
+
+The lint fixture needs the screens rule to apply to it. Use an ESLint `overrides` entry whose `files` includes both `src/screens/**` and `__tests__/lint/**`.
+
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/theme-i18n.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement.**
+  - Lint selectors:
+    - `Literal[value=/^#[0-9a-fA-F]{3,8}$/]`
+    - `Literal[value=/(Topsan|Topbath|Agmeco|Gravity)/]`, with the message "use client/theme"
+    - `Literal[value=/^https?:\/\//]`
+  - Allow `'Gravity'` only in the form `// eslint-disable-next-line no-restricted-syntax -- NOTE (parity): backend data value`.
+- [ ] **Step 4: Run the tests.** Run `npx jest && npx eslint src`. Expected: PASS, with 0 lint errors in `src`.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(theme,i18n): client-driven colours, brand overrides, no-brand lint rule"`.
+
+### Task 5: Fixtures, variants and the stateful mock store
+
+**Files:**
+- Create: `src/api/fixtures/` (empty plus `README.md` with the naming rules), `scripts/gen-fixtures.mjs`, `src/api/fixtures.generated.ts`, `src/api/mock/store.ts`
+- Modify: `src/api/mock/index.ts`
+- Test: `__tests__/api-mock.test.ts` (extend)
+
+**Interfaces:**
+- Fixture file: `src/api/fixtures/<endpoint with "/" replaced by "__">.json`, for example `app_karigar__karigarHome.json`. Shape: `{ "endpoint": "app_karigar/karigarHome", "server": "root" | "sfa", "variants": { "default": <response>, "<name>": <response>, … } }`. A `"malformed"` variant is required once a screen uses the endpoint.
+- Produces:
+  - `setFixtureVariant(endpoint: string, variant: string): void`
+  - `resetMock(): void` resets variants and the store
+  - `store` with `get<T>(key: string): T`, `set(key, value)`, `reset()`
+  - Stateful handlers live in `src/api/mock/handlers/<group>.ts` and call `registerMock`. A registered handler takes precedence over a fixture and may read `fixture(endpoint, variant)`.
+- `fixtures.generated.ts` is a static `require` map. Metro can't load dynamically, so `scripts/gen-fixtures.mjs` regenerates it, and `npm test` runs it in `pretest`.
+
+- [ ] **Step 1: Add failing tests** to `__tests__/api-mock.test.ts`:
+
+```ts
+test('fixture default variant answers in MOCK', async () => {
+  registerFixture({ endpoint: 'test/fx', server: 'root', variants: { default: { status: 'SUCCESS', n: 1 }, other: { status: 'NOT FOUND' } } });
+  expect(await db.onPostRequestDataFromApi({}, 'test/fx', db.rootUrl)).toEqual({ status: 'SUCCESS', n: 1 });
+  setFixtureVariant('test/fx', 'other');
+  expect((await db.onPostRequestDataFromApi({}, 'test/fx', db.rootUrl)).status).toBe('NOT FOUND');
+});
+test('resetMock restores default variant and clears store', async () => { store.set('k', 1); resetMock(); expect(store.get('k')).toBeUndefined(); });
+test('registered handler wins over fixture', async () => { registerMock('test/fx', () => ({ status: 'HANDLER' })); expect((await db.onPostRequestDataFromApi({}, 'test/fx', db.rootUrl)).status).toBe('HANDLER'); });
+```
+Also export `registerFixture(f: FixtureFile): void`.
+
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/api-mock.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement** `store.ts`, the variant map, `registerFixture`, and auto-registration of every entry in `fixtures.generated.ts` at import time. Add `"pretest": "node scripts/gen-fixtures.mjs"` to `package.json`.
+- [ ] **Step 4: Run the tests.** Run `npm test`. Expected: PASS.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(mock): shared endpoint fixtures with variants and stateful store"`.
+
+### Task 6: Request-contract test framework
+
+**Files:**
+- Create: `src/api/contracts/README.md`, `__tests__/helpers/contract.ts`
+- Test: `__tests__/contract-helper.test.ts`
+
+**Interfaces:**
+- Contract file: `src/api/contracts/<group>__<action>.json` = `{ "endpoint": "app_karigar/karigarHome", "helper": "onPostRequestDataFromApi" | "onGetRequestDataFromApi" | "post_rqst" | "get_rqst", "server": "root" | "sfa" | "server_url", "method": "POST" | "GET", "headers": "user" | "tokenOnly", "body": <example body with exact key structure, or null>, "ionicSource": "src/pages/home/home.ts:205" }`.
+- Produces: `expectContract(endpoint: string, invoke: () => Promise<unknown>, opts?: { loggedIn?: boolean }): Promise<void>`. It switches `MODE` to `LIVE` with a fake `fetch`, runs `invoke`, and asserts:
+  - the URL is `base(server) + endpoint`
+  - the method matches
+  - the header **set** matches: `user` means `Content-Type` + `Authorization` + `Token` when logged in; `tokenOnly` means `Content-Type` + `Token`
+  - the body keys deep-equal the contract's key tree. Leaf values aren't compared, except string literals that start with `=`, such as `"=App"`, which must match exactly.
+
+- [ ] **Step 1: Write the failing test** using an inline contract for `auth/login` (`{ mobile_no: '', mode: '=App' }`, helper `onPostRequestDataFromApi`, server `root`). Cover one passing call, one call with an extra key that must fail, and one with `mode: 'Web'` that must fail.
+- [ ] **Step 2: Run the test.** Run `npx jest __tests__/contract-helper.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement** `expectContract` in `__tests__/helpers/contract.ts`. It loads the JSON from `src/api/contracts/` by endpoint name.
+- [ ] **Step 4: Run the test.** Run the same command. Expected: PASS.
+- [ ] **Step 5: Commit.** Run `git commit -am "test: request-contract helper"`.
+
+### Task 7: Generated navigation, role tabs, side menu and feature gating
+
+**Files:**
+- Create: `src/navigation/types.ts`, `scripts/gen-routes.mjs`, `src/navigation/routes.generated.ts`, `src/navigation/RootNavigator.tsx`, `src/navigation/RoleTabs.tsx`, `src/navigation/SideMenu.tsx` (content per `$IONIC/src/app/app.html` and `app.component.ts:465-678`; opened only via `openSideMenu()`), `src/navigation/debugLinks.ts`
+- Modify: `App.tsx` (replace the template with `RootNavigator` inside providers)
+- Test: `__tests__/navigation.test.tsx`
+
+**Interfaces:**
+- `route.ts` per screen: `export default { name: 'Otp', presentation: 'card' | 'modal', feature?: FeatureKey, roles?: Role[], links: string[], tab?: { role: Role[]; index: number; label: string; icon: string } } satisfies RouteDef`
+  - `links` holds every route name this screen can navigate to, taken from the card's nav targets. Every S-task fills it, and the Phase 6 reachability test reads it.
+- Produces:
+  - `RouteDef`
+  - `routes: RouteDef[]` (generated)
+  - `tabsFor(role: Role): RouteDef[]`, ordered by `tab.index`
+  - `isRouteEnabled(r: RouteDef, c: ClientConfig): boolean`, which returns false when `r.feature` is set and `c.features[r.feature]` is false
+  - `RootNavigator`
+  - `navigationRef`
+  - `openSideMenu()`
+  - `resetTo(name: string, params?: object)`
+- Tab sets follow `$IONIC/src/pages/tabs/tabs.html`:
+  - `Plumber`/`Sales_Boy`/`Dealer`: Home · OfferList · PointList · Profile · MainHome
+  - `Sales_Executive`: SalesExecHome · OfferList · PointList · Profile · MainHome
+  - `Customer`/`Retailer`: Home · Newarrivals · Contact · About · Profile
+- Debug-only deep link (`__DEV__` only): `topbathrn://open?screen=<Name>&role=<Role>&variant=<endpoint:variant,...>&params=<urlencoded JSON>&lang=<code>`. It seeds `userStorageData` for the role from `src/api/fixtures/_sessions.json`, sets the fixture variants, then `resetTo` the screen. Maestro and parity capture use it.
+
+- [ ] **Step 1: Write the failing tests:**
+
+```ts
+test('flagged route disabled for topbath', () => expect(isRouteEnabled({ name: 'Dashboard', feature: 'sfa' } as RouteDef, topbath)).toBe(false));
+test('flagged route enabled for _all-features', () => expect(isRouteEnabled({ name: 'Dashboard', feature: 'sfa' } as RouteDef, allFeatures)).toBe(true));
+test('Plumber tabs match Ionic order', () => expect(tabsFor('Plumber').map(t => t.name)).toEqual(['Home','OfferList','PointList','Profile','MainHome']));
+test('Sales_Executive first tab is SalesExecHome', () => expect(tabsFor('Sales_Executive')[0].name).toBe('SalesExecHome'));
+test('debug links are ignored in release', () => expect(parseDebugLink('topbathrn://open?screen=Home', { dev: false })).toBeNull());
+```
+Use placeholder screens for the tests: generated stubs `src/screens/_Placeholder*`, which are deleted as real screens land. Alternatively, `tabsFor` can work on `RouteDef` metadata only.
+
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/navigation.test.tsx`. Expected: FAIL.
+- [ ] **Step 3: Implement.**
+  - `gen-routes.mjs` globs `src/screens/*/route.ts` and writes static imports. Add it to `pretest` and to a `prestart` script.
+  - Install `@react-navigation/native`, `@react-navigation/native-stack`, `@react-navigation/bottom-tabs`, `react-native-screens`, and `react-native-gesture-handler` for the drawer.
+  - The side menu uses a plain `Modal` drawer, which matches Ionic's overlay menu with swipe disabled.
+  - Register the `topbathrn` scheme in `AndroidManifest.xml` under the debug manifest only (`android/app/src/debug/AndroidManifest.xml`).
+- [ ] **Step 4: Run the tests and build.** Run `npm test` and `cd android && ./gradlew assembleDebug`. Expected: PASS and BUILD SUCCESSFUL.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(nav): generated routes, role tabs, side menu, feature gating, debug deep links"`.
+
+### Task 8: App-level behaviour (start-up, session, version check, back button)
+
+**Files:**
+- Create: `src/auth/session.ts`, `src/auth/otp.ts`, `src/app/startup.ts`, `src/app/versionCheck.ts`, `src/app/backButton.ts`
+- Test: `__tests__/startup.test.ts`, `__tests__/versionCheck.test.ts`, `__tests__/backButton.test.ts`, `src/api/contracts/app_karigar__profile.json`, `src/api/contracts/app_karigar__app_version.json`, fixtures for both (variants `default`, `suspended`, `notSuccess`, `forced`, `malformed`)
+
+**Interfaces:**
+- `decideStartRoute(storage, api): Promise<{ route: 'Language' | 'Tabs' | 'Blank'; alert?: 'suspended'; startPushAfterMs?: 2000 }>`, ported from `app.component.ts:137-160,401-462`. The non-SUCCESS case returns `'Blank'`, an empty root view, with `// NOTE (parity): Ionic leaves no root page here (app.component.ts:443-448)`. This follows spec §2a.
+- `checkVersion(installed: string, api): Promise<{ show: false } | { show: true; forced: boolean; storeUrl: string }>`, ported from `:778-842`. Strict `!==`. `storeUrl` = `market://details?id=${client.playStoreId}`. In `MOCK` mode the fixture `default` returns `app_version` equal to `client.versionName`.
+- `handleBack(state: { overlayOpen: boolean; routeName: string; canGoBack: boolean; tabIndex: number | null }): 'dismissOverlay' | 'ignore' | 'pop' | 'selectTab0' | 'confirmExit'`. The rules come from `app.component.ts:165-243`, and the ignore list is `Home`, `MobileLogin`, `Otp`, `DealerHome`, `Dashboard`, `SelectRegistrationType`, `DealerAddorder`.
+- `session.save(user, token)`, `session.load()`, `session.clear()`. `clear()` writes `{}` to `userStorageData`, matching Ionic. `session.load()` returns `null` for `{}`, a missing token, or JSON that won't parse.
+- `otp.generate(mobile: string): string` and `otp.matches(input, expected): boolean`. Both are copied from `mobile-login.ts:104-112` and `otp.ts:201-207` (bypass numbers included), marked `// NOTE (security, not changed)`.
+
+- [ ] **Step 1: Write the failing tests** covering:
+  - no token → `Language`
+  - a token with `loginType: 'CMS'` and the `default` profile → `Tabs` with `startPushAfterMs: 2000`
+  - `suspended` (`karigar.del == '1'`) → `Language` + `alert: 'suspended'`, with storage cleared
+  - `notSuccess` → `Blank`, with storage cleared
+  - **Review Focus 1:** `userStorageData` set to `{}`, `'garbage{'` or `{ token: '' }` → `Language`, with no throw
+  - a version mismatch with `play_console_flag: 0` → `{ show: true, forced: false }`
+  - the `forced` variant → `forced: true`
+  - equal versions → `{ show: false }`
+  - `handleBack` gives one case per rule
+  - `otp.generate('1212121212')` returns `'123456'`
+  - a contract test for `app_karigar/profile` via `expectContract` (body `{ karigar_id }`) and for `app_karigar/app_version` (body `""`)
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/startup.test.ts __tests__/versionCheck.test.ts __tests__/backButton.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement** and wire everything into `App.tsx`:
+  - The start route comes from `decideStartRoute`.
+  - The version alert uses the Ionic alert replica (`showAlert` from Task 9) with the exact Ionic title, message and button texts from `app.component.ts:807-809`. Task 8 runs before Task 9, so it calls the `showAlert` interface through a temporary stub, and Task 9 swaps in the replica.
+  - `BackHandler` calls `handleBack`.
+  - The status bar colour is `client.colors.statusBar`, with `overlaysWebView(false)` behaviour (not translucent).
+  - Splash, per `config.xml:16-24`: the Android 12+ splash API shows `resources/splash.png` (via `use-client`). A JS overlay holds it for 3000 ms, then fades it out, and it's shown only on first launch (`SplashShowOnlyFirstTime`, flag kept in AsyncStorage key `__rn_splash_shown`). Test: a second launch skips the overlay.
+- [ ] **Step 4: Run the tests and build.** Run `npm test` and `./gradlew assembleDebug`. Expected: PASS. On the phone the app opens to a placeholder Language route.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(app): start-up, session, version check, back button"`.
+
+### Task 9: Ionic md-mode replica kit and exact fonts
+
+**Files:**
+- `src/components/ionic/*.tsx` (the replicas) and `src/components/{Header,WebEmbed,ImageViewer}.tsx`, exported from `src/components/index.ts`
+- `src/components/ionic/tokens.ts`: md-mode values copied from `ionic-angular@3.9.5` SCSS. Read them from `$IONIC/node_modules` or the npm tarball `ionic-angular-3.9.5/src/**/*.md.scss` and `src/themes/ionic.globals.md.scss`, and cite file:line for every value.
+- `assets/fonts/`:
+  - `Ionicons.ttf`, converted from the shipped `assets/fonts/ionicons.woff2` (extract it from `$IONIC/topsan.aab` `base/assets/www/assets/fonts/` with `fonttools`)
+  - `MaterialIcons-Regular.ttf`
+  - `Roboto-*.ttf` and `RobotoCondensed-*.ttf`, at the weights `variables.scss` uses
+- `src/components/ionic/ionicons3.json`: glyph map from `ionicons@3.0.0/dist/css/ionicons.css` content codes
+- Link the fonts with `react-native.config.js` assets plus `npx react-native-asset`
+- Test: `__tests__/components.test.tsx`
+
+**Interfaces** (Ionic equivalent in brackets):
+- `IonIcon({ name: string /* v3 name e.g. 'md-arrow-back' */, size?, color? })`. `MaterialIcon({ name, size?, color? })`.
+- `showAlert(opts: { title?: string; subTitle?: string; message?: string; inputs?: { type: 'radio'|'checkbox'|'text'|'number'|'tel'; label?; value?; checked?; placeholder? }[]; buttons: (string | { text: string; role?: 'cancel'; handler?: (data) => boolean | void })[]; enableBackdropDismiss?: boolean }): { dismiss(): void }` [AlertController]. `onDidDismiss` support is needed for the forced-update loop.
+- `useLoader(): { show(content = 'Please wait...'): void; hide(): void; wrap<T>(p: Promise<T>): Promise<T> }` [LoadingController, md spinner `crescent`]
+- `showToast(message, { duration = 3000, position = 'bottom' | 'top' | 'middle', showCloseButton?, closeButtonText? })` [ToastController]
+- `showActionSheet({ title?, buttons: { text; role?; icon?; handler? }[] })` [ActionSheetController]
+- `IonSelect({ value, onChange, options: { value; label }[], title?, multiple?, okText = 'OK', cancelText = 'Cancel', placeholder? })` [ion-select, alert interface]
+- `IonDatetime({ value, onChange, displayFormat, pickerFormat?, min?, max?, placeholder?, doneText = 'Done', cancelText = 'Cancel' })` [ion-datetime with the md picker wheel]
+- `IonicSelectable<T>({ items, value, onChange, itemTextField, itemValueField, canSearch, searchPlaceholder, title })` [ionic-selectable 3.4 modal]
+- `IonNavbar({ title, back?, right?, color = 'primary' })`, plus `Header` as an alias [ion-navbar md: 56dp, title 20sp/500]
+- `IonTabs`, the tab-bar replica used by `RoleTabs` [ion-tabs md, with the SVG tab icons from `variables.scss:1570+`]
+- `IonSegment`, `IonSearchbar`, `IonRefresher` (via the `RefreshControl` colour/offset and md spinner), `IonInfiniteScroll` (md crescent spinner at list end), `IonFab`, `IonItem`, `IonList`, `IonCard`, `IonButton` (md ripple, `clear` / `outline` / `block` / `round`), `IonRadio`, `IonCheckbox`, `IonToggle`, `IonBadge`, `IonSlides` [ion-slides with pager and autoplay]
+- `pageTransition`: React Navigation `cardStyleInterpolator` / `animation` config that reproduces the Ionic md page transition (translateY 56px→0 + opacity, 280 ms, `cubic-bezier(0.36,0.66,0.04,1)`), and the modal slide-up (400 ms)
+- `WebEmbed({ uri, height })` [iframe]; `ImageViewer({ uri, visible, onClose })`
+
+- [ ] **Step 1: Write the failing tests:**
+  - every replica renders
+  - `showAlert` with `inputs: [{ type: 'radio' … }]` returns the checked value to the button handler
+  - a handler returning `false` keeps the alert open (Ionic behaviour)
+  - `IonSelect` shows the OK and Cancel texts
+  - `IonicSelectable` filters by search text
+  - `IonIcon` resolves `'md-arrow-back'` to the v3 codepoint from `ionicons3.json`
+  - **Review Focus 4:** `useLoader().wrap(Promise.reject(new Error()))` hides the loader and rethrows, and unmounting while it's shown hides it
+  - `IonInfiniteScroll` triggers at the list end
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/components.test.tsx`. Expected: FAIL.
+- [ ] **Step 3: Implement the kit.**
+  - Every size, colour, radius, shadow, font and duration comes from `tokens.ts`, with citations, or from `theme`.
+  - Install `react-native-webview` and `react-native-pager-view` (for slides). Do **not** install `react-native-vector-icons/Ionicons` glyph sets; use the bundled fonts through `Text` with `fontFamily`.
+  - Extend the Task 4 lint rule: ban `Alert.alert`, `ToastAndroid`, `@react-native-community/datetimepicker` and `react-native-vector-icons` imports in `src/screens/**`.
+- [ ] **Step 4: Run the tests and lint.** Run `npm test && npx eslint src`. Expected: PASS.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(components): Ionic 3 md-mode replica kit with exact fonts and icons"`.
+- [ ] **Step 6 (after Task 11): Component parity.**
+  - Add a debug-only `ComponentGallery` route. Add `parity/states.d/_components.json`: one state per replica and variant (alert plain, radio and checkbox; loader; toast top and bottom; action sheet; select; datetime wheel; selectable; navbar; each tab set; segment; searchbar; buttons; items; card; fab; badge; slides).
+  - On the Ionic side each state renders the same component through `ionicNav` on a harness page built from the Ionic app's own components. `parity/reference/gallery.page.ts` is compiled into the reference build, in the work copy only.
+  - **Every component state is signed off before Phase 1 starts.** Run `node parity/reference/capture.mjs --only _components.` and `node parity/capture-rn.mjs --only _components.`, then sign off in the report.
+
+### Task 10: Native wrappers with MOCK implementations
+
+**Files:** `src/native/{scanner,camera,location,share,browser,appVersion,geocode,navigate,upload,network,push}.ts` and `src/native/index.ts`. Modify `android/app/src/main/AndroidManifest.xml` (CAMERA, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, INTERNET; POST_NOTIFICATIONS is added in Phase 8). Test: `__tests__/native.test.ts`.
+
+**Interfaces.** Every function returns `Promise<NativeResult<T>>`, where `type NativeResult<T> = { ok: true; value: T } | { ok: false; reason: 'denied' | 'cancelled' | 'unavailable' | 'error'; message?: string }`. None of them ever throws.
+- `scanQr(): NativeResult<string>`: barcodeScanner `scan()`. Ionic only read `resp.text`.
+- `takePhoto(source: 'camera' | 'gallery', opts: { quality: number; maxWidth?: number; maxHeight?: number }): NativeResult<string>` returns `'data:image/jpeg;base64,…'`. Ionic used quality 70 and 500×400, or 100 and 1000×1000 in AddNewComplaint. Callers pass the exact values.
+- `getPosition(opts?: { highAccuracy?: boolean; timeoutMs?: number; maximumAgeMs?: number }): NativeResult<{ lat: number; lng: number }>` asks for location accuracy first, as `locationAccuracy.request` did.
+- `reverseGeocode(lat, lng): NativeResult<string[]>` returns `{ ok: false, reason: 'unavailable' }` unless `client.features.nativeGeocode` is on. That reproduces production, where the plugin is missing (spec §2a).
+- `openNavigation(lat, lng, from?)` does the same: a no-op with `'unavailable'` unless `features.nativeNavigation` is on, and with the flag on it uses `Linking` and `google.navigation:q=`. Add both keys to `FeatureKey` and the schema in Task 3; both are `false` for Topbath.
+- `shareText(text: string, imageDataUrl?: string)`
+- `openExternal(url)`: `_system` and `window.open`
+- `getInstalledVersion(): Promise<string>`
+- `uploadMultipart(url, fileUri, fileKey, mime)`
+- `onNetworkChange(cb)`
+- `push.init(onToken, onTap)` stays a no-op until Phase 8.
+- In `MOCK` mode:
+  - `scanQr` returns the value set by `setMockScan(code)` (default `'TB-MOCK-0001'`).
+  - `takePhoto` returns a 1×1 JPEG data URL.
+  - `getPosition` returns `{ lat: 28.6692, lng: 77.4538 }`.
+  - Tests can force any wrapper to fail with `setMockNativeFailure(name, reason)`.
+
+- [ ] **Step 1: Write the failing tests.** Cover the MOCK success value for each wrapper. **Review Focus 3:** `setMockNativeFailure('location','denied')` makes `getPosition` resolve to `{ ok: false, reason: 'denied' }` without rejecting, and the same holds for camera and scanner.
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/native.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement.** Install the libraries listed in the Tech Stack. Real implementations map permission results to `NativeResult`. Reverse geocode uses Android `Geocoder` through a ~40-line Kotlin module `ReverseGeocodeModule`; that choice is the builder's discretion per the spec.
+- [ ] **Step 4: Run the tests and verify on the phone.** Run `npm test` and `./gradlew assembleDebug`, then install. Add a temporary dev screen to confirm that the camera, scanner and location permission prompts appear on the phone, then delete it.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(native): wrappers with NativeResult and MOCK implementations"`.
+
+### Task 11: Visual-parity harness
+
+**Files:**
+- `parity/reference/build-ionic.md` (documented commands)
+- `parity/reference/build-ionic.sh`
+- `parity/reference/capture.mjs` (Playwright)
+- `parity/reference/stubs.js` (Cordova stubs, storage seeding)
+- `parity/states.json`
+- `parity/capture-rn.mjs`
+- `parity/report.mjs`
+- `.maestro/_capture.yaml`
+
+**Interfaces:**
+- `states.json` entry: `{ "id": "Otp.default", "screen": "Otp", "role": null | Role, "lang": "en" | "hin", "variants": { "<endpoint>": "<variant>" }, "params": {}, "ionicNav": "<JS expression run in the Ionic app to reach the page, e.g. app.getRootNav().setRoot('OtpPage', {...})>" }`
+- `node parity/reference/capture.mjs [--only <id>]` writes `parity/out/ref/<id>.png`
+- `node parity/capture-rn.mjs [--only <id>]` writes `parity/out/rn/<id>.png`, via the debug deep link (Task 7) and `maestro test .maestro/_capture.yaml -e LINK=… -e OUT=…`
+- `node parity/report.mjs` writes `parity/out/report.html`. For each state it shows the ref, the RN shot and a diff (`pixelmatch`), the diff %, and a sign-off checkbox stored in `parity/signoff.json`. That file is committed.
+
+- [ ] **Step 1: Build the Ionic reference www from `$IONIC` at `b33d82f`.**
+  - Copy it to `parity/reference/work/`; never modify `$IONIC`.
+  - Rewrite `registry.npm.taobao.org` to `registry.npmjs.org` in the copy's `package-lock.json`.
+  - Install with Node 10. Use Docker `node:10` if `docker --version` works. Otherwise **ask Dhruv** before installing nvm-windows.
+  - Run `npx ionic-app-scripts build`.
+  - Expected: `work/www/build/main.js` exists and contains `play_console_flag`.
+  - If the build can't be made to work in about 2 hours, fall back to `topsan.aab`'s `base/assets/www`, record that in `build-ionic.md`, and mark the Sales_Executive and forced-update states as "no reference".
+- [ ] **Step 2: Write the capture script.**
+  - `capture.mjs` serves `work/www` statically.
+  - It launches Chromium at 360×800, DPR 3, user agent Android, locale en-IN.
+  - It injects `stubs.js` before load: a `cordova` object with the plugin stubs, `deviceready` fired, and `_ionicstorage` IndexedDB seeded with `userStorageData` from `_sessions.json` for the role.
+  - It routes `https://apps.abacusdesk.com/**` to `src/api/fixtures`, matching the endpoint path and applying the state's variants.
+  - It runs `ionicNav`, waits for network idle plus 500 ms, and takes a screenshot.
+  - **Test:** a state `Language.default` produces `parity/out/ref/Language.default.png` with non-blank pixels. Assert this in `parity/reference/capture.test.mjs`, run with `node --test`.
+- [ ] **Step 3: Write `capture-rn.mjs` and the Maestro flow.** **Test:** with a placeholder `Language` route, `parity/out/rn/Language.default.png` exists.
+- [ ] **Step 4: Write `report.mjs`.** **Test:** `node --test parity/report.test.mjs` checks that the report lists every state in `states.json` and marks missing images "missing".
+- [ ] **Step 5: Commit.** Run `git add parity .maestro && git commit -m "feat(parity): Ionic reference capture, RN capture, diff report"`.
+
+### Task 12: Inventory with status, and the screen-card generator
+
+**Files:** `docs/inventory.json`, `scripts/screen-card.mjs`, `scripts/inventory-md.mjs` (regenerates `docs/INVENTORY.md` with the status, role, backend, feature and phase columns), `src/api/fixtures/_sessions.json` (one `userStorageData` per role, with `loginType: 'CMS'`, plus `SFA`, `Employee` and `DrLogin` sessions). Test: `__tests__/screen-card.test.ts`.
+
+**Interfaces:**
+- An `inventory.json` row: `{ "ionicClass": "PulmberCustomerDetailPage", "name": "PulmberCustomerDetail", "ionicPath": "src/pages/plumber-camplaints/pulmber-customer-detail", "status": "LIVE" | "PUSH-ONLY" | "DEAD", "roles": [...], "backend": "root" | "sfa" | "both", "feature": FeatureKey | null, "phase": 1-7, "unreachableBecause": "file:line …" | null }`
+  - Fill it from the spec §6.1 and §6.3 lists. Statuses and reasons come from the recon screen map; the orchestrator holds it and Dhruv can request it.
+  - There must be **exactly 117 rows**: 61 LIVE or PUSH-ONLY plus 56 DEAD.
+- `node scripts/screen-card.mjs <name>` writes `src/screens/<name>/card.md` with these sections, extracted mechanically:
+  - Ionic files and line counts
+  - nav params read (`navParams.get('…')`)
+  - endpoints called (helper, endpoint, server arg, the body expression's source text, and file:line)
+  - response fields read (property chains on the response variable)
+  - nav targets (`push`/`setRoot`/`modalCtrl.create` targets)
+  - overlays (`alertCtrl`/`loadingCtrl`/`toastCtrl`/`actionSheetCtrl`)
+  - natives used (injected `@ionic-native` names)
+  - i18n keys (`| translate` and `translate.get`) and hardcoded text nodes
+  - SCSS file plus the global classes used from `variables.scss`
+  - an empty **Quirks** section and an empty **States** section, which the orchestrator fills from spec §6.2
+
+- [ ] **Step 1: Write the failing tests.**
+  - The card for `Otp` lists the endpoints `auth/login` and `app_karigar/karigarLoginOtp`, and nav params including `mobile_no`.
+  - The card for `Home` lists `app_karigar/karigarHome`.
+  - `inventory.json` has 117 rows and unique names, and every DEAD row has a `feature` and an `unreachableBecause`.
+- [ ] **Step 2: Run the tests.** Run `npx jest __tests__/screen-card.test.ts`. Expected: FAIL.
+- [ ] **Step 3: Implement** using regex and line scanning over `$IONIC`. The script takes `IONIC_SRC` from an environment variable, defaulting to `C:/Migrations/Topbath_App_loyalty/src`.
+- [ ] **Step 4: Generate and check.** Run `npm test`, then `node scripts/inventory-md.mjs > docs/INVENTORY.md`. Expected: PASS, and the regenerated table shows the status column.
+- [ ] **Step 5: Commit.** Run `git commit -am "feat(tooling): inventory with reachability + screen-card generator"`.
+
+### Task 13: Pilot screen (Language) through the full S-procedure
+
+Port `Language` using the **S-task procedure below**, end to end, with one Sonnet implementer and one Sonnet reviewer. The purpose is to validate the procedure, harness and gates before any batches run. Whatever fails here is fixed in this plan and in `docs/PLAYBOOK.md` before Phase 1 starts.
+
+- [ ] **Step 1: Run S-steps 1–9 for `Language`.**
+- [ ] **Step 2: Retro.** Orchestrator and Dhruv review the parity report together. Note what was missing from the card, fixtures or harness, and amend the S-procedure and the screen-card generator.
+- [ ] **Step 3: Update and commit the docs.** Update `docs/PLAN.md` (phase table from spec §6.1) and `docs/PLAYBOOK.md` (Part A rules now point to this plan, Part C scope = 117 with flags), then run `git commit -am "docs: plan/playbook aligned with design; pilot retro"`.
+
+**Phase 0 gate:**
+- `npm test` is green and `npx eslint src` is clean.
+- Every `_components.*` state is signed off in the parity report (Task 9 Step 6).
+- The splash screen matches Ionic: `resources/splash.png`, shown for 3 s, fade-out, shown only on first launch, per `config.xml:16-24`.
+- The debug APK runs on the phone.
+- The `Language` state is signed off in `parity/out/report.html`.
+- Dhruv approves moving to Phase 1.
+
+---
+
+## S-task: Per-screen porting procedure (used for all 117 screens)
+
+The orchestrator dispatches one **implementer** (Sonnet) per screen in its own worktree (`git worktree add ../tb-wt-<Name> -b screen/<Name>`). The prompt contains:
+- this section
+- the Global Constraints
+- the screen's `card.md`
+- the paths to its Ionic files
+- the Interfaces of Tasks 3–10
+
+**Files (per screen):**
+- `src/screens/<Name>/index.tsx`, `route.ts`, `styles.ts`, `card.md`, `<Name>.test.tsx`
+- `src/api/fixtures/<endpoint>.json`, created or extended for each endpoint it calls
+- `src/api/contracts/<endpoint>.json`, one per endpoint
+- `parity/states.json`, its entries only, via `parity/states.d/<Name>.json` merged by `report.mjs`, to avoid conflicts
+- `.maestro/screens/<Name>.yaml`
+
+**Steps:**
+- [ ] **S1 – Card.** The orchestrator runs `node scripts/screen-card.mjs <Name>`, then fills **Quirks** from spec §6.2 and **States**. States: `default`, one per role branch and `*ngIf` branch, `empty`, `malformed`, plus `hin` when the screen has translated text.
+- [ ] **S2 – Contracts.** For each endpoint in the card, write `src/api/contracts/<endpoint>.json` from the Ionic call site (exact helper, server and body key tree), and add `ionicSource` file:line.
+- [ ] **S3 – Fixtures.** For each endpoint, add the `default`, `empty` and `malformed` variants, plus any status variants the screen branches on, such as `NOT FOUND`, `INVALID` or `USED`. Values are realistic, with no real PII. Write endpoints that later screens read go through a `handlers/<group>.ts` store handler.
+- [ ] **S4 – Failing tests** in `<Name>.test.tsx`:
+  - one `expectContract` per endpoint, driven through the screen's real call path by rendering the screen and firing the triggering press
+  - a render test per state asserting the key texts or i18n keys from the card are present
+  - a navigation test per nav target (mocked `navigation.navigate` called with the Ionic params)
+  - **Review Focus 2:** the `malformed` variant renders without throwing
+  
+  Run `npx jest src/screens/<Name>`. Expected: FAIL.
+- [ ] **S5 – Implement** `index.tsx`, `styles.ts` and `route.ts` (with `feature` from `inventory.json` and `presentation: 'modal'` where Ionic used `modalCtrl`).
+  - Mirror the Ionic template's element order and hierarchy.
+  - Port SCSS values (px→dp 1:1) and the applicable global `variables.scss` rules into `styles.ts`. Every overlay or control uses its `src/components/ionic` replica with the same options the Ionic code passed (titles, button texts, input types, `enableBackdropDismiss`, `dismissOnPageChange`).
+  - Icons use the same name and family as Ionic: `ion-icon name` becomes `IonIcon`, and `<i class="material-icons">` becomes `MaterialIcon`.
+  - **No improvements.** Typos, odd spacing, inconsistent capitalisation and dead buttons are all copied.
+  - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
+  - Add a NOTE for every quirk.
+- [ ] **S6 – Gates.** Run `npm test`, `npx tsc --noEmit` and `npx eslint src/screens/<Name>`. Expected: all green. Then run `node parity/capture-rn.mjs --only <Name>.` and `node parity/reference/capture.mjs --only <Name>.`. Expected: a PNG for every state.
+- [ ] **S7 – Commit on the branch.** Run `git commit -m "feat(screen): port <Name>"`.
+- [ ] **S8 – Independent review.** The orchestrator dispatches a fresh Sonnet **reviewer** with the Ionic `.html`/`.ts`/`.scss`, the RN diff, `card.md` and both PNG sets. It answers PASS or a numbered list of concrete misses, each with Ionic file:line and RN file:line. Checklist:
+  - every element and text
+  - every `*ngIf`/role branch
+  - every endpoint body
+  - every nav target and param
+  - overlays and their texts
+  - natives and their options
+  - every overlay and control uses its Ionic replica with identical options
+  - icons use the same name and family
+  - nothing "improved" (typos and dead buttons copied)
+  - quirk NOTEs present
+  - no client strings
+  
+  The implementer fixes the misses (at most 2 loops); after that the orchestrator escalates to Dhruv.
+- [ ] **S9 – Merge.** The orchestrator merges `screen/<Name>` into `main`, reruns `npm test`, regenerates `report.html`, and removes the worktree. The screen counts as **done** only when Dhruv ticks its states in the parity report.
+
+**Batching:** up to 4 S-tasks run in parallel. If an S-task needs a new shared component or wrapper, it **stops and reports** instead of creating one. The orchestrator adds it as a mini-task on `main` (TDD, commit) and then resumes the screen. Order within a phase: screens with the most inbound navigation go first, so later screens can navigate to real routes.
+
+---
+
+## Phases 1–7: Screen batches
+
+Each phase = S-tasks for the listed screens, followed by its **flow tests** and **gate**. The phase gate (spec §7):
+- every state of the phase is signed off in the parity report
+- `npm test` is green
+- the phase's Maestro flows pass on the emulator
+- the debug APK has been checked on the phone by Dhruv against the phase checklist in `docs/PLAN.md`
+
+### Phase 1: Onboarding & auth (7 + Customer/Retailer tabs)
+Screens: Language (pilot, done), SelectRegistrationType, MobileLogin, Otp, Registration, AboutusModal, Tabs.
+- [ ] **Flow test** `__tests__/flows/login.test.ts`, in MOCK, for each of the 4 roles: Language → SelectRegistrationType → MobileLogin → Otp. Then:
+  - `auth/login` SUCCESS → Tabs with that role's tab set
+  - `NOT FOUND` → Registration → submit → Tabs
+  - unverified → AboutusModal
+- [ ] **Maestro** `.maestro/flows/login-<role>.yaml` × 4, plus `customer-tabs.yaml` (seeded `Customer` session). It shows the Home · Newarrivals · Contact · About · Profile labels; the Newarrivals, Contact and About tabs render placeholders until Phases 3 and 2 land.
+- [ ] **Gate.**
+
+### Phase 2: Core loyalty (22)
+Home (Plumber and Seller/Dealer variants are two state sets on one screen), MainHome, Profile, ViewProfile, PointList, PointHistory, OfferList, Offers, Terms, GiftDetail, CancelpolicyModal, CancelationPolicy, Transaction, ShippingDetail, Notification, Feedback, Pointtranfer, CoupanCode, ScanPoint, SalesPointTransfer, Super30, PointLocation.
+- [ ] **Flow test** `flows/scan-redeem.test.ts`:
+  - Plumber: scan (`setMockScan`) → `karigarCoupon` → balance increases on PointList → GiftDetail → CancelpolicyModal (`sendOtp`, then the client OTP match) → `redeemRequest` → Transaction lists it
+  - Seller: ScanPoint multi-scan → `saveCoupon`
+- [ ] **Flow test** `flows/transfer.test.ts`: Pointtranfer `karigar_not_exist` alert and SUCCESS; SalesPointTransfer `bonus_points`.
+- [ ] **Maestro:** one flow per role covering every tab.
+- [ ] **Gate.**
+
+### Phase 3: Catalogue & content (11)
+Category, SubCategory, Products, ProductDetail, ProductSubdetail, Newarrivals, VideoCategory, Video, About, Contact, QuotationGenrateByPdf.
+- [ ] **Flow test:** Category → SubCategory → ProductDetail (infinite scroll fetches the next `filter.limit` offset) → ProductSubdetail → share is called with the Ionic text. Quotation: build a list → `quotation_pdf` → `openExternal(upload_url3 + file_name)`.
+- [ ] **Gate.**
+
+### Phase 4: Complaints & service (15)
+AddNewComplaint, ComplaintHistory, ComplaintDetail, CancelComplaint, ComplaintRemarks, MyCamplaints, PulmberCustomerDetail, PlumberCheckin, TaskClose, CustomerList, CustomerAdd, CustomerDetail, PlumberList, PlumberAdd, PlumberDetail.
+- [ ] **Flow test:** Seller creates a complaint (with `getGeoLocation` `NOT FOUND` forcing PointLocation first), then the Plumber sees it in MyCamplaints → check-in (`plumberCheckIn`) → TaskClose with photo and OTP → `complaintTaskCloseByPlumber` → the Seller sees it closed in ComplaintHistory, then rates and pays in ComplaintDetail.
+- [ ] **Gate.**
+
+### Phase 5: Sales Executive (6)
+SalesExecHome, SalesExecAddPlumber, SalesExecAddSeller, SalesExecAddDealer, SalesExecPlumberList, SalesExecPlumberDetail.
+- [ ] **Flow test:** summary counts; add plumber `EXIST` and SUCCESS; the list `list_type` switch across Plumber, Sales_Boy and Dealer; detail with `recent_scans`.
+- [ ] **Gate.** **Milestone:** all 61 live screens are done. A full regression on the phone across 4 roles plus Customer follows.
+
+### Phase 6: Topbath-unreachable loyalty pages (16, flagged)
+GiftList, PointDetail, Scan, LoginScreen, Digitalcatalog, EditProfile, Enquiry, FavoriteProduct, News, NewsDetail, SurveyList, SurveyDetail, NearestDealer, RetailerAddComplaint, RetailerListComplaint, Search.
+- [ ] **Before the S-tasks, add** `__tests__/flags.test.ts`:
+  - with `client = topbath`, a BFS over `route.ts` `links` from `Language` and from every tab root, skipping routes where `isRouteEnabled` is false, reaches **no** route with `feature` set
+  - with `_all-features`, all 117 routes are reachable
+  - Re-run it at the end of Phase 7.
+- [ ] Each S-task also enables its **entry point** behind the flag: the commented Home button, Profile's edit link and the ProductSubdetail enquiry button, with the Ionic markup restored exactly. Parity states run with `_all-features`.
+- [ ] **Gate:** the flags test is green, and the parity sign-off is done.
+
+### Phase 7: SFA module (40, flagged `sfa`, backend `rootUrlSfa`)
+- [ ] **Pre-task (orchestrator):**
+  - Add the Employee/DrLogin radio options to SelectRegistrationType behind `features.sfa`.
+  - Restore the SFA start-up branches (`app.component.ts:258-299`) into `decideStartRoute`, with tests for the `SFA`, `Employee` and `DrLogin` sessions.
+  - Add the SideMenu item sets, with tests.
+  - Add the SFA cart storage keys (`order_item_array`, `order_item_length`, `order_details`) to the session docs.
+- **Sub-batches, in order:**
+  1. Login, Otpverify, Dashboard, DealerHome, DealerProfile, WorkTypeModal
+  2. Attendence, AddLeave, LeaveList, TravelAdd, TravelList, DealerCheckIn
+  3. sales-app: AddCheckin, EndCheckin, CheckinList, CheckinDetail, CustomerCheckin, CustomerOrder, AddDealer, AddDistribution, AddLeads, EditNetwork, DistributorList, MainDistributorList, DistributorDetail
+  4. DealerDealerList, DealerDiscount, DealerExecutiveApp, DealerExecutiveList, ExecutivDetail, ExecutiveEdit, ExecutivePopover, LeadsDetail
+  5. AddOrder, DealerAddorder, CartDetail, OrderList, OrderDetail, DealerOrder, ExecutiveOrderDetail (invoice upload via `uploadMultipart` to `rootUrlSfa + 'dealerData/upload_invoice?…'`)
+- [ ] **Flow tests:** SFA login → Dashboard → attendance punch-in (work-type modal, location) → check-in → order → cart → `Order/add_order`; DrLogin → DealerHome → DealerAddorder.
+- [ ] **Gate.**
+
+## Phase 8: Native & release (Topbath)
+
+- [ ] **Task 8.1 – Push.**
+  - Add `@react-native-firebase/app` and `@react-native-firebase/messaging`, and the POST_NOTIFICATIONS runtime prompt.
+  - Port `app.component.ts:896-1015` and `home.ts:960-1040`: token → `update_token` via `post_rqst` with `{ registration_id, id }` after 5 s, and tap routing by `additionalData.type`.
+  - Gate it on `client.features.push` (Topbath is `false`).
+  - Tests: routing per type and the `update_token` contract, both with the push wrapper mocked.
+- [ ] **Task 8.2 – Icons and splash.** Generate them per client in `use-client.mjs`: adaptive icon, Android 12 splash and notification icon. Verify on the phone.
+- [ ] **Task 8.3 – Release signing outside the repo.**
+  - `signingConfigs.release` reads from `~/.gradle/gradle.properties` (`TB_STORE_FILE`, `TB_STORE_PASSWORD`, `TB_KEY_ALIAS`, `TB_KEY_PASSWORD`). The build fails with a clear message if they're missing.
+  - Run `./gradlew bundleRelease` with a **local test keystore**. Expected: an `.aab` is produced.
+  - The real key is supplied by the release owner, so this step is outside the migration scope.
+- [ ] **Task 8.4 – Release hand-off notes** in `docs/RELEASE.md`:
+  - forced-update rollout order (spec §6.1)
+  - `versionName` and `versionCode` to set
+  - Play App Signing / keystore question
+  - session carry-over option (spec §9.6)
+  - Firebase project decision
+  - open security NOTEs list, generated by `grep -rn "NOTE (security" src`
+- [ ] **Task 8.5 (optional, only if the release owner asks) – Session carry-over.** A native module reads the old Ionic WebView IndexedDB `_ionicstorage/_ionickv` `userStorageData` on first launch and writes it to AsyncStorage. Test it on a phone with the Play Store build logged in, then install the RN release build over it.
+- [ ] **Task 8.6 – Full regression.**
+  - Every Maestro flow passes.
+  - The parity report is 100% signed off for Phases 1–5.
+  - Manual phone checklist per role: permissions prompts, back button rules, Hindi language, offline behaviour (no crash), Android 15 edge-to-edge.
+  - DEV/LIVE smoke **only** with test accounts and Dhruv's explicit go-ahead.
+
+## Phase 9: Second client (template proof)
+- [ ] Given a second client's Ionic repo:
+  - Run `scripts/ionic-inventory.sh` on it.
+  - Diff it against Topbath's inventory and `$IONIC/src` page by page, and record the screen and flow differences in `docs/clients/<id>-diff.md`.
+  - Each difference becomes either a new `FeatureKey` or a `brandLabels` entry, never a fork.
+  - Create `clients/<id>/` and run `use-client.mjs <id>`. Build, then rerun parity for the changed screens against that client's Ionic build.
+- [ ] Update `docs/PLAYBOOK.md` Part D with the onboarding steps that actually worked.
+
+## Phase 10: iOS (gated on spec §9.1)
+- [ ] Once a Mac or cloud build path is approved:
+  - `use-client.mjs` writes the iOS bundle id, display name and asset catalog when `platforms` includes `ios`.
+  - `pod install`; Info.plist usage strings (camera, location, photo library).
+  - Run the Maestro flows on the iOS simulator and produce the parity screenshots at an iPhone size.
+  - Push needs APNs keys via Firebase.

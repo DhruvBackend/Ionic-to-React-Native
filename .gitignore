@@ -73,3 +73,11 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Topbath RN: secrets and generated files (never commit)
+google-services.json
+GoogleService-Info.plist
+android/client.properties
+.env*
+parity/out/
+parity/reference/work/
