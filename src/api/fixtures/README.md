@@ -1,0 +1,36 @@
+# Endpoint fixtures
+
+One file per backend endpoint. The RN MOCK backend (`src/api/mock`) and the parity harness (the Ionic reference build) both answer from these files, so the two apps are compared on identical data.
+
+## Naming
+`<endpoint with "/" replaced by "__">.json`, for example `app_karigar/karigarHome` → `app_karigar__karigarHome.json`.
+
+Files starting with `_` (e.g. `_sessions.json`) are shared data, not endpoints.
+
+## Shape
+```json
+{
+  "endpoint": "app_karigar/karigarHome",
+  "server": "root",
+  "variants": {
+    "default":   { "status": "SUCCESS", "karigar": { "...": "..." } },
+    "empty":     { "status": "SUCCESS", "karigar": {} },
+    "malformed": { "status": "SUCCESS", "karigar": null },
+    "NOT FOUND": { "status": "NOT FOUND" }
+  }
+}
+```
+- `server` is `root` (dd_api), `sfa` (crm/api/app) or `server_url` (dd_api/index.php/app/).
+- `default` is required. `malformed` is required once a screen uses the endpoint (plan Review Focus 2).
+- Response shapes follow the fields the Ionic page actually reads (see the screen's `card.md`).
+- Use realistic but fake data: Indian names, 10-digit numbers starting 9/8/7, no real people.
+
+## After adding or renaming a file
+Run `node scripts/gen-fixtures.mjs`. `npm test` runs it automatically (`pretest`).
+
+## In tests
+```ts
+import { setFixtureVariant, resetMock } from '../src/api/mock';
+beforeEach(() => resetMock());
+setFixtureVariant('app_karigar/profile', 'suspended');
+```

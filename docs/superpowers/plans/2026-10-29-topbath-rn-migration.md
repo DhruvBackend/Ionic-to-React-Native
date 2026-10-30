@@ -253,6 +253,15 @@ The lint fixture needs the screens rule to apply to it. Use an ESLint `overrides
 
 ### Task 5: Fixtures, variants and the stateful mock store
 
+**Status: DONE 2026-10-30.** Tests 35/35, `tsc` and `eslint .` clean. An end-to-end probe with a real fixture file in `src/api/fixtures/` was auto-registered, type-checked and switched variants; the probe was then removed.
+
+Additions beyond the steps below:
+1. `setFixtureVariant` **throws** on an unknown endpoint or variant, naming the variants that exist, so typos in tests fail loudly.
+2. `fixture(endpoint, variant?)` and `hasMock()` also count fixtures. Responses are deep-copied, with a test that a mutated response can't change the next one.
+3. `resetMock()` resets variants and the store but keeps registered handlers and fixtures, which are module-level registrations.
+4. `gen-fixtures.mjs` validates every file: the name must match the endpoint, `server` must be one of `root`/`sfa`/`server_url`, and `variants.default` is required. A missing `malformed` variant only warns for now. It takes `--dir`/`--out` for tests, skips `_`-prefixed files, and emits static `import`s, not `require`. `pretest` runs it.
+5. `src/api/fixtures/README.md` documents naming, shape, variants and test usage for the S-task subagents.
+
 **Files:**
 - Create: `src/api/fixtures/` (empty plus `README.md` with the naming rules), `scripts/gen-fixtures.mjs`, `src/api/fixtures.generated.ts`, `src/api/mock/store.ts`
 - Modify: `src/api/mock/index.ts`
