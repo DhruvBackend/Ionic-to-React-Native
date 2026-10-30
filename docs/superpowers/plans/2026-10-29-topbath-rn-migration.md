@@ -331,6 +331,26 @@ Deviations and additions:
 
 ### Task 7: Generated navigation, role tabs, side menu and feature gating
 
+**Status: DONE 2026-10-30.**
+- Tests 67/67 (navigation 15, gen-routes 4, app render 3); `tsc` and `eslint .` clean.
+- APK rebuilt (79 MB, adds react-native-screens). It now opens on a "Language — not ported yet" placeholder instead of the RN welcome screen.
+- The debug merged manifest has the `topbathrn://open` scheme.
+
+Deviations and findings:
+1. **Tab sets live centrally in `src/navigation/tabs.ts`**, copied from `tabs.html` (titles = translate keys, icons = Ionic `tabIcon` names), not in each screen's `route.ts`. That's where Ionic defines them, and screens don't need to know about tabs.
+   - `RouteMeta` is `{ name, presentation, feature?, links }`, without `roles`/`tab`.
+   - `tabsFor(type)` returns `[]` for any type outside the four `*ngIf` blocks, and `RoleTabs` then renders nothing (NOTE parity).
+2. **Navigation structure follows Ionic defaults.** `IonicModule.forRoot(MyApp)` has no config, so `tabsHideOnSubPages` is false and every tab has its own stack.
+   - Each tab is a native stack that can show any card route, starting at its root (pages pushed from a tab keep the tab bar).
+   - Modal routes exist only in the root stack, so they open above the tabs.
+   - The root stack holds `Tabs`, all enabled routes, and placeholders for required entry routes (`Language`).
+   - The tab navigator names tabs by icon (`tab-home`…) to avoid nested same-name screens.
+3. **The side menu is a frame only.** `SideMenuProvider`, `openSideMenu()`/`closeSideMenu()` and swipe disabled match the CMS behaviour. Its item sets are SFA-only content (Employee/DrLogin menus, CRM image hosts), so they move to the **Phase 7 pre-task**.
+4. **Unported routes.** `placeholderFor(name)` shows the route name for routes not ported yet (development aid).
+5. **Debug links.** `applyDebugLink(link, sessions)` sets fixture variants, session (from `_sessions.json`, Task 12), language, then `resetTo`. It only runs when `__DEV__`, and the scheme is only in `android/app/src/debug/AndroidManifest.xml`.
+6. **Jest setup.** `transformIgnorePatterns` gains `@react-navigation`, `react-native-screens` and `react-native-safe-area-context`. `jest.setup.js` uses the safe-area library's own mock, and the render tests unmount their trees.
+7. **No gesture-handler dependency** is needed (native-stack, bottom-tabs and the Modal-based menu).
+
 **Files:**
 - Create: `src/navigation/types.ts`, `scripts/gen-routes.mjs`, `src/navigation/routes.generated.ts`, `src/navigation/RootNavigator.tsx`, `src/navigation/RoleTabs.tsx`, `src/navigation/SideMenu.tsx` (content per `$IONIC/src/app/app.html` and `app.component.ts:465-678`; opened only via `openSideMenu()`), `src/navigation/debugLinks.ts`
 - Modify: `App.tsx` (replace the template with `RootNavigator` inside providers)
