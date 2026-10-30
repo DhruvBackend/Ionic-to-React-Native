@@ -80,7 +80,51 @@ export interface ActionSheetOptions {
   onDidDismiss?: (data?: unknown, role?: string) => void;
 }
 
-export type OverlayKind = 'alert' | 'loading' | 'toast' | 'actionSheet';
+// Ionic Picker (components/picker/picker.js): an overlay of the DEFAULT portal like alerts and action sheets, so
+// hardware back dismisses it (app.component.ts:167). Columns are mutated in place, as Ionic does.
+export interface PickerOption {
+  value: any;
+  text: string;
+  disabled?: boolean;
+}
+export interface PickerColumn {
+  name: string;
+  selectedIndex: number;
+  options: PickerOption[];
+  align?: 'left' | 'right';
+  optionsWidth?: string;
+  columnWidth?: string;
+}
+export interface PickerButton {
+  text: string;
+  role?: 'cancel' | string;
+  cssClass?: string;
+  // Receives {columnName: {text, value, columnIndex}} (picker-component.js getSelected). Returning false keeps it open.
+  handler?: (selected: Record<string, { text: string | null; value: any; columnIndex: number }>) => boolean | void;
+}
+export interface PickerOptions {
+  columns: PickerColumn[];
+  buttons: (string | PickerButton)[];
+  enableBackdropDismiss?: boolean; // default true (picker.js)
+  // Picker.ionChange: emitted when any column's selected index changed after a drag/tap (picker-component.js _colChange).
+  onChange?: (selected: Record<string, { text: string | null; value: any; columnIndex: number }>) => void;
+  onDidDismiss?: (data?: unknown, role?: string) => void;
+}
+
+// Ionic ModalController page (components/modal): lives in the MODAL portal, which sits below the default portal.
+// The hardware back handler of the Topbath app only looks at the default portal (app.component.ts:167), so a modal
+// is not an "overlay" for it (see isModalOpen).
+export interface ModalHandle {
+  dismiss(data?: unknown, role?: string): void;
+}
+export interface ModalOptions {
+  render: (modal: ModalHandle) => any; // returns the React element of the page
+  enableBackdropDismiss?: boolean; // default true; the backdrop is hidden on phones, so it has no effect there
+  onWillDismiss?: (data?: unknown, role?: string) => void;
+  onDidDismiss?: (data?: unknown, role?: string) => void;
+}
+
+export type OverlayKind = 'alert' | 'loading' | 'toast' | 'actionSheet' | 'picker' | 'modal';
 
 export interface OverlayEntry {
   id: number;
@@ -99,16 +143,21 @@ export interface OverlayEntry {
 // (alert-transitions.js, loading-transitions.js), action sheet 400 in / 450 out.
 const CLICK_BLOCK_BUFFER_MS = 64;
 const MIN_DISMISS_BLOCK_MS = 400;
+// picker: picker-transitions.js 400 in / 450 out; modal: modal-transitions.js MD 280 in / 200 out
 const ENTER_MS: Record<OverlayKind, number> = {
   alert: 200,
   loading: 200,
   actionSheet: 400,
+  picker: 400,
+  modal: 280,
   toast: 0,
 };
 const LEAVE_MS: Record<OverlayKind, number> = {
   alert: 200,
   loading: 200,
   actionSheet: 450,
+  picker: 450,
+  modal: 200,
   toast: 0,
 };
 
@@ -185,6 +234,7 @@ export function requestDismiss(
   entries = entries.map(e =>
     e.id === id ? { ...e, leaving: true, data, role } : e,
   );
+  entry.options.onWillDismiss?.(data, role);
   if (entry.kind !== 'toast') {
     // toast.js dismisses with { disableApp: false }: no click block
     blockClicks(
@@ -229,18 +279,38 @@ export function showActionSheet(opts: ActionSheetOptions): { dismiss(): void } {
   return present('actionSheet', opts, false);
 }
 
+export function showPicker(opts: PickerOptions): { dismiss(): void } {
+  return present('picker', opts, false);
+}
+
+export function showModal(opts: ModalOptions): { dismiss(data?: unknown, role?: string): void } {
+  present('modal', opts, false);
+  const id = entries[entries.length - 1].id;
+  return { dismiss: (data?: unknown, role?: string) => requestDismiss(id, data, role) };
+}
+
 // Hardware back: only the default portal (alerts and action sheets) counts. Views stay in the
 // portal until their leave transition has finished, as in Ionic.
 export function isOverlayOpen(): boolean {
-  return entries.some(e => e.kind === 'alert' || e.kind === 'actionSheet');
+  return entries.some(isDefaultPortal);
+}
+
+function isDefaultPortal(e: OverlayEntry) {
+  return e.kind === 'alert' || e.kind === 'actionSheet' || e.kind === 'picker';
+}
+
+// A modal page (ionic-selectable / select-searchable) is open. Ionic's App.getActiveNavs() returns the modal
+// portal's nav while it has views (app.js:172-175), so the Topbath back handler then sees activeView
+// 'IonicSelectableModalComponent' / 'SelectSearchablePageComponent' with canGoBack() false and falls into its
+// "App termination" alert (app.component.ts:197-233). useBackButton uses this to reproduce that.
+export function isModalOpen(): boolean {
+  return entries.some(e => e.kind === 'modal');
 }
 
 // NOTE (parity): Ionic's back handler dismisses `_overlayPortal._views[0]`, the OLDEST alert or action
 // sheet, with a plain dismiss(): no button handler runs.
 export function dismissTopOverlay(): void {
-  const first = entries.find(
-    e => (e.kind === 'alert' || e.kind === 'actionSheet') && !e.leaving,
-  );
+  const first = entries.find(e => isDefaultPortal(e) && !e.leaving);
   if (first) {
     requestDismiss(first.id);
   }

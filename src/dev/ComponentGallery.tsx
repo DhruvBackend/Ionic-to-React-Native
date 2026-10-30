@@ -1,10 +1,14 @@
 // DEVELOPMENT ONLY (registered in RootNavigator for debug builds, see src/config/buildInfo.ts): shows the Ionic replica parts so they
 // can be checked on a device and captured for the parity report (plan Task 9 step 6).
 // Open with: adb shell am start -a android.intent.action.VIEW -d "topbathrn://open?screen=_ComponentGallery"
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IonIcon } from '../components/ionic/IonIcon';
+import { IonDatetime } from '../components/ionic/IonDatetime';
+import { IonicSelectable } from '../components/ionic/IonicSelectable';
+import { IonSelect } from '../components/ionic/IonSelect';
 import { MaterialIcon } from '../components/ionic/MaterialIcon';
+import { SelectSearchable } from '../components/ionic/SelectSearchable';
 import { fontFor } from '../theme/typography';
 import {
   showActionSheet,
@@ -245,9 +249,88 @@ const POPUPS: [string, () => void][] = [
 
 const SAMPLE = 'Wallet Balance ₹ 1,250 – Topsan';
 
+// Sample data for the pickers section (shapes of the Topbath API rows: state_name, first_name, product_name ...)
+const STATES = ['Delhi', 'Haryana', 'Punjab', 'Rajasthan', 'Uttar Pradesh', 'Uttarakhand'].map(n => ({ label: n, value: n }));
+const EXECUTIVES = ['Ramesh Kumar', 'Suresh Verma', 'Anita Sharma', 'Mohit Gupta', 'Pooja Singh', 'Rahul Jain'].map((n, i) => ({ id: i + 1, first_name: n }));
+const PRODUCTS = ['Basin Mixer Chrome', 'Angle Cock Long', 'Health Faucet Set', 'Bib Cock Wall', 'Overhead Shower 8 inch'].map((n, i) => ({ id: i + 1, product_name: n, price: 100 + i }));
+
+// registration.html:35 (DOB), :81 (state select), :243 (sales executive), quotation (search), SFA select-searchable
+function PickersSection() {
+  const [dob, setDob] = useState('');
+  const [leave, setLeave] = useState('');
+  const [state, setState] = useState<string | undefined>(undefined);
+  const [multi, setMulti] = useState<string[]>([]);
+  const [exec, setExec] = useState<any>(null);
+  const [product, setProduct] = useState<any>(null);
+  const [sfa, setSfa] = useState<any>(null);
+  const [plain, setPlain] = useState<string | undefined>('Haryana');
+  const [editDate, setEditDate] = useState('');
+  const [editType, setEditType] = useState<string | undefined>(undefined);
+  const [editProduct, setEditProduct] = useState<any>(PRODUCTS[1]);
+  const today = new Date().toISOString().slice(0, 10);
+  return (
+    <View testID="gallery-pickers">
+      <Text style={styles.h}>Pickers: .edit pages (add-leave, travel-add, quotation)</Text>
+      <View style={styles.edit}>
+        <IonDatetime testID="pk-edit-date" variant="edit" floating label="Leave Start Date *" displayFormat="MMM DD, YYYY" placeholder="Select Leave Start Date" min={today} value={editDate} onChange={setEditDate} />
+        <IonSelect testID="pk-edit-type" variant="editCsNormalSelect" label="Select type" placeholder="Select Type" options={[{ label: 'Full Day', value: 'Full Day' }, { label: 'Half Day', value: 'Half Day' }]} value={editType} onChange={v => setEditType(v as string)} />
+        <IonSelect testID="pk-edit-state" variant="editCsSelect" label="State" labelText="State *" requiredMark options={STATES} value={state} onChange={v => setState(v as string)} />
+        <IonicSelectable testID="pk-edit-product" variant="editCsSelectable" label="Select Product" items={PRODUCTS} itemValueField="product_name" itemTextField="product_name" canSearch value={editProduct} onChange={v => setEditProduct(v)} />
+        <IonicSelectable testID="pk-edit-state-sel" variant="editCsSelectable" label="State" labelText="State *" items={STATES} itemValueField="value" itemTextField="label" canSearch value={STATES[1]} onChange={() => undefined} />
+      </View>
+      <Text style={styles.h}>Pickers</Text>
+      <IonDatetime testID="pk-dob" variant="csDate" label="Date of Birth" displayFormat="DD/MM/YYYY" max={today} value={dob} onChange={setDob} />
+      <IonSelect testID="pk-state" variant="csSelect" label="State" options={STATES} value={state} onChange={v => setState(v as string)} />
+      <IonSelect testID="pk-state-disabled" variant="csSelect" label="District" options={STATES} value={state} disabled />
+      <IonicSelectable
+        testID="pk-exec"
+        variant="csSelect"
+        label="Select Sales Executive (optional)"
+        items={EXECUTIVES}
+        itemValueField="first_name"
+        itemTextField="first_name"
+        canSearch
+        canClear
+        hasVirtualScroll
+        value={exec}
+        onChange={v => setExec(v)}
+      />
+      <IonicSelectable
+        testID="pk-quote"
+        variant="plain"
+        label="Select Product"
+        items={PRODUCTS}
+        itemValueField="product_name"
+        itemTextField="product_name"
+        canSearch
+        value={product}
+        onChange={v => setProduct(v)}
+        onSearch={e => console.log('onSearch', e.text)}
+      />
+      <SelectSearchable
+        testID="pk-sfa"
+        variant="plain"
+        label="Category"
+        items={PRODUCTS}
+        itemValueField="id"
+        itemTextField="product_name"
+        canSearch
+        hasVirtualScroll
+        value={sfa}
+        onChange={v => setSfa(v)}
+      />
+      <IonSelect testID="pk-plain" label="Plain select" placeholder="Select Type" options={STATES} value={plain} onChange={v => setPlain(v as string)} />
+      <IonSelect testID="pk-multi" label="Multiple" multiple options={STATES} value={multi} onChange={v => setMulti(v as string[])} />
+      <IonDatetime testID="pk-leave" label="Leave" displayFormat="MMM DD, YYYY" placeholder="Select Leave Start Date" min={today} value={leave} onChange={setLeave} />
+    </View>
+  );
+}
+
 export function ComponentGallery() {
   return (
     <ScrollView contentContainerStyle={styles.page} testID="component-gallery">
+      <PickersSection />
+
       <Text style={styles.h}>Popups</Text>
       {POPUPS.map(([label, open]) => (
         <Pressable
@@ -313,4 +396,5 @@ const styles = StyleSheet.create({
   label: { fontSize: 8, marginTop: 2 },
   btn: { padding: 8, marginVertical: 2, backgroundColor: '#e8e8e8' },
   btnText: { fontSize: 13 },
+  edit: { marginHorizontal: 0 },
 });

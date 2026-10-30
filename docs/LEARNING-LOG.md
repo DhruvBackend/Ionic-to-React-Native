@@ -209,3 +209,25 @@ Also `fontFor()`, `IonIcon`, `MaterialIcon`, Ionic md base values with file:line
 - **Rule out the obvious before calling something a bug.** A "missing page behind the popup" was the placeholder text sitting exactly under the dialog card. A `uiautomator dump` plus comparing coordinates proved it in two commands.
 
 **Interview angle:** "How do you use AI agents safely on a big migration?" → narrow briefs with ground-truth sources, an independent reviewer, every claim re-verified by running the checks yourself, and visual checks on a device.
+
+## 2026-10-31 — Task 9 part 3: pickers
+
+**What:**
+- `ion-select` (alert-based)
+- `ion-datetime` with Ionic's md picker wheel
+- `ionic-selectable` 3.5.0 and `select-searchable` 2.10.0
+- Topbath's form-field styles
+
+The process was the same as part 2: a Sonnet implementer, an independent Sonnet reviewer (9 findings), fixes, then my own re-verification on the emulator.
+
+**Learned:**
+- **Check the lockfile, not `package.json`.** `^3.4.0` actually installed **3.5.0**. Porting the wrong version would copy the wrong behaviour.
+- **Port the logic files, not just the look.** `datetime-util.js` and `datetime.js` were ported function by function: formats, default year range (this year back to 100 years ago), invalid days disabled, ISO output.
+- **Framework internals create user-visible quirks:**
+  - Angular's `writeValue` skips the first `ionChange`.
+  - Back with a searchable modal open falls through to the exit alert, because `getActiveNavs()` returns the modal's nav.
+  - A `min=""` makes Ionic throw and silently open nothing; RN must match that without crashing.
+- **Render the real thing for reference.** The implementer rendered real Ionic markup with the shipped `main.css` in headless Chrome. That's how it found md pickers have no highlight bands.
+- **Labels are `textContent`.** "State *" comes from `{{ 'State' | translate }} <span>*</span>`, spacing included.
+
+**Interview angle:** "What breaks in a UI-framework migration that tests miss?" → lifecycle semantics (first-write events, back-button routing through overlay portals), not pixels. Port the framework's own code paths and pin them with tests.

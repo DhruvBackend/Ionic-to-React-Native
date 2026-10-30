@@ -466,7 +466,36 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 9: Ionic md-mode replica kit and exact fonts
 
-**Done in parts.** Part 1 (fonts, icons, base values) and part 2 (popups) are DONE (2026-10-30). Part 3 (pickers), part 4 (page structure) and part 5 (content controls) follow.
+**Done in parts.** Part 1 (fonts, icons, base values), part 2 (popups) and part 3 (pickers) are DONE. Part 4 (page structure) and part 5 (content controls) follow.
+
+**Part 3 — status** (2026-10-31).
+- Process as in part 2: a Sonnet implementer, then an independent Sonnet reviewer (9 findings: 7 confirmed, 2 plausible), then 8 fixed.
+- Tests 253/253; `tsc` and `eslint .` clean.
+- Emulator screenshots checked: the `.edit` form fields, the selectable modal titled "State *", the date wheel, and the select alert.
+
+What landed:
+- `IonSelect` (alert interface, reusing the part 2 Alert).
+- `IonDatetime` + `Picker`: md flat wheel (no highlight bands in md), 43px options, primary-coloured selection, 400/450 ms transitions.
+- `IonicSelectable` (ionic-selectable **3.5.0**, the lockfile version, not 3.4) and `SelectSearchable` (2.10.0, SFA), with `open()`/`close()` refs.
+- `IonField`, with variants for Topbath's `cs-select`/`cs-date` (main-field), `edit` / `editCsSelect` / `editCsNormalSelect` / `editCsSelectable` and floating labels.
+- Logic ports: `src/ui/datetimeUtil.ts` (datetime-util.js), `datetimePicker.ts` (datetime.js) and `selectableModel.ts`.
+- Values with citations are in `src/theme/ionicMdPickers.ts`.
+
+Behaviour copied:
+- ionChange is skipped on the first external write (base-input `_initModel`).
+- `min=""` makes the picker open nothing (Ionic throws inside) and never crash.
+- An `undefined` value keeps the previous text.
+- Clear order is onChange → onClear → close, and `onClose` fires after the transition.
+- **Hardware back with a selectable modal open shows the "App termination" alert.** This is verified through `app.js` getActiveNavs and `app.component.ts`.
+- Back with the picker or select alert open dismisses it with no handler.
+
+Labels: screens pass `labelText`, the exact `textContent` of the Ionic label (e.g. "State *", "Select plumber*"), and that string is used for popup titles.
+
+**To check in the Task 11 parity harness:**
+- An `ion-select` inside an `.edit` `cs-select` keeps its own `#b5b5b5` bordered box (main.css 7967). It follows the CSS but looks odd.
+- Floating labels outside `.edit` pages use the generic md rules only.
+
+Not built (unused by Topbath): selectable `startSearch`/`endSearch` spinner, groups, add/save/delete templates, infinite scroll; ion-select action-sheet and popover interfaces.
 
 **Part 2 — status.**
 - Built by a Sonnet 5.5 implementer and reviewed by a separate Sonnet 5.5 reviewer against Ionic 3.9.5 source and the shipped `main.css`. All 5 confirmed findings were fixed in one round.

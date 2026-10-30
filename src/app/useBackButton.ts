@@ -5,16 +5,21 @@ import { BackHandler } from 'react-native';
 import { db } from '../api/client';
 import { navigationRef } from '../navigation/navigationRef';
 import { tabsFor } from '../navigation/tabs';
-import { dismissTopOverlay, isOverlayOpen } from '../ui/overlays';
+import { dismissTopOverlay, isModalOpen, isOverlayOpen } from '../ui/overlays';
 import { confirmExit, handleBack } from './backButton';
 
 export function useBackButton() {
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      // NOTE (parity): while an ionic-selectable / select-searchable modal is open, Ionic's
+      // App.getActiveNavs() returns the modal portal's nav (app.js:172-175), whose only view is the modal page
+      // (enableBack() false). The Topbath handler (app.component.ts:165-243) therefore skips the page rules and
+      // ends in the "App termination" alert shown over the modal.
+      const modal = isModalOpen();
       const action = handleBack({
         overlayOpen: isOverlayOpen(),
-        routeName: navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name ?? '' : '',
-        canGoBack: navigationRef.isReady() && navigationRef.canGoBack(),
+        routeName: modal ? 'IonicSelectableModalComponent' : navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name ?? '' : '',
+        canGoBack: modal ? false : navigationRef.isReady() && navigationRef.canGoBack(),
       });
       switch (action) {
         case 'dismissOverlay':

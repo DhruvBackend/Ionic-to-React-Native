@@ -9,6 +9,7 @@ export interface Timeline {
   enterMs: number;
   leaveMs: number;
   easing: readonly [number, number, number, number];
+  leaveEasing?: readonly [number, number, number, number]; // when the leave transition uses another curve (modal md)
 }
 
 export function useOverlayLifecycle(cfg: Timeline, leaving: boolean, onEntered: () => void, onLeft: () => void) {
@@ -39,7 +40,7 @@ export function useOverlayLifecycle(cfg: Timeline, leaving: boolean, onEntered: 
     Animated.timing(progress, {
       toValue: 2,
       duration: cfg.leaveMs,
-      easing: Easing.bezier(...cfg.easing),
+      easing: Easing.bezier(...(cfg.leaveEasing ?? cfg.easing)),
       useNativeDriver: true,
     }).start();
     const t = setTimeout(() => left.current(), cfg.leaveMs);
