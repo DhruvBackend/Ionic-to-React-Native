@@ -8,8 +8,10 @@
 // - Returns Promises instead of RxJS Observables: React has no RxJS in its idioms and every
 //   Ionic caller only used .subscribe(success, error), which maps 1:1 to .then(success, error).
 // - Non-2xx responses reject with an HttpError, matching Angular HttpClient's error callback.
-// - In MOCK mode requests go to src/api/mock instead of the network.
-// - UI helpers (alert/loading/toast/mobile key filter) moved to src/ui/feedback.ts — they are UI, not HTTP.
+// - Every request is built the same way (URL, method, headers, body) and handed to a transport:
+//   the network in DEV/LIVE, src/api/mock in MOCK. Contract tests wrap the transport to check the
+//   exact request Ionic would have sent, whatever the mode.
+// - UI helpers (alert/loading/toast/mobile key filter) move to the Ionic replica kit (plan Task 9) — they are UI, not HTTP.
 import { jwtDecode } from 'jwt-decode';
 import { MODE, URLS } from '../config/env';
 import { mockRequest } from './mock';
@@ -104,15 +106,21 @@ class DbService {
   }
 }
 
-async function send(method: 'GET' | 'POST', serverURL: string, fn: string, headers: Headers, body?: any): Promise<any> {
-  if (MODE === 'MOCK') {
-    return mockRequest(method, fn, body, serverURL);
-  }
-  const res = await fetch(serverURL + fn, {
-    method,
-    headers,
-    body: method === 'POST' ? JSON.stringify(body) : undefined,
-  });
+// The fully built request, exactly as it would go over the wire.
+export interface ApiRequest {
+  method: 'GET' | 'POST';
+  url: string; // serverURL + fn
+  headers: Headers;
+  body?: string; // JSON text; undefined for GET
+  serverURL: string;
+  fn: string;
+  data?: any; // the body before JSON encoding (what the mock handlers receive)
+}
+
+export type Transport = (req: ApiRequest) => Promise<any>;
+
+const networkTransport: Transport = async req => {
+  const res = await fetch(req.url, { method: req.method, headers: req.headers, body: req.body });
   const text = await res.text();
   let data: any = text;
   try {
@@ -124,6 +132,30 @@ async function send(method: 'GET' | 'POST', serverURL: string, fn: string, heade
     throw new HttpError(res.status, data);
   }
   return data;
+};
+
+const mockTransport: Transport = req => mockRequest(req.method, req.fn, req.data, req.serverURL);
+
+let transport: Transport = MODE === 'MOCK' ? mockTransport : networkTransport;
+
+// Swap the transport (tests only: contract checks record requests, then pass them on).
+export function getTransport(): Transport {
+  return transport;
+}
+export function setTransport(t: Transport): void {
+  transport = t;
+}
+
+function send(method: 'GET' | 'POST', serverURL: string, fn: string, headers: Headers, data?: any): Promise<any> {
+  return transport({
+    method,
+    url: serverURL + fn,
+    headers,
+    body: method === 'POST' ? JSON.stringify(data) : undefined,
+    serverURL,
+    fn,
+    data,
+  });
 }
 
 // Single shared instance, like Angular's @Injectable() provider.

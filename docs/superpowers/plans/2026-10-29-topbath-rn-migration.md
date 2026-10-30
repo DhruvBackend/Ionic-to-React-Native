@@ -297,6 +297,20 @@ Also export `registerFixture(f: FixtureFile): void`.
 
 ### Task 6: Request-contract test framework
 
+**Status: DONE 2026-10-30.** Tests 47/47 (12 for the helper), `tsc` and `eslint .` clean.
+
+Deviations and additions:
+1. **Transport seam instead of switching `MODE`.** `src/api/client.ts` now always builds the full request (`ApiRequest`: method, url, headers, JSON body, serverURL, fn, data) and hands it to a `Transport`: network in DEV/LIVE, `mockRequest` in MOCK.
+   - `expectContract` wraps the transport with `getTransport()`/`setTransport()`, records the request and passes it on, so the call still gets its mock response.
+   - Nothing on the wire changed: the existing fetch-level tests (URL, headers, body) pass unchanged.
+2. **`expectContract(contract | endpoint, invoke, { loggedIn? })`** accepts an inline `Contract` object or an endpoint name (loaded from `src/api/contracts/`).
+   - It also asserts that `helper` and `headers` agree.
+   - `"body": "="` means the literal empty body `""` (Ionic's `app_version`), and `"body": null` means no body.
+   - Arrays are checked by the shape of their first element.
+3. **Pinned negative tests.** Every negative test is pinned to its specific mismatch (`/"otp"/`, `/Web/`, `/crm\/api\/app/`, `/Authorization/`…) so it can't pass for the wrong reason.
+4. **Test helpers folder.** `jest.config.js` `testPathIgnorePatterns` excludes `__tests__/helpers/`.
+5. **Agent docs.** `src/api/contracts/README.md` documents the format and rules for the S-task subagents.
+
 **Files:**
 - Create: `src/api/contracts/README.md`, `__tests__/helpers/contract.ts`
 - Test: `__tests__/contract-helper.test.ts`
