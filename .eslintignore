@@ -1,0 +1,2 @@
+# Files that break lint rules on purpose; __tests__/theme-i18n.test.ts lints them with --no-ignore.
+test-fixtures/

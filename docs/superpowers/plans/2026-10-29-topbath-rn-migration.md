@@ -205,6 +205,19 @@ test('schema rejects missing androidPackage', () => { expect(validate({ ...load(
 
 ### Task 4: Theme, i18n overrides and the no-brand lint rule
 
+**Status: DONE 2026-10-30.** Tests 25/25, `tsc` clean, project-wide `eslint .` clean.
+
+Deviations from the steps below:
+1. **Brand text in i18n is not split out yet.** The locale files contain far more brand text than the audit listed (Agmeco, Topsan, "VMS Bathwares", "Valve India" in Hindi, addresses), so a regex split would be guesswork.
+   - `src/i18n/locales/*` stay byte-identical to Topbath's Ionic files, which a test confirms.
+   - `clients/<id>/i18n/<lang>.json` overrides are merged on top: `buildResources(base, overrides)`, with client keys winning.
+   - Topbath has none, so `use-client` writes `{}` for each language into `src/i18n/client/`.
+   - The real template/brand split happens in **Phase 9**, by diffing two clients' locale files.
+2. **Theme exports both colour sets:** `ionicColors` (the `$colors` map) and `scssColors` (SCSS variables), plus `colors` with every previous value unchanged and `colors.statusBar` added.
+3. **Lint fixture location.** It lives in `test-fixtures/lint/brand-violation.tsx`, not `__tests__/`, because Jest would try to run it there. `.eslintignore` excludes it, and the test lints it with `--no-ignore`.
+4. **What the lint rule matches.** Besides plain literals, it also covers `TemplateElement` and `JSXText`, so brand names inside template strings and in JSX text are caught.
+5. **The Hindi test key** is `'About Topsan'`, because `'Are you sure you want Exit?'` is not in `hin.json`.
+
 **Files:**
 - Modify: `src/theme/index.ts` (colours from `client.colors`), `src/i18n/index.ts` (merge `clients/<id>/i18n` overrides, which `use-client` copies to `src/i18n/client/`), `.eslintrc.js`
 - Test: `__tests__/theme-i18n.test.ts`, plus a lint fixture `__tests__/lint/brand-violation.fixture.tsx`

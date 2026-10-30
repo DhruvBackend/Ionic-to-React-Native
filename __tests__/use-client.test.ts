@@ -62,6 +62,13 @@ test('generating topbath writes client.ts and client.properties', () => {
   expect(props).toMatch(/^appName=Topsan$/m);
 });
 
+test('topbath has no translation overrides, so every language gets an empty override file', () => {
+  run(['topbath', '--skip-assets']);
+  for (const lang of ['en', 'hin', 'nep', 'es']) {
+    expect(JSON.parse(read(`src/i18n/client/${lang}.json`))).toEqual({});
+  }
+});
+
 test('unknown client id fails with a non-zero exit', () => {
   expect(runStatus(['no-such-client', '--skip-assets'])).not.toBe(0);
 });

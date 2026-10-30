@@ -7,6 +7,7 @@
 // Writes:
 //   src/config/client.ts         typed config imported by the app (committed for topbath)
 //   android/client.properties    applicationId / versionName / versionCode / appName read by Gradle (git-ignored)
+//   src/i18n/client/<lang>.json  translation overrides from clients/<id>/i18n ({} when none)
 //   src/assets/client/*          logo + banner used by screens
 //   android/.../mipmap-*/        launcher icons, copied unchanged from the Ionic resources (1:1)
 import fs from 'node:fs';
@@ -18,6 +19,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CLIENTS = path.join(ROOT, 'clients');
 const DENSITIES = ['ldpi', 'mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'];
 const SCREEN_ASSETS = ['logo.png', 'banner.png'];
+const LANGUAGES = ['en', 'hin', 'nep', 'es'];
 
 function fail(msg) {
   console.error(`use-client: ${msg}`);
@@ -69,8 +71,18 @@ function generate(id, { skipAssets }) {
       `appName=${config.appName}\n`,
   );
 
+  writeI18nOverrides(config.assetsFrom || id);
   if (!skipAssets) copyAssets(config.assetsFrom || id);
   console.log(`use-client: ${id} selected (${config.androidPackage} ${config.versionName})`);
+}
+
+// Every language always gets a file (src/i18n/index.ts imports all four); {} means "no override".
+function writeI18nOverrides(sourceId) {
+  for (const lang of LANGUAGES) {
+    const from = path.join(CLIENTS, sourceId, 'i18n', `${lang}.json`);
+    const content = fs.existsSync(from) ? readJson(from) : {};
+    writeFile(`src/i18n/client/${lang}.json`, JSON.stringify(content, null, 2) + '\n');
+  }
 }
 
 function copyAssets(assetsId) {
