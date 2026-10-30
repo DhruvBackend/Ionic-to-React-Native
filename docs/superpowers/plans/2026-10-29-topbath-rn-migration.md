@@ -466,6 +466,32 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 9: Ionic md-mode replica kit and exact fonts
 
+**Done in parts.** Part 1 (fonts, icons, base values) is DONE (2026-10-30). Part 2 (popups), part 3 (pickers), part 4 (page structure) and part 5 (content controls) follow.
+
+**Part 1 — status.**
+- Tests 139/139; `tsc` and `eslint .` clean.
+- Verified on the Android 16 emulator in the debug-only `_ComponentGallery`: all faces, 600→Bold, italics, condensed, ₹, the Hindi fallback, all 16 Ionicons names and all 57 Material Icons names used by the app render.
+
+Findings and decisions:
+1. **Fonts** live in `android/app/src/main/assets/fonts/` (README there lists the sources).
+   - Roboto 300/400/400i/500/500i/700 and Roboto Condensed 400 come from Google Fonts **with `latin-ext`** (carries ₹), plus Material Icons.
+   - `ionicons.ttf` comes from npm `ionicons@3.0.0`; the shipped app's woff/woff2 are md5-identical to it, so **no fonttools needed**.
+   - Open Sans, Colfax and DS-Digital are referenced in the SCSS but never loaded, so they're not bundled and fall back to Roboto, as in Ionic.
+   - The shipped app bundles no Roboto of its own, so it's Google's.
+2. **`fontFor(weight, { italic, family })`** (`src/theme/typography.ts`) implements CSS font matching:
+   - 600 → Bold.
+   - Style is matched before weight: bold italic uses MediumItalic with bold synthesised.
+   - Condensed ≥600 gets bold synthesised.
+   - Screens must use it instead of `fontWeight` on default fonts.
+3. **Icons.** `IonIcon` (md- resolution, glyph map `src/components/ionic/ionicons3.json` from `scripts/gen-ionicons-map.mjs`, 934 names) and `MaterialIcon` (ligatures, 24px default).
+4. **Base values file location.** It's `src/theme/ionicMd.ts`, not `src/components/ionic/tokens.ts`, because the no-client-strings lint rule bans hex in `src/components`.
+   - Topbath's `variables.scss` overrides **none** of Ionic's 2,028 `!default` variables except `$colors`, `$font-path` and `$app-direction`, so Ionic defaults apply.
+   - Global selector overrides in `variables.scss` (e.g. toolbar or alert classes) are handled per control in parts 2–5.
+5. **Debug tools in sideloaded APKs.** `-PbundleDebugJs` bundles JS in release mode (`__DEV__` false), which silently disabled the debug links and the gallery.
+   - Added the native `BuildInfo` module (`BuildInfoPackage.kt`, `BuildConfig.DEBUG`) and `src/config/buildInfo.ts` `debugToolsEnabled`.
+   - Debug APKs (bundled or not) get the test tools; release builds don't.
+6. **Emulators.** AVDs `tb_api36` (Android 16) and `tb_api33` (Android 13), x86_64, are available for visual checks. Build `-PreactNativeArchitectures=x86_64` for them, and rebuild the arm APK for the phone afterwards (same output path).
+
 **Files:**
 - `src/components/ionic/*.tsx` (the replicas) and `src/components/{Header,WebEmbed,ImageViewer}.tsx`, exported from `src/components/index.ts`
 - `src/components/ionic/tokens.ts`: md-mode values copied from `ionic-angular@3.9.5` SCSS. Read them from `$IONIC/node_modules` or the npm tarball `ionic-angular-3.9.5/src/**/*.md.scss` and `src/themes/ionic.globals.md.scss`, and cite file:line for every value.

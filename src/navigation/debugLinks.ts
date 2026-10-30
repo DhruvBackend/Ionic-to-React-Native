@@ -1,7 +1,7 @@
 // Debug-only deep links, used by Maestro flows and the parity screenshots to open any screen in any
 // state: topbathrn://open?screen=<Name>&role=<Role>&lang=<code>
 //                         &variant=<endpoint:variant,...>&params=<url-encoded JSON>
-// Release builds ignore them (and the scheme is only registered in the debug manifest).
+// Only debug builds act on them (src/config/buildInfo.ts) (and the scheme is only registered in the debug manifest).
 export interface DebugLink {
   screen: string;
   role?: string;

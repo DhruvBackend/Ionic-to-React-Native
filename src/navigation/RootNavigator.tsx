@@ -7,6 +7,8 @@ import { Linking, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { db } from '../api/client';
+import { debugToolsEnabled } from '../config/buildInfo';
+import { ComponentGallery } from '../dev/ComponentGallery';
 import { setFixtureVariant } from '../api/mock';
 import i18n from '../i18n';
 import { parseDebugLink, type DebugLink } from './debugLinks';
@@ -50,11 +52,11 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
   const placeholders = REQUIRED_ROOT_ROUTES.filter(n => !names.has(n));
 
   useEffect(() => {
-    if (!__DEV__) {
+    if (!debugToolsEnabled) {
       return;
     }
     const handle = (url: string | null | undefined) => {
-      const link = url ? parseDebugLink(url, { dev: __DEV__ }) : null;
+      const link = url ? parseDebugLink(url, { dev: debugToolsEnabled }) : null;
       if (link) {
         applyDebugLink(link);
       }
@@ -70,6 +72,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
         <Root.Navigator initialRouteName={initialRouteName} screenOptions={{ headerShown: false }}>
           <Root.Screen name="Tabs" component={RoleTabs} />
           <Root.Screen name="Blank" component={BlankScreen} />
+          {debugToolsEnabled && <Root.Screen name="_ComponentGallery" component={ComponentGallery} />}
           {routes.map(r => (
             <Root.Screen
               key={r.name}
