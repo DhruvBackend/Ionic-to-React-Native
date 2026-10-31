@@ -7,8 +7,12 @@ import { IonIcon } from '../components/ionic/IonIcon';
 import { IonDatetime } from '../components/ionic/IonDatetime';
 import { IonicSelectable } from '../components/ionic/IonicSelectable';
 import { IonSelect } from '../components/ionic/IonSelect';
+import { IonBarButton, Header } from '../components/ionic/IonNavbar';
+import { IonTabButton } from '../components/ionic/IonTabs';
 import { MaterialIcon } from '../components/ionic/MaterialIcon';
 import { SelectSearchable } from '../components/ionic/SelectSearchable';
+import { navigationRef } from '../navigation/navigationRef';
+import { tabsFor } from '../navigation/tabs';
 import { fontFor } from '../theme/typography';
 import {
   showActionSheet,
@@ -326,9 +330,51 @@ function PickersSection() {
   );
 }
 
+// Page structure (plan Task 9 part 4): the header patterns of the Ionic pages, every tab set, the page transition.
+function PageStructureSection() {
+  const [sel, setSel] = useState<Record<string, number>>({});
+  const roles = ['Plumber', 'Sales_Executive', 'Customer'];
+  const noop = () => undefined;
+  return (
+    <View testID="gallery-page-structure">
+      <Text style={styles.h}>Navbar variants (back button forced on)</Text>
+      <Text style={styles.label}>main-header remove + primary (47 pages)</Text>
+      <Header mainHeader remove color="primary" title="my offer" showBack onBack={noop} end={<IonBarButton icon="md-add-circle" color="light" />} />
+      <Text style={styles.label}>main-header + primary (back and buttons hidden, shadow)</Text>
+      <Header mainHeader color="primary" title="Offers" showBack end={<IonBarButton icon="md-add-circle" />} />
+      <Text style={styles.label}>plain ion-navbar</Text>
+      <Header title="Plain navbar" showBack onBack={noop} end={<IonBarButton icon="md-more" />} />
+      <Text style={styles.label}>color primary + ion-buttons end (color light)</Text>
+      <Header color="primary" title="Executive Detail" showBack onBack={noop} end={<IonBarButton icon="md-more" color="light" />} />
+      <Text style={styles.label}>class h80, color white (login pages)</Text>
+      <Header color="white" tall noBorder title="" showBack onBack={noop} />
+      <Text style={styles.label}>menuToggle, no back button</Text>
+      <Header color="primary" title="Menu toggle" menuToggle />
+
+      <Text style={styles.h}>Tab bars (tap to select)</Text>
+      {roles.map(role => (
+        <View key={role} style={styles.tabRow} testID={`gallery-tabs-${role}`}>
+          <Text style={styles.label}>{role}</Text>
+          <View style={styles.tabBar}>
+            {tabsFor(role).map((t, i) => (
+              <IonTabButton key={t.icon} icon={t.icon} label={t.title} selected={(sel[role] ?? 0) === i} onPress={() => setSel(v => ({ ...v, [role]: i }))} testID={`gallery-tab-${role}-${t.icon}`} />
+            ))}
+          </View>
+        </View>
+      ))}
+
+      <Text style={styles.h}>Page transition</Text>
+      <Pressable testID="gallery-push-page" style={styles.btn} onPress={() => navigationRef.navigate('Blank')}>
+        <Text style={styles.btnText}>Push a blank page (slides up 40 px, 280 ms); hardware back pops it (200 ms)</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 export function ComponentGallery() {
   return (
     <ScrollView contentContainerStyle={styles.page} testID="component-gallery">
+      <PageStructureSection />
       <PickersSection />
 
       <Text style={styles.h}>Popups</Text>
@@ -397,4 +443,6 @@ const styles = StyleSheet.create({
   btn: { padding: 8, marginVertical: 2, backgroundColor: '#e8e8e8' },
   btnText: { fontSize: 13 },
   edit: { marginHorizontal: 0 },
+  tabRow: { marginBottom: 8 },
+  tabBar: { flexDirection: 'row' },
 });

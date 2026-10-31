@@ -257,3 +257,24 @@ The process was the same as part 2: a Sonnet implementer, an independent Sonnet 
 - **Separate building the request from sending it.** Tests can check the exact URL, headers and body (`expectContract`) without any network.
 
 **Interview angle:** "How do you manage environments in a mobile app?" → per-client config holds each environment's URLs; one mode switch with a safe default; tests pinned to mocks; a transport seam so the same request code serves real servers, mocks and contract tests.
+
+## 2026-11-01 — Task 9 part 4: page structure
+
+**What:**
+- The Ionic header bar (`IonNavbar`), covering every header pattern used across the 110 pages.
+- The bottom tab bar (`IonTabBar`), with Topbath's SVG tab icons as white-label client assets.
+- Ionic's page and modal animations, through a small custom stack navigator (`IonStack`).
+
+The process was the same as parts 2–3: a Sonnet implementer, an independent Sonnet reviewer (7 findings), fixes, then my own checks on the Android 16 emulator.
+
+**Why:** Every one of the 117 screens sits inside this frame. If the header, tab bar or page animation is wrong, every screen is wrong.
+
+**Learned:**
+- **The plan can be wrong; the source can't.** The plan said pages slide 56px. Ionic 3.9.5's `transition-md.js` says 40px. The modal is 280 ms, not 400 ms. Re-read the framework source instead of trusting a summary, including your own.
+- **Not every navigation animates.** In Ionic, `setRoot` (login → home, logout) is instant, because `setPages` defaults `animate` to false. Only push and pop animate, and only one page moves (the entering page on push, the leaving page on pop).
+- **Library limits can force a custom piece.** React Navigation's native-stack uses fixed Android animations. Rather than add a gesture library, the implementer built a small stack on React Navigation's own `StackRouter`, so routing, params and focus events stay standard and only the drawing is custom.
+- **Concurrency is part of parity.** Ionic queues navigation while a page is animating. Without a queue, pressing Back mid-animation made the page jump. Now it's queued, as in Ionic.
+- **Invalid CSS is real behaviour.** `.tabbar a:gt(3)` is jQuery syntax; browsers drop the rule, so all five tabs show. Copy what the browser did, not what the author meant.
+- **Check memory before heavy work.** The emulator and Gradle together got killed for low memory; running them one after the other worked.
+
+**Interview angle:** "How do you reproduce one framework's navigation in another?" → read the source for which transitions animate (push vs setRoot), which page moves, the timings and curves, and the concurrency rules (queueing), then pin each with a test. Write a custom navigator only when the library can't match, and keep the library's router.

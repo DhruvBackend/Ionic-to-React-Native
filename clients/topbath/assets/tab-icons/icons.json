@@ -1,0 +1,11 @@
+{
+  "_source": "Ionic src/theme/variables.scss:1570-1650 (ion-tabs .tabbar a ion-icon.ion-md-tab-*): background url + background-size per tabIcon name; SVG files copied unchanged from src/assets/icon/",
+  "tab-home": { "file": "tab-home.svg", "size": 20 },
+  "tab-arrivals": { "file": "arrivals.svg", "size": 20 },
+  "tab-contact": { "file": "contect.svg", "size": 20 },
+  "tab-about": { "file": "about.svg", "size": 20 },
+  "tab-gift": { "file": "arrivals.svg", "size": 20 },
+  "tab-menu": { "file": "menu.svg", "size": 20 },
+  "tab-profile": { "file": "profile.svg", "size": 20 },
+  "tab-points": { "file": "my-point.svg", "size": 18 }
+}

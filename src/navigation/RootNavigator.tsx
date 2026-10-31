@@ -5,7 +5,6 @@
 import React, { useEffect } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { db } from '../api/client';
 import { debugToolsEnabled } from '../config/buildInfo';
 import { ComponentGallery } from '../dev/ComponentGallery';
@@ -14,12 +13,14 @@ import i18n from '../i18n';
 import { parseDebugLink, type DebugLink } from './debugLinks';
 import { navigationRef, resetTo } from './navigationRef';
 import { placeholderFor } from './PlaceholderScreen';
+import { createIonStackNavigator } from './IonStack';
 import { RoleTabs } from './RoleTabs';
 import { enabledRoutes } from './routes';
 import { SideMenuProvider } from './SideMenu';
 import { notifyPageChange } from '../ui/overlays';
 
-const Root = createNativeStackNavigator();
+// Pages move like Ionic's ion-nav / ModalController (IonStack, plan Task 9 part 4).
+const Root = createIonStackNavigator();
 
 // Ionic OverlayPortal dismisses dismissOnPageChange overlays on app.viewDidLeave, which fires when the
 // leaving page's transition has finished: md-transition.js:22 push 280 ms, :19 pop 200 ms.
@@ -85,7 +86,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
   return (
     <SideMenuProvider>
       <NavigationContainer ref={navigationRef} onStateChange={onNavigationStateChange}>
-        <Root.Navigator initialRouteName={initialRouteName} screenOptions={{ headerShown: false }}>
+        <Root.Navigator initialRouteName={initialRouteName}>
           <Root.Screen name="Tabs" component={RoleTabs} />
           <Root.Screen name="Blank" component={BlankScreen} />
           {debugToolsEnabled && <Root.Screen name="_ComponentGallery" component={ComponentGallery} />}

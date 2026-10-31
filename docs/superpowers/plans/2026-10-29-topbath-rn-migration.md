@@ -466,7 +466,37 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 9: Ionic md-mode replica kit and exact fonts
 
-**Done in parts.** Part 1 (fonts, icons, base values), part 2 (popups) and part 3 (pickers) are DONE. Part 4 (page structure) and part 5 (content controls) follow.
+**Done in parts.** Part 1 (fonts, icons, base values), part 2 (popups), part 3 (pickers) and part 4 (page structure) are DONE. Part 5 (content controls) follows.
+
+**Part 4 — status** (2026-11-01).
+- Process as before: a Sonnet implementer, an independent Sonnet reviewer (7 findings), all fixed.
+- Tests 283/283; `tsc` and `eslint .` clean.
+- Checked on the Android 16 emulator: every navbar variant and tab set in the gallery, push and pop, and hardware back during a push (it is queued, then pops).
+
+What landed:
+- `IonNavbar` (+ `Header`, `IonHeader`, `IonToolbar`, `IonTitle`, `IonButtons`, `IonBarButton`). Supports every header pattern used by the 110 page `.html` files: `main-header`, `main-header remove`, `no-border`, plain, primary/white/light, `h80`, `toolbarHeight`, `ion-buttons end`, `menuToggle`.
+- `IonTabBar` / `IonTabButton` as the bottom-tabs `tabBar`. Topbath's SVG tab icons are client assets (`clients/topbath/assets/tab-icons/` + `icons.json`), embedded by `scripts/use-client.mjs` into `src/assets/client/tabIcons.ts`.
+- `IonStack` (`src/navigation/IonStack.tsx`, `pageTransition.ts`): a small JS stack on React Navigation's `StackRouter`, because native-stack cannot do Ionic's offsets, durations and curves on Android. No new dependencies.
+- Values with citations are in `src/theme/ionicMdPage.ts`.
+
+Corrections to this plan, from the Ionic 3.9.5 source:
+- The md page transition offset is **40px**, not 56px (`transition-md.js`). Push: entering page only, 280 ms, `cubic-bezier(.36,.66,.04,1)`. Pop: leaving page only, 200 ms, `cubic-bezier(.47,0,.745,.715)`.
+- The md modal transition is 280 ms in / 200 ms out (`ModalMDSlideIn/Out`), not 400 ms.
+
+Behaviour copied:
+- `setRoot`/reset is instant (`nav-controller-base.js:145-152`: `setPages` defaults `animate` to false).
+- Navigation arriving during a transition is queued and run afterwards (Ionic `_queueTrns`).
+- Modal pages show no back button (`view-controller.js:169-178` `enableBack`).
+- Re-tapping the selected tab pops its stack to the root; tab switches are not animated.
+- `.tabbar a:gt(3)` is invalid CSS and is dropped (all five tabs show); tabs have no ripple; `tab-gift` draws `arrivals.svg`.
+
+**To check in the Task 11 parity harness:**
+- Tab label truncation ("New Arriva…" in the customer tab set): Ionic has both `text-overflow:ellipsis; white-space:nowrap` and a `white-space:normal` rule in main.css; confirm which wins.
+- Icon vertical position in icon-only bar buttons (Ionic line-height .67).
+- Navbar and tab-bar shadows drawn over page content.
+
+Not built: the `Tabs.select` setRoot fallback (unreachable in this app; NOTE in `IonTabs.tsx`).
+
 
 **Part 3 — status** (2026-10-31).
 - Process as in part 2: a Sonnet implementer, then an independent Sonnet reviewer (9 findings: 7 confirmed, 2 plausible), then 8 fixed.

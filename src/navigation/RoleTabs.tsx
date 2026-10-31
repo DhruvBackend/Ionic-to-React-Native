@@ -3,25 +3,28 @@
 // own navigation stack, and pages pushed from a tab stay inside it with the tab bar visible.
 // So each tab here is a native stack that can show any card route, starting at the tab's root page.
 // Modal routes live only in the root stack, so they open above the tabs like Ionic overlays.
-// The tab bar's Ionic look (md mode, SVG tab icons) comes from the replica kit (plan Task 9).
+// The tab bar's Ionic look (md mode, SVG tab icons) is IonTabBar; the stacks inside a tab move pages like Ionic's
+// ion-nav (IonStack, plan Task 9 part 4).
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator, type BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { db } from '../api/client';
+import { IonTabBar } from '../components/ionic/IonTabs';
+import { createIonStackNavigator } from './IonStack';
 import { enabledRoutes, findRoute } from './routes';
 import { placeholderFor } from './PlaceholderScreen';
 import { tabsFor, type TabDef } from './tabs';
 
 const Tab = createBottomTabNavigator();
-const TabStack = createNativeStackNavigator();
+const renderTabBar = (props: BottomTabBarProps) => <IonTabBar {...props} />;
+const TabStack = createIonStackNavigator();
 
 function TabStackFor({ tab }: { tab: TabDef }) {
   const root = findRoute(tab.route);
   const others = enabledRoutes().filter(r => r.presentation === 'card' && r.name !== tab.route);
   return (
-    <TabStack.Navigator initialRouteName={tab.route} screenOptions={{ headerShown: false }}>
+    <TabStack.Navigator initialRouteName={tab.route}>
       <TabStack.Screen name={tab.route} component={root?.component ?? placeholderFor(tab.route)} />
       {others.map(r => (
         <TabStack.Screen key={r.name} name={r.name} component={r.component} />
@@ -45,7 +48,12 @@ export function RoleTabs({ route }: { route: { params?: { index?: number | strin
 
   return (
     // backBehavior none: the Ionic back rules (src/app/backButton.ts) decide, not the tab bar.
-    <Tab.Navigator initialRouteName={initial.icon} backBehavior="none" screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      initialRouteName={initial.icon}
+      backBehavior="none"
+      tabBar={renderTabBar}
+      screenOptions={{ headerShown: false }}
+    >
       {tabs.map(tab => (
         <Tab.Screen key={tab.icon} name={tab.icon} options={{ title: t(tab.title) }}>
           {() => <TabStackFor tab={tab} />}

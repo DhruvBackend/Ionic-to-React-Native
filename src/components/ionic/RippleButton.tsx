@@ -19,6 +19,9 @@ export interface RippleButtonProps {
   activatedStyle?: StyleProp<ViewStyle>; // the style of `.activated`
   rippleColor?: string;
   disabled?: boolean;
+  // Ionic buttons that are not `button-md` (e.g. toolbar bar-buttons) do not clip the ripple circle; the toolbar does.
+  clip?: boolean;
+  hitSlop?: { left?: number; right?: number; top?: number; bottom?: number };
   testID?: string;
   accessibilityRole?: 'button' | 'radio' | 'checkbox';
   accessibilityState?: { checked?: boolean; disabled?: boolean };
@@ -38,6 +41,8 @@ export function RippleButton({
   activatedStyle,
   rippleColor = overlay.rippleColor,
   disabled,
+  clip = true,
+  hitSlop,
   testID,
   accessibilityRole = 'button',
   accessibilityState,
@@ -106,6 +111,7 @@ export function RippleButton({
     <Pressable
       testID={testID}
       disabled={disabled}
+      hitSlop={hitSlop}
       accessibilityRole={accessibilityRole}
       accessibilityState={accessibilityState}
       onLayout={e => {
@@ -152,7 +158,7 @@ export function RippleButton({
       }}
       style={[
         style,
-        styles.clip,
+        clip && styles.clip,
         activated && activatedStyle,
         disabled && styles.disabled,
       ]}
