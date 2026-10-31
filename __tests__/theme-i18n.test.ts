@@ -52,3 +52,20 @@ test('lint flags hex colours, brand words and URLs in screens and components', (
   const messages = JSON.parse(out)[0].messages.filter((m: any) => m.ruleId === 'no-restricted-syntax');
   expect(messages.map((m: any) => m.line).sort()).toEqual([3, 4, 5]);
 });
+
+test('lint flags Alert.alert, ToastAndroid, datetimepicker and vector-icons in screens', () => {
+  const root = path.resolve(__dirname, '..');
+  let out = '';
+  try {
+    out = execFileSync('npx', ['eslint', '--no-ignore', '-f', 'json', 'test-fixtures/lint/screens-violation.tsx'], {
+      cwd: root,
+      encoding: 'utf8',
+      shell: true,
+    });
+  } catch (e: any) {
+    out = e.stdout;
+  }
+  const messages = JSON.parse(out)[0].messages.filter((m: any) => m.ruleId === 'no-restricted-syntax');
+  // line 4 holds two bans (the Alert and ToastAndroid imports)
+  expect(messages.map((m: any) => m.line).sort((a: number, b: number) => a - b)).toEqual([4, 4, 5, 6, 10, 11]);
+});

@@ -466,7 +466,40 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 9: Ionic md-mode replica kit and exact fonts
 
-**Done in parts.** Part 1 (fonts, icons, base values), part 2 (popups), part 3 (pickers) and part 4 (page structure) are DONE. Part 5 (content controls) follows.
+**Done in parts.** All five parts are DONE: part 1 (fonts, icons, base values), part 2 (popups), part 3 (pickers), part 4 (page structure) and part 5 (content controls).
+
+**Part 5 — status** (2026-11-01).
+- Built by two Sonnet implementers in parallel (5A forms/lists, 5B scrolling/interactive), each reviewed by its own independent Sonnet reviewer (14 + 20 findings), then fixed by fresh fixer agents (the original agents could not be resumed after a session restart).
+- Tests 389/389; `tsc` and `eslint .` clean (warnings only).
+- Checked on the Android 16 emulator: pull-to-refresh (pull, ready arrow, circles spinner, complete), infinite scroll (bubbles, 30 → 60 rows), fab, segments (Topbath and md default), searchbars, slides, buttons, radio list, checkboxes, cs-input / plain / `.edit` floating fields, card, grid.
+- Usage survey (HTML comments stripped): ion-item 324, ion-input 208, ion-label 324 (222 floating), button ion-button 101, ion-refresher 29, ion-infinite-scroll 26, ion-searchbar 20, ion-slides 12, ion-segment 5, ion-fab 5, iframes 5. Unused, so not built: toggle, badge, avatar, thumbnail, note, item-divider, item-sliding, range, card-title/content.
+
+What landed:
+- 5A: `IonContent` (+ `IonGrid/Row/Col`), `IonButton`, `IonList/IonListHeader/IonItem/IonLabel`, `IonInput/IonTextarea/IonInputItem`, `IonRadioGroup/IonRadio/IonCheckbox`, `IonCard`. Values are in `src/theme/ionicMdContent.ts`; `ionPadding` covers `[padding]` on non-content elements.
+- 5B: `IonSegment`, `IonSearchbar`, `IonSpinner` (bubbles, circles), `IonRefresher`, `IonInfiniteScroll`, `IonFab`, `IonSlides`, `WebEmbed` (react-native-webview 14.0.1, builds on RN 0.88 New Architecture) and `ImageViewer` (the ViewProfilePage modal, not a plugin). Values are in `src/theme/ionicMdScroll.ts`.
+- `IonContent` is the single ion-content: it hosts the scroll context, the refresher and infinite scroll (`IonScrollView` removed).
+- Pull-to-refresh is driven by native scrolling into a transparent spacer above scrollTop 0, not by a JS gesture (a PanResponder loses the touch to Android's ScrollView). The scroll content is opaque below the spacer, so the refresher only shows through the pulled gap.
+- Lint: `src/screens/**` also bans `Alert.alert`, `ToastAndroid`, `@react-native-community/datetimepicker` and `react-native-vector-icons`.
+- Reference sources moved to the git-ignored `.reference/` folder (npm tarballs + `main.css` from `topsan.aab`), excluded from Jest, tsc, eslint and Metro.
+
+Behaviour copied (`NOTE (parity)` in code):
+- `TimeoutDebouncer(0)` runs synchronously (`util/debouncer.js:12-13`): checkbox and segment `ionChange` fire immediately, before the page's `(click)`.
+- Radio group: the null first write is skipped, then the initial model value emits `ionChange` once (even when undefined); re-tapping the selected radio emits again. The checkbox `ionChange` payload is `{ checked, value, disabled }`.
+- Slides autoplay stops for good after wrapping to slide 0 (Swiper `slideTo` without the internal flag). The period is 3300 ms, and a drag stops autoplay.
+- Searchbar: `ionInput` is debounced 250 ms, `ngModelChange` is immediate, `ionClear` fires twice per tap, and the default type is `search`.
+- Refresher `pullMax` is fixed at 120; scrolling is frozen while refreshing, cancelling or completing.
+- **The plain floating label is half clipped at rest.** Topbath's `input{margin:0!important}` removes the input margins, so the label overflows the `overflow:hidden` wrapper. Confirmed by rendering the Ionic markup with the shipped `main.css` in headless Chrome (`.reference/render/float.html`).
+- 3 iframes keep the default inset border because of the `rameborder` typo.
+
+Bugs found only on the emulator (all tests passed):
+- `ion-slides{height:100%}` made the slides as tall as the whole page in RN; CSS treats it as auto here.
+- The refresher text showed through content that has no background.
+- The floating input collapsed to 0 height: `flex:1` means basis 0 in RN, but content height in CSS for an auto-height column.
+
+**To check in the Task 11 parity harness:**
+- Line heights: RN `normalLineHeight` gives 19 where Chrome measures 18 at 16px, so plain items and floating fields may be 1dp taller.
+- Webview inset border colours, pager bullet offset (~3-4px), refresher and infinite-scroll heights, slide swipe physics, search icon crop, the Android scroll indicator.
+- Typed-text capitalize in searchbars can't be reproduced; only the placeholder is capitalized.
 
 **Part 4 — status** (2026-11-01).
 - Process as before: a Sonnet implementer, an independent Sonnet reviewer (7 findings), all fixed.

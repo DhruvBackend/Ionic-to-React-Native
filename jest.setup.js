@@ -11,3 +11,10 @@ jest.mock('react-native-safe-area-context', () => require('react-native-safe-are
 // Tests never touch a server: force MOCK regardless of the app's default (DEV).
 // A test file may override this with its own jest.mock('../src/config/env', ...).
 jest.mock('./src/config/env', () => ({ ...jest.requireActual('./src/config/env'), MODE: 'MOCK' }));
+
+// react-native-webview has no native module under Jest (plan Task 9 part 5B, WebEmbed): a plain View stands in.
+jest.mock('react-native-webview', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  return { __esModule: true, WebView: props => React.createElement(View, props) };
+});

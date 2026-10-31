@@ -278,3 +278,27 @@ The process was the same as parts 2–3: a Sonnet implementer, an independent So
 - **Check memory before heavy work.** The emulator and Gradle together got killed for low memory; running them one after the other worked.
 
 **Interview angle:** "How do you reproduce one framework's navigation in another?" → read the source for which transitions animate (push vs setRoot), which page moves, the timings and curves, and the concurrency rules (queueing), then pin each with a test. Write a custom navigator only when the library can't match, and keep the library's router.
+
+## 2026-11-01 — Task 9 part 5: content controls
+
+**What:** The last set of building blocks.
+- Forms and lists: buttons, list rows, inputs, radio buttons, checkboxes, cards, grid.
+- Scrolling and interaction: in-page tabs, search bars, pull-to-refresh, load-more-on-scroll, floating button, image sliders, embedded web pages, image viewer.
+
+Two Sonnet builders worked in parallel, each with its own independent reviewer (34 findings in total), then fixers, then my own emulator checks.
+
+**Why:** Every Topsan screen is built from these blocks. A usage survey came first (324 list rows, 208 inputs, 29 pull-to-refresh pages and so on) to decide what to build, and 9 unused Ionic components were skipped.
+
+**Learned:**
+- **Tests pass, the screen is still wrong.** Three bugs only showed on the emulator:
+  - `height:100%` blanked the rest of the page.
+  - The refresher text showed through the list.
+  - A text field collapsed to zero height.
+
+  The cause each time: CSS and React Native's layout engine (Yoga) read the same words differently. In CSS, `flex:1` on an auto-height column means "content height"; in RN it means basis 0. A % height of an auto-height parent is ignored in CSS, but not in RN.
+- **Check "is it a bug?" against the real thing.** The floating label still looked broken after the fix. Rendering Ionic's own markup with Topsan's shipped CSS in headless Chrome showed the real app clips it the same way, because of a global `input{margin:0!important}` rule. So it's copied as a quirk, with the proof noted in the code.
+- **Reviewers can be wrong too; the source decides.** A reviewer said Ionic's 0 ms debouncer fires later. The fixer read `debouncer.js`: `wait <= 0` runs the callback immediately. I then found the same wrong assumption in the checkbox and fixed it.
+- **Native gestures beat JS gestures on Android.** A JS pan handler for pull-to-refresh can lose the touch to the native ScrollView. Driving the pull with real native scrolling, into a hidden spacer above the content, avoids the fight completely.
+- **Keep reference material out of temp folders.** The session's temp folder disappeared on restart. The Ionic sources now live in a git-ignored `.reference/` folder in the project, excluded from tests, the type checker and the bundler.
+
+**Interview angle:** "Your tests pass — how do you know the UI is right?" → tests check logic and style values, but layout engines differ (CSS vs Yoga). Look at the real device, and when something looks off, render the original with its real CSS to decide whether it's your bug or the original's behaviour.

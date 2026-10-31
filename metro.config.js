@@ -6,6 +6,7 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
  *
  * @type {import('@react-native/metro-config').MetroConfig}
  */
-const config = {};
+// .reference holds downloaded Ionic sources for parity work (git-ignored); keep Metro out of it.
+const config = { resolver: { blockList: [/[\\/]\.reference[\\/].*/] } };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

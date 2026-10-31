@@ -81,3 +81,6 @@ android/client.properties
 .env*
 parity/out/
 parity/reference/work/
+
+# Ionic reference sources (downloaded npm tarballs, CSS extracted from topsan.aab); not committed
+/.reference/

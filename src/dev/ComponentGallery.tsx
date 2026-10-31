@@ -4,6 +4,8 @@
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IonIcon } from '../components/ionic/IonIcon';
+import { ContentSection } from './gallery/ContentSection';
+import { ScrollSection } from './gallery/ScrollSection';
 import { IonDatetime } from '../components/ionic/IonDatetime';
 import { IonicSelectable } from '../components/ionic/IonicSelectable';
 import { IonSelect } from '../components/ionic/IonSelect';
@@ -376,6 +378,8 @@ export function ComponentGallery() {
     <ScrollView contentContainerStyle={styles.page} testID="component-gallery">
       <PageStructureSection />
       <PickersSection />
+      <ScrollSection />
+      <ContentSection />
 
       <Text style={styles.h}>Popups</Text>
       {POPUPS.map(([label, open]) => (

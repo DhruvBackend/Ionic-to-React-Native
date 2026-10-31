@@ -5,11 +5,14 @@
 //   'edit'               a plain `ion-item` inside `.edit ion-list` (add-leave, travel-add; the page of `<ion-label floating>`)
 //   'editCsSelect' 'editCsNormalSelect' 'editCsSelectable'
 //                        `.edit ion-list ion-item.cs-select | cs-normal-select | cs-selectable`
+//   'csInput'            `.main-field .cs-form ion-list ion-item.cs-input` ion-input / ion-textarea (part 5A, ionicMdContent.ts inputMd.csInput)
+//   'editTextarea'       `.edit ion-list ion-item.cs-textarea1` (part 5A, inputMd.editTextarea)
 // `floating` is `<ion-label floating>`. Values and citations: src/theme/ionicMdPickers.ts.
 // Other page-level containers (.common_form, .enquiry ...) belong to the screen that uses them: `itemStyle`.
 import React, { createContext, useContext } from 'react';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { ionicColors } from '../../theme';
+import { inputMd, listMd } from '../../theme/ionicMdContent';
 import { csForm, datetimeMd, editForm, itemMd, selectableMd, selectMd } from '../../theme/ionicMdPickers';
 import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { textStyle } from './text';
@@ -24,7 +27,9 @@ export type FieldVariant =
   | 'edit'
   | 'editCsSelect'
   | 'editCsNormalSelect'
-  | 'editCsSelectable';
+  | 'editCsSelectable'
+  | 'csInput'
+  | 'editTextarea';
 
 export interface FieldSpec {
   variant: FieldVariant;
@@ -32,9 +37,21 @@ export interface FieldSpec {
   select: { maxWidthPct: number; pad: Pad; fontSize: number; textColor: string; placeholderColor: string; lineHeight?: number; arrowColor: string; border?: string };
   datetime: { pad: Pad; fontSize: number; border?: string; height?: number; textPaddingLeft: number; fullWidth: boolean };
   selectable: { pad: Pad; fontSize: number; wrap: boolean; breakAll: boolean; arrowCentred: boolean };
+  // ion-input / ion-textarea inside the item (part 5A; values and citations in ionicMdContent.ts inputMd)
+  input: { fontSize: number; color: string; pad: Pad; height?: number; widthInset: number };
+  textarea: {
+    color: string;
+    fontSize: number;
+    height: number;
+    margin: Pad;
+    widthInset: number;
+    pad: number;
+    border?: string;
+    containerPad: number;
+  };
 }
 
-const isEdit = (v: FieldVariant) => v === 'edit' || v.startsWith('editCs');
+const isEdit = (v: FieldVariant) => v === 'edit' || v === 'editTextarea' || v.startsWith('editCs');
 
 export function resolveField(variant: FieldVariant, floating: boolean): FieldSpec {
   const sm = selectMd.padding;
@@ -61,6 +78,40 @@ export function resolveField(variant: FieldVariant, floating: boolean): FieldSpe
     breakAll: false,
     arrowCentred: false,
   };
+  const inset = floating ? inputMd.floatingWidthInset : inputMd.widthInset;
+  const input: FieldSpec['input'] = { fontSize: inputMd.fontSize, color: itemMd.textColor, pad: { top: 0, right: 0, bottom: 0, left: 0 }, widthInset: inset };
+  const tm = floating ? inputMd.textareaFloatingMargin : inputMd.textareaMargin;
+  const textarea: FieldSpec['textarea'] = {
+    color: itemMd.textColor,
+    fontSize: inputMd.textareaFontSize,
+    height: inputMd.textareaHeight,
+    margin: { ...tm },
+    widthInset: inset,
+    pad: 0,
+    containerPad: 0,
+  };
+  if (variant === 'csInput') {
+    const c = inputMd.csInput;
+    input.fontSize = c.inputFontSize;
+    input.pad = { ...c.inputPadding };
+    input.widthInset = 0; // width: 100%
+    textarea.containerPad = c.textareaPadding; // ion-textarea { padding: 10px 10px !important }
+  }
+  if (isEdit(variant)) {
+    input.fontSize = inputMd.edit.fontSize;
+    input.color = inputMd.edit.color;
+    input.pad.left = inputMd.edit.paddingLeft;
+    input.height = inputMd.edit.height;
+  }
+  if (variant === 'editTextarea') {
+    const t = inputMd.editTextarea;
+    textarea.fontSize = t.fontSize;
+    textarea.height = t.height;
+    textarea.margin = { top: 0, right: 0, bottom: 0, left: 0 }; // margin: 0 !important
+    textarea.widthInset = 0; // width: 100%
+    textarea.pad = t.padding;
+    textarea.border = t.borderColor;
+  }
   if (variant === 'csSelect') {
     const c = csForm.csSelect;
     select.maxWidthPct = c.selectMaxWidthPct;
@@ -108,7 +159,7 @@ export function resolveField(variant: FieldVariant, floating: boolean): FieldSpe
     selectable.breakAll = variant === 'editCsSelect';
     selectable.arrowCentred = true; // only effective for <select-searchable>, see IonicSelectable's box
   }
-  return { variant, floating, select, datetime, selectable };
+  return { variant, floating, select, datetime, selectable, input, textarea };
 }
 
 const FieldContext = createContext<FieldSpec>(resolveField('plain', false));
@@ -125,6 +176,14 @@ export interface IonFieldProps {
   focused?: boolean;
   underline?: { color: string; inset: boolean } | null; // item-input md underline states (ionic-selectable, plain only)
   itemStyle?: StyleProp<ViewStyle>;
+  // set by IonList (see IonList.tsx): `.list-md > .item-block:last-child .item-inner { border-bottom: 0 }` and [no-lines]
+  isLast?: boolean;
+  noLines?: boolean;
+  // item-input: the last such item keeps a 1px bottom border on the ITEM (`.list-md .item-input:last-child`, [CSS] 14863)
+  inputItem?: boolean;
+  // floating item: the height of the control below the label; the column wrapper reserves label + this so the item grows to its content
+  // (item min-height is only a MIN, and a shrinkable column must not squeeze label / input to fit it)
+  contentMinHeight?: number;
   // button.item-cover: its nearest positioned ancestor is the ion-item (ion-select/datetime are not positioned), so it covers the whole item
   cover?: { onPress: () => void; disabled?: boolean };
   testID?: string;
@@ -142,6 +201,10 @@ export function IonField({
   focused,
   underline,
   itemStyle,
+  isLast,
+  noLines,
+  inputItem,
+  contentMinHeight,
   cover,
   testID = 'ion-field',
   children,
@@ -150,6 +213,7 @@ export function IonField({
   const edit = isEdit(variant);
   const mainCs = variant === 'csSelect' || variant === 'csDate';
   const isSelect = variant === 'csSelect';
+  const csInput = variant === 'csInput';
 
   // ---- item ------------------------------------------------------------------------------------------------
   const item: Mutable<ViewStyle> = {
@@ -171,6 +235,12 @@ export function IonField({
       item.marginVertical = csForm.csSelect.marginVertical;
     }
   }
+  if (csInput) {
+    // [T] 920-923 min-height 45, padding-left 0, margin 16px 0 (the border is on .item-inner, see below)
+    item.minHeight = inputMd.csInput.minHeight;
+    item.paddingLeft = inputMd.csInput.paddingLeft;
+    item.marginVertical = inputMd.csInput.marginVertical;
+  }
   if (variant === 'editCsSelect') {
     item.minHeight = editForm.csSelect.minHeight;
     item.marginBottom = editForm.csSelect.marginBottom;
@@ -190,13 +260,25 @@ export function IonField({
     alignItems: 'center',
     alignSelf: 'stretch',
     overflow: 'hidden',
-    paddingRight: mainCs ? csForm.innerPaddingRight : edit ? editForm.innerPaddingRight : itemMd.innerPaddingRight,
+    paddingRight: mainCs || csInput ? csForm.innerPaddingRight : edit ? editForm.innerPaddingRight : itemMd.innerPaddingRight,
     // .edit .item-inner { border: none !important }; cs-select: border-bottom 0 !important
     borderBottomWidth: edit ? 0 : isSelect ? csForm.csSelect.innerBorderBottomWidth : itemMd.innerBorderBottomWidth,
     borderBottomColor: itemMd.innerBorderBottomColor,
   };
-  if (underline && !mainCs && !edit) {
+  // list.md: the last item and [no-lines] items lose the inner line; the !important borders below (cs-select/date, cs-input, edit
+  // selects, error) win over it
+  const lineless = !!(noLines || isLast);
+  if (lineless && !mainCs && !csInput) {
+    inner.borderBottomWidth = 0;
+  }
+  // the underline colours of an item-input move to the item's own border on the last item (input.md.scss [CSS] 14497-14504)
+  const lastInput = !!(isLast && inputItem && !noLines);
+  if (underline && !mainCs && !edit && !csInput && !lineless) {
     inner.borderBottomColor = underline.color;
+  }
+  if (lastInput) {
+    item.borderBottomWidth = listMd.borderWidth;
+    item.borderBottomColor = underline && !mainCs && !edit && !csInput ? underline.color : listMd.borderColor;
   }
   const editBorder =
     variant === 'editCsSelect'
@@ -212,7 +294,14 @@ export function IonField({
     inner.borderColor = editBorder;
     inner.borderBottomColor = editBorder;
   }
-  if (error && mainCs) {
+  if (csInput) {
+    // [T] 934 .item-inner { border: 1px solid #ccc; border-bottom-color: #ccc !important; box-shadow: none !important }
+    inner.borderWidth = inputMd.csInput.borderWidth;
+    inner.borderBottomWidth = inputMd.csInput.borderWidth;
+    inner.borderColor = inputMd.csInput.borderColor;
+    inner.borderBottomColor = inputMd.csInput.borderColor;
+  }
+  if (error && (mainCs || csInput)) {
     inner.borderWidth = 1; // .error .item-inner { border: 1px solid $danger !important }
     inner.borderBottomWidth = 1;
     inner.borderColor = csForm.errorBorderColor;
@@ -254,8 +343,25 @@ export function IonField({
     margins = { top: 0, right: 0, bottom: 0, left: 0 };
     centered = true;
   }
+  let absolute = false;
+  if (csInput) {
+    // [T] 937-950: the label is `position: absolute` (static position = top of the input-wrapper), padding-left 16, margin-top -15,
+    // font-size 14, floating colour #949494, transform-origin 0 80px [M] ci1l / ci2l
+    const c = inputMd.csInput;
+    fontSize = c.labelFontSize;
+    paddingLeft = c.labelPaddingLeft;
+    margins = { top: c.labelMarginTop, right: 0, bottom: 0, left: 0 };
+    absolute = true;
+  }
   if (floating) {
-    if (edit) {
+    if (csInput) {
+      const c = inputMd.csInput;
+      color = c.labelColor;
+      transform =
+        hasValue || focused
+          ? [{ translateY: 0 }, { scale: c.labelScale }] // translate3d(0,0,0) scale(.8) about (0, 80px)
+          : [{ translateY: c.labelTranslateY }]; // translate3d(0,27px,0)
+    } else if (edit) {
       const f = editForm.floatingLabel;
       fontSize = f.fontSize;
       lineHeight = f.lineHeight;
@@ -266,6 +372,10 @@ export function IonField({
       spanBox = true;
     } else {
       // md: .label-md[floating] translate3d(0, 27px, 0); with a value or focus translate3d(0,0,0) scale(.8); focus colour primary
+      // NOTE (parity): Topbath's global `input{margin:0!important}` removes the 8px top/bottom margins of the floating
+      // .text-input-md, so the resting label (13 + 27 = 40px down, 18px tall) overflows the ~49px .input-wrapper, whose
+      // `overflow: hidden` cuts off its lower half. Verified by rendering the Ionic markup with the shipped main.css in Chrome
+      // (2026-11-01: wrapper h 49, label top 39 h 18, input top 30 h 18). Copied as-is.
       margins = { top: margins.top, right: margins.right, bottom: 0, left: 0 };
       transform = hasValue || focused ? [{ translateY: 0 }, { scale: 0.8 }] : [{ translateY: 27 }];
       if (focused) {
@@ -273,20 +383,22 @@ export function IonField({
       }
     }
   }
-  if (error && (mainCs || variant.startsWith('editCs'))) {
+  if (error && (mainCs || csInput || variant.startsWith('editCs'))) {
     color = csForm.errorBorderColor; // .cs-error / .error ion-label { color: red }
   }
   const labelHeight = lineHeight ?? normalLineHeight(fontSize);
+  const labelFlow = label !== undefined && !absolute ? margins.top + labelHeight + margins.bottom : 0;
+  const wrapperMin = floating && contentMinHeight !== undefined ? labelFlow + contentMinHeight : undefined;
 
   return (
     <FieldContext.Provider value={spec}>
       <View testID={testID} style={[item, itemStyle]}>
         <View testID={`${testID}-inner`} style={inner}>
-          {underline?.inset && !mainCs && !edit ? (
+          {underline?.inset && !mainCs && !edit && !csInput && !lineless ? (
             // box-shadow: inset 0 -1px 0 0 <colour>: a second 1px line directly above the border
             <View pointerEvents="none" testID={`${testID}-inset-line`} style={[styles.inset, { backgroundColor: underline.color }]} />
           ) : null}
-          <View testID={`${testID}-wrapper`} style={[styles.wrapper, floating && styles.wrapperColumn]}>
+          <View testID={`${testID}-wrapper`} style={[styles.wrapper, floating && styles.wrapperColumn, wrapperMin !== undefined && { minHeight: wrapperMin }]}>
             {label !== undefined ? (
               <View
                 testID={`${testID}-label`}
@@ -301,7 +413,8 @@ export function IonField({
                     marginLeft: margins.left,
                   },
                   centered && styles.labelCentered,
-                  transform ? [{ transform }, styles.originTopLeft] : null,
+                  absolute && styles.labelAbsolute,
+                  transform ? [{ transform }, csInput ? styles.originCsInput : styles.originTopLeft] : null,
                   labelDisabled && { opacity: itemMd.disabledOpacity },
                 ]}
               >
@@ -336,6 +449,9 @@ export function IonField({
 const styles = StyleSheet.create({
   // .label-md[floating] { transform-origin: left top }
   originTopLeft: { transformOrigin: 'left top' },
+  // [T] 949 `transform-origin: 0 80px` on the cs-input floating label
+  originCsInput: { transformOrigin: [0, inputMd.csInput.labelOriginY, 0] as [number, number, number] },
+  labelAbsolute: { position: 'absolute', left: 0, top: 0 },
   // .input-wrapper { display: flex; flex: 1; align-items: inherit (center); overflow: hidden }
   wrapper: { flex: 1, flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch', overflow: 'hidden' },
   // .item-label-floating .input-wrapper { flex-direction: column }; children stretch ([CSS] 14752)
@@ -343,7 +459,7 @@ const styles = StyleSheet.create({
   // ion-label { flex: 1; overflow hidden; nowrap }
   label: { flex: 1, overflow: 'hidden' },
   // .item-label-floating ion-label { align-self: stretch; width: auto; max-width: 100% } ([CSS] 14750); the transformed label paints over its sibling
-  labelFloating: { alignSelf: 'stretch', zIndex: 1 },
+  labelFloating: { alignSelf: 'stretch', zIndex: 1, flexShrink: 0 },
   labelCentered: { justifyContent: 'center' }, // display: flex; align-items: center
   spanBox: {
     alignSelf: 'flex-start',
