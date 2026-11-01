@@ -1,0 +1,12 @@
+{
+  "endpoint": "app_karigar/get_languages",
+  "server": "root",
+  "variants": {
+    "default": [
+      { "id": "1", "language": "English", "code": "en" },
+      { "id": "2", "language": "Hindi", "code": "hin" }
+    ],
+    "empty": [],
+    "malformed": {}
+  }
+}

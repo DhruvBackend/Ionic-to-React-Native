@@ -81,10 +81,14 @@ interface ToolbarBaseProps {
   end?: React.ReactNode;
   tall?: boolean; // class="h80"
   toolbarHeight?: boolean; // class="toolbarHeight"
+  // An element that is position:absolute against the toolbar box (Ionic `.toolbar { position: relative }`, so it spans the box INCLUDING the
+  // 4px padding), e.g. Topbath `.header-logo` (variables.scss:1201-1216, `z-index: -1`: behind the toolbar-content, above the toolbar-background).
+  // Rendered as the first child of the border box; give it absolute-fill style (top/left/right/bottom 0) in the page.
+  overlay?: React.ReactNode;
   navbar: boolean;
 }
 
-function ToolbarBase({ color, style, testID, back, menuToggle, left, children, start, end, tall, toolbarHeight, navbar }: ToolbarBaseProps) {
+function ToolbarBase({ color, style, testID, back, menuToggle, left, children, start, end, tall, toolbarHeight, overlay, navbar }: ToolbarBaseProps) {
   const header = useContext(HeaderContext);
   const colors = color ? toolbarColors[color] : toolbarColors.default;
   const mainNavbar = navbar && header.mainHeader;
@@ -106,6 +110,7 @@ function ToolbarBase({ color, style, testID, back, menuToggle, left, children, s
     <ToolbarContext.Provider value={{ colors, navbar }}>
       <View testID={testID ?? (navbar ? 'ion-navbar' : 'ion-toolbar')} style={shadow}>
         <View style={[inner, style]}>
+          {overlay}
           {back}
           {menuToggle}
           {left}

@@ -8,12 +8,12 @@ import App from '../App';
 import { db } from '../src/api/client';
 import { RootNavigator } from '../src/navigation/RootNavigator';
 
-test('app starts on Language (a placeholder until that screen is ported)', async () => {
+test('app starts on the Language screen', async () => {
   let tree: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(async () => {
     tree = ReactTestRenderer.create(<App />);
   });
-  expect(tree!.root.findAllByProps({ testID: 'placeholder-Language' }).length).toBeGreaterThan(0);
+  expect(tree!.root.findAllByProps({ testID: 'lang-continue' }).length).toBeGreaterThan(0);
   await ReactTestRenderer.act(async () => tree!.unmount());
 });
 

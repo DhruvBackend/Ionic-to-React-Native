@@ -82,5 +82,28 @@ Classes defined by the page SCSS and used in the template: `border-heading`
 
 ## Quirks
 
+Filled by the orchestrator from `src/pages/language/language.ts` / `.html` (all must be copied, each with a `// NOTE (parity)`):
+
+1. **Token decode throws on a fresh install.** `ionViewDidLoad` does `storage.get('token').then(resp => JwtDecode(resp) …)` with no catch (language.ts:42-52). With no token (the normal first-launch path: app.component.ts:159/413 setRoot Language when there is no session) `JwtDecode(null)` throws inside the promise, so `get_user_lang()` is **never called** and `karigar_id` stays `""`.
+2. **With a token, `karigar_id` is the whole decoded payload**, not `sub` (`this.karigar_id = tokendata;` language.ts:48, the `.sub` line is commented out). So `get_user_lang` posts `{"login_id": <decoded token object>}` and `update_language` posts `{"data":{"language":lang,"id":<decoded token object>}}`.
+3. **`change_language()` result is unused.** `app_karigar/get_languages` is fetched (language.ts:77) and stored in `inputs`, which the template never reads. Its subscribe then calls `this.loading.dismiss()` while `presentLoading()` is commented out (language.ts:40), so `this.loading` is undefined and the callback throws after assigning `inputs`. No visible effect; must not crash RN.
+4. **`get_user_lang` sets `lang = resp['language']`**; `""` becomes `"en"` (language.ts:191-195). A response without `language` makes `lang` undefined: no radio is checked, and the Continue button still shows (`lang != ''` is true for undefined).
+5. **Continue** (`*ngIf="lang!=''"`, language.html:49) posts `update_language` and pushes `SelectRegistrationType` with `{lang}` **only in the success callback** (language.ts:109-114). An HTTP error does nothing (no loader, no toast, no alert). The strings fetched for `Please Select Country?` / `NO` / `OK` are never shown.
+6. **Radio `(click)="set_lang()"`** calls `translate.use(this.lang)` after the radio group updated the model (part 5 finding: the page `(click)` runs after the value changes), so choosing Hindi switches the app language at once: the Continue label changes. `checked="{{'en' == lang}}"` coexists with `[(ngModel)]`.
+7. **On load `translate.setDefaultLang(this.lang)` and `translate.use(this.lang)` with `lang='en'`** (language.ts:54-56), i.e. the page resets the app language to English every time it opens, before any `get_user_lang` response.
+8. `update_lang()` (alert "Do you want to change the language?") and `selectlanguage()` (`app_karigar/add_country`) are dead code: nothing in the template calls them (the country list and the `karigar_id ? update_lang() : continue()` binding are commented out). Port them as unexported/dead with a NOTE, or omit with a NOTE; do not wire them.
+9. Hardcoded strings keep their exact spacing: `अंग्रेज़ी  (English)` has **two spaces** in the source (language.html:35); the HTML collapses whitespace when rendering, so the rendered text has one space — match the rendered result.
+10. Header: `ion-toolbar class="h80" color="white"` with only `div.header-logo > img assets/imgs/logo.png` (client logo); there is no title and no back button even when pushed (toolbar, not navbar).
+
 ## States
+
+| State id | Setup | Expect |
+|---|---|---|
+| `Language.default` | no session/token (fresh install) | English checked, Continue in English; get_user_lang not called |
+| `Language.hin` | default, then tap the Hindi radio | Hindi checked, Continue label in Hindi (i18n `Continue` in hin) |
+| `Language.loggedInHin` | role Plumber session (token present), get_user_lang → `{"language":"hin"}` | Hindi pre-selected after the response, app language Hindi **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
+| `Language.loggedInEmpty` | role Plumber, get_user_lang → `{"language":""}` | English selected **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
+| `Language.malformed` | role Plumber, get_user_lang → `{}` (no language) | no radio checked, Continue shown; nothing throws **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
+
+Endpoint fixtures needed: `app_karigar/get_languages` (default: any list, unused), `app_karigar/get_user_lang` (default `{"language":"en"}`, variants `hin`, `empty`, `malformed`), `app_karigar/update_language` (default success; variant `error` = HTTP 500 → no navigation).
 

@@ -10,6 +10,7 @@ import { PNG } from 'pngjs';
 import { OUT, loadStates, parseArgs, selectStates, shotName } from './lib/common.mjs';
 import { crop, resize } from './lib/image.mjs';
 import { readyIdFor, waitForReady } from './lib/ready.mjs';
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const REF_W = 1080;
 export const REF_H = 2400;
@@ -51,6 +52,37 @@ export function cropFor({ api, density, insets }) {
     top: insets.top ?? Math.round((24 * density) / 160),
     bottom: insets.bottom ?? 0,
   };
+}
+
+/** `rnAction` of a state: only `tap:<testID>` exists. Returns { type: 'tap', testID } or null. */
+export function parseRnAction(action) {
+  if (!action) {
+    return null;
+  }
+  const m = /^tap:(.+)$/.exec(action);
+  if (!m) {
+    throw new Error(`unknown rnAction "${action}" (supported: tap:<testID>)`);
+  }
+  return { type: 'tap', testID: m[1] };
+}
+
+/**
+ * Centre of the node whose resource-id is `testID` in a `uiautomator dump` (RN puts testID into the Android resource-id).
+ * The id may be package-prefixed ("com.x:id/lang-hin-cover"). Returns { x, y } in device pixels or null.
+ */
+export function findNodeCenter(xml, testID) {
+  for (const m of xml.matchAll(/<node\b[^>]*>/g)) {
+    const tag = m[0];
+    const id = /resource-id="([^"]*)"/.exec(tag)?.[1] ?? '';
+    if (id === testID || id.endsWith(`/${testID}`)) {
+      const b = /bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/.exec(tag);
+      if (b) {
+        const [l, t, r, bt] = b.slice(1).map(Number);
+        return { x: Math.round((l + r) / 2), y: Math.round((t + bt) / 2) };
+      }
+    }
+  }
+  return null;
 }
 
 function adb(serial, args, opts = {}) {
@@ -120,16 +152,28 @@ async function main() {
       if (/Error|does not exist/i.test(r.stdout + r.stderr)) {
         throw new Error((r.stdout + r.stderr).trim().split('\n')[0]);
       }
-      // poll uiautomator until the screen root (state.readyId, default ion-card-<screen>) exists, then 2.5 s more for the
-      // Android-15 band (applied 2 s after JS start) and the page transition; `rnWaitMs` overrides that settle time
+      // poll uiautomator until the screen root (state.readyId, default ion-card-<screen>) exists, then settle: the root can
+      // exist while the native splash (3 s hold + 3 s fade from activity start, Task 8b) still covers it, so the default
+      // settle is 5.5 s; it also covers the Android-15 band (2 s after JS start) and transitions. `rnWaitMs` overrides it.
       const ready = await waitForReady({
         dump: () => adb(dev.serial, ['exec-out', 'uiautomator', 'dump', '/dev/tty']).stdout,
         pkg: DEBUG_PACKAGE,
         readyId: readyIdFor(s),
-        settleMs: s.rnWaitMs ?? 2500,
+        settleMs: s.rnWaitMs ?? 5500,
       });
       if (!ready.ready) {
         process.stdout.write(`(WARNING ${readyIdFor(s)} not found after ${ready.waitedMs} ms, shooting anyway) `);
+      }
+      const action = parseRnAction(s.rnAction);
+      if (action) {
+        adb(dev.serial, ['shell', 'uiautomator', 'dump', '/sdcard/parity-ui.xml']);
+        const xml = adb(dev.serial, ['shell', 'cat', '/sdcard/parity-ui.xml']).stdout;
+        const at = findNodeCenter(xml, action.testID);
+        if (!at) {
+          throw new Error(`rnAction: no element with resource-id "${action.testID}" on screen`);
+        }
+        adb(dev.serial, ['shell', 'input', 'tap', String(at.x), String(at.y)]);
+        await sleep(s.rnActionWaitMs ?? 1000);
       }
       const shot = adb(dev.serial, ['exec-out', 'screencap', '-p'], { binary: true });
       if (shot.status !== 0 || !shot.stdout.length) {

@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/get_user_lang",
+  "server": "root",
+  "variants": {
+    "default": { "language": "en" },
+    "hin": { "language": "hin" },
+    "empty": { "language": "" },
+    "malformed": {}
+  }
+}
