@@ -101,9 +101,9 @@ Filled by the orchestrator from `src/pages/language/language.ts` / `.html` (all 
 |---|---|---|
 | `Language.default` | no session/token (fresh install) | English checked, Continue in English; get_user_lang not called |
 | `Language.hin` | default, then tap the Hindi radio | Hindi checked, Continue label in Hindi (i18n `Continue` in hin) |
-| `Language.loggedInHin` | role Plumber session (token present), get_user_lang → `{"language":"hin"}` | Hindi pre-selected after the response, app language Hindi |
-| `Language.loggedInEmpty` | role Plumber, get_user_lang → `{"language":""}` | English selected |
-| `Language.malformed` | role Plumber, get_user_lang → `{}` (no language) | no radio checked, Continue shown; nothing throws |
+| `Language.loggedInHin` | role Plumber session (token present), get_user_lang → `{"language":"hin"}` | Hindi pre-selected after the response, app language Hindi **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
+| `Language.loggedInEmpty` | role Plumber, get_user_lang → `{"language":""}` | English selected **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
+| `Language.malformed` | role Plumber, get_user_lang → `{}` (no language) | no radio checked, Continue shown; nothing throws **Unreachable in production — unit-tested only:** the shipped app never writes the storage key `token` (only reads it: language.ts:44, dbservice.ts:90; it stores the JWT in `userStorageData`), so `get_user_lang` never runs. No parity state. |
 
 Endpoint fixtures needed: `app_karigar/get_languages` (default: any list, unused), `app_karigar/get_user_lang` (default `{"language":"en"}`, variants `hin`, `empty`, `malformed`), `app_karigar/update_language` (default success; variant `error` = HTTP 500 → no navigation).
 

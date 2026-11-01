@@ -8,7 +8,7 @@ import { PNG } from 'pngjs';
 import { loadStates, shotName } from './lib/common.mjs';
 import { buildReport } from './report.mjs';
 import { setSignoff, readSignoff } from './signoff.mjs';
-import { buildLink, cropFor } from './capture-rn.mjs';
+import { buildLink, cropFor, findNodeCenter, parseRnAction } from './capture-rn.mjs';
 
 const png = (w, h, rgba) => {
   const p = new PNG({ width: w, height: h });
@@ -55,4 +55,20 @@ test('capture-rn builds the debug deep link and crop', () => {
   assert.equal(link, 'topbathrn://open?screen=Otp&role=Karigar&lang=hin&variant=a%2Fb%3Aempty&params=%7B%22m%22%3A%229%22%7D');
   assert.deepEqual(cropFor({ api: 36, density: 420, insets: { top: 63 } }), { top: 0, bottom: 0 });
   assert.deepEqual(cropFor({ api: 33, density: 420, insets: { top: 63, bottom: 0 } }), { top: 63, bottom: 0 });
+});
+
+test('capture-rn rnAction: parses tap:<testID> and rejects unknown actions', () => {
+  assert.deepEqual(parseRnAction('tap:lang-hin-cover'), { type: 'tap', testID: 'lang-hin-cover' });
+  assert.equal(parseRnAction(undefined), null);
+  assert.throws(() => parseRnAction('swipe:up'), /unknown rnAction/);
+});
+
+test('capture-rn rnAction: finds the centre of the node by resource-id in a uiautomator dump', () => {
+  const xml =
+    '<hierarchy><node index="0" resource-id="" bounds="[0,0][1080,2400]">' +
+    '<node index="1" resource-id="lang-en-cover" bounds="[51,471][1029,636]"/>' +
+    '<node index="2" resource-id="com.topsan.app.rn:id/lang-hin-cover" bounds="[51,636][1029,801]"/></node></hierarchy>';
+  assert.deepEqual(findNodeCenter(xml, 'lang-hin-cover'), { x: 540, y: 719 });
+  assert.deepEqual(findNodeCenter(xml, 'lang-en-cover'), { x: 540, y: 554 });
+  assert.equal(findNodeCenter(xml, 'missing'), null);
 });

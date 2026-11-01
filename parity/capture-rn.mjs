@@ -53,6 +53,37 @@ export function cropFor({ api, density, insets }) {
   };
 }
 
+/** `rnAction` of a state: only `tap:<testID>` exists. Returns { type: 'tap', testID } or null. */
+export function parseRnAction(action) {
+  if (!action) {
+    return null;
+  }
+  const m = /^tap:(.+)$/.exec(action);
+  if (!m) {
+    throw new Error(`unknown rnAction "${action}" (supported: tap:<testID>)`);
+  }
+  return { type: 'tap', testID: m[1] };
+}
+
+/**
+ * Centre of the node whose resource-id is `testID` in a `uiautomator dump` (RN puts testID into the Android resource-id).
+ * The id may be package-prefixed ("com.x:id/lang-hin-cover"). Returns { x, y } in device pixels or null.
+ */
+export function findNodeCenter(xml, testID) {
+  for (const m of xml.matchAll(/<node[^>]*>/g)) {
+    const tag = m[0];
+    const id = /resource-id="([^"]*)"/.exec(tag)?.[1] ?? '';
+    if (id === testID || id.endsWith(`/${testID}`)) {
+      const b = /bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/.exec(tag);
+      if (b) {
+        const [l, t, r, bt] = b.slice(1).map(Number);
+        return { x: Math.round((l + r) / 2), y: Math.round((t + bt) / 2) };
+      }
+    }
+  }
+  return null;
+}
+
 function adb(serial, args, opts = {}) {
   const full = serial ? ['-s', serial, ...args] : args;
   const r = spawnSync('adb', full, { encoding: opts.binary ? 'buffer' : 'utf8', maxBuffer: 64 * 1024 * 1024 });
@@ -130,6 +161,17 @@ async function main() {
       });
       if (!ready.ready) {
         process.stdout.write(`(WARNING ${readyIdFor(s)} not found after ${ready.waitedMs} ms, shooting anyway) `);
+      }
+      const action = parseRnAction(s.rnAction);
+      if (action) {
+        adb(dev.serial, ['shell', 'uiautomator', 'dump', '/sdcard/parity-ui.xml']);
+        const xml = adb(dev.serial, ['shell', 'cat', '/sdcard/parity-ui.xml']).stdout;
+        const at = findNodeCenter(xml, action.testID);
+        if (!at) {
+          throw new Error(`rnAction: no element with resource-id "${action.testID}" on screen`);
+        }
+        adb(dev.serial, ['shell', 'input', 'tap', String(at.x), String(at.y)]);
+        await sleep(s.rnActionWaitMs ?? 1000);
       }
       const shot = adb(dev.serial, ['exec-out', 'screencap', '-p'], { binary: true });
       if (shot.status !== 0 || !shot.stdout.length) {

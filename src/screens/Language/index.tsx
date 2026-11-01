@@ -1,19 +1,16 @@
 // Ported from: src/pages/language/language.html + .ts + .scss
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { jwtDecode } from 'jwt-decode';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../api/client';
 import { IonButton } from '../../components/ionic/IonButton';
 import { IonRadio, IonRadioGroup } from '../../components/ionic/IonChoice';
 import { IonContent } from '../../components/ionic/IonContent';
-import { IonItem, IonList, IonListHeader } from '../../components/ionic/IonList';
-import { IonHeader, IonToolbar } from '../../components/ionic/IonNavbar';
-import { textStyle } from '../../components/ionic/text';
+import { IonItem, IonList, IonListHeader, IonParagraph } from '../../components/ionic/IonList';
+import { IonFooter, IonHeader, IonToolbar } from '../../components/ionic/IonNavbar';
 import i18n from '../../i18n';
 import { storage } from '../../storage';
-import { itemContentMd } from '../../theme/ionicMdContent';
-import { headerShadowPng } from '../../theme/ionicMdPickers';
 import { styles } from './styles';
 
 // Logo: the client's logo.png (Ionic assets/imgs/logo.png), copied by scripts/use-client.mjs.
@@ -129,13 +126,12 @@ export default function LanguageScreen({ navigation, route }: Props) {
 
   // NOTE (parity): `lang != ''` is true for undefined too.
   const showContinue = lang !== '';
-  const paragraph = textStyle(itemContentMd.paragraph.fontSize, 400, itemContentMd.paragraph.color);
 
   return (
     <View style={styles.screen}>
       {/* language.html:1-7 */}
       <IonHeader>
-        <IonToolbar color="white" style={styles.toolbar}>
+        <IonToolbar color="white" tall>
           {/* NOTE (parity): toolbar, not navbar: no title and no back button, even when pushed (quirk 10). */}
           <View testID="header-logo" style={styles.headerLogo}>
             <Image source={logo} resizeMode="contain" style={[styles.headerLogoImg, { aspectRatio: logoRatio }]} />
@@ -149,10 +145,7 @@ export default function LanguageScreen({ navigation, route }: Props) {
           <IonList style={styles.list}>
             <IonRadioGroup value={lang} onChange={setLang}>
               <IonListHeader borderHeading>
-                <View style={styles.headerLabel}>
-                  <Text style={paragraph}>भाषा चुनिए / Choose Your Language</Text>
-                </View>
-                <View style={styles.headerBar} />
+                <IonParagraph>भाषा चुनिए / Choose Your Language</IonParagraph>
               </IonListHeader>
 
               <IonItem
@@ -180,16 +173,13 @@ export default function LanguageScreen({ navigation, route }: Props) {
       </IonContent>
 
       {/* language.html:48-51 */}
-      <View style={styles.footer}>
-        <View pointerEvents="none" style={styles.footerShadow}>
-          <Image source={{ uri: headerShadowPng }} resizeMode="repeat" style={styles.footerShadowImg} />
-        </View>
+      <IonFooter>
         {showContinue ? (
           <IonButton testID="lang-continue" full onPress={continue_}>
             {collapse(t('Continue'))}
           </IonButton>
         ) : null}
-      </View>
+      </IonFooter>
     </View>
   );
 }

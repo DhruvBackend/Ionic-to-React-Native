@@ -23,6 +23,14 @@ Compares the Ionic reference (built from `b33d82f`, run in Chrome) with the RN d
 `injector`, `params`. Example: `nav.setRoot(Page('Otp'), params)`. The same state drives RN through the debug deep link
 `topbathrn://open?screen=&role=&lang=&variant=&params=` (`src/navigation/debugLinks.ts`).
 
+## State actions
+- Ionic side: `ionicNav` (JS expression, see above). Note Ionic's TapClick cancels a bare `element.click()` until a pointer press
+  has happened, so to tap a control dispatch `mousedown`, `mouseup` and `click` MouseEvents (bubbles, cancelable) on it.
+- RN side: optional `rnAction: "tap:<testID>"` (plus `rnActionWaitMs`, default 1000). After the deep link and `rnWaitMs`,
+  `capture-rn.mjs` runs `adb shell uiautomator dump`, finds the node whose `resource-id` is the testID (RN sets the Android
+  resource-id from `testID`, a package prefix `...:id/` is accepted), taps its centre with `adb shell input tap`, waits,
+  then takes the screenshot. A missing element fails that state. Only states reachable in production get a parity state.
+
 ## Reference side (Playwright + Chrome)
 - Uses the installed Chrome (`channel: 'chrome'`, falling back to `C:\Program Files\Google\Chrome\...`); no browser download.
 - Chrome 360x800, DPR 3, Android UA, locale en-IN. `stubs.js` fakes Cordova plus device, status bar, splash, network,
