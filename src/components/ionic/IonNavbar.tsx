@@ -5,7 +5,7 @@
 //   <ion-header class="main-header remove"> (47x, 4 with no-border) + <ion-navbar color="primary">: flat, back button shown
 //   <ion-header class="main-header"> (7x) and [ngClass]="{remove: usertype == 'Plumber'}" (3x): shadow, ALL buttons hidden
 //   <ion-header> (43x) + <ion-navbar [color="primary"]> (91x primary, 16x plain) + <ion-title> [+ <ion-buttons end> 15x]
-//   <ion-navbar class="h80" color="white"> (3 login pages), <ion-toolbar [color|class]> (search rows, home logo bar,
+//   <ion-navbar class="h80" color="white"> (4: mobile-login, otp, select-registration-type + <ion-toolbar class="h80"> Language: `tall`), <ion-toolbar [color|class]> (search rows, home logo bar,
 //   class="toolbarHeight"), <ion-header [hidden]="true">, catalogue-header (7x) / home-header (1x): classes without any CSS.
 // `Header` below is ion-header + ion-navbar in one.
 import React, { createContext, useContext } from 'react';
@@ -14,7 +14,8 @@ import { NavigationContext } from '@react-navigation/native';
 import { useSideMenu } from '../../navigation/SideMenu';
 import { ionicColors } from '../../theme';
 import { headerShadowPng } from '../../theme/ionicMdPickers';
-import { toolbarColors, toolbarMd, type ToolbarColor, type ToolbarColorSet } from '../../theme/ionicMdPage';
+import { footerMd, toolbarColors, toolbarMd, type ToolbarColor, type ToolbarColorSet } from '../../theme/ionicMdPage';
+import { ionPadding } from '../../theme/ionicMdContent';
 import { IonIcon } from './IonIcon';
 import { RippleButton } from './RippleButton';
 import { PresentationContext } from '../../navigation/pageTransition';
@@ -117,7 +118,8 @@ function ToolbarBase({ color, style, testID, back, menuToggle, left, children, s
   );
 }
 
-export interface IonToolbarProps extends Omit<ToolbarBaseProps, 'navbar' | 'back' | 'menuToggle' | 'tall'> {}
+// `tall` = class="h80" (height 80, see toolbarMd.tallHeight); also valid on an ion-toolbar (Language).
+export interface IonToolbarProps extends Omit<ToolbarBaseProps, 'navbar' | 'back' | 'menuToggle'> {}
 
 export function IonToolbar(props: IonToolbarProps) {
   return <ToolbarBase {...props} navbar={false} />;
@@ -210,6 +212,36 @@ export function Header({ mainHeader, remove, noBorder, hidden, below, ...navbar 
       <IonNavbar {...navbar} />
       {below}
     </IonHeader>
+  );
+}
+
+// ---------------------------------------------------------------------------------------------------
+// ion-footer
+// ---------------------------------------------------------------------------------------------------
+// Usage survey (Ionic pages, 17 elements, 5 with [padding]): ion-footer + `button ion-button full|block` (order-detail, executive-order-detail,
+// add-dealer, executive-edit, edit-network, select-registration-type, language), custom blocks (point-location, profile), csm-footer-tabs
+// (3: no strip), before-btn (1: no strip), af-none (2: no strip), the side-menu logout footer (app.html). None puts an ion-toolbar in it.
+// Place it as the LAST child of the page column (below an IonContent with flex 1): Ionic's absolute bottom:0 + the content's
+// margin-bottom = footer height is the same layout. The page's own background must be the content's (#fff): the footer is transparent.
+export interface IonFooterProps {
+  padding?: boolean; // the [padding] attribute: 16px all around
+  noBorder?: boolean; // [no-border], and the Topbath classes that hide the strip (.csm-footer-tabs, .before-btn, .af-none)
+  style?: StyleProp<ViewStyle>; // class / inline style of the element (e.g. style="padding: 10px 16px")
+  testID?: string;
+  children?: React.ReactNode;
+}
+
+export function IonFooter({ padding = false, noBorder = false, style, testID = 'ion-footer', children }: IonFooterProps) {
+  return (
+    <View testID={testID} style={[styles.footer, padding ? ionPadding : null, style]}>
+      {noBorder ? null : (
+        // footer-md::before: top -2px, 2px high, the png's top 2px, repeat-x, over the content above the footer
+        <View pointerEvents="none" testID={`${testID}-strip`} style={styles.footerStrip}>
+          <Image source={{ uri: headerShadowPng }} resizeMode="repeat" style={styles.footerStripImage} />
+        </View>
+      )}
+      {children}
+    </View>
   );
 }
 
@@ -340,6 +372,10 @@ const styles = StyleSheet.create({
   // header-md::after: left 0; bottom -5px; height 5px; background-position top -2px
   strip: { position: 'absolute', left: 0, right: 0, bottom: -S.height, height: S.height, overflow: 'hidden' },
   stripImage: { width: '100%', height: 7, marginTop: -S.offsetY },
+  // ion-footer: position absolute; bottom 0; z-index 10 (a column child here, relative so the strip can hang above it)
+  footer: { position: 'relative', zIndex: footerMd.zIndex },
+  footerStrip: { position: 'absolute', left: 0, right: 0, top: footerMd.strip.top, height: footerMd.strip.height, overflow: 'hidden' },
+  footerStripImage: { width: '100%', height: 7, marginTop: -footerMd.strip.offsetY || 0 },
   // .toolbar-content-md: flex 1, min-width 0
   content: { flex: 1, minWidth: 0 },
   // ion-title { display: flex; flex: 1; align-items: center } > .toolbar-title { width: 100%; overflow: hidden; ellipsis }

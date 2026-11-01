@@ -3,14 +3,15 @@
 // src/theme/ionicMdContent.ts (the colour helpers are checked against the compiled main.css of the shipped app).
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { fontFor } from '../src/theme/typography';
 import { IonButton } from '../src/components/ionic/IonButton';
 import { IonCard, IonCardContent, IonCardHeader } from '../src/components/ionic/IonCard';
 import { IonIcon } from '../src/components/ionic/IonIcon';
 import { IonCheckbox, IonRadio, IonRadioGroup } from '../src/components/ionic/IonChoice';
 import { IonCol, IonContent, IonGrid, IonRow } from '../src/components/ionic/IonContent';
 import { IonInputItem } from '../src/components/ionic/IonInput';
-import { IonItem, IonList, IonListHeader } from '../src/components/ionic/IonList';
+import { IonItem, IonList, IonListHeader, IonParagraph } from '../src/components/ionic/IonList';
 import { ionicColors } from '../src/theme';
 import {
   buttonColors,
@@ -431,13 +432,49 @@ describe('ion-list / ion-item / ion-list-header', () => {
     expect(b).toHaveBeenCalledTimes(1);
     expect(style('plain').backgroundColor).toBe('#fff');
   });
-  test('list-header: plain (#757575, 14px, border-top, margin-bottom 13), border-heading, color="secondary"', () => {
+  const tt = (str: string) => StyleSheet.flatten(tree.root.findAll(n => n.props.children === str && typeof n.type === 'string')[0].props.style);
+  test('list-header is an Item: header > item-inner > input-wrapper > ion-label (plain: 14px #757575, bg #fff, border-top, margin-bottom 13)', () => {
+    mount(<IonListHeader testID="p">Scan History</IonListHeader>);
+    // [M] reference build: header 326x46 (1px border-top + inner 45), label margin 13px 8px 13px 0, 14px 400 rgb(117,117,117), bg #fff
+    expect(style('p')).toMatchObject({ minHeight: 45, paddingLeft: 16, marginBottom: 13, borderTopWidth: 1, borderTopColor: '#dedede', backgroundColor: '#fff', overflow: 'hidden' });
+    expect(style('p-inner')).toMatchObject({ flex: 1, minHeight: 45 });
+    expect(style('p-inner').borderBottomWidth).toBeUndefined(); // no item-block class: no inner line
+    expect(exists('p-wrapper')).toBe(true);
+    expect(style('p-label')).toMatchObject({ flex: 1, marginTop: 13, marginRight: 8, marginBottom: 13, marginLeft: 0, overflow: 'hidden' });
+    expect(exists('p-bar')).toBe(false);
+    const t = tt('Scan History');
+    expect(t).toMatchObject({ fontSize: 14, color: listHeaderMd.color });
+    expect(t.fontFamily).toBe('Roboto-Regular');
+  });
+  test('list-header .border-heading + <p> (Language): grey rounded header, label margin-left 15, p keeps 14px #666, 22x5 bar at (0,20)', () => {
+    mount(
+      <IonListHeader borderHeading testID="bh">
+        <IonParagraph>Choose Your Language</IonParagraph>
+      </IonListHeader>,
+    );
+    // [M] header 326x45 bg rgb(248,248,248) radius 8 8 0 0, no border-top / margin-bottom; label 287x17 at x 31 margin 13 8 13 15; bar 22x5 rgb(0,45,37) at (0,20)
+    expect(style('bh')).toMatchObject({ backgroundColor: '#f8f8f8', marginBottom: 0, borderTopWidth: 0, borderTopLeftRadius: 8, borderTopRightRadius: 8, minHeight: 45 });
+    expect(style('bh-label')).toMatchObject({ marginTop: 13, marginRight: 8, marginBottom: 13, marginLeft: 15 });
+    expect(style('bh-bar')).toMatchObject({ position: 'absolute', top: 20, left: 0, width: 22, height: 5, backgroundColor: ionicColors.primary });
+    expect(tt('Choose Your Language')).toMatchObject({ fontSize: 14, color: '#666' });
+    expect(tt('Choose Your Language').fontFamily).toBe('Roboto-Regular');
+  });
+  test('list-header .border-heading with bare text (select-registration-type): label text 16px 600 #000', () => {
+    mount(
+      <IonListHeader borderHeading testID="bh">
+        Select Type
+      </IonListHeader>,
+    );
+    // [M] label 287x18 at x 31, 16px 600 rgb(0,0,0)
+    const t = tt('Select Type');
+    expect(t).toMatchObject({ fontSize: 16, color: '#000' });
+    expect(t.fontFamily).toBe(fontFor(600).fontFamily);
+    expect(style('bh-label').marginLeft).toBe(15);
+    expect(exists('bh-bar')).toBe(true);
+  });
+  test('list-header color="secondary" and afterList', () => {
     mount(
       <View>
-        <IonListHeader testID="p">Scan History</IonListHeader>
-        <IonListHeader borderHeading testID="bh">
-          Select Type
-        </IonListHeader>
         <IonListHeader color="secondary" testID="sec">
           History
         </IonListHeader>
@@ -446,20 +483,28 @@ describe('ion-list / ion-item / ion-list-header', () => {
         </IonListHeader>
       </View>,
     );
-    expect(style('p')).toMatchObject({ minHeight: 45, paddingLeft: 16, marginBottom: 13, borderTopWidth: 1, borderTopColor: '#dedede' });
-    const t = (s: string) => StyleSheet.flatten(tree.root.findAll(n => n.props.children === s && typeof n.type === 'string')[0].props.style);
-    expect(t('Scan History')).toMatchObject({ fontSize: 14, color: listHeaderMd.color });
-    expect(t('Scan History').fontFamily).toBe('Roboto-Regular');
-    expect(exists('p-label')).toBe(false); // ion-list-header has no ion-label: the text sits directly in the flex row
-    // only the background / radius / border-top rule of .border-heading matches; the .item-inner .input-wrapper ion-label rules and the bar do not
-    expect(style('bh')).toMatchObject({ backgroundColor: '#f8f8f8', marginBottom: 0, borderTopWidth: 0, borderTopLeftRadius: 8, borderTopRightRadius: 8 });
-    expect(t('Select Type')).toMatchObject({ fontSize: 14, color: listHeaderMd.color });
-    expect(t('Select Type').fontFamily).toBe('Roboto-Regular');
-    expect(t('Select Type').marginLeft).toBeUndefined();
-    expect(exists('bh-bar')).toBe(false);
-    expect(style('sec').backgroundColor).toBe(ionicColors.secondary);
-    expect(t('History').color).toBe('#ffffff');
+    // [M] bg rgb(0,0,0), text rgb(255,255,255) 14px 400, border-top + margin-bottom 13 kept
+    expect(style('sec')).toMatchObject({ backgroundColor: ionicColors.secondary, borderTopWidth: 1, marginBottom: 13 });
+    expect(tt('History')).toMatchObject({ color: '#ffffff', fontSize: 14 });
     expect(style('after').marginTop).toBe(-16);
+  });
+  test('list-header mixed children (scan-point total points): page style + text + trailing elements in one row', () => {
+    mount(
+      <IonListHeader
+        testID="tp"
+        style={{ marginBottom: 0, borderTopWidth: 0, borderBottomWidth: 2, borderBottomColor: '#d7ab52' }}
+        labelStyle={{ fontSize: 16, color: '#000', lineHeight: 18 }}
+      >
+        Total Point
+        <View testID="tp-pt">
+          <Text>12</Text>
+        </View>
+      </IonListHeader>,
+    );
+    expect(style('tp')).toMatchObject({ marginBottom: 0, borderTopWidth: 0, borderBottomWidth: 2, borderBottomColor: '#d7ab52' });
+    expect(style('tp-label')).toMatchObject({ flexDirection: 'row' });
+    expect(tt('Total Point')).toMatchObject({ fontSize: 16, color: '#000', flexGrow: 1 }); // the text takes the line, the span sits at the end
+    expect(exists('tp-pt')).toBe(true);
   });
 });
 

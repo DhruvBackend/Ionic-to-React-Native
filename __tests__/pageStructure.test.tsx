@@ -5,11 +5,12 @@ import ReactTestRenderer from 'react-test-renderer';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Header, IonBarButton, IonHeader, IonNavbar, IonToolbar } from '../src/components/ionic/IonNavbar';
+import { Header, IonBarButton, IonFooter, IonHeader, IonNavbar, IonToolbar } from '../src/components/ionic/IonNavbar';
+import { IonButton } from '../src/components/ionic/IonButton';
 import { IonTabBar } from '../src/components/ionic/IonTabs';
 import { tabIcons } from '../src/assets/client/tabIcons';
 import { ionicColors, scssColors } from '../src/theme';
-import { pageTransition, tabsMd, toolbarColors, toolbarMd } from '../src/theme/ionicMdPage';
+import { footerMd, pageTransition, tabsMd, toolbarColors, toolbarMd } from '../src/theme/ionicMdPage';
 import { modalMd } from '../src/theme/ionicMdPickers';
 import { createIonStackNavigator } from '../src/navigation/IonStack';
 import { enterSpec, leaveSpec, planTransition } from '../src/navigation/pageTransition';
@@ -143,6 +144,28 @@ describe('navbar (toolbar.md.scss + Topbath rules)', () => {
     expect(StyleSheet.flatten(host('nb').props.children.props.style)).toMatchObject({ height: 80, backgroundColor: toolbarColors.white.background });
     expect(StyleSheet.flatten(host('tb').props.children.props.style)).toMatchObject({ minHeight: 0, paddingTop: 0, paddingBottom: 10, padding: 4 });
     expect(exists('ion-header-strip')).toBe(false); // no-border
+  });
+
+  test('<ion-toolbar class="h80" color="white"> (Language): height 80 inside the 4px padding, white, header strip below', () => {
+    mount(
+      <IonHeader>
+        <IonToolbar color="white" tall testID="tb" />
+      </IonHeader>,
+    );
+    // [M] reference probe: toolbar 360x80, min-height 56, padding 4, background #fff, header-md::after strip kept
+    expect(StyleSheet.flatten(host('tb').props.children.props.style)).toMatchObject({
+      height: toolbarMd.tallHeight,
+      minHeight: 56,
+      padding: 4,
+      alignItems: 'center',
+      overflow: 'hidden',
+      backgroundColor: toolbarColors.white.background,
+    });
+    expect(toolbarMd.tallHeight).toBe(80);
+    expect(exists('ion-header-strip')).toBe(true);
+    act(() => tree.unmount());
+    mount(<IonToolbar color="white" testID="plain" />);
+    expect(StyleSheet.flatten(host('plain').props.children.props.style).height).toBeUndefined(); // without h80: min-height 56 only
   });
 
   test('title ellipsizes on one line', () => {
@@ -394,4 +417,36 @@ describe('tab bar (ion-tabs md + Topbath)', () => {
     expect(style('ion-tab-tab-contact').borderBottomWidth).toBe(3);
   });
 
+});
+
+describe('ion-footer (toolbar.md.scss, [CSS] 12349 / 16716)', () => {
+  test('z-index 10, transparent, no padding, with the 2px footer-md::before strip (top -2, png top 0, repeat)', () => {
+    mount(<IonFooter testID="f" />);
+    expect(footerMd.zIndex).toBe(10);
+    const f = style('f');
+    expect(f).toMatchObject({ position: 'relative', zIndex: 10 });
+    expect(f.padding).toBeUndefined();
+    expect(f.backgroundColor).toBeUndefined();
+    expect(style('f-strip')).toMatchObject({ position: 'absolute', left: 0, right: 0, top: -2, height: 2, overflow: 'hidden' });
+    const img = tree.root.findAll(n => n.props.resizeMode === 'repeat')[0];
+    expect(StyleSheet.flatten(img.props.style)).toMatchObject({ width: '100%', height: 7, marginTop: 0 }); // background-position left 0 top 0
+    expect(host('f-strip').props.pointerEvents).toBe('none');
+  });
+  test('[padding] = 16px; [no-border] / csm-footer-tabs / before-btn / af-none hide the strip; style adds page rules', () => {
+    mount(<IonFooter padding noBorder style={{ paddingVertical: 10 }} testID="f" />);
+    expect(style('f')).toMatchObject({ padding: 16, paddingVertical: 10 });
+    expect(exists('f-strip')).toBe(false);
+  });
+  test('button ion-button full inside: full width, no margin, radius 0 (the [padding] footer insets it by 16)', () => {
+    mount(
+      <IonFooter padding>
+        <IonButton full testID="b">
+          Continue
+        </IonButton>
+      </IonFooter>,
+    );
+    const b = style('b');
+    expect(b).toMatchObject({ width: '100%', borderRadius: 0 });
+    expect(b.margin).toBeUndefined();
+  });
 });

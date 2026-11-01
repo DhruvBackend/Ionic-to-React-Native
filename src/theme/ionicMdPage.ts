@@ -63,7 +63,11 @@ export const toolbarMd = {
   mainHeaderMinHeight: 52,
   // [T] 718 .main-header ion-navbar { box-shadow: 0 3px 6px 0 rgba(0,0,0,.2) }; .remove sets none ([T] 736, [CSS] 6500)
   mainHeaderShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.2)',
-  // [CSS] 4486 .h80 { height: 80px !important } on <ion-navbar class="h80" color="white"> (login / otp pages) [M] 80
+  // [CSS] 4486 .h80 { height: 80px !important } on <ion-toolbar class="h80" color="white"> (Language) and <ion-navbar class="h80"
+  // color="white"> (mobile-login, otp, select-registration-type). [M] reference probe (Language): toolbar 360x80 at 0,0 (min-height 56
+  // kept, padding 4 inside the 80: box-sizing border-box), display flex / align-items center / overflow hidden, .toolbar-background
+  // 360x80 #fff (toolbar-md-white), .toolbar-content 352x0 at (4,40) i.e. vertically centred, ion-header 360x80 with its
+  // header-md::after strip at y 80 (5px, bg-position top -2px), z-index 10; the strip is unaffected by h80.
   tallHeight: 80,
   // [T] 816-820 .toolbarHeight { min-height: 0 !important; padding-top: 0 !important; padding-bottom: 10px !important }
   toolbarHeight: { minHeight: 0, paddingTop: 0, paddingBottom: 10 },
@@ -105,6 +109,27 @@ export const toolbarMd = {
   removeButtonColor: scssColors.white,
   // [I] toolbar.md.scss order map ([CSS] 16719-16725, 16741, 16743): back 0, menuToggle 1, [left] 2, title 3,
   // [start] 4, [end] 5, [right] 6, menuToggle[end] 7. Note [start] buttons sort AFTER the title in md.
+} as const;
+
+// ---------------------------------------------------------------------------------------------------
+// ion-footer (components/toolbar/toolbar.md.scss, toolbar.scss; [CSS] 12349 / 16716 / 16717)
+// ---------------------------------------------------------------------------------------------------
+export const footerMd = {
+  // [CSS] 12349 `ion-footer { left: 0; bottom: 0; position: absolute; z-index: 10; display: block; width: 100% }` [M] Language page: footer
+  // 360x36 at (0,764) of the 800px page; background transparent (the ion-content's white shows behind it); no padding / border.
+  // ion-content gets `margin-bottom` = the footer height (scroll-content margin 80px 0 36px), which a flex column does by itself.
+  zIndex: 10,
+  // [CSS] 16716-16717 `.footer-md::before { top: -2px; bottom: auto; height: 2px; left: 0; width: 100%; position: absolute;
+  // background: url(<16x7 png>) repeat-x; background-position: left 0 top 0 }` [M] ::before at top -2, 360x2, position 0 0, repeat-x:
+  // the top 2 px of the same png the header strip uses, drawn ABOVE the footer. `[no-border]` ([CSS] 16718) hides it; Topbath hides it
+  // for `.csm-footer-tabs` ([CSS] 7284 `.csm-footer-tabs:before { display: none }`), `ion-footer.before-btn:before` ([CSS] 8223) and (together with the
+  // header-md one) `.af-none:after, .af-none:before { box-shadow: none !important; background-image: inherit !important }` ([CSS] 946).
+  strip: { height: 2, offsetY: 0, top: -2 },
+  // [CSS] `[padding] { padding: 16px }` (`ion-app.md [padding]`, contentMd; [CSS] 13359; [I] components/app/app.scss:154) = ionPadding: [M] footer 360x68 at y 732 with the
+  // full button 328x36 at (16,748). A non-toolbar footer has NO safe-area padding: only `.md ion-footer .toolbar:last-child` ([CSS] 18064)
+  // adds env(safe-area-inset-bottom) (0 in the reference), and it equals the toolbar's own 4px padding / 56px min-height.
+  // `button ion-button full` inside: width 100% (the button is a block, margin 0 by the global `button { margin: 0 !important }`), radius 0,
+  // height 36, box-shadow of a raised md button [M] button 360x36 at (0,764) -> see IonButton.
 } as const;
 
 // ---------------------------------------------------------------------------------------------------

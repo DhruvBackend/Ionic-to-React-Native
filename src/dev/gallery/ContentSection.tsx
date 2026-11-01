@@ -7,7 +7,7 @@ import { IonCard, IonCardContent, IonCardHeader } from '../../components/ionic/I
 import { IonCheckbox, IonRadio, IonRadioGroup } from '../../components/ionic/IonChoice';
 import { IonCol, IonGrid, IonRow } from '../../components/ionic/IonContent';
 import { IonInputItem } from '../../components/ionic/IonInput';
-import { IonItem, IonList, IonListHeader } from '../../components/ionic/IonList';
+import { IonItem, IonList, IonListHeader, IonParagraph } from '../../components/ionic/IonList';
 import { buttonMd } from '../../theme/ionicMdContent';
 import { fontFor } from '../../theme/typography';
 
@@ -63,6 +63,30 @@ export function ContentSection() {
         </IonRadioGroup>
       </IonList>
       <Text style={styles.label}>{log}</Text>
+      <Text style={styles.label}>ion-list-header (an Item, label inside item-inner and input-wrapper): border-heading + p (language), color secondary, mixed text + spans (scan-point)</Text>
+      <IonList>
+        <IonListHeader borderHeading testID="gallery-lh-bh-p">
+          <IonParagraph>भाषा चुनिए / Choose Your Language</IonParagraph>
+        </IonListHeader>
+        <IonItem label="English" />
+      </IonList>
+      <IonList>
+        <IonListHeader color="secondary" style={styles.scanHeader} labelStyle={styles.scanHeaderText}>
+          Scan History
+        </IonListHeader>
+        <IonItem label="Coupon Code : 123" />
+        <IonListHeader
+          testID="gallery-lh-total"
+          style={styles.totalHeader}
+          labelStyle={styles.totalHeaderText}
+        >
+          Total Scan Point
+          <View style={styles.row}>
+            <Text style={styles.points}>12</Text>
+            <Text style={[styles.points, styles.pointsUnit]}>{'  PT'}</Text>
+          </View>
+        </IonListHeader>
+      </IonList>
       <Text style={styles.label}>checkbox (plumber-add) / plain list header</Text>
       <IonList>
         <IonListHeader>Scan History</IonListHeader>
@@ -116,4 +140,11 @@ const styles = StyleSheet.create({
   label: { fontSize: 8, marginTop: 2 },
   row: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 },
   edit: { marginHorizontal: 0 },
+  // page-scan-point ion-list-header ([CSS] 18510-18513): margin-bottom 0, border-bottom 2px #d7ab52, font 16px / 18px; .total-points: border-top 0, #000
+  scanHeader: { marginBottom: 0, borderBottomWidth: 2, borderBottomColor: '#d7ab52' },
+  scanHeaderText: { fontSize: 16, lineHeight: 18 },
+  totalHeader: { marginBottom: 0, borderTopWidth: 0, borderBottomWidth: 2, borderBottomColor: '#d7ab52' },
+  totalHeaderText: { fontSize: 16, color: '#000', lineHeight: 18 },
+  points: { ...fontFor(600), fontSize: 18, color: '#d7ab52' },
+  pointsUnit: { color: '#43901b' },
 });

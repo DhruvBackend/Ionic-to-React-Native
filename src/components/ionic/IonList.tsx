@@ -1,6 +1,6 @@
 // <ion-list>, <ion-list-header>, <ion-item> / <button ion-item> and <ion-label> in md mode
 // (components/list/list.md.scss, item/item.js template + item.md.scss, label.md.scss). Values and citations:
-// src/theme/ionicMdContent.ts (listMd, itemContentMd, listHeaderMd).
+// src/theme/ionicMdContent.ts (listMd, itemContentMd, listHeaderMd). IonListHeader is an Item too (item-inner > input-wrapper > ion-label).
 //
 // Item DOM (item.js:405-420):  [item-start | ion-checkbox] <div.item-inner><div.input-wrapper>[ion-label][ion-input...]</div>
 //                              [item-end | ion-radio | ion-toggle]</div> <div.button-effect>
@@ -125,23 +125,41 @@ export function IonLabel({ children, color, style, textStyle: ts, fontSize = ite
 }
 
 export interface IonListHeaderProps {
-  color?: string; // color="secondary" ([CSS] 14854): background = the colour, text = its contrast
-  borderHeading?: boolean; // class="border-heading": only the background / radius rule matches (see listHeaderMd)
+  color?: string; // color="secondary" ([CSS] 14854 .list-header-md-secondary): background = the colour, text = its contrast
+  borderHeading?: boolean; // class="border-heading" (Topbath): grey rounded header, bold 16px label and the 22x5 bar (see listHeaderMd)
   afterList?: boolean;
-  style?: StyleProp<ViewStyle>;
-  labelStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>; // the <ion-list-header> box (page rules: margin-bottom, border-bottom ...)
+  labelStyle?: StyleProp<TextStyle>; // text of bare string children (page rules: font-size, color ...)
   testID?: string;
+  // The projected content: a string / number becomes the label's text; any element (<IonParagraph>, a View ...) is laid out as is.
   children?: React.ReactNode;
 }
 
-// ion-list-header (list.md.scss:169-178): `display: flex; align-items: center; justify-content: space-between`. It has no template, so
-// its content is projected straight into the flex row: NO ion-label / item-inner / input-wrapper (no label margins, no ellipsis; text
-// wraps). That is why Topbath's `.border-heading .item-inner .input-wrapper ion-label` and ::after rules never match (see listHeaderMd).
+// <p> inside an ion-item / ion-list-header: `.item-md p` = 14px, #666, 400 (margin 0), nowrap + ellipsis inherited from ion-label.
+export function IonParagraph({ children, style, testID = 'ion-paragraph' }: { children?: React.ReactNode; style?: StyleProp<TextStyle>; testID?: string }) {
+  return (
+    <Text testID={testID} numberOfLines={1} style={[textStyle(itemContentMd.paragraph.fontSize, 400, itemContentMd.paragraph.color), styles.shrink, style]}>
+      {children}
+    </Text>
+  );
+}
+
+// ion-list-header IS an Ionic Item (item.js selector `ion-list-header, ion-item, ...`), so Ionic renders
+//   ion-list-header.item.item-md.list-header.list-header-md  (flex, position relative, overflow hidden, padding-left 16, bg #fff)
+//     > div.item-inner (flex 1, min-height 45)  > div.input-wrapper (flex 1)  > ion-label.label-md (margin 13px 8px 13px 0, nowrap, ellipsis)
+// around the projected content, which is why Topbath's `.border-heading .item-inner .input-wrapper ion-label` rules and its ::after bar DO
+// match (listHeaderMd; measured in the reference build). There is no `item-block` class, so no inner border-bottom.
+//   plain:                     label 14px 400 #757575 (inherited from the header), border-top 1px #dedede, margin-bottom 13
+//   .border-heading:           bg #f8f8f8, radius 8 8 0 0, no border-top / margin-bottom, label 16px 600 #000 margin-left 15, bar
+//   .border-heading + <p>:     the <p> keeps 14px 400 #666 (IonParagraph); the label box (margin-left 15, 17px high) is the same
+//   color="secondary":         bg = colour, label = contrast colour, 14px 400
+//   mixed children (scan-point total points: text + floated spans): row, the first string grows, the rest sits at the end
 export function IonListHeader({ color, borderHeading, afterList, style, labelStyle, testID = 'ion-list-header', children }: IonListHeaderProps) {
   const map = ionicColors as Record<string, string>;
   const base = color ? map[color] : undefined;
   const bh = listHeaderMd.borderHeading;
-  const textColor = base ? colorContrast(base) : listHeaderMd.color;
+  const nodes = React.Children.toArray(children);
+  const mixed = nodes.some(c => typeof c !== 'string' && typeof c !== 'number');
   const wrap: ViewStyle = {
     flexDirection: 'row',
     alignItems: 'center',
@@ -152,23 +170,39 @@ export function IonListHeader({ color, borderHeading, afterList, style, labelSty
     marginBottom: borderHeading ? 0 : listHeaderMd.marginBottom,
     borderTopWidth: borderHeading ? 0 : listHeaderMd.borderTopWidth,
     borderTopColor: listHeaderMd.borderTopColor,
-    backgroundColor: base ?? (borderHeading ? bh.background : undefined),
+    backgroundColor: base ?? (borderHeading ? bh.background : listHeaderMd.background),
     ...(borderHeading ? { borderTopLeftRadius: bh.radius, borderTopRightRadius: bh.radius } : null),
     ...(afterList ? { marginTop: listMd.adjacentHeaderMarginTop } : null),
     overflow: 'hidden',
   };
-  const text = textStyle(listHeaderMd.fontSize, 400, textColor);
+  const text = borderHeading
+    ? textStyle(bh.label.fontSize, bh.label.fontWeight, bh.label.color)
+    : textStyle(listHeaderMd.fontSize, 400, base ? colorContrast(base) : listHeaderMd.color);
   return (
     <View testID={testID} style={[wrap, style]}>
-      {React.Children.toArray(children).map((c, i) =>
-        typeof c === 'string' || typeof c === 'number' ? (
-          <Text key={i} style={[text, styles.headerText, labelStyle]}>
-            {c}
-          </Text>
-        ) : (
-          c
-        ),
-      )}
+      <View testID={`${testID}-inner`} style={styles.headerInner}>
+        <View testID={`${testID}-wrapper`} style={styles.wrapper}>
+          <View testID={`${testID}-label`} style={[styles.label, styles.headerLabel, borderHeading && { marginLeft: bh.label.marginLeft }]}>
+            {nodes.map((c, i) =>
+              typeof c === 'string' || typeof c === 'number' ? (
+                <Text key={i} numberOfLines={1} style={[text, styles.shrink, mixed && styles.grow, labelStyle]}>
+                  {c}
+                </Text>
+              ) : (
+                c
+              ),
+            )}
+          </View>
+        </View>
+      </View>
+      {borderHeading ? (
+        // .border-heading ... ion-label::after: absolute against the (position: relative) header
+        <View
+          pointerEvents="none"
+          testID={`${testID}-bar`}
+          style={{ position: 'absolute', top: bh.bar.top, left: bh.bar.left, width: bh.bar.width, height: bh.bar.height, backgroundColor: bh.bar.color }}
+        />
+      ) : null}
     </View>
   );
 }
@@ -319,5 +353,10 @@ const styles = StyleSheet.create({
     marginBottom: itemContentMd.label.marginBottom,
     marginLeft: itemContentMd.label.marginLeft,
   },
-  headerText: { flexShrink: 1 },
+  // .item-inner of an ion-list-header: flex 1, min-height 45 (no padding, no border: the header has no item-block class)
+  headerInner: { flex: 1, flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch', overflow: 'hidden', minHeight: listHeaderMd.minHeight },
+  // the label's content is a row: projected text + elements share the line
+  headerLabel: { flexDirection: 'row', alignItems: 'center' },
+  shrink: { flexShrink: 1 },
+  grow: { flexGrow: 1 },
 });

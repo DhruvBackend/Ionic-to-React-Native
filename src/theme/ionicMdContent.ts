@@ -190,6 +190,9 @@ export const itemContentMd = {
   activatedBackground: md.listActivatedBackgroundColor, // [CSS] 14628 `.item-md.activated { background-color: #f1f1f1 }`
   label: { marginTop: 13, marginRight: 8, marginBottom: 13, marginLeft: 0 }, // [CSS] 14768 .label-md [M] 13px 8px 13px 0
   // [M] ion-label text: 16 px, line-height normal (18 px at 16 px in Chrome's Roboto metrics), black
+  // [CSS] `.item-md p { margin: 0 0 2px; font-size: 1.4rem; line-height: normal; color: #666 }` (item.md.scss $item-md-paragraph-*);
+  // Topbath `p { margin: 0 !important }` removes the margin. Applies to every <p> inside an ion-item / ion-list-header (both are `.item-md`).
+  paragraph: { fontSize: 14, color: '#666' },
   checkboxMargin: { top: 9, right: 36, bottom: 9, left: 4 }, // checkbox.md.scss:120-127 `.item.item-md .checkbox-md` ([CSS] 13211) [M]
   checkboxMarginEnd: { top: 11, right: 10, bottom: 10, left: 0 }, // [item-end]/[item-right] ([CSS] 13212)
   radioMarginEnd: { top: 9, right: 10, bottom: 9, left: 0 }, // radio.md.scss:141-147 `.item-md .radio-md` ([CSS] 15090) [M] ri1c
@@ -201,19 +204,30 @@ export const itemContentMd = {
 } as const;
 
 export const listHeaderMd = {
-  paddingLeft: md.itemPaddingLeft, // list.md.scss:170 padding-left 16 ([CSS] 14852)
+  // ion-list-header IS an Ionic Item (components/item/item.js selector `ion-list-header, ion-item, [ion-item], ion-item-divider`), so
+  // Ionic renders it as `ion-list-header.item.item-md.list-header.list-header-md > div.item-inner > div.input-wrapper > ion-label.label-md`
+  // around the projected content (no `item-block` class, so no .item-inner border-bottom) [M] probe of the reference build, Language page.
+  background: itemContentMd.backgroundColor, // `.item-md { background-color: #fff }` [M] rgb(255,255,255) for a plain header
+  paddingLeft: md.itemPaddingLeft, // list.md.scss:170 padding-left 16 ([CSS] 14852) [M] inner at x 16
   marginBottom: 13, // :171 $list-md-header-margin-bottom ([CSS] 14852) [M] lh2 margin-bottom 13
-  minHeight: 45, // :173 4.5rem
+  minHeight: 45, // :173 4.5rem; `.item-inner` min-height 45 makes the box 46 with the 1px border-top [M] plain 326x46
   borderTopWidth: 1, // :175 $list-md-header-border-top 1px solid #dedede
   borderTopColor: md.listBorderColor,
-  fontSize: 14, // :176 1.4rem
-  color: '#757575', // :177
-  // color="secondary" ([CSS] 14854 .list-header-md-secondary): background secondary, color contrast
-  // Topbath `ion-list ion-list-header.border-heading` ([T] 9742-9768, [CSS] 8016): background #f8f8f8; margin-bottom 0; border-radius
-  // 8px 8px 0 0; border-top 0. NOTE (parity): the same block also styles `.item-inner .input-wrapper ion-label` (font 16 / 600 / #000,
-  // margin-left 15) and an ::after bar ([CSS] 8017), but ion-list-header renders NO item-inner / input-wrapper / ion-label (its template
-  // is just <ng-content>), so those rules never match: the text stays list-header-md (14px #757575 400), no bar, no 15px margin.
-  borderHeading: { background: '#f8f8f8', radius: 8 },
+  fontSize: 14, // :176 1.4rem [M] plain label text 14px 400
+  color: '#757575', // :177 [M] rgb(117,117,117); color="x" (.list-header-md-<c>, [CSS] 14854) gives background + contrast colour
+  // The label is the ordinary `.label-md`: margin 13px 8px 13px 0, flex 1, overflow hidden, nowrap + ellipsis ([CSS] 14768, [M] 302x16 at 16,15.5)
+  // A projected <p> keeps `.item-md p` (itemContentMd.paragraph: 14px #666 400, margin 0 by Topbath's global `p { margin: 0 !important }`).
+  // Topbath `ion-list ion-list-header.border-heading` ([T] 9742-9768, [CSS] 8016-8018): background #f8f8f8; margin-bottom 0; border-radius
+  // 8px 8px 0 0; border-top 0, AND (the `.item-inner .input-wrapper ion-label` selectors DO match, because of the structure above):
+  // label font 16px / 600 / #000, margin-left 15 (margin 13px 8px 13px 15px, [M] label 287x17 at 31,14), plus the ::after bar:
+  // position absolute; top 20; left 0; 22x5; #002d25. ion-label is not positioned, so the bar's containing block is the header
+  // (`.item-md` is position: relative) [M] bar at header (0,20) 22x5 rgb(0,45,37).
+  borderHeading: {
+    background: '#f8f8f8',
+    radius: 8,
+    label: { fontSize: 16, fontWeight: 600, color: '#000', marginLeft: 15 },
+    bar: { top: 20, left: 0, width: 22, height: 5, color: ionicColors.primary },
+  },
 } as const;
 
 // ---------------------------------------------------------------------------------------------------

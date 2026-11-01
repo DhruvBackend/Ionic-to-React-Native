@@ -9,7 +9,8 @@ import { ScrollSection } from './gallery/ScrollSection';
 import { IonDatetime } from '../components/ionic/IonDatetime';
 import { IonicSelectable } from '../components/ionic/IonicSelectable';
 import { IonSelect } from '../components/ionic/IonSelect';
-import { IonBarButton, Header } from '../components/ionic/IonNavbar';
+import { IonButton } from '../components/ionic/IonButton';
+import { Header, IonBarButton, IonFooter, IonHeader, IonToolbar } from '../components/ionic/IonNavbar';
 import { IonTabButton } from '../components/ionic/IonTabs';
 import { MaterialIcon } from '../components/ionic/MaterialIcon';
 import { SelectSearchable } from '../components/ionic/SelectSearchable';
@@ -350,8 +351,39 @@ function PageStructureSection() {
       <Header color="primary" title="Executive Detail" showBack onBack={noop} end={<IonBarButton icon="md-more" color="light" />} />
       <Text style={styles.label}>class h80, color white (login pages)</Text>
       <Header color="white" tall noBorder title="" showBack onBack={noop} />
-      <Text style={styles.label}>menuToggle, no back button</Text>
+      <Text style={styles.label}>ion-toolbar class h80, color white (Language; header strip below)</Text>
+      <IonHeader>
+        <IonToolbar color="white" tall testID="gallery-toolbar-h80">
+          <Text style={styles.label}>logo</Text>
+        </IonToolbar>
+      </IonHeader>
+      <Text style={[styles.label, styles.afterToolbar]}>menuToggle, no back button</Text>
       <Header color="primary" title="Menu toggle" menuToggle />
+
+      <Text style={styles.h}>ion-footer (page bottom; button ion-button full)</Text>
+      <Text style={styles.label}>language / select-registration-type: strip + full button, no padding</Text>
+      <View style={styles.footerPage} testID="gallery-footer-plain">
+        <View style={styles.grow} />
+        <IonFooter>
+          <IonButton full>Continue</IonButton>
+        </IonFooter>
+      </View>
+      <Text style={styles.label}>[padding] (add-dealer, order-detail): 16px around a full button</Text>
+      <View style={styles.footerPage} testID="gallery-footer-padding">
+        <View style={styles.grow} />
+        <IonFooter padding>
+          <IonButton full round color="primary">
+            Generate PDF
+          </IonButton>
+        </IonFooter>
+      </View>
+      <Text style={styles.label}>no strip (csm-footer-tabs / before-btn / af-none / [no-border])</Text>
+      <View style={styles.footerPage} testID="gallery-footer-noborder">
+        <View style={styles.grow} />
+        <IonFooter noBorder style={styles.footerPadding}>
+          <IonButton full>Update</IonButton>
+        </IonFooter>
+      </View>
 
       <Text style={styles.h}>Tab bars (tap to select)</Text>
       {roles.map(role => (
@@ -438,6 +470,10 @@ export function ComponentGallery() {
 }
 
 const styles = StyleSheet.create({
+  afterToolbar: { marginTop: 8 },
+  grow: { flex: 1 },
+  footerPadding: { paddingVertical: 10, paddingHorizontal: 16 }, // style="padding: 10px 16px" (distributor-detail)
+  footerPage: { height: 110, backgroundColor: '#fff', justifyContent: 'flex-end' },
   page: { padding: 12, backgroundColor: 'white' },
   h: { ...fontFor(700), fontSize: 16, marginTop: 14, marginBottom: 6 },
   sample: { fontSize: 15, marginVertical: 2 },
