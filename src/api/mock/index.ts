@@ -10,6 +10,7 @@
 // Response shapes come from the fields each Ionic page reads from the response
 // (e.g. home.ts reads resp.karigar.balance_point).
 import { fixtureFiles } from '../fixtures.generated';
+import { HttpError } from '../client';
 import { store } from './store';
 
 export { store };
@@ -75,6 +76,11 @@ export async function mockRequest(method: 'GET' | 'POST', fn: string, body?: any
   } else {
     console.warn(`[MOCK] no handler for ${method} ${fn}`);
     return { status: 'error', statusMsg: 'error', msg: `MOCK: no handler for ${fn}` };
+  }
+  // { "$httpError": 500, "body": {...} } makes the mock throw what the network transport throws.
+  const marker = response as { $httpError?: unknown; body?: unknown } | null;
+  if (marker && typeof marker === 'object' && typeof marker.$httpError === 'number') {
+    throw new HttpError(marker.$httpError, JSON.parse(JSON.stringify(marker.body ?? {})));
   }
   // Deep-copy so screens can't mutate the store or fixtures by accident.
   return JSON.parse(JSON.stringify(response));

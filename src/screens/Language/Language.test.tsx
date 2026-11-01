@@ -4,7 +4,7 @@ import ReactTestRenderer from 'react-test-renderer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { expectContract } from '../../../__tests__/helpers/contract';
-import { HttpError, getTransport, setTransport, type ApiRequest } from '../../api/client';
+import { getTransport, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
 import sessions from '../../api/fixtures/_sessions.json';
 import i18n from '../../i18n';
@@ -21,13 +21,10 @@ const navigation = { navigate: jest.fn(), push: jest.fn() };
 let calls: ApiRequest[] = [];
 let restoreTransport: () => void = () => {};
 
-function installSpy(failFn?: string) {
+function installSpy() {
   const previous = getTransport();
   setTransport(req => {
     calls.push(req);
-    if (failFn && req.fn === failFn) {
-      return Promise.reject(new HttpError(500, {}));
-    }
     return previous(req);
   });
   restoreTransport = () => setTransport(previous);
@@ -205,8 +202,7 @@ describe('quirks', () => {
   });
 
   test('5: an HTTP error on update_language does nothing (no navigation, no overlay)', async () => {
-    restoreTransport();
-    installSpy('app_karigar/update_language');
+    setFixtureVariant('app_karigar/update_language', 'error');
     await mount();
     await press('lang-continue');
     await settle();

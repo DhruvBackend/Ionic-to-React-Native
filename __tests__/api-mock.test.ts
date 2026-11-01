@@ -1,6 +1,6 @@
 // MOCK mode (forced for all tests in jest.setup.js) must never touch the network and must answer
 // from local handlers or shared endpoint fixtures (plan Task 5).
-import { db } from '../src/api/client';
+import { db, HttpError } from '../src/api/client';
 import {
   fixture,
   registerFixture,
@@ -82,4 +82,15 @@ test('the store keeps state between calls (stateful mocks)', async () => {
   await db.onPostRequestDataFromApi({ points: 5 }, 'test/add', db.rootUrl);
   await db.onPostRequestDataFromApi({ points: 3 }, 'test/add', db.rootUrl);
   expect((await db.onPostRequestDataFromApi({}, 'test/balance', db.rootUrl)).points).toBe(8);
+});
+
+test('an $httpError variant throws the same HttpError the network transport throws', async () => {
+  registerFixture({ ...FX, endpoint: 'test/err', variants: { default: { status: 'SUCCESS' }, error: { $httpError: 503, body: { msg: 'down' } } } });
+  setFixtureVariant('test/err', 'error');
+  const err = await db.onPostRequestDataFromApi({}, 'test/err', db.rootUrl).catch((e: unknown) => e);
+  expect(err).toBeInstanceOf(HttpError);
+  expect((err as HttpError).status).toBe(503);
+  expect((err as HttpError).error).toEqual({ msg: 'down' });
+  resetMock();
+  expect((await db.onPostRequestDataFromApi({}, 'test/err', db.rootUrl)).status).toBe('SUCCESS');
 });

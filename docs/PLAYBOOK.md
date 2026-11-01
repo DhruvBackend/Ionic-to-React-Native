@@ -12,6 +12,8 @@ A reusable guide for converting the Basiq360 / Abacusdesk loyalty apps (Ionic 3 
 
 ## Part A — Instructions for the AI agent
 
+> **For the Topbath port the source of truth is the implementation plan** (`docs/superpowers/plans/2026-10-29-topbath-rn-migration.md`): its **Global Constraints** section replaces the hard rules below where they differ, and its **S-task** (per-screen porting procedure) replaces A2 step 4 and B9. The design spec is `docs/superpowers/specs/2026-10-29-topbath-rn-migration-design.md`. The generic rules below remain a reusable baseline for other projects.
+
 > You are porting an existing Ionic 3 / Angular 5 / Cordova mobile app to **bare React Native with TypeScript** (no Expo). Follow these rules exactly.
 
 ### A1. Hard rules
@@ -343,14 +345,28 @@ export default function PageName({ navigation, route }: any) {
 ## Part C — Worked example: Top Bath (first app)
 
 - **Source:** `Basiq360-Abacusdesk/Topbath_App_loyalty` — Ionic 3.9.5, Angular 5.2.11, Cordova, package `com.topsan.app` (brand Topsan), v0.1.5.
-- **Size:** 95 page folders, 8 of which contain sub-pages → **117 screens**; ~51 images; 4 languages (`en`, `es`, `hin`, `nep`); primary colour `#002d25`.
+- **Size:** 95 page folders, 8 of which contain sub-pages -> **117 screens**; ~51 images; 4 languages (`en`, `es`, `hin`, `nep`); primary colour `#002d25`.
+- **Scope:** all 117 screens, with feature flags: **61 live or push-only** (phases 1-5) and **56 dead behind flags** (phases 6-7: 16 unreachable loyalty pages, 40 SFA pages). Phase counts 7/22/11/15/6/16/40 (`docs/inventory.json`, spec section 6.1).
 - **RN project:** `C:\Users\dhruv\Projects\topbath-rn` (RN 0.88.1), docs in its `docs/` folder.
 - **Two backends:** loyalty `dd_api` (`app_karigar/*`, `app_master/*`) and SFA `crm/api/app` (`Checkin`, `Distributor`, `dealerData`, `Order`, `Attendence`, `TravelPlan`, `Leave`). A dev host exists but is commented out in `dbservice.ts`.
-- **Roles at signup:** Plumber, Seller (`Sales_Boy`), Dealer, Sales Executive. Consumer is commented out. The Employee/SFA module (~30 pages) is not reachable from the UI but **is in scope**.
+- **Roles at signup:** Plumber, Seller (`Sales_Boy`), Dealer, Sales Executive. Consumer is commented out. The Employee/SFA module (40 pages) is not reachable from the UI; it is ported behind the `sfa` feature flag (off for Topbath).
 - **Root logic:** `LanguagePage` first; `TabsPage` once a profile is loaded. Tabs differ per `userStorageData.type`.
 - **Native features:** QR scan, camera, files/upload, GPS + geocoding, navigation launch, share, in-app browser, video capture, push (Firebase), permissions.
-- **Decisions:** bare RN (no Expo), port everything incl. SFA, fully local, MOCK mode default, test package id `com.topsan.app.rn`. The old app was **not** run first (no working OTP); comparison happens after the port.
+- **Decisions:** bare RN (no Expo), port all 117 screens incl. SFA (dead screens behind feature flags), fully local, MOCK mode default, test package id `com.topsan.app.rn`. The old app was **not** run first (no working OTP); comparison happens after the port.
 - **Backend-dependent features (MOCK until access is given):** login OTP SMS, registration, coupon scan/save, redeem, point transfer, complaints, plumber check-in/out, sales-exec add, feedback/enquiry/survey, push, maps.
+
+---
+
+### Pilot lessons (Language pilot, plan Task 13)
+
+a. Shared component gaps go to the kit on master first; the screen branch then rebases onto master.
+b. Parity states must be reachable in production. A branch the shipped app can never reach (for example a state depending on a storage key the app reads but never writes, like `token`) is unit-tested only and gets no parity state. The card's **Storage keys** section flags these.
+c. Diff % is not proof. The reviewer and the lead must look at both images and confirm they show the same state (the pilot's reference once showed the wrong state at 0.5%).
+d. Ionic taps in the reference: drive the page's own handler inside NgZone when TapClick swallows synthetic events. RN taps go through `rnAction tap:<testID>`.
+e. Capture RN at 360dp (emulator `wm density 480` on a 1080-wide device) with deviceVersion 15 for API >= 35.
+f. Cold starts show the 6 s splash; capture uses the ready-wait plus a 5.5 s settle.
+g. Worktrees: implementers code and run Jest in worktrees (junction `node_modules`); the lead merges to master and does all APK builds and emulator captures sequentially (one emulator, laptop memory).
+h. HTTP error behaviour ("server error does nothing") is tested with a fixture variant `{ "$httpError": 500, "body": {} }` and `setFixtureVariant`, not a custom transport.
 
 ---
 

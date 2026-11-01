@@ -27,6 +27,9 @@ Files starting with `_` are shared data, not endpoints (`gen-fixtures.mjs` skips
 - Response shapes follow the fields the Ionic page actually reads (see the screen's `card.md`).
 - Use realistic but fake data: Indian names, 10-digit numbers starting 9/8/7, no real people.
 
+## HTTP error variants
+A variant of the form `{ "$httpError": 500, "body": { ... } }` makes the mock throw the same `HttpError(status, body)` the network transport throws for a non-2xx response, so a screen's error callback runs. `$httpError` must be an integer 400-599; `body` is optional (default `{}`). Example: `"error": { "$httpError": 500, "body": {} }`, selected with `setFixtureVariant(endpoint, 'error')`. The Ionic reference harness should answer such a variant with the same status.
+
 ## After adding or renaming a file
 Run `node scripts/gen-fixtures.mjs`. `npm test` runs it automatically (`pretest`).
 

@@ -51,3 +51,11 @@ test('server must be root, sfa or server_url', () => {
   const bad = { ...ok, server: 'prod' };
   expect(genStatus(tmpDir({ 'app_karigar__profile.json': bad }))).not.toBe(0);
 });
+
+test('an $httpError variant needs an integer status 400-599 and nothing but body beside it', () => {
+  const v = (variant: unknown) => genStatus(tmpDir({ 'app_karigar__profile.json': { ...ok, variants: { default: {}, error: variant } } }));
+  expect(v({ $httpError: 500, body: {} })).toBe(0);
+  expect(v({ $httpError: 200 })).not.toBe(0);
+  expect(v({ $httpError: '500' })).not.toBe(0);
+  expect(v({ $httpError: 500, extra: 1 })).not.toBe(0);
+});

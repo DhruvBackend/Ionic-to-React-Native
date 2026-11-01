@@ -23,6 +23,7 @@ import {
   lineOf,
   collapse,
   listPages,
+  walk,
 } from './lib/ionic-scan.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -42,6 +43,52 @@ function findAssignment(clean, masked, ident) {
     if (close > 0) return { text: collapse(clean.slice(open, close + 1)), line: lineOf(clean, open) };
   }
   return null;
+}
+
+// Every storage key the whole Ionic app writes (set / setItem), cached per source root.
+const writtenCache = new Map();
+function writtenKeys(src) {
+  if (writtenCache.has(src)) return writtenCache.get(src);
+  const keys = new Set();
+  for (const f of walk(src)) {
+    if (!f.endsWith('.ts')) continue;
+    const { clean, masked } = maskTs(read(f));
+    for (const c of findCalls(clean, masked, 'set|setItem')) {
+      if (!/storage/i.test(c.recv)) continue;
+      const k = (c.args[0] || '').match(/^(['"])(.*)\1$/);
+      if (k) keys.add(k[2]);
+    }
+  }
+  writtenCache.set(src, keys);
+  return keys;
+}
+
+const LIFECYCLE = ['ionViewDidLoad', 'ionViewWillEnter', 'ionViewDidEnter', 'ionViewWillLeave', 'ionViewDidLeave', 'ngOnInit'];
+
+/** first-level calls (outside nested blocks, callbacks and call arguments) of one lifecycle method body */
+function lifecycleCalls(clean, masked, method) {
+  const re = new RegExp('(?<![\\w$.])' + method + '\\s*\\([^)]*\\)\\s*(?::\\s*[\\w<>\\[\\]]+\\s*)?\\{', 'g');
+  const found = [];
+  let m;
+  while ((m = re.exec(masked))) {
+    const open = m.index + m[0].length - 1;
+    const close = matchClose(masked, open);
+    if (close < 0) continue;
+    const calls = [];
+    let depth = 0;
+    for (let i = open + 1; i < close; i++) {
+      const c = masked[i];
+      if ('{(['.includes(c)) {
+        if (c === '(' && depth === 0) {
+          const head = masked.slice(open + 1, i).match(/(?:this\.)?[\w$]+(?:\.[\w$]+)*\s*$/);
+          if (head) calls.push({ text: collapse(clean.slice(open + 1 + head.index, i)) + '(…)', line: lineOf(clean, open + 1 + head.index) });
+        }
+        depth++;
+      } else if ('})]'.includes(c)) depth--;
+    }
+    found.push({ method, line: lineOf(clean, m.index), calls });
+  }
+  return found;
 }
 
 export function buildCard(name, { src = IONIC_SRC } = {}) {
@@ -92,6 +139,8 @@ export function buildCard(name, { src = IONIC_SRC } = {}) {
   const params = [];
   const overlays = [];
   const natives = new Set();
+  const storageUse = [];
+  const lifecycle = [];
   const i18n = [];
   for (const f of tsFiles) {
     const raw = read(`${dir}/${f}`);
@@ -113,6 +162,17 @@ export function buildCard(name, { src = IONIC_SRC } = {}) {
     for (const c of findCalls(clean, masked, 'onShowMessageAlertHandler|onShowLoadingHandler|onDismissLoadingHandler|presentToast|errToasr')) {
       overlays.push({ kind: `dbService.${c.name}`, text: collapse(c.args.join(', ')), file, line: c.line });
     }
+    for (const c of findCalls(clean, masked, 'get|set|remove|getItem|setItem|removeItem')) {
+      if (!/storage/i.test(c.recv)) continue;
+      const k = (c.args[0] || '').trim();
+      const op = /^(get|getItem)$/.test(c.name) ? 'read' : 'write';
+      const lit = k.match(/^(['"])(.*)\1$/);
+      storageUse.push({ key: lit ? lit[2] : k, literal: !!lit, op, how: c.recv + '.' + c.name, file, line: c.line });
+    }
+    for (const c of findCalls(clean, masked, 'clear')) {
+      if (/storage/i.test(c.recv)) storageUse.push({ key: '(all keys)', literal: false, op: 'write', how: c.recv + '.clear', file, line: c.line });
+    }
+    for (const mth of LIFECYCLE) for (const l of lifecycleCalls(clean, masked, mth)) lifecycle.push({ ...l, file });
     for (const m of clean.matchAll(/from\s+['"]@ionic-native\/([^'"]+)['"]/g)) natives.add(`${m[1]} (${file}:${lineOf(clean, m.index)})`);
     for (const c of findCalls(clean, masked, 'get|instant|stream')) {
       if (!/translate/i.test(c.recv)) continue;
@@ -186,6 +246,34 @@ export function buildCard(name, { src = IONIC_SRC } = {}) {
   } else w('_none_');
   w('');
 
+  // 6b. storage keys
+  w('## Storage keys', '');
+  if (storageUse.length) {
+    const written = writtenKeys(src);
+    w('| Key | Access | Where | Written anywhere in the Ionic app? |', '|---|---|---|---|');
+    for (const u of storageUse) {
+      const flag =
+        u.op === 'read' && u.literal
+          ? written.has(u.key)
+            ? 'yes'
+            : '**NEVER WRITTEN** (read-only key: states depending on it are unreachable in production)'
+          : u.op === 'read'
+            ? 'dynamic key'
+            : '';
+      w('| ' + code(u.key) + ' | ' + u.op + ' (' + u.how + ') | ' + u.file + ':' + u.line + ' | ' + flag + ' |');
+    }
+  } else w('_none_');
+  w('');
+
+  // 6c. lifecycle
+  w('## Lifecycle', '');
+  if (lifecycle.length) {
+    for (const l of lifecycle) {
+      w('- ' + code(l.method) + ' (' + l.file + ':' + l.line + '): ' + (l.calls.length ? l.calls.map(c => code(clip(c.text, 100)) + ' (line ' + c.line + ')').join(', ') : '_no first-level calls_'));
+    }
+  } else w('_none_');
+  w('');
+
   // 7. natives
   w('## Natives (@ionic-native)', '');
   if (natives.size) for (const n of [...natives].sort()) w(`- ${n}`);
@@ -239,6 +327,16 @@ export function buildCard(name, { src = IONIC_SRC } = {}) {
   return { page, text: out.join('\n').replace(/\n{3,}/g, '\n\n').replace(/\n+$/, '\n\n') .replace(/## Quirks\n\n\n/, '## Quirks\n\n\n') };
 }
 
+/** Keep an existing card's hand-written "## Quirks" and "## States" (everything from "## Quirks" on). */
+export function preserveHandWritten(generated, existing) {
+  if (!existing) return generated;
+  const at = existing.indexOf('\n## Quirks');
+  if (at < 0) return generated;
+  const tail = existing.slice(at + 1);
+  if (!/\S/.test(tail.replace(/^## (Quirks|States)\s*$/gm, ''))) return generated; // still empty
+  return generated.slice(0, generated.indexOf('## Quirks')) + tail;
+}
+
 // CLI
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
@@ -254,7 +352,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   else {
     const dest = path.join(screens, page.name, 'card.md');
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, text);
+    fs.writeFileSync(dest, preserveHandWritten(text, fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8').replace(/\r\n/g, '\n') : null));
     console.log(`screen-card: ${path.relative(ROOT, dest)}`);
   }
 }

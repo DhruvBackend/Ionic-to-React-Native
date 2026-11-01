@@ -41,7 +41,14 @@ for (const file of files) {
   if (!SERVERS.includes(f.server)) errors.push(`${file}: "server" must be one of ${SERVERS.join(', ')}`);
   if (!f.variants || typeof f.variants !== 'object' || !('default' in f.variants)) {
     errors.push(`${file}: "variants.default" missing`);
-  } else if (!('malformed' in f.variants)) {
+  } else {
+    for (const [k, v] of Object.entries(f.variants)) {
+      if (!v || typeof v !== 'object' || !('$httpError' in v)) continue;
+      const ok = Number.isInteger(v.$httpError) && v.$httpError >= 400 && v.$httpError <= 599 && Object.keys(v).every(x => x === '$httpError' || x === 'body');
+      if (!ok) errors.push(`${file}: variant "${k}": "$httpError" must be an integer 400-599 and may only be accompanied by "body"`);
+    }
+  }
+  if (f.variants && 'default' in f.variants && !('malformed' in f.variants)) {
     console.warn(`gen-fixtures: ${file} has no "malformed" variant (required once a screen uses it)`);
   }
 }

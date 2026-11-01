@@ -3,6 +3,7 @@
 // per screen) and the fake role sessions in src/api/fixtures/_sessions.json.
 import { execFileSync } from 'child_process';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { jwtDecode } from 'jwt-decode';
 
@@ -49,6 +50,8 @@ ifIonic('screen-card.mjs', () => {
       '## Endpoints',
       '## Response fields read',
       '## Nav targets',
+      '## Storage keys',
+      '## Lifecycle',
       '## Overlays',
       '## Natives (@ionic-native)',
       '## i18n keys',
@@ -62,6 +65,27 @@ ifIonic('screen-card.mjs', () => {
     expect(c).toMatch(/## Quirks\s+## States\s*$/);
     // helper, server and body source are mechanical
     expect(c).toContain('| post_rqst | `app_karigar/update_language` | root |');
+  });
+
+  test('Language card lists storage key token as read but never written, and the lifecycle calls', () => {
+    const c = card('Language');
+    const row = c.split('\n').find(l => l.startsWith('| `token`'))!;
+    expect(row).toContain('language.ts:44');
+    expect(row).toContain('NEVER WRITTEN');
+    expect(c).toMatch(/## Lifecycle[\s\S]*ionViewDidLoad/);
+  });
+
+  test('regenerating keeps hand-written Quirks and States', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tb-card-'));
+    const run = () => execFileSync('node', [CARD_SCRIPT, 'Language', '--out', dir], { env: { ...process.env, IONIC_SRC } });
+    run();
+    const file = path.join(dir, 'Language', 'card.md');
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(/## Quirks[\s\S]*$/, '## Quirks\n\n1. hand written\n\n## States\n\n| a | b |\n'));
+    run();
+    const after = fs.readFileSync(file, 'utf8');
+    expect(after).toContain('1. hand written');
+    expect(after).toContain('| a | b |');
+    expect(after.match(/## Quirks/g)).toHaveLength(1);
   });
 
   test('an unknown screen name fails', () => {

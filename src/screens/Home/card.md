@@ -113,6 +113,20 @@ _none_
 | dbService.onShowMessageAlertHandler | `'Offline ! Please Connect To An Active Internet Connection'` | src/pages/home/home.ts:706 |
 | dbService.onShowMessageAlertHandler | `'Offline ! Please Connect To An Active Internet Connection'` | src/pages/home/home.ts:732 |
 
+## Storage keys
+
+| Key | Access | Where | Written anywhere in the Ionic app? |
+|---|---|---|---|
+| `fcmId` | write (this.storage.set) | src/pages/home/home.ts:1037 |  |
+| `user_type` | read (this.storage.get) | src/pages/home/home.ts:1040 | **NEVER WRITTEN** (read-only key: states depending on it are unreachable in production) |
+| `userId` | read (this.storage.get) | src/pages/home/home.ts:1045 | **NEVER WRITTEN** (read-only key: states depending on it are unreachable in production) |
+| `user_type` | read (this.storage.get) | src/pages/home/home.ts:1064 | **NEVER WRITTEN** (read-only key: states depending on it are unreachable in production) |
+| `userId` | read (this.storage.get) | src/pages/home/home.ts:1071 | **NEVER WRITTEN** (read-only key: states depending on it are unreachable in production) |
+
+## Lifecycle
+
+- `ionViewWillEnter` (src/pages/home/home.ts:152): `console.log(…)` (line 156), `if(…)` (line 159)
+
 ## Natives (@ionic-native)
 
 - barcode-scanner (src/pages/home/home.ts:13)

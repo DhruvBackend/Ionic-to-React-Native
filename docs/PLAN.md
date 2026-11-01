@@ -14,16 +14,23 @@
 
 ## Phases
 
-| # | Phase | Screens | Gate | Status |
-|---|---|---|---|---|
-| 0 | Foundation | scaffold, libraries, theme, i18n, storage, API client + mock, navigation shell, shared components, debug APK on phone | app opens on phone | 🔄 in progress |
-| 1 | Onboarding & auth | language, select-registration-type, login-section/* (login-screen, mobile-login, otp, registration), otpverify, customeradd, terms, tabs | mock login works for every role | ⏳ |
-| 2 | Core loyalty | home, main-home, profile, edit-profile, view-profile, scan-point, scane-pages/*, points/*, point-history, transaction, gift-gallery/*, cancelpolicy-modal, cancelation-policy, shipping-detail, pointtranfer, offers, offer-list, notification, super30 | scan → points → redeem works | ⏳ |
-| 3 | Catalogue & content | products, category, sub-category, product-detail, product-subdetail, newarrivals, digitalcatalog, favorite-product, search, news, news-detail, video, video-category, about, aboutus-modal, contact, enquiry, feedback, survey/*, quotation-genrate-by-pdf, nearest-dealer, point-location | all content screens render | ⏳ |
-| 4 | Complaints & plumber service | complaints/*, retailer-add-complaint, retailer-list-complaint, complaint-remarks, cancel-complaint, plumber-camplaints/*, plumber-checkin, task-close, plumber-list, plumber-detail, plumber-add | complaint lifecycle works | ⏳ |
-| 5 | Sales Exec / Seller / Dealer | sales-exec-home, sales-exec-add-dealer/plumber/seller, sales-exec-plumber-list/detail, sales-point-transfer, customerlist, customerdetail, dealer-home, dealer-profile | each role's tabs complete | ⏳ |
-| 6 | SFA (employee) module | login, otpverify (SFA), sales-app/* (14), dashboard, attendence, work-type-modal, add-leave, leave-list, travel-add, travel-list, dealer-check-in, dealer-dealer-list, dealer-discount, dealer-executive-app, dealer-executive-list, executiv-detail, executive-edit, executive-popover, leads-detail, add-order, dealer-addorder, cart-detail, order-list, order-detail, dealer-order, executive-order-detail | order + attendance flows work | ⏳ |
-| 7 | Native & release | push (Firebase), icon/splash, local release keystore, release APK, full regression | sign-off checklist | ⏳ |
+Source of truth: the design spec (`docs/superpowers/specs/2026-10-29-topbath-rn-migration-design.md`, section 6.1) and the implementation plan (`docs/superpowers/plans/2026-10-29-topbath-rn-migration.md`). This table is a summary and must match spec section 6.1 and `docs/inventory.json` (117 screens = 61 live/push-only in phases 1-5, 56 dead behind feature flags in phases 6-7). Phase screen counts: 7 / 22 / 11 / 15 / 6 / 16 / 40.
+
+| Phase | Name (screens) | Content |
+|---|---|---|
+| 0 | Foundation | WIP fix, deps, white-label, first APK on phone, nav shell, shared components, native wrappers, mocks/fixtures, contract framework, reference harness, screen-card generator |
+| 1 | Onboarding & auth (7) | Language, SelectRegistrationType, MobileLogin, Otp, Registration, AboutusModal, Tabs, plus start-up/version/back logic |
+| 2 | Core loyalty (22) | Home (Plumber + Seller/Dealer variants), MainHome, Profile, ViewProfile, PointList, PointHistory, OfferList, Offers, Terms, GiftDetail, CancelpolicyModal, CancelationPolicy, Transaction, ShippingDetail, Notification, Feedback, Pointtranfer, CoupanCode, ScanPoint, SalesPointTransfer, Super30, PointLocation |
+| 3 | Catalogue & content (11) | Category, SubCategory, Products, ProductDetail, ProductSubdetail, NewArrivals, VideoCategory, Video, About, Contact, QuotationGenrateByPdf |
+| 4 | Complaints & service (15) | AddNewComplaint, ComplaintHistory, ComplaintDetail, CancelComplaint, ComplaintRemarks, MyCamplaints, PulmberCustomerDetail, PlumberCheckin, TaskClose, CustomerList, CustomerAdd, CustomerDetail, PlumberList, PlumberAdd, PlumberDetail |
+| 5 | Sales Executive (6) | SalesExecHome, SalesExecAddPlumber, SalesExecAddSeller, SalesExecAddDealer, SalesExecPlumberList, SalesExecPlumberDetail |
+| 6 | Unreachable loyalty pages (16) | flagged off for Topbath, see spec section 6.3 |
+| 7 | SFA module (40) | flagged off for Topbath, see spec section 6.3 |
+| 8 | Native & release | push (flagged off for Topbath), icons/splash per client, release signing (outside the repo), forced-update rollout, Android permission prompts, full regression, Play internal track |
+| 9 | Second client | prove the white-label with a second real client's config; diff that client's Ionic source against Topbath's |
+| 10 | iOS | gated on spec section 9.1 |
+
+Feedback, Transaction and ShippingDetail are push-only entry points: still ported, reached in tests via deep link. The Topbath release does not wait for phases 6-7 (their flags are off).
 
 ## Phase 0 checklist
 - [x] Scaffold RN 0.88.1, package `com.topsan.app`, debug suffix `.rn`, app name "Topsan" / "Topsan RN"
