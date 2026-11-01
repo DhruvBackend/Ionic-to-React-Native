@@ -383,3 +383,25 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Test data must be obviously fake.** Sample sessions use names like "Test Plumber", 9000000001-style phones and unsigned tokens. Never use a real user's data, even for tests.
 
 **Interview angle:** "How do you scope a 117-screen migration?" → trace reachability from the code (don't trust memory), classify live vs dead with evidence, gate dead screens behind flags, and generate a per-screen spec from the source so parallel workers can't miss endpoints or quirks.
+
+## 2026-11-02 — Task 13: first real screen (Language) and the pilot retro
+
+**What:** Ported the Language screen end to end with the per-screen procedure. Card, contracts, fixtures, tests, build, independent review, side-by-side screenshots, then Dhruv's sign-off ("looks the same as the Ionic app"). Final pixel difference: 0.38% and 0.36%. Merged locally into `master`.
+
+**Why a pilot:** To prove the procedure on one screen before running it 116 more times. Every problem found here would otherwise have been repeated on every screen.
+
+**Learned:**
+- **The first screen finds the kit's bugs.** Language exposed six shared problems:
+  - list headers built with the wrong structure;
+  - no tall toolbar or footer block;
+  - the logo positioned against the wrong box;
+  - **Hindi marks clipped on every button**;
+  - hard shadow lines.
+
+  Fixing them once in the kit fixes all 117 screens.
+- **Reviewers can be confidently wrong, and so can I.** An earlier review said list headers have no inner structure; probing the real Ionic DOM proved otherwise. Measure the real thing.
+- **A small diff percentage can hide the wrong picture.** The Ionic reference once showed English still selected while ours showed Hindi, and the diff was only 0.5%, because a radio dot is tiny. Rule: a human (or the reviewer) looks at both images and confirms the same state.
+- **Unreachable states don't need sign-off.** The Ionic page reads a storage key (`token`) that nothing ever writes, so its "logged-in" branches can't happen in production. They're unit-tested only, and the card generator now flags such keys automatically.
+- **Test harnesses have their own quirks.** Ionic's tap handling ignores fake clicks, and Angular doesn't redraw after async work started outside its zone. The reference drives the page's own handler inside the zone instead.
+
+**Interview angle:** "How do you de-risk a large migration?" → run one screen through the whole pipeline first, fix the shared layer it exposes, write the lessons into the procedure (retro), and only then scale out in parallel.

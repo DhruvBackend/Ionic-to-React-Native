@@ -802,6 +802,29 @@ Findings and decisions:
 
 ### Task 13: Pilot screen (Language) through the full S-procedure
 
+**Status** (2026-11-02): S1–S9 DONE. Dhruv signed off `Language.default` and `Language.hin` ("looks the same as the Ionic app"); merged locally into `master` (49f59ee). Final diffs vs the Ionic reference: 0.38% / 0.36% (status-bar icons, gesture bar, sub-pixel text).
+- Card quirks (10) are all ported with NOTEs. Three planned states (`loggedInHin`, `loggedInEmpty`, `malformed`) are **unreachable in production**: the Ionic app reads the storage key `token` (language.ts:44, dbservice.ts:90) but never writes it. They are unit-tested only.
+- The S8 review passed the screen; its findings were all **kit-level** and were fixed on `master` first (8a49873, 75013c9):
+  - `IonListHeader` really is an Ionic Item (inner/wrapper/label + the `.border-heading` bar); the part-5 claim was wrong.
+  - `IonToolbar tall` (h80), an `overlay` slot for `.header-logo`, and a new `IonFooter`.
+  - Button labels clipped Devanagari marks above the line (the "आगे बढ़ें" anusvara). They now get a clip-safe line box.
+  - The page frame clips like `contain:strict`; the header/footer shadow strips are smooth (`ShadowStrip`).
+- Harness fixes:
+  - `rnAction tap:<testID>` for RN taps.
+  - A ready-wait plus a 5.5 s settle (the splash can cover a ready page).
+  - `deviceVersion: "15"` for API ≥ 35 devices.
+  - The ref uses Roboto and the emulator's NotoSansDevanagari.
+  - Ionic taps are driven through the page's own handler inside NgZone, because TapClick swallows synthetic events.
+
+**Retro (Step 2)**, folded into the S-task below and `docs/PLAYBOOK.md`:
+1. **Kit gaps first.** When a screen needs a missing or wrong shared piece, it goes on `master` as a mini-task, and the screen branch rebases. Do not hand-build it in the screen.
+2. **Only production-reachable parity states.** The card generator now lists storage keys and flags keys that are read but never written.
+3. **Diff % is not proof.** At one point the `Language.hin` reference showed the wrong state (English still selected) at only 0.5%. The reviewer *and* the lead must look at both images and confirm the same state before sign-off.
+4. **Capture setup:** RN at 360dp (`wm density 480` on a 1080-wide emulator), API ≥ 35 states use `deviceVersion: "15"`, and only one emulator at a time (laptop memory). APK builds and emulator runs are done by the lead, sequentially.
+5. **Fixtures can now return HTTP errors** (`$httpError` variants), so "server error does nothing" paths need no custom transport.
+6. **Worktrees for parallel batches:** implementers code and run Jest in worktrees (junction `node_modules`); the lead merges to `master` and does all builds and captures.
+7. One Jest run failed once and passed on 3 reruns. Watch for flakiness; rerun before investigating.
+
 Port `Language` using the **S-task procedure below**, end to end, with one Sonnet implementer and one Sonnet reviewer. The purpose is to validate the procedure, harness and gates before any batches run. Whatever fails here is fixed in this plan and in `docs/PLAYBOOK.md` before Phase 1 starts.
 
 - [ ] **Step 1: Run S-steps 1–9 for `Language`.**
@@ -811,9 +834,9 @@ Port `Language` using the **S-task procedure below**, end to end, with one Sonne
 **Phase 0 gate:**
 - `npm test` is green and `npx eslint src` is clean.
 - Every `_components.*` state is signed off in the parity report (Task 9 Step 6).
-- The splash screen matches Ionic: `resources/splash.png`, shown for 3 s, fade-out, shown only on first launch, per `config.xml:16-24`.
-- The debug APK runs on the phone.
-- The `Language` state is signed off in `parity/out/report.html`.
+- The splash screen matches the **shipped** app (corrected by Task 8b: cordova-android 12 ignores `SplashShowOnlyFirstTime`): `resources/splash.png`, every cold start, 3 s hold, 3 s fade. ✅ Verified on Dhruv's phone 2026-11-01 (0.00% diff).
+- The debug APK runs on the phone. ✅ (2026-11-01, Android 16)
+- The `Language` state is signed off in `parity/out/report.html`. ✅ (2026-11-02)
 - Dhruv approves moving to Phase 1.
 
 ---
@@ -852,7 +875,8 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - **No improvements.** Typos, odd spacing, inconsistent capitalisation and dead buttons are all copied.
   - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
   - Add a NOTE for every quirk.
-- [ ] **S6 – Gates.** Run `npm test`, `npx tsc --noEmit` and `npx eslint src/screens/<Name>`. Expected: all green. Then run `node parity/capture-rn.mjs --only <Name>.` and `node parity/reference/capture.mjs --only <Name>.`. Expected: a PNG for every state.
+- [ ] **S6 – Gates** (pilot lessons: the lead runs RN captures on the single emulator at 360dp after merging kit fixes; **look at every ref/RN pair and confirm both show the same state** — the diff % alone is not proof).
+  Original gate text: Run `npm test`, `npx tsc --noEmit` and `npx eslint src/screens/<Name>`. Expected: all green. Then run `node parity/capture-rn.mjs --only <Name>.` and `node parity/reference/capture.mjs --only <Name>.`. Expected: a PNG for every state.
 - [ ] **S7 – Commit on the branch.** Run `git commit -m "feat(screen): port <Name>"`.
 - [ ] **S8 – Independent review.** The orchestrator dispatches a fresh Sonnet **reviewer** with the Ionic `.html`/`.ts`/`.scss`, the RN diff, `card.md` and both PNG sets. It answers PASS or a numbered list of concrete misses, each with Ionic file:line and RN file:line. Checklist:
   - every element and text
