@@ -761,6 +761,18 @@ Findings and decisions:
 
 ### Task 12: Inventory with status, and the screen-card generator
 
+**Status** (2026-11-01): DONE. Tests 448/448.
+- `docs/inventory.json` has 117 rows: **LIVE 58, PUSH-ONLY 3** (Feedback, Transaction, ShippingDetail) and **DEAD 56**. Phases 1-7 hold 7 / 22 / 11 / 15 / 6 / 16 / 40 screens. It is built by `scripts/build-inventory.mjs`, which traces navigation from the start-up roots, tabs per user type, push/setRoot/modal targets and the push handlers.
+- An independent re-trace agrees with spec §6.3 exactly. Extra evidence:
+  - The side menu only opens from dead pages.
+  - The Employee/DrLogin radio options don't exist (`select-registration-type.html:19-40`), recorded as `INFEASIBLE_EDGES`.
+  - CartDetail, Scan, Search and LoginScreen are never navigated to.
+- Ionic quirk found: `executive-order-detail.ts:77` and `favorite-product.ts:71` test `login_type == 'CMS'`, but login stores `loginType`, so those branches never run for CMS users.
+- `scripts/screen-card.mjs <name>` writes `src/screens/<name>/card.md`; samples exist for Language, Otp and Home. `scripts/inventory-md.mjs` regenerates `docs/INVENTORY.md`.
+- `src/api/fixtures/_sessions.json` holds fake `userStorageData` for Plumber, Sales_Boy, Dealer, Sales_Executive, Customer, Retailer, SFA, Employee and DrLogin, with unsigned test JWTs (`sub` = id). The SFA-family shapes are inferred from what pages read.
+- Debug links now apply `role=` (RootNavigator passes the sessions to `applyDebugLink`), and the parity capture seeds roles.
+- **Phase 8 note:** `_sessions.json` is statically imported, so it ships inside the JS bundle. Move it behind the debug-only path before release.
+
 **Files:** `docs/inventory.json`, `scripts/screen-card.mjs`, `scripts/inventory-md.mjs` (regenerates `docs/INVENTORY.md` with the status, role, backend, feature and phase columns), `src/api/fixtures/_sessions.json` (one `userStorageData` per role, with `loginType: 'CMS'`, plus `SFA`, `Employee` and `DrLogin` sessions). Test: `__tests__/screen-card.test.ts`.
 
 **Interfaces:**

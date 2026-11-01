@@ -11,6 +11,7 @@ import { ComponentGallery } from '../dev/ComponentGallery';
 import { ScrollDemoScreen } from '../dev/gallery/ScrollDemoScreen';
 import { NativeDemoScreen } from '../dev/NativeDemoScreen';
 import { setFixtureVariant } from '../api/mock';
+import sessionFixtures from '../api/fixtures/_sessions.json';
 import i18n from '../i18n';
 import { parseDebugLink, type DebugLink } from './debugLinks';
 import { navigationRef, resetTo } from './navigationRef';
@@ -77,7 +78,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
     const handle = (url: string | null | undefined) => {
       const link = url ? parseDebugLink(url, { dev: debugToolsEnabled }) : null;
       if (link) {
-        applyDebugLink(link);
+        applyDebugLink(link, sessionFixtures);
       }
     };
     Linking.getInitialURL().then(handle);

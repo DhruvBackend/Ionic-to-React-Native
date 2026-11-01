@@ -194,15 +194,16 @@ function installRoutes(context, port, state, log) {
 }
 
 // ---- sessions -------------------------------------------------------------------------------------------------
-// TODO(Task 12): src/api/fixtures/_sessions.json (role -> userStorageData) does not exist yet; until it does only
-// role = null states can be captured. Roles without a session are reported as "no reference".
+// src/api/fixtures/_sessions.json maps a role (Plumber, Sales_Boy, Dealer, Sales_Executive, Customer, Retailer, SFA,
+// Employee, DrLogin) to the userStorageData the Ionic app stores after login. A role missing from it is reported as
+// "no reference".
 export function sessionFor(role) {
   if (!role) {
     return null;
   }
   const f = path.join(FIXTURES, '_sessions.json');
   if (!fs.existsSync(f)) {
-    throw new NoReference(`role ${role}: src/api/fixtures/_sessions.json not found yet (Task 12)`);
+    throw new NoReference(`role ${role}: src/api/fixtures/_sessions.json not found`);
   }
   const s = JSON.parse(fs.readFileSync(f, 'utf8'))[role];
   if (!s) {

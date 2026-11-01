@@ -1,0 +1,1811 @@
+[
+  {
+    "ionicClass": "AboutusModalPage",
+    "name": "AboutusModal",
+    "ionicPath": "src/pages/aboutus-modal",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "LanguagePage",
+    "name": "Language",
+    "ionicPath": "src/pages/language",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "MobileLoginPage",
+    "name": "MobileLogin",
+    "ionicPath": "src/pages/login-section/mobile-login",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "OtpPage",
+    "name": "Otp",
+    "ionicPath": "src/pages/login-section/otp",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "RegistrationPage",
+    "name": "Registration",
+    "ionicPath": "src/pages/login-section/registration",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SelectRegistrationTypePage",
+    "name": "SelectRegistrationType",
+    "ionicPath": "src/pages/select-registration-type",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "TabsPage",
+    "name": "Tabs",
+    "ionicPath": "src/pages/tabs",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 1,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CancelationPolicyPage",
+    "name": "CancelationPolicy",
+    "ionicPath": "src/pages/cancelation-policy",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CancelpolicyModalPage",
+    "name": "CancelpolicyModal",
+    "ionicPath": "src/pages/cancelpolicy-modal",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CoupanCodePage",
+    "name": "CoupanCode",
+    "ionicPath": "src/pages/scane-pages/coupan-code",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "FeedbackPage",
+    "name": "Feedback",
+    "ionicPath": "src/pages/feedback",
+    "status": "PUSH-ONLY",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "GiftDetailPage",
+    "name": "GiftDetail",
+    "ionicPath": "src/pages/gift-gallery/gift-detail",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "HomePage",
+    "name": "Home",
+    "ionicPath": "src/pages/home",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "MainHomePage",
+    "name": "MainHome",
+    "ionicPath": "src/pages/main-home",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "NotificationPage",
+    "name": "Notification",
+    "ionicPath": "src/pages/notification",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "OfferListPage",
+    "name": "OfferList",
+    "ionicPath": "src/pages/offer-list",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "OffersPage",
+    "name": "Offers",
+    "ionicPath": "src/pages/offers",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PointHistoryPage",
+    "name": "PointHistory",
+    "ionicPath": "src/pages/point-history",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PointListPage",
+    "name": "PointList",
+    "ionicPath": "src/pages/points/point-list",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PointLocationPage",
+    "name": "PointLocation",
+    "ionicPath": "src/pages/point-location",
+    "status": "LIVE",
+    "roles": [
+      "Customer"
+    ],
+    "backend": "both",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PointtranferPage",
+    "name": "Pointtranfer",
+    "ionicPath": "src/pages/pointtranfer",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": "pointTransfer",
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ProfilePage",
+    "name": "Profile",
+    "ionicPath": "src/pages/profile",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesPointTransferPage",
+    "name": "SalesPointTransfer",
+    "ionicPath": "src/pages/sales-point-transfer",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": "pointTransfer",
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ScanPointPage",
+    "name": "ScanPoint",
+    "ionicPath": "src/pages/scan-point",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ShippingDetailPage",
+    "name": "ShippingDetail",
+    "ionicPath": "src/pages/shipping-detail",
+    "status": "PUSH-ONLY",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "Super30Page",
+    "name": "Super30",
+    "ionicPath": "src/pages/super30",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": "superPlumber",
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "TermsPage",
+    "name": "Terms",
+    "ionicPath": "src/pages/terms",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "TransactionPage",
+    "name": "Transaction",
+    "ionicPath": "src/pages/transaction",
+    "status": "PUSH-ONLY",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ViewProfilePage",
+    "name": "ViewProfile",
+    "ionicPath": "src/pages/view-profile",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 2,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "AboutPage",
+    "name": "About",
+    "ionicPath": "src/pages/about",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CategoryPage",
+    "name": "Category",
+    "ionicPath": "src/pages/category",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ContactPage",
+    "name": "Contact",
+    "ionicPath": "src/pages/contact",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "NewarrivalsPage",
+    "name": "Newarrivals",
+    "ionicPath": "src/pages/newarrivals",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ProductDetailPage",
+    "name": "ProductDetail",
+    "ionicPath": "src/pages/product-detail",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ProductsPage",
+    "name": "Products",
+    "ionicPath": "src/pages/products",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ProductSubdetailPage",
+    "name": "ProductSubdetail",
+    "ionicPath": "src/pages/product-subdetail",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "both",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "QuotationGenrateByPdfPage",
+    "name": "QuotationGenrateByPdf",
+    "ionicPath": "src/pages/quotation-genrate-by-pdf",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": "quotation",
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SubCategoryPage",
+    "name": "SubCategory",
+    "ionicPath": "src/pages/sub-category",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "VideoPage",
+    "name": "Video",
+    "ionicPath": "src/pages/video",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "VideoCategoryPage",
+    "name": "VideoCategory",
+    "ionicPath": "src/pages/video-category",
+    "status": "LIVE",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 3,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "AddNewComplaintPage",
+    "name": "AddNewComplaint",
+    "ionicPath": "src/pages/complaints/add-new-complaint",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CancelComplaintPage",
+    "name": "CancelComplaint",
+    "ionicPath": "src/pages/cancel-complaint",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ComplaintDetailPage",
+    "name": "ComplaintDetail",
+    "ionicPath": "src/pages/complaints/complaint-detail",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ComplaintHistoryPage",
+    "name": "ComplaintHistory",
+    "ionicPath": "src/pages/complaints/complaint-history",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer",
+      "Customer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "ComplaintRemarksPage",
+    "name": "ComplaintRemarks",
+    "ionicPath": "src/pages/complaint-remarks",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CustomeraddPage",
+    "name": "Customeradd",
+    "ionicPath": "src/pages/customeradd",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CustomerdetailPage",
+    "name": "Customerdetail",
+    "ionicPath": "src/pages/customerdetail",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "CustomerlistPage",
+    "name": "Customerlist",
+    "ionicPath": "src/pages/customerlist",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "MyCamplaintsPage",
+    "name": "MyCamplaints",
+    "ionicPath": "src/pages/plumber-camplaints/my-camplaints",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PlumberAddPage",
+    "name": "PlumberAdd",
+    "ionicPath": "src/pages/plumber-add",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PlumberCheckinPage",
+    "name": "PlumberCheckin",
+    "ionicPath": "src/pages/plumber-checkin",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PlumberDetailPage",
+    "name": "PlumberDetail",
+    "ionicPath": "src/pages/plumber-detail",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PlumberListPage",
+    "name": "PlumberList",
+    "ionicPath": "src/pages/plumber-list",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Boy",
+      "Dealer"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "PulmberCustomerDetailPage",
+    "name": "PulmberCustomerDetail",
+    "ionicPath": "src/pages/plumber-camplaints/pulmber-customer-detail",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "TaskClosePage",
+    "name": "TaskClose",
+    "ionicPath": "src/pages/task-close",
+    "status": "LIVE",
+    "roles": [
+      "Plumber"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 4,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecAddDealerPage",
+    "name": "SalesExecAddDealer",
+    "ionicPath": "src/pages/sales-exec-add-dealer",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecAddPlumberPage",
+    "name": "SalesExecAddPlumber",
+    "ionicPath": "src/pages/sales-exec-add-plumber",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecAddSellerPage",
+    "name": "SalesExecAddSeller",
+    "ionicPath": "src/pages/sales-exec-add-seller",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecHomePage",
+    "name": "SalesExecHome",
+    "ionicPath": "src/pages/sales-exec-home",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecPlumberDetailPage",
+    "name": "SalesExecPlumberDetail",
+    "ionicPath": "src/pages/sales-exec-plumber-detail",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "SalesExecPlumberListPage",
+    "name": "SalesExecPlumberList",
+    "ionicPath": "src/pages/sales-exec-plumber-list",
+    "status": "LIVE",
+    "roles": [
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": null,
+    "phase": 5,
+    "unreachableBecause": null
+  },
+  {
+    "ionicClass": "DigitalcatalogPage",
+    "name": "Digitalcatalog",
+    "ionicPath": "src/pages/digitalcatalog",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "digitalCatalog",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.html:101 button calling goTodigitalcat() is commented out; pages/home/home.ts:957 goTodigitalcat() is the only code navigating here"
+  },
+  {
+    "ionicClass": "EditProfilePage",
+    "name": "EditProfile",
+    "ionicPath": "src/pages/edit-profile",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "editProfile",
+    "phase": 6,
+    "unreachableBecause": "pages/profile/profile.ts:301 editProfilePage() navigates here but nothing calls or binds editProfilePage(); only linked from dead page: DealerProfile (pages/dealer-profile/dealer-profile.ts:144 editProfilePage())"
+  },
+  {
+    "ionicClass": "EnquiryPage",
+    "name": "Enquiry",
+    "ionicPath": "src/pages/enquiry",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "enquiry",
+    "phase": 6,
+    "unreachableBecause": "pages/product-subdetail/product-subdetail.ts:160 goToEnquiryPage() navigates here but nothing calls or binds goToEnquiryPage()"
+  },
+  {
+    "ionicClass": "FavoriteProductPage",
+    "name": "FavoriteProduct",
+    "ionicPath": "src/pages/favorite-product",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "both",
+    "feature": "favorites",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.ts:880 goToFav() navigates here but nothing calls or binds goToFav()"
+  },
+  {
+    "ionicClass": "GiftListPage",
+    "name": "GiftList",
+    "ionicPath": "src/pages/gift-gallery/gift-list",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "giftList",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.ts:551 goOnGiftListPage() navigates here but nothing calls or binds goOnGiftListPage(); pages/sales-exec-home/sales-exec-home.ts:107 goGiftGallery() navigates here but nothing calls or binds goGiftGallery(); pages/dealer-addorder/dealer-addorder.ts:637 commented-out reference; pages/notification/notification.ts:39 commented-out reference"
+  },
+  {
+    "ionicClass": "LoginScreenPage",
+    "name": "LoginScreen",
+    "ionicPath": "src/pages/login-section/login-screen",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "loginScreen",
+    "phase": 6,
+    "unreachableBecause": "no navigation to LoginScreen found in src/pages or src/app"
+  },
+  {
+    "ionicClass": "NearestDealerPage",
+    "name": "NearestDealer",
+    "ionicPath": "src/pages/nearest-dealer",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "nearestDealer",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.html:105 button calling goToNearestDealers() is commented out; pages/home/home.ts:738 goToNearestDealers() is the only code navigating here; only linked from dead page: DealerHome (pages/dealer-home/dealer-home.ts:146 goToNearestDealers())"
+  },
+  {
+    "ionicClass": "NewsPage",
+    "name": "News",
+    "ionicPath": "src/pages/news",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": "news",
+    "phase": 6,
+    "unreachableBecause": "pages/main-home/main-home.ts:60 goOnNewsPage() navigates here but nothing calls or binds goOnNewsPage()"
+  },
+  {
+    "ionicClass": "NewsDetailPage",
+    "name": "NewsDetail",
+    "ionicPath": "src/pages/news-detail",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive"
+    ],
+    "backend": "root",
+    "feature": "news",
+    "phase": 6,
+    "unreachableBecause": "only linked from dead page: News (pages/news/news.ts:30 goOnNewsDetailPage())"
+  },
+  {
+    "ionicClass": "PointDetailPage",
+    "name": "PointDetail",
+    "ionicPath": "src/pages/points/point-detail",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "pointDetail",
+    "phase": 6,
+    "unreachableBecause": "pages/points/point-list/point-list.ts:65 goOnPointDetailPage() navigates here but nothing calls or binds goOnPointDetailPage()"
+  },
+  {
+    "ionicClass": "RetailerAddComplaintPage",
+    "name": "RetailerAddComplaint",
+    "ionicPath": "src/pages/retailer-add-complaint",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "retailerComplaints",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.ts:940 add() navigates here but nothing calls or binds add()"
+  },
+  {
+    "ionicClass": "RetailerListComplaintPage",
+    "name": "RetailerListComplaint",
+    "ionicPath": "src/pages/retailer-list-complaint",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "retailerComplaints",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.ts:943 list() navigates here but nothing calls or binds list()"
+  },
+  {
+    "ionicClass": "ScanPage",
+    "name": "Scan",
+    "ionicPath": "src/pages/scane-pages/scan",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "scanPage",
+    "phase": 6,
+    "unreachableBecause": "no navigation to Scan found in src/pages or src/app"
+  },
+  {
+    "ionicClass": "SearchPage",
+    "name": "Search",
+    "ionicPath": "src/pages/search",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "search",
+    "phase": 6,
+    "unreachableBecause": "no navigation to Search found in src/pages or src/app"
+  },
+  {
+    "ionicClass": "SurveyDetailPage",
+    "name": "SurveyDetail",
+    "ionicPath": "src/pages/survey/survey-detail",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "survey",
+    "phase": 6,
+    "unreachableBecause": "only linked from dead page: SurveyList (pages/survey/survey-list/survey-list.ts:34 Slist())"
+  },
+  {
+    "ionicClass": "SurveyListPage",
+    "name": "SurveyList",
+    "ionicPath": "src/pages/survey/survey-list",
+    "status": "DEAD",
+    "roles": [
+      "Plumber",
+      "Sales_Boy",
+      "Dealer",
+      "Sales_Executive",
+      "Customer",
+      "Retailer"
+    ],
+    "backend": "root",
+    "feature": "survey",
+    "phase": 6,
+    "unreachableBecause": "pages/home/home.html:310 button calling SurveyList() is commented out; pages/home/home.ts:946 SurveyList() is the only code navigating here"
+  },
+  {
+    "ionicClass": "AddCheckinPage",
+    "name": "AddCheckin",
+    "ionicPath": "src/pages/sales-app/add-checkin",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: Dashboard (pages/dashboard/dashboard.ts:264 start_visit()), AddDealer (pages/sales-app/add-dealer/add-dealer.ts:102 ionViewDidLoad()), CheckinList (pages/sales-app/checkin-list/checkin-list.ts:160 addCheckin())"
+  },
+  {
+    "ionicClass": "AddDealerPage",
+    "name": "AddDealer",
+    "ionicPath": "src/pages/sales-app/add-dealer",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: AddCheckin (pages/sales-app/add-checkin/add-checkin.ts:289 other())"
+  },
+  {
+    "ionicClass": "AddDistributionPage",
+    "name": "AddDistribution",
+    "ionicPath": "src/pages/sales-app/add-distribution",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "no navigation to AddDistribution found in src/pages or src/app"
+  },
+  {
+    "ionicClass": "AddLeadsPage",
+    "name": "AddLeads",
+    "ionicPath": "src/pages/sales-app/add-leads",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: DistributorList (pages/sales-app/distributor-list/distributor-list.ts:161 add_dealer_lead())"
+  },
+  {
+    "ionicClass": "AddLeavePage",
+    "name": "AddLeave",
+    "ionicPath": "src/pages/add-leave",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: LeaveList (pages/leave-list/leave-list.ts:38 addPage())"
+  },
+  {
+    "ionicClass": "AddOrderPage",
+    "name": "AddOrder",
+    "ionicPath": "src/pages/add-order",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: ExecutiveOrderDetail (pages/executive-order-detail/executive-order-detail.ts:826 more_item_executive()), OrderDetail (pages/order-detail/order-detail.ts:500 add_new_item()), OrderList (pages/order-list/order-list.ts:175 add_order()), +2 more"
+  },
+  {
+    "ionicClass": "AttendencePage",
+    "name": "Attendence",
+    "ionicPath": "src/pages/attendence",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: ExecutivDetail (pages/executiv-detail/executiv-detail.ts:142 viewAttendance()); app/app.component.ts:499 commented-out reference; app/app.component.ts:551 commented-out reference"
+  },
+  {
+    "ionicClass": "CartDetailPage",
+    "name": "CartDetail",
+    "ionicPath": "src/pages/cart-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "no navigation to CartDetail found in src/pages or src/app"
+  },
+  {
+    "ionicClass": "CheckinDetailPage",
+    "name": "CheckinDetail",
+    "ionicPath": "src/pages/sales-app/checkin-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "root",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: LeadsDetail (pages/leads-detail/leads-detail.ts:144 checkin_detail()), CheckinList (pages/sales-app/checkin-list/checkin-list.ts:180 checkin_detail()), CustomerCheckin (pages/sales-app/customer-checkin/customer-checkin.ts:44 checkin_detail())"
+  },
+  {
+    "ionicClass": "CheckinListPage",
+    "name": "CheckinList",
+    "ionicPath": "src/pages/sales-app/checkin-list",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: Dashboard (pages/dashboard/dashboard.ts:254 goToCheckin()), ExecutivDetail (pages/executiv-detail/executiv-detail.ts:154 viewCheckin()); pages/sales-app/add-checkin/add-checkin.ts:81 commented-out reference"
+  },
+  {
+    "ionicClass": "CustomerCheckinPage",
+    "name": "CustomerCheckin",
+    "ionicPath": "src/pages/sales-app/customer-checkin",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: DistributorDetail (pages/sales-app/distributor-detail/distributor-detail.ts:146 customer_checkin())"
+  },
+  {
+    "ionicClass": "CustomerOrderPage",
+    "name": "CustomerOrder",
+    "ionicPath": "src/pages/sales-app/customer-order",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: DistributorDetail (pages/sales-app/distributor-detail/distributor-detail.ts:163 customer_order())"
+  },
+  {
+    "ionicClass": "DashboardPage",
+    "name": "Dashboard",
+    "ionicPath": "src/pages/dashboard",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: Otpverify (pages/otpverify/otpverify.ts:100 onValidateUserOtpHandler()), AddDistribution (pages/sales-app/add-distribution/add-distribution.ts:394 submitDealer()), CheckinList (pages/sales-app/checkin-list/checkin-list.ts:190 goBack()); pages/sales-app/checkin-list/checkin-list.ts:64 commented-out reference; app/app.component.ts:286 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerAddorderPage",
+    "name": "DealerAddorder",
+    "ionicPath": "src/pages/dealer-addorder",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerExecutiveList (pages/dealer-executive-list/dealer-executive-list.ts:144 add_order()), DealerHome (pages/dealer-home/dealer-home.ts:151 newOrder()), DealerOrder (pages/dealer-order/dealer-order.ts:171 add_order()), +2 more; app/app.component.ts:356 commented-out reference; app/app.component.ts:627 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerCheckInPage",
+    "name": "DealerCheckIn",
+    "ionicPath": "src/pages/dealer-check-in",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "app/app.component.ts:621 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerDealerListPage",
+    "name": "DealerDealerList",
+    "ionicPath": "src/pages/dealer-dealer-list",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerExecutiveApp (pages/dealer-executive-app/dealer-executive-app.ts:95 submit()), DealerHome (pages/dealer-home/dealer-home.ts:172 goToassignedDr()); app/app.component.ts:618 commented-out reference; app/app.component.ts:661 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerDiscountPage",
+    "name": "DealerDiscount",
+    "ionicPath": "src/pages/dealer-discount",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "app/app.component.ts:630 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerExecutiveAppPage",
+    "name": "DealerExecutiveApp",
+    "ionicPath": "src/pages/dealer-executive-app",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerExecutiveList (pages/dealer-executive-list/dealer-executive-list.ts:162 add_exe()), DealerHome (pages/dealer-home/dealer-home.ts:156 delaerexecutive())"
+  },
+  {
+    "ionicClass": "DealerExecutiveListPage",
+    "name": "DealerExecutiveList",
+    "ionicPath": "src/pages/dealer-executive-list",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerExecutiveApp (pages/dealer-executive-app/dealer-executive-app.ts:99 submit()), DealerHome (pages/dealer-home/dealer-home.ts:125 goto_executive()), ExecutivDetail (pages/executiv-detail/executiv-detail.ts:109 deleteExecutive()), +1 more"
+  },
+  {
+    "ionicClass": "DealerHomePage",
+    "name": "DealerHome",
+    "ionicPath": "src/pages/dealer-home",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "both",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: Otpverify (pages/otpverify/otpverify.ts:109 onValidateUserOtpHandler()); app/app.component.ts:291 commented-out reference; app/app.component.ts:322 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerOrderPage",
+    "name": "DealerOrder",
+    "ionicPath": "src/pages/dealer-order",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerAddorder (pages/dealer-addorder/dealer-addorder.ts:612 save_order()), DealerHome (pages/dealer-home/dealer-home.ts:120 goToOrders()); pages/dealer-addorder/dealer-addorder.ts:613 commented-out reference; app/app.component.ts:624 commented-out reference"
+  },
+  {
+    "ionicClass": "DealerProfilePage",
+    "name": "DealerProfile",
+    "ionicPath": "src/pages/dealer-profile",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "both",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "app/app.component.ts:772 onGoToProfilePage() navigates here, but it only runs from the side menu, which never opens for CMS users (app.component.ts open_nav_menu is only triggered by events published by dead pages Dashboard/DealerHome; app.html:1 swipe disabled for CMS)"
+  },
+  {
+    "ionicClass": "DistributorDetailPage",
+    "name": "DistributorDetail",
+    "ionicPath": "src/pages/sales-app/distributor-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerDealerList (pages/dealer-dealer-list/dealer-dealer-list.ts:133 dealer_detail()), DealerExecutiveApp (pages/dealer-executive-app/dealer-executive-app.ts:348 dealer_detail()), AddLeads (pages/sales-app/add-leads/add-leads.ts:244 dealer_detail()), +1 more"
+  },
+  {
+    "ionicClass": "DistributorListPage",
+    "name": "DistributorList",
+    "ionicPath": "src/pages/sales-app/distributor-list",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: ExecutivDetail (pages/executiv-detail/executiv-detail.ts:150 viewLeads())"
+  },
+  {
+    "ionicClass": "EditNetworkPage",
+    "name": "EditNetwork",
+    "ionicPath": "src/pages/sales-app/edit-network",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: DistributorDetail (pages/sales-app/distributor-detail/distributor-detail.ts:107 editNetwork())"
+  },
+  {
+    "ionicClass": "EndCheckinPage",
+    "name": "EndCheckin",
+    "ionicPath": "src/pages/sales-app/end-checkin",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: CheckinList (pages/sales-app/checkin-list/checkin-list.ts:167 end_visit())"
+  },
+  {
+    "ionicClass": "ExecutivDetailPage",
+    "name": "ExecutivDetail",
+    "ionicPath": "src/pages/executiv-detail",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DealerExecutiveList (pages/dealer-executive-list/dealer-executive-list.ts:66 goToDetail()), ExecutiveEdit (pages/executive-edit/executive-edit.ts:182 saveUpdate())"
+  },
+  {
+    "ionicClass": "ExecutiveEditPage",
+    "name": "ExecutiveEdit",
+    "ionicPath": "src/pages/executive-edit",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: ExecutivDetail (pages/executiv-detail/executiv-detail.ts:70 editExecutive()), ExecutivePopover (pages/executive-popover/executive-popover.ts:39 editExecutive())"
+  },
+  {
+    "ionicClass": "ExecutiveOrderDetailPage",
+    "name": "ExecutiveOrderDetail",
+    "ionicPath": "src/pages/executive-order-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: LeadsDetail (pages/leads-detail/leads-detail.ts:151 goOnOrderDetail()), OrderList (pages/order-list/order-list.ts:158 goOnOrderDetail())"
+  },
+  {
+    "ionicClass": "ExecutivePopoverPage",
+    "name": "ExecutivePopover",
+    "ionicPath": "src/pages/executive-popover",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: ExecutivDetail (pages/executiv-detail/executiv-detail.ts:77 presentPopover())"
+  },
+  {
+    "ionicClass": "LeadsDetailPage",
+    "name": "LeadsDetail",
+    "ionicPath": "src/pages/leads-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: DistributorList (pages/sales-app/distributor-list/distributor-list.ts:130 dealer_detail()), MainDistributorList (pages/sales-app/main-distributor-list/main-distributor-list.ts:85 distributor_detail()); app/app.component.ts:563 commented-out reference"
+  },
+  {
+    "ionicClass": "LeaveListPage",
+    "name": "LeaveList",
+    "ionicPath": "src/pages/leave-list",
+    "status": "DEAD",
+    "roles": [
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: AddLeave (pages/add-leave/add-leave.ts:53 add_leave()), ExecutivDetail (pages/executiv-detail/executiv-detail.ts:146 viewLeaves()); app/app.component.ts:517 commented-out reference; app/app.component.ts:566 commented-out reference"
+  },
+  {
+    "ionicClass": "LoginPage",
+    "name": "Login",
+    "ionicPath": "src/pages/login",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "select-registration-type.ts:52 pushes LoginPage only when registerType is 'Employee' or 'DrLogin', but the radio list offers only Plumber, Sales_Boy, Dealer, Sales_Executive (select-registration-type.html:19-34; the Customer option is commented out at :37-40)"
+  },
+  {
+    "ionicClass": "MainDistributorListPage",
+    "name": "MainDistributorList",
+    "ionicPath": "src/pages/sales-app/main-distributor-list",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: Dashboard (pages/dashboard/dashboard.ts:259 goToMainDistributorListPage())"
+  },
+  {
+    "ionicClass": "OrderDetailPage",
+    "name": "OrderDetail",
+    "ionicPath": "src/pages/order-detail",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: CartDetail (pages/cart-detail/cart-detail.ts:167 addOrderItem()), DealerExecutiveList (pages/dealer-executive-list/dealer-executive-list.ts:148 goOnOrderDetail()), DealerOrder (pages/dealer-order/dealer-order.ts:175 goOnOrderDetail()), +2 more; pages/executive-order-detail/executive-order-detail.ts:16 commented-out reference"
+  },
+  {
+    "ionicClass": "OrderListPage",
+    "name": "OrderList",
+    "ionicPath": "src/pages/order-list",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead pages: AddOrder (pages/add-order/add-order.ts:907 save_order()), CartDetail (pages/cart-detail/cart-detail.ts:323 place_order()), Dashboard (pages/dashboard/dashboard.ts:269 goToOrders()), +1 more"
+  },
+  {
+    "ionicClass": "OtpverifyPage",
+    "name": "Otpverify",
+    "ionicPath": "src/pages/otpverify",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: Login (pages/login/login.ts:73 onLoginSubmitHandler())"
+  },
+  {
+    "ionicClass": "TravelAddPage",
+    "name": "TravelAdd",
+    "ionicPath": "src/pages/travel-add",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: TravelList (pages/travel-list/travel-list.ts:37 goOnAddTravel())"
+  },
+  {
+    "ionicClass": "TravelListPage",
+    "name": "TravelList",
+    "ionicPath": "src/pages/travel-list",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: ExecutivDetail (pages/executiv-detail/executiv-detail.ts:158 viewTravelPlan())"
+  },
+  {
+    "ionicClass": "WorkTypeModalPage",
+    "name": "WorkTypeModal",
+    "ionicPath": "src/pages/work-type-modal",
+    "status": "DEAD",
+    "roles": [
+      "Employee",
+      "SFA",
+      "DrLogin"
+    ],
+    "backend": "sfa",
+    "feature": "sfa",
+    "phase": 7,
+    "unreachableBecause": "only linked from dead page: Dashboard (pages/dashboard/dashboard.ts:144 openModal())"
+  }
+]

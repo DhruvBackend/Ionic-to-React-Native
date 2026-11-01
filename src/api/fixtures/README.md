@@ -5,7 +5,9 @@ One file per backend endpoint. The RN MOCK backend (`src/api/mock`) and the pari
 ## Naming
 `<endpoint with "/" replaced by "__">.json`, for example `app_karigar/karigarHome` → `app_karigar__karigarHome.json`.
 
-Files starting with `_` (e.g. `_sessions.json`) are shared data, not endpoints.
+Files starting with `_` are shared data, not endpoints (`gen-fixtures.mjs` skips them).
+
+`_sessions.json` maps a role (`Plumber`, `Sales_Boy`, `Dealer`, `Sales_Executive`, `Customer`, `Retailer`, `SFA`, `Employee`, `DrLogin`) to the `userStorageData` the Ionic app stores after login. The debug deep link (`role=<Role>`) and the Ionic reference capture both seed it. Everything in it is fake (ids 9000xx, phones 90000000xx); each `token` is an unsigned JWT whose `sub` is the id, which is what `jwt-decode` in `src/api/client.ts` reads.
 
 ## Shape
 ```json

@@ -45,6 +45,14 @@ test('a screen folder without route.ts or index.tsx is rejected', () => {
   expect(genStatus(screensDir({ Otp: { route: route('Otp') } }))).not.toBe(0);
 });
 
+test('a card-only folder (no route.ts, no index.tsx) is not a screen yet and is skipped', () => {
+  const dir = screensDir({ Language: {}, Otp: { route: route('Otp'), index: true } });
+  fs.writeFileSync(path.join(dir, 'Language', 'card.md'), '# Language');
+  const out = gen(dir);
+  expect(out).toMatch(/Otp\/route/);
+  expect(out).not.toContain('Language');
+});
+
 test('route name must equal the folder name (the Ionic page class without "Page")', () => {
   expect(genStatus(screensDir({ Otp: { route: route('OtpPage'), index: true } }))).not.toBe(0);
 });

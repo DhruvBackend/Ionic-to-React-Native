@@ -4,7 +4,8 @@
 //
 //   node scripts/gen-routes.mjs [--dir <screens dir>] [--out <generated .ts file>]
 //
-// Folders starting with "_" are shared helpers, not screens, and are skipped.
+// Folders starting with "_" are shared helpers, not screens, and are skipped. So are folders that have neither
+// route.ts nor index.tsx (only a card.md from scripts/screen-card.mjs: not ported yet).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,6 +24,7 @@ const screens = fs.existsSync(dir)
   ? fs
       .readdirSync(dir, { withFileTypes: true })
       .filter(d => d.isDirectory() && !d.name.startsWith('_'))
+      .filter(d => ['route.ts', 'index.tsx'].some(f => fs.existsSync(path.join(dir, d.name, f))))
       .map(d => d.name)
       .sort()
   : [];

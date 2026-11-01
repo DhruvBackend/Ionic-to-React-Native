@@ -366,3 +366,20 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Respect the user's data.** The real app is logged in to a production account. Dhruv tapped through it himself, and I only took screenshots: no scans, no uploads, no taps in his account.
 
 **Interview angle:** "What did device testing catch that unit tests didn't?" → a native module name collision invisible to mocked tests, and a 'bug' that was actually the original app's behaviour. That's why parity work needs side-by-side checks on a real device.
+
+## 2026-11-01 — Task 12: screen inventory and screen cards
+
+**What:**
+- A machine-readable list of all 117 screens (status, roles, server, feature flag, phase), traced from the Ionic code.
+- A generator that writes a "screen card" per screen: endpoints, request bodies, nav params, navigation targets, popups, native features, texts and styles, with file:line references.
+- Fake logged-in users for every role, so the comparison tool can show screens as each role sees them.
+
+**Why:** Screen conversion runs on subagents. A card extracted mechanically from the source gives every builder the same complete checklist, so nothing depends on someone remembering to look.
+
+**Learned:**
+- **Reachability is a graph problem.** Start from the start-up screens and tabs per role, follow every push, setRoot and modal, and whatever you never reach is dead. The trace matched the earlier manual count (61 live, 56 dead) exactly, which is a good cross-check.
+- **Code can link somewhere the UI can't.** The registration page can push the Login page in code, but no radio option exists to trigger it. A small "infeasible edges" list records such cases with evidence.
+- **Old typos become behaviour.** Two pages check `login_type` while login stores `loginType`, so those branches never run. The RN port copies it as-is.
+- **Test data must be obviously fake.** Sample sessions use names like "Test Plumber", 9000000001-style phones and unsigned tokens. Never use a real user's data, even for tests.
+
+**Interview angle:** "How do you scope a 117-screen migration?" → trace reachability from the code (don't trust memory), classify live vs dead with evidence, gate dead screens behind flags, and generate a per-screen spec from the source so parallel workers can't miss endpoints or quirks.
