@@ -58,3 +58,22 @@ system bars, so:
   cropped. Rule: states captured against an API >= 35 device/emulator (the Android 16 emulator) carry `"deviceVersion": "15"` so the reference gets the same border; give such states `"deviceVersion": "15"` so the reference has the same border.
 - The result is bilinearly scaled to 1080x2400. Devices with a different aspect ratio will show scaling differences in the
   diff; use a 1080x2400 (20:9) device or emulator for exact comparisons.
+
+## Component parity states (`_components.*`, plan Task 9 step 6)
+`parity/states.d/_components.json`: one state per kit replica variant, each rendering the SAME component with the SAME inputs on both sides
+in isolation, so a diff is about the component and not about a screen.
+- Ionic side: the harness-only page `ParityGalleryPage` (`parity/reference/gallery/parity-gallery.{ts.txt,html,scss}`, plus the module).
+  `bash parity/reference/build-ionic.sh` copies it into the git-ignored work copy through `parity/reference/install-gallery.js` and patches
+  the work copy's `app.module.ts` (nothing is ever written to the Ionic source). `SKIP_INSTALL=1` reuses `work/node_modules` when only the
+  gallery changed. The page reads `navParams.get('id')`. Overlay ids call the real controllers with the options the Topbath pages pass
+  (cited per entry in `parity-gallery.ts.txt`) from `ionViewDidEnter` inside NgZone. State `ionicNav` is
+  `nav.setRoot(Page('ParityGallery'), params)`, or for navbars a two-page `nav.setPages([...])` so the back button shows.
+- RN side: the debug-only route `_ComponentState` (`src/dev/ComponentState.tsx`, registry `src/dev/componentStates.tsx`), deep link
+  `topbathrn://open?screen=_ComponentState&params={"id":"alert-plain"}`; its root is IonStack's `ion-card-_ComponentState`.
+  `select-open` and `datetime-open` use `rnAction: tap:<testID>-cover` (the kit has no imperative open for them).
+- `__tests__/componentStates.test.tsx` fails when the state file, the RN registry and the Ionic page disagree on the id list.
+- Determinism: no autoplay (slides), toasts and loaders have no `duration` (Topbath passes 3000 for toasts), every CSS animation on the
+  Ionic side is paused at its first frame (`parity-gallery.scss`), no input is focused (no caret blink). RN spinners cannot be frozen, so the
+  spinner phase differs in `loading-default` and `infinite-scroll` (expected).
+- Not covered on purpose: refresher (pull gesture), `WebEmbed` (network iframe), `navbar menuToggle` (no Topbath template uses it and
+  Ionic hides the button without an `ion-menu`).

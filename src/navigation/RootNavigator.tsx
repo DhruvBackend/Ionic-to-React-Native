@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { db } from '../api/client';
 import { debugToolsEnabled } from '../config/buildInfo';
 import { ComponentGallery } from '../dev/ComponentGallery';
+import { ComponentState } from '../dev/ComponentState';
 import { ScrollDemoScreen } from '../dev/gallery/ScrollDemoScreen';
 import { NativeDemoScreen } from '../dev/NativeDemoScreen';
 import { setFixtureVariant } from '../api/mock';
@@ -93,6 +94,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
           <Root.Screen name="Tabs" component={RoleTabs} />
           <Root.Screen name="Blank" component={BlankScreen} />
           {debugToolsEnabled && <Root.Screen name="_ComponentGallery" component={ComponentGallery} />}
+          {debugToolsEnabled && <Root.Screen name="_ComponentState" component={ComponentState} />}
           {debugToolsEnabled && <Root.Screen name="_ScrollDemo" component={ScrollDemoScreen} />}
           {debugToolsEnabled && <Root.Screen name="_NativeDemo" component={NativeDemoScreen} />}
           {routes.map(r => (

@@ -1,0 +1,5 @@
+// HARNESS ONLY (determinism): every CSS animation (the loading crescent, the bubbles spinner, ripples) is held at its first frame so two
+// captures of one state are identical. The RN side cannot freeze its spinners; those states list the phase difference as expected.
+ion-spinner *, ion-spinner, .spinner, .spinner * {
+  animation-play-state: paused !important;
+}

@@ -17,8 +17,12 @@ mkdir -p "$W"
 # 3. install + build with Node 10 (PATH changed for this script only)
 export PATH="$NODE10:$PATH"
 cd "$W"
-npm ci --no-audit --no-fund --ignore-scripts
-npm rebuild node-sass            # downloads the win32-x64-64 binding (ignore-scripts skipped it)
+if [ -z "${SKIP_INSTALL:-}" ]; then   # SKIP_INSTALL=1 reuses work/node_modules (iterating on the gallery page only)
+  npm ci --no-audit --no-fund --ignore-scripts
+  npm rebuild node-sass            # downloads the win32-x64-64 binding (ignore-scripts skipped it)
+fi
+# 3b. harness-only gallery page (parity states _components.*): copied into the work copy, never into $IONIC
+"$NODE10/node.exe" "$REPO/parity/reference/install-gallery.js" "$REPO/parity/reference/gallery" "$W"
 cp "$REPO/parity/reference/jwt-decode-shim.d.ts.txt" src/jwt-decode-shim.d.ts   # see the shim comment (a .txt so the RN tsc ignores it)
 npx ionic-app-scripts build
 grep -q play_console_flag www/build/main.js && echo "OK: www/build/main.js contains play_console_flag"

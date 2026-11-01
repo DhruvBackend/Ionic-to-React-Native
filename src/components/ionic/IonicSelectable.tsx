@@ -83,6 +83,8 @@ function sameItems(a: any[], b: any[]) {
 export interface SelectableHandle {
   open(): void;
   close(): void;
+  // Types into the modal searchbar (dev parity states only: the `_components.selectable-search` state; nothing in the app calls it).
+  search(text: string): void;
 }
 
 function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: React.Ref<SelectableHandle>) {
@@ -317,6 +319,7 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
 
   useImperativeHandle(ref, () => ({
     open: () => open(),
+    search: text => api.search(text),
     close: () => {
       if (st.opened) {
         closeInternal();

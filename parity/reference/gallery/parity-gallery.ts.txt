@@ -1,0 +1,184 @@
+// HARNESS ONLY (not part of the Topbath app, never copied into C:\Migrations\Topbath_App_loyalty): one Ionic page that renders ONE component
+// state per `id` nav param, with the real Ionic components and the app's real global styles, for the parity states `_components.<id>`
+// (parity/states.d/_components.json). Copied into parity/reference/work/src/pages/parity-gallery/ by parity/reference/build-ionic.sh.
+// The RN twin is src/dev/componentStates.tsx (route `_ComponentState`); __tests__/componentStates.test.ts keeps the id lists in sync.
+//
+// Conventions:
+//  - ids that open an overlay (or force a state) are the keys of OPENERS below (the real controllers, with the options the Topbath pages pass, cited);
+//  - ids that render markup are the `*ngSwitchCase` values in parity-gallery.html;
+//  - `back` ids are reached with a two-page stack (see ionicNav in the state) so the navbar shows its back button, like a pushed page;
+//  - determinism: no autoplay, no toast/loading durations, every CSS animation paused at its first frame (parity-gallery.scss).
+import { Component, NgZone, ViewChild } from '@angular/core';
+import {
+  ActionSheetController, AlertController, Content, DateTime, InfiniteScroll, IonicPage, LoadingController, ModalController, NavController, NavParams, Select, ToastController,
+} from 'ionic-angular';
+import { IonicSelectableComponent } from 'ionic-selectable';
+import { DbserviceProvider } from '../../providers/dbservice/dbservice';
+import { ViewProfilePage } from '../view-profile/view-profile';
+
+// Same bytes as src/dev/gallery/sampleImage.ts (a unit test compares them): the ImageViewer picture, no network.
+export const SAMPLE_IMAGE = 'data:image/png;base64,@@SAMPLE_IMAGE@@';
+
+type Opener = (p: ParityGalleryPage) => void;
+
+// Overlays opened by the page once it has entered. Options are the Topbath call sites, cited per entry.
+export const OPENERS: { [id: string]: Opener } = {
+  // home.ts:719 showAlert(text)
+  'alert-plain': p => p.alertCtrl.create({ title: 'Alert!', cssClass: 'action-close', subTitle: 'Coupon Already Used', buttons: ['OK'] }).present(),
+  // dbservice.ts:190 onShowMessageAlertHandler(messageText)
+  'alert-message': p => p.alertCtrl.create({ title: 'Message!', cssClass: 'action-close', subTitle: 'Order placed successfully', buttons: ['OK'] }).present(),
+  // No Topbath call site passes title + subTitle + message together; this combines add-order.ts:163 with a message line to cover the full layout.
+  'alert-full': p => p.alertCtrl.create({
+    title: 'Are You Sure?', subTitle: 'Your Order Data Will Be Discarded ', message: 'This is a longer message line to show the grey message text.',
+    buttons: [{ text: 'Cancel', role: 'cancel' }, { text: 'Confirm' }],
+  }).present(),
+  // add-order.ts:163-185 backAction()
+  'alert-confirm': p => p.alertCtrl.create({
+    title: 'Are You Sure?', subTitle: 'Your Order Data Will Be Discarded ', cssClass: 'action-close',
+    buttons: [{ text: 'Cancel', role: 'cancel', handler: () => undefined }, { text: 'Confirm', cssClass: 'close-action-sheet', handler: () => undefined }],
+  }).present(),
+  // home.ts:296-345: alertCtrl.create() with no title, two radio inputs (translate.get returns the key in en), buttons Cancel and OK
+  'alert-radio': p => {
+    const alert = p.alertCtrl.create();
+    alert.addInput({ type: 'radio', label: 'Coupon Scan', value: 'scan', checked: true });
+    alert.addInput({ type: 'radio', label: 'Enter Coupon Code', value: 'code' });
+    alert.addButton('Cancel');
+    alert.addButton({ text: 'OK', handler: () => undefined });
+    alert.present();
+  },
+  // No Topbath call site uses checkbox or text inputs in an alert (Ionic API only, the replica supports them)
+  'alert-checkbox': p => p.alertCtrl.create({
+    title: 'Pick',
+    inputs: [
+      { type: 'checkbox', label: 'One', value: '1', checked: true },
+      { type: 'checkbox', label: 'Two', value: '2' },
+      { type: 'checkbox', label: 'Three', value: '3' },
+    ],
+    buttons: ['Cancel', { text: 'OK', handler: () => undefined }],
+  }).present(),
+  'alert-text-input': p => p.alertCtrl.create({
+    title: 'Login',
+    inputs: [{ name: 'username', placeholder: 'Username' }, { name: 'password', placeholder: 'Password', type: 'password' }],
+    buttons: ['Cancel', { text: 'Login', handler: () => undefined }],
+  }).present(),
+  // No Topbath call site has three buttons (Ionic API only)
+  'alert-3-buttons': p => p.alertCtrl.create({ title: 'Three', message: 'Vertical buttons', buttons: ['One', 'Two', 'Three'] }).present(),
+  // app.component.ts:807-834 (updateAlert; the handlers only exit / open the store)
+  'alert-version-update': p => p.alertCtrl.create({
+    title: 'Update Available',
+    message: 'A newer version of this app is available for download. Please update it from PlayStore !',
+    buttons: [{ text: 'Cancel', handler: () => undefined }, { text: 'Update Now', handler: () => undefined }],
+  }).present(),
+  // dashboard.ts:190-212 presentAlert()
+  'alert-modal': p => p.alertCtrl.create({
+    title: 'Stop Time', message: 'Do you want to stop work time?', cssClass: 'alert-modal',
+    buttons: [{ text: 'Yes', handler: () => undefined }, { text: 'No', role: 'cancel', handler: () => undefined }],
+  }).present(),
+  // dbservice.ts:203-212 onShowLoadingHandler()
+  'loading-default': p => p.loadingCtrl.create({ content: 'Please wait...', dismissOnPageChange: true }).present(),
+  // cart-detail.ts:278-285 lodingPersent() (and 8 more pages)
+  'loading-gif': p => p.loadingCtrl.create({ spinner: 'hide', content: '<img src="./assets/imgs/gif.svg" class="h55" />' }).present(),
+  // dbservice.ts:226-236 presentToast(msg): duration 3000 there; 0 here so the toast is still on screen when the capture is taken
+  'toast-bottom': p => p.toastCtrl.create({ message: 'Your Data Is Safe', duration: 0, position: 'bottom' }).present(),
+  // top / middle / close button: no Topbath call site (Ionic API only)
+  'toast-top': p => p.toastCtrl.create({ message: 'Please Allow Location !!', duration: 0, position: 'top' }).present(),
+  'toast-middle': p => p.toastCtrl.create({ message: 'Middle toast', duration: 0, position: 'middle' }).present(),
+  'toast-close': p => p.toastCtrl.create({ message: 'With close button', duration: 0, position: 'bottom', showCloseButton: true }).present(),
+  // no Topbath call site without icons (Ionic API only)
+  'actionsheet-plain': p => p.actionSheetCtrl.create({
+    title: 'Choose', buttons: [{ text: 'First' }, { text: 'Second' }, { text: 'Cancel', role: 'cancel' }],
+  }).present(),
+  // customeradd.ts:142-175 openeditprofile()
+  'actionsheet-icons': p => p.actionSheetCtrl.create({
+    title: 'Profile photo',
+    cssClass: 'cs-actionsheet',
+    buttons: [
+      { cssClass: 'sheet-m', text: 'Camera', icon: 'camera', handler: () => undefined },
+      { cssClass: 'sheet-m1', text: 'Gallery', icon: 'image', handler: () => undefined },
+      { cssClass: 'cs-cancel', text: 'Cancel', role: 'cancel', handler: () => undefined },
+    ],
+  }).present(),
+  // view-profile (ViewProfilePage as a modal): the Image param is prefixed with db.upload_url3, emptied here so the local picture loads
+  'image-viewer': p => {
+    p.db.upload_url3 = '';
+    p.modalCtrl.create(ViewProfilePage, { Image: SAMPLE_IMAGE, mode: 'profile' }).present();
+  },
+  // dealer-discount.html:36-39: scrolled to the end, the real infinite scroll enters 'loading' and (no handler completing it here) stays there
+  // (Ionic's own scroll listener did not run for a programmatic scrollToBottom(0) in the headless capture, so the state is also set directly.)
+  'infinite-scroll': p => {
+    p.content.scrollToBottom(0);
+    setTimeout(() => {
+      p.zone.run(() => {
+        p.infinite.state = 'loading';
+      });
+      setTimeout(() => p.content.scrollToBottom(0), 100); // the loading content grew the page: show its end
+    }, 300);
+  },
+  // registration.html:80-86 (ion-select in ion-item.cs-select, alert interface)
+  'select-open': p => p.select.open(),
+  // registration.html:33-37 (ion-datetime in ion-item.cs-date)
+  'datetime-open': p => p.datetime.open(),
+  // registration.html:243-254 (ionic-selectable in ion-item.cs-select)
+  'selectable-open': p => p.selectable.open(),
+  'selectable-search': p => {
+    p.selectable.open().then(() => {
+      p.zone.run(() => {
+        p.selectable._searchText = 'Su';
+        p.selectable._filterItems();
+      });
+    });
+  },
+};
+
+export const STATES = ['Delhi', 'Haryana', 'Punjab', 'Rajasthan', 'Uttar Pradesh', 'Uttarakhand'];
+export const EXECUTIVES = ['Ramesh Kumar', 'Suresh Verma', 'Anita Sharma', 'Mohit Gupta', 'Pooja Singh', 'Rahul Jain'].map((n, i) => ({ id: i + 1, first_name: n }));
+
+@IonicPage()
+@Component({
+  selector: 'page-parity-gallery',
+  templateUrl: 'parity-gallery.html',
+})
+export class ParityGalleryPage {
+  id: string = 'blank';
+  states = STATES;
+  rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  executives = EXECUTIVES;
+  blankRoot: any = ParityGalleryPage;
+  blankParams = { id: 'blank' };
+  data: any = { registerType: 'Plumber', dob: '1990-05-15', state: 'Haryana', name: 'Ramesh Kumar', mobile: '98765', exec: null, editName: 'Ramesh Kumar', type: 'Full Day' };
+  seg = 'Pending';
+  search = '';
+  tabs: any = {
+    Plumber: [['Home', 'tab-home'], ['Offers', 'tab-gift'], ['My Wallet', 'tab-points'], ['Profile', 'tab-profile'], ['Menu', 'tab-menu']],
+    Sales_Executive: [['Home', 'tab-home'], ['Offers', 'tab-gift'], ['My Wallet', 'tab-points'], ['Profile', 'tab-profile'], ['Menu', 'tab-menu']],
+    Customer: [['Home', 'tab-home'], ['New Arrivals', 'tab-arrivals'], ['Contact Us', 'tab-contact'], ['About Us', 'tab-about'], ['Profile', 'tab-profile']],
+  };
+
+  @ViewChild(Content) content: Content;
+  @ViewChild(InfiniteScroll) infinite: InfiniteScroll;
+  @ViewChild(Select) select: Select;
+  @ViewChild(DateTime) datetime: DateTime;
+  @ViewChild(IonicSelectableComponent) selectable: IonicSelectableComponent;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public zone: NgZone,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public actionSheetCtrl: ActionSheetController,
+    public modalCtrl: ModalController,
+    public db: DbserviceProvider,
+  ) {
+    this.id = navParams.get('id') || 'blank';
+  }
+
+  ionViewDidEnter() {
+    const open = OPENERS[this.id];
+    if (open) {
+      // pilot lesson: anything async/overlay runs inside Angular's zone so change detection follows
+      this.zone.run(() => setTimeout(() => open(this), 100));
+    }
+  }
+}

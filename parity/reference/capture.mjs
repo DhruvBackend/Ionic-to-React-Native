@@ -169,6 +169,10 @@ const ICON_CSS = `
 @font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(/__fonts/MaterialIcons-Regular.ttf)}
 .material-icons{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';-webkit-font-smoothing:antialiased}`;
 
+// ICON_CSS above is served for fonts.googleapis.com/icon, so its relative url() would resolve against that host (and get the CSS back). The face is
+// therefore declared again, in-page, with the local origin (like REF_FONT_CSS); without it every .material-icons glyph drew its ligature name as text.
+const REF_ICON_CSS = "@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(/__fonts/MaterialIcons-Regular.ttf)}";
+
 function installRoutes(context, port, state, log) {
   const origin = `http://127.0.0.1:${port}`;
   return context.route('**/*', async route => {
@@ -273,6 +277,7 @@ export async function waitForFonts(page) {
         loads.push(document.fonts.load(`${w} 14px '${f}'`, 'Aa'), document.fonts.load(`${w} 14px '${f}'`, 'आगे'));
       }
     }
+    loads.push(document.fonts.load("24px 'Material Icons'", 'clear'));
     await Promise.all(loads.map(l => l.then(() => 1, () => 1)));
     await document.fonts.ready.then(() => 1);
     return 1;
@@ -308,7 +313,7 @@ export async function captureState(browser, port, state, outFile, { log = () => 
     // Wait for the Ionic app (platform ready, a root page rendered).
     await page.waitForFunction(() => window.ng && document.querySelector('ion-nav .ion-page, ion-nav ion-content, ion-nav .content'), null, { timeout: 30000 });
     await page.waitForLoadState('networkidle');
-    await page.addStyleTag({ content: REF_FONT_CSS });
+    await page.addStyleTag({ content: REF_FONT_CSS + REF_ICON_CSS });
     await waitForFonts(page);
     await page.waitForTimeout(500);
     await page.evaluate(HELPERS);

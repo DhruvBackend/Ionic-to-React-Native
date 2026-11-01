@@ -1,0 +1,11 @@
+// HARNESS ONLY, see parity-gallery.ts.
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { ParityGalleryPage } from './parity-gallery';
+
+@NgModule({
+  declarations: [ParityGalleryPage],
+  imports: [IonicPageModule.forChild(ParityGalleryPage), IonicSelectableModule],
+})
+export class ParityGalleryPageModule {}

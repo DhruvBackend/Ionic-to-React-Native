@@ -1,11 +1,641 @@
 [
   {
     "id": "_components.alert-plain",
-    "screen": "_ComponentGallery",
+    "screen": "_ComponentState",
     "role": null,
     "lang": "en",
     "variants": {},
-    "params": { "demo": "alert-plain" },
-    "ionicNav": "ctrl('alertCtrl').create({ title: 'Alert', message: 'This is a plain alert.', buttons: ['OK'] }).present()"
+    "params": {
+      "id": "alert-plain"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-message",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-message"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-full",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-full"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-confirm",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-confirm"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-radio",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-radio"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-checkbox",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-checkbox"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-text-input",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-text-input"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-3-buttons",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-3-buttons"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-version-update",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-version-update"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.alert-modal",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "alert-modal"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.loading-default",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "loading-default"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.loading-gif",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "loading-gif"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.toast-bottom",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "toast-bottom"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.toast-top",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "toast-top"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.toast-middle",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "toast-middle"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.toast-close",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "toast-close"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.actionsheet-plain",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "actionsheet-plain"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.actionsheet-icons",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "actionsheet-icons"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.image-viewer",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "image-viewer"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.select-open",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "select-open"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800,
+    "rnAction": "tap:cs-select-state-cover"
+  },
+  {
+    "id": "_components.datetime-open",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "datetime-open"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800,
+    "rnAction": "tap:cs-date-dob-cover"
+  },
+  {
+    "id": "_components.selectable-open",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "selectable-open"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.selectable-search",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "selectable-search"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.navbar-main-remove",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "navbar-main-remove"
+    },
+    "ionicNav": "nav.setPages([{ page: Page('ParityGallery'), params: { id: 'blank' } }, { page: Page('ParityGallery'), params }])",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.navbar-main",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "navbar-main"
+    },
+    "ionicNav": "nav.setPages([{ page: Page('ParityGallery'), params: { id: 'blank' } }, { page: Page('ParityGallery'), params }])",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.navbar-plain",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "navbar-plain"
+    },
+    "ionicNav": "nav.setPages([{ page: Page('ParityGallery'), params: { id: 'blank' } }, { page: Page('ParityGallery'), params }])",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.navbar-primary-end",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "navbar-primary-end"
+    },
+    "ionicNav": "nav.setPages([{ page: Page('ParityGallery'), params: { id: 'blank' } }, { page: Page('ParityGallery'), params }])",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.navbar-h80-white",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "navbar-h80-white"
+    },
+    "ionicNav": "nav.setPages([{ page: Page('ParityGallery'), params: { id: 'blank' } }, { page: Page('ParityGallery'), params }])",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.selectable-closed",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "selectable-closed"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.tabs-plumber",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "tabs-plumber"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.tabs-sales-exec",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "tabs-sales-exec"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.tabs-customer",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "tabs-customer"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.segment-tab-btn",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "segment-tab-btn"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.segment-default",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "segment-default"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.searchbar-add-search",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "searchbar-add-search"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.searchbar-gift-list",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "searchbar-gift-list"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.searchbar-bare",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "searchbar-bare"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.buttons-solid",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "buttons-solid"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.buttons-icons-outline",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "buttons-icons-outline"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.buttons-cs",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "buttons-cs"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.list-radio",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "list-radio"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.list-checkbox",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "list-checkbox"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.form-cs-input",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "form-cs-input"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.input-plain",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "input-plain"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.form-edit",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "form-edit"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.card-grid",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "card-grid"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.fab",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "fab"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.infinite-scroll",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "infinite-scroll"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
+  },
+  {
+    "id": "_components.slides",
+    "screen": "_ComponentState",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": "slides"
+    },
+    "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
+    "deviceVersion": "15",
+    "waitMs": 2800
   }
 ]
