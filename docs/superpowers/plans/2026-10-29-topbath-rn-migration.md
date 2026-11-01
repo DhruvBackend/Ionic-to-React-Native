@@ -713,6 +713,17 @@ Findings and decisions:
 
 ### Task 11: Visual-parity harness
 
+**Status** (2026-11-01): DONE (harness built; RN capture verified once a device is connected). See `parity/README.md`.
+- The Ionic reference is **built from source** at `b33d82f` (no aab fallback), so Sales_Executive and forced-update states have references.
+  - Portable Node 10.24.1 in `.reference/node10/`; no global Node, nvm or Docker change.
+  - `fix-lock.js` rewrites the taobao registry host *and* paths (780 URLs).
+  - `npm ci --ignore-scripts`, then `npm rebuild node-sass`.
+  - A `jwt-decode` type shim is needed because `work/` sits inside the RN repo.
+- Capture uses Playwright 1.64.1 with the installed Chrome (360×800, DPR 3). `stubs.js` fakes Cordova plugins and fires deviceready. Every abacusdesk request is answered from `src/api/fixtures`; other hosts are aborted and logged to `parity/out/blocked-requests.log`. Nothing reaches a server.
+- **Deviation: Maestro → adb.** The RN side opens states with the debug deep link and `adb exec-out screencap`, so no global tool is installed. It crops the system bars below API 35 and scales to 1080×2400.
+- The report uses pixelmatch 8.0.0 and pngjs 7.0.0; sign-off goes through `node parity/signoff.mjs <id> ok|fail "<note>"` into the committed `parity/signoff.json`.
+- **Open:** roles need `src/api/fixtures/_sessions.json` (Task 12); `app_karigar/get_languages` has no fixture yet; use a 20:9 (1080×2400) device or emulator for clean diffs.
+
 **Files:**
 - `parity/reference/build-ionic.md` (documented commands)
 - `parity/reference/build-ionic.sh`

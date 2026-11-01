@@ -1,0 +1,11 @@
+[
+  {
+    "id": "Language.default",
+    "screen": "Language",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language'))"
+  }
+]

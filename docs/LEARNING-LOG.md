@@ -331,3 +331,19 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Know the emulator's limits.** No-options location never returned on the emulator (no network location provider), and the status bar wouldn't hide. Both go on the real-phone checklist instead of being "fixed" blindly.
 
 **Interview angle:** "How do you migrate native plugins?" → inventory what actually ships (not what the code imports), port the plugin's real logic (intents, scaling, permission timing, defaults), reuse native artifacts where possible, gate features that don't work in production, and verify on a device.
+
+## 2026-11-01 — Task 11: side-by-side comparison tool
+
+**What:** A tool that screenshots the same screen in the real Ionic app and in the RN app, then shows them side by side with a pixel diff and a sign-off record.
+- **Ionic side:** the original app is built from source and opened in Chrome at phone size, with fake Cordova plugins and canned server answers.
+- **RN side:** a debug link opens the screen and adb takes the screenshot.
+
+**Why:** "Looks the same to me" doesn't scale to 117 screens. A diff percentage and a recorded sign-off per screen state does.
+
+**Learned:**
+- **Old projects need old tools, so isolate them.** Ionic 3 needs Node 10. A portable Node 10 inside the project's ignored folder avoided touching the system Node that other projects use.
+- **Dead registries break old lockfiles.** The lockfile pointed at the retired taobao npm mirror. Changing the host wasn't enough; the download paths differ too. The checksums still matched, so the packages are the same.
+- **Sandbox the reference completely.** Every request from the reference app goes to local fixtures or is blocked and logged, so the comparison tool can never touch dev or production.
+- **Folders inside a repo leak into each other.** TypeScript inside the copied Ionic project picked up the RN repo's newer `jwt-decode` types. A small type shim fixed it, and the RN tools are told to ignore the copy.
+
+**Interview angle:** "How do you prove a rewrite is pixel-identical?" → build the original from source, render both at the same size with the same data, diff them automatically, and keep a per-screen sign-off record in the repo.

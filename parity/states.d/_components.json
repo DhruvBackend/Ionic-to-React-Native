@@ -1,0 +1,11 @@
+[
+  {
+    "id": "_components.alert-plain",
+    "screen": "_ComponentGallery",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": { "demo": "alert-plain" },
+    "ionicNav": "ctrl('alertCtrl').create({ title: 'Alert', message: 'This is a plain alert.', buttons: ['OK'] }).present()"
+  }
+]

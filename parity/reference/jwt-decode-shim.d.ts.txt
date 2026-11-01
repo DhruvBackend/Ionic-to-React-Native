@@ -1,0 +1,7 @@
+// Build-only shim copied into work/src by build-ionic.sh. work/ lives inside the RN repo, and TypeScript
+// prefers the RN repo's typed jwt-decode@4 over work/node_modules' untyped 2.2.0 (the runtime bundle still
+// uses work/node_modules). An ambient declaration makes the Ionic sources compile as they do standalone.
+declare module 'jwt-decode' {
+  const jwtDecode: any;
+  export = jwtDecode;
+}
