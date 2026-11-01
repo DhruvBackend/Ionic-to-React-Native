@@ -70,7 +70,7 @@ export function parseRnAction(action) {
  * The id may be package-prefixed ("com.x:id/lang-hin-cover"). Returns { x, y } in device pixels or null.
  */
 export function findNodeCenter(xml, testID) {
-  for (const m of xml.matchAll(/<node[^>]*>/g)) {
+  for (const m of xml.matchAll(/<node\b[^>]*>/g)) {
     const tag = m[0];
     const id = /resource-id="([^"]*)"/.exec(tag)?.[1] ?? '';
     if (id === testID || id.endsWith(`/${testID}`)) {
