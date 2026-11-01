@@ -302,7 +302,8 @@ export async function captureState(browser, port, state, outFile, { log = () => 
     );
     await page.addInitScript(STUBS);
     if (session) {
-      await seedStorage(page, port, { userStorageData: session });
+      // seedToken: also store the JWT under the bare key 'token' (what language.ts / dbservice.ts read; the shipped app never writes it)
+      await seedStorage(page, port, { userStorageData: session, ...(state.seedToken ? { token: session.token } : {}) });
     }
     await page.goto(`http://127.0.0.1:${port}/`);
     // Wait for the Ionic app (platform ready, a root page rendered).

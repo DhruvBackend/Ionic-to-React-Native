@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_languages",
+  "helper": "get_rqst",
+  "server": "root",
+  "method": "GET",
+  "headers": "tokenOnly",
+  "body": null,
+  "ionicSource": "src/pages/language/language.ts:77"
+}

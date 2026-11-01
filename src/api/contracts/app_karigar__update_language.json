@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/update_language",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "data": { "language": "", "id": "" } },
+  "note": "Fresh install (no token): id is the empty string. With a token, id is the whole decoded payload object (language.ts:48, :108).",
+  "ionicSource": "src/pages/language/language.ts:110"
+}

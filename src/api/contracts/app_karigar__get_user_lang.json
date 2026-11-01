@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/get_user_lang",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "login_id": { "iss": "", "sub": "", "kind": "", "iat": "", "exp": "" } },
+  "note": "login_id is the WHOLE decoded JWT payload (language.ts:48 karigar_id = tokendata); the keys shown are the fixture token's claims.",
+  "ionicSource": "src/pages/language/language.ts:187"
+}

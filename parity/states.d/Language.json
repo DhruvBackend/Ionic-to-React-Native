@@ -1,0 +1,62 @@
+[
+  {
+    "id": "Language.default",
+    "screen": "Language",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language'))",
+    "waitMs": 800
+  },
+  {
+    "id": "Language.hin",
+    "screen": "Language",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language')).then(() => new Promise(r => setTimeout(r, 600))).then(() => { const b = Array.from(document.querySelectorAll('page-language')).pop().querySelectorAll('ion-radio button')[1]; const o = { bubbles: true, cancelable: true }; b.dispatchEvent(new MouseEvent('mousedown', o)); b.dispatchEvent(new MouseEvent('mouseup', o)); b.dispatchEvent(new MouseEvent('click', o)); })",
+    "rnAction": "tap:ion-radio-hin",
+    "waitMs": 1000
+  },
+  {
+    "id": "Language.loggedInHin",
+    "screen": "Language",
+    "role": "Plumber",
+    "seedToken": true,
+    "lang": "en",
+    "variants": {
+      "app_karigar/get_user_lang": "hin"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language'))",
+    "waitMs": 1200
+  },
+  {
+    "id": "Language.loggedInEmpty",
+    "screen": "Language",
+    "role": "Plumber",
+    "seedToken": true,
+    "lang": "en",
+    "variants": {
+      "app_karigar/get_user_lang": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language'))",
+    "waitMs": 1200
+  },
+  {
+    "id": "Language.malformed",
+    "screen": "Language",
+    "role": "Plumber",
+    "seedToken": true,
+    "lang": "en",
+    "variants": {
+      "app_karigar/get_user_lang": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Language'))",
+    "waitMs": 1200
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "endpoint": "app_karigar/update_language",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "msg": "Language updated" },
+    "malformed": {}
+  }
+}
