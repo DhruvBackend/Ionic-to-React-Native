@@ -49,11 +49,11 @@ const ACTIONS: Action[] = [
   { id: 'network', label: 'Network status', run: () => getNetworkState() },
 ];
 
-// Keep a long data URL readable.
+// Keep a long data URL readable (other strings, e.g. error messages, are shown in full).
 const show = (v: unknown): string => {
   const text = JSON.stringify(
     v,
-    (_k, val) => (typeof val === 'string' && val.length > 80 ? `${val.slice(0, 60)}... (${val.length} chars)` : val),
+    (_k, val) => (typeof val === 'string' && val.startsWith('data:') && val.length > 80 ? `${val.slice(0, 60)}... (${val.length} chars)` : val),
     2,
   );
   return text ?? 'undefined';

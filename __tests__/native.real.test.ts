@@ -25,7 +25,7 @@ beforeEach(() => {
   });
   NativeModules.ScannerModule = { scan: jest.fn() };
   NativeModules.LocationAccuracyModule = { request: jest.fn(async () => 0) };
-  NativeModules.ShareModule = { share: jest.fn(async () => true) };
+  NativeModules.SocialSharingModule = { share: jest.fn(async () => true) };
   NativeModules.CameraModule = { getPicture: jest.fn() };
 });
 
@@ -33,7 +33,7 @@ afterEach(() => {
   jest.restoreAllMocks();
   delete NativeModules.ScannerModule;
   delete NativeModules.LocationAccuracyModule;
-  delete NativeModules.ShareModule;
+  delete NativeModules.SocialSharingModule;
   delete NativeModules.CameraModule;
   delete NativeModules.BuildInfo;
 });
@@ -204,9 +204,9 @@ describe('getPosition', () => {
 describe('shareText and getInstalledVersion', () => {
   test('shareText passes the text and the optional image URL to the native chooser', async () => {
     expect(await shareText('Hello')).toEqual({ ok: true, value: true });
-    expect(NativeModules.ShareModule.share).toHaveBeenCalledWith('Hello', null);
+    expect(NativeModules.SocialSharingModule.share).toHaveBeenCalledWith('Hello', null);
     await shareText('P', 'https://example.invalid/p.png');
-    expect(NativeModules.ShareModule.share).toHaveBeenLastCalledWith('P', 'https://example.invalid/p.png');
+    expect(NativeModules.SocialSharingModule.share).toHaveBeenLastCalledWith('P', 'https://example.invalid/p.png');
   });
 
   test('getInstalledVersion prefers the native versionName and falls back to client.json', async () => {

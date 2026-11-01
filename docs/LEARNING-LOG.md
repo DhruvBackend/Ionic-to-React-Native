@@ -347,3 +347,22 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Folders inside a repo leak into each other.** TypeScript inside the copied Ionic project picked up the RN repo's newer `jwt-decode` types. A small type shim fixed it, and the RN tools are told to ignore the copy.
 
 **Interview angle:** "How do you prove a rewrite is pixel-identical?" → build the original from source, render both at the same size with the same data, diff them automatically, and keep a per-screen sign-off record in the repo.
+
+## 2026-11-01 — Phone checks: splash, scanner, location, camera, share
+
+**What:** Checked the RN app against the real Play Store app on Dhruv's phone (Android 16), over USB.
+- **Splash:** timed screenshots from cold start show a 0.00% pixel difference for the first 3 s, and the fade starts at the same moment.
+- **Scanner:** pixel-identical (0.1%, the laser's pulse).
+- **Location, camera and gallery:** work on the real phone.
+- **Share:** broken, now fixed.
+
+**Learned:**
+- **The emulator can mislead you in both directions.**
+  - The scanner's hint text under the nav bar looked like our bug on the emulator, so I "fixed" it. The phone showed the real app does exactly the same, so the fix was wrong and was removed.
+  - The emulator's missing network location looked like a hang; the phone returned a fix instantly.
+  
+  Rule: compare against the real app on a real device before changing behaviour.
+- **Name clashes hide behind mocks.** Our native module was called `ShareModule`, but React Native already has a module with that name. On the phone our call went to React Native's module and failed. All Jest tests passed, because they mock `NativeModules`. Only a real device run catches this kind of thing.
+- **Respect the user's data.** The real app is logged in to a production account. Dhruv tapped through it himself, and I only took screenshots: no scans, no uploads, no taps in his account.
+
+**Interview angle:** "What did device testing catch that unit tests didn't?" → a native module name collision invisible to mocked tests, and a 'bug' that was actually the original app's behaviour. That's why parity work needs side-by-side checks on a real device.

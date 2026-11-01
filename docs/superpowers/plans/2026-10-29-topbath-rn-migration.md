@@ -427,7 +427,7 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 8b: Splash screen (Android 12+ SplashScreen API)
 
-**Status** (2026-11-01): built; **on-device side-by-side with the Play Store app still pending** (Dhruv's phone). Details and citations: `docs/splash-parity.md`.
+**Status** (2026-11-01): DONE. Verified on Dhruv's phone (OnePlus CPH2707, Android 16) against the Play Store app: timed cold-start screenshots of both apps show a 0.00% pixel difference below the status bar for the first ~3 s, and the fade starts at the same moment. Details and citations: `docs/splash-parity.md`.
 - The shipped app (cordova-android 12.0.1) uses the native androidx core-splashscreen 1.0.0 splash on **every cold start**: white `#FFFFFF` background, `resources/splash.png` as the icon (Android 12 icon rules: 240dp, circle mask), held for a fixed 3000 ms (`SplashScreenDelay`) from activity start, then faded out over 3000 ms with `AccelerateInterpolator` (`SplashScreenPlugin.java`).
 - **The plan below was wrong on two points:** there is no JS overlay, and "first launch only" does not apply. `SplashShowOnlyFirstTime`, `SplashMaintainAspectRatio`, `SplashScreen="screen"`, `ShowSplashScreenSpinner` and `ShowSplashScreen` are dead under cordova-android 12. `splashScreen.hide()` in `app.component.ts:118` is a no-op, because `AutoHideSplashScreen` is true.
 - RN: `MainActivity.kt` uses `installSplashScreen()` with the same 3000 ms hold and 3000 ms accelerating fade, and `Theme.App.SplashScreen` matches the shipped theme. `use-client.mjs` copies `clients/<id>/assets/splash.png` and writes the optional `splashBackground` colour.
@@ -676,14 +676,15 @@ Findings and decisions:
 - **Feature-gated:** `reverseGeocode`, `openNavigation` and **`uploadMultipart`** return `unavailable` unless `nativeGeocode` / `nativeNavigation` / **`nativeUpload`** is on (all off for Topbath). Production uploads are broken: the complaint-with-video loader never closes, and dispatch-with-photos skips its toast and refresh. Screens must replicate that.
 - **Manifest** matches the shipped permission set and `<queries>`.
 - **Emulator results:** camera prompt, then the ZXing scanner (viewfinder, laser, hint); photos prompt, then the system photo picker (Android 14+ routes GET_CONTENT for images there, for the shipped app too); location accuracy dialog, then the location prompt, then a fix.
-- **Fixed on the emulator:** with targetSdk 36 the scanner's hint text sat under the navigation bar. `MainApplication` now pads that activity for the nav bar and cutout, as under the shipped SDK 34.
+- **Scanner layout:** on the emulator the hint text sat under the navigation bar and looked like a bug, so a padding "fix" was added. Then Dhruv's phone showed that the Play Store scanner *also* draws edge-to-edge (camera 0-2378 px, hint at 2321-2378 overlapping the nav handle, status bar hidden). The fix was removed; RN now matches it exactly (0.107% pixel diff, the laser line's pulse).
 - **Deliberately not ported:** the camera plugin's `checkForDuplicateImage` (it can delete the user's newest gallery photo) and its real-path lookup.
 
-**Still to check on Dhruv's phone, against the Play Store app:**
-- Scanner: the status bar still shows over the camera on Android 15+ (hiding it had no effect on the emulator); the shipped app (SDK 34) hides it.
-- The no-options location call (6 pages) never returned on the emulator, because the emulator's network provider gives no fix. Confirm it returns on a real phone.
-- Camera capture result and orientation; the gallery picker on the phone's Android version.
-- Image share via FileProvider.
+**Phone checks** (2026-11-01, Dhruv's phone, Android 16):
+- Scanner: identical to the Play Store app (see above).
+- No-options location: returns a fix immediately (the emulator just has no network provider).
+- Camera: a portrait photo returned a ~24 KB JPEG data URL. Gallery: picked photo returned as a re-encoded JPEG.
+- **Share was broken and is fixed.** The module was named `ShareModule`, the same name as React Native core's Share API module, which shadowed it ("Expected argument 0 of method share to be a Object"). It's renamed `SocialSharingModule`; the share sheet now opens with the text. The Jest tests mocked the module and could not catch the name clash.
+- Still open: photo orientation and image (FileProvider) share are checked again when the first screens that use them are ported.
 
 **Files:** `src/native/{scanner,camera,location,share,browser,appVersion,geocode,navigate,upload,network,push}.ts` and `src/native/index.ts`. Modify `android/app/src/main/AndroidManifest.xml` (CAMERA, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, INTERNET; POST_NOTIFICATIONS is added in Phase 8). Test: `__tests__/native.test.ts`.
 

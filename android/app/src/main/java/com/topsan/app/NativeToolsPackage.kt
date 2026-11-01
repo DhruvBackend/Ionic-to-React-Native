@@ -226,10 +226,12 @@ class LocationAccuracyModule(private val reactContext: ReactApplicationContext) 
  * getExternalFilesDir(null)/socialsharing-downloads and shared through a FileProvider
  * (authority ${applicationId}.sharing.provider, like the plugin); without a file the type is text/plain.
  */
-class ShareModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class SocialSharingModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
   private val executor = Executors.newSingleThreadExecutor()
 
-  override fun getName() = "ShareModule"
+  // Not "ShareModule": React Native core registers a module of that name (the Share API), and it shadowed this one
+  // ("Expected argument 0 of method share to be a Object" on the phone, 2026-11-01).
+  override fun getName() = "SocialSharingModule"
 
   @ReactMethod
   fun share(message: String?, file: String?, promise: Promise) {
@@ -327,7 +329,7 @@ class NativeToolsPackage : ReactPackage {
       ScannerModule(context),
       CameraModule(context),
       LocationAccuracyModule(context),
-      ShareModule(context),
+      SocialSharingModule(context),
       ReverseGeocodeModule(context),
     )
 
