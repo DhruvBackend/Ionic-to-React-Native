@@ -302,3 +302,16 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Keep reference material out of temp folders.** The session's temp folder disappeared on restart. The Ionic sources now live in a git-ignored `.reference/` folder in the project, excluded from tests, the type checker and the bundler.
 
 **Interview angle:** "Your tests pass — how do you know the UI is right?" → tests check logic and style values, but layout engines differ (CSS vs Yoga). Look at the real device, and when something looks off, render the original with its real CSS to decide whether it's your bug or the original's behaviour.
+
+## 2026-11-01 — Task 8b: splash screen
+
+**What:** The RN app now shows the same native Android splash as the Play Store app: white background, round Topsan logo, held for 3 s, then faded over 3 s, on every launch. The side-by-side check on Dhruv's phone is still to do.
+
+**Why:** It's the first thing every user sees. "1:1" starts before the first screen.
+
+**Learned:**
+- **Config files lie; the shipped build tells the truth.** `config.xml` says "fade, first launch only, hide when the app is ready". But Topsan's Cordova version (cordova-android 12) switched to Android's built-in splash system, which ignores five of those settings. The app's `splashScreen.hide()` call does nothing, because auto-hide is on.
+- **How we found out:** we read the build's resource table with `aapt2 dump` (theme, colours) and the exact Cordova source (`SplashScreenPlugin.java`). Both agreed: 3 s fixed hold, 3 s accelerating fade, timer started at launch, not when the app is ready.
+- **The plan was wrong too.** It assumed a JS overlay and first-launch-only behaviour. When the evidence contradicts the plan, record it and follow the evidence.
+
+**Interview angle:** "How do you find out what an app really does?" → don't trust the config. Inspect the built artifact (aab resources, manifest) and read the exact framework version's source. The build is the spec.

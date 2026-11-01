@@ -82,5 +82,6 @@ export interface ClientConfig {
   fcmSenderId: string;
   features: Record<FeatureKey, boolean>;
   brandLabels: Record<string, string>;
+  splashBackground?: string; // splash screen colour; Ionic default #FFFFFF (docs/splash-parity.md)
   assetsFrom?: string; // reuse another client's assets folder (test configs)
 }

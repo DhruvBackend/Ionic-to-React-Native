@@ -430,6 +430,9 @@
         "type": "string"
       }
     },
+    "splashBackground": {
+      "$ref": "#/definitions/hex"
+    },
     "assetsFrom": {
       "type": "string",
       "pattern": "^[a-z0-9_-]+$"

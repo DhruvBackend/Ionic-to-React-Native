@@ -6,4 +6,15 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 
+    <!-- Launch theme of MainActivity: the same Theme.App.SplashScreen cordova-android 12.0.1 generated for the
+         shipped app (templates/project/res/values/themes.xml, as filled in by cordova/lib/prepare.js).
+         Icon and colour are generated per client by scripts/use-client.mjs. See docs/splash-parity.md. -->
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <!-- NOTE (parity): Ionic used Theme.AppCompat.NoActionBar here; the RN app keeps its own AppTheme. -->
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
 </resources>

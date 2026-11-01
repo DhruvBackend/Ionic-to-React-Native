@@ -1,7 +1,7 @@
 // App root, ported from src/app/app.component.ts + app.html:
 // platform.ready → status bar, version check, then the stored session decides the first page.
 // Until that decision the app shows nothing, as Ionic did before setting rootPage.
-// The splash screen (config.xml) is ported separately (plan Task 8b).
+// The splash screen is native (MainActivity.kt, docs/splash-parity.md); splashScreen.hide() is kept as a no-op call.
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import { useBackButton } from './src/app/useBackButton';
 import { runVersionCheck } from './src/app/versionCheck';
 import { OverlayHost } from './src/components/ionic/OverlayHost';
 import { initPushNotification } from './src/native/push';
+import { splashScreen } from './src/native/splashScreen';
 import { RootNavigator } from './src/navigation/RootNavigator';
 
 function Startup() {
@@ -20,6 +21,7 @@ function Startup() {
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
+    splashScreen.hide(); // app.component.ts:118 (platform.ready)
     runVersionCheck();
     decideStartRoute().then(decision => {
       setStart(decision);

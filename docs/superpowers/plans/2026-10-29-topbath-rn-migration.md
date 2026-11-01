@@ -427,6 +427,12 @@ Findings from reading `app.component.ts` and how they were ported:
 
 ### Task 8b: Splash screen (Android 12+ SplashScreen API)
 
+**Status** (2026-11-01): built; **on-device side-by-side with the Play Store app still pending** (Dhruv's phone). Details and citations: `docs/splash-parity.md`.
+- The shipped app (cordova-android 12.0.1) uses the native androidx core-splashscreen 1.0.0 splash on **every cold start**: white `#FFFFFF` background, `resources/splash.png` as the icon (Android 12 icon rules: 240dp, circle mask), held for a fixed 3000 ms (`SplashScreenDelay`) from activity start, then faded out over 3000 ms with `AccelerateInterpolator` (`SplashScreenPlugin.java`).
+- **The plan below was wrong on two points:** there is no JS overlay, and "first launch only" does not apply. `SplashShowOnlyFirstTime`, `SplashMaintainAspectRatio`, `SplashScreen="screen"`, `ShowSplashScreenSpinner` and `ShowSplashScreen` are dead under cordova-android 12. `splashScreen.hide()` in `app.component.ts:118` is a no-op, because `AutoHideSplashScreen` is true.
+- RN: `MainActivity.kt` uses `installSplashScreen()` with the same 3000 ms hold and 3000 ms accelerating fade, and `Theme.App.SplashScreen` matches the shipped theme. `use-client.mjs` copies `clients/<id>/assets/splash.png` and writes the optional `splashBackground` colour.
+- To check on device: icon size and mask, hold and fade timing, the window colour behind the fade (RN `AppTheme` vs Ionic `Theme.AppCompat.NoActionBar`), and Android below 12.
+
 - Theme `Theme.SplashScreen` with `windowSplashScreenAnimatedIcon` from the client's `splash.png` (via `use-client.mjs`) and the Cordova default background.
 - Keep it on screen until the start-up decision is made, then fade out over 3000 ms (`FadeSplashScreenDuration`) with `androidx.core:core-splashscreen` `setOnExitAnimationListener`.
 - Verify side by side with the Play Store app on Dhruv's phone before marking done.
