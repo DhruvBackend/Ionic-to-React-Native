@@ -10,6 +10,7 @@ import { PNG } from 'pngjs';
 import { OUT, loadStates, parseArgs, selectStates, shotName } from './lib/common.mjs';
 import { crop, resize } from './lib/image.mjs';
 import { readyIdFor, waitForReady } from './lib/ready.mjs';
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const REF_W = 1080;
 export const REF_H = 2400;

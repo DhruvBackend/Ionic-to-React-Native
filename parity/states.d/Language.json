@@ -17,9 +17,10 @@
     "lang": "en",
     "variants": {},
     "params": {},
-    "ionicNav": "nav.setRoot(Page('Language')).then(() => new Promise(r => setTimeout(r, 600))).then(() => { const b = Array.from(document.querySelectorAll('page-language')).pop().querySelectorAll('ion-radio button')[1]; const o = { bubbles: true, cancelable: true }; b.dispatchEvent(new MouseEvent('mousedown', o)); b.dispatchEvent(new MouseEvent('mouseup', o)); b.dispatchEvent(new MouseEvent('click', o)); })",
+    "ionicNav": "nav.setRoot(Page('Language')).then(() => new Promise(r => setTimeout(r, 600))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { const p = nav.getActive().instance; p.lang = 'hin'; p.set_lang(); }); })",
     "rnAction": "tap:lang-hin-radio",
     "waitMs": 2800,
-    "deviceVersion": "15"
+    "deviceVersion": "15",
+    "ionicNavNote": "Synthetic mouse events on ion-radio are swallowed by Ionic's TapClick in the harness, so the state is reached the way the tap does it, inside Angular's zone (so the async hin.json load triggers change detection): the radio-group writes lang='hin' (ngModel), then the radio's (click)=\"set_lang()\" runs (language.html:41)."
   }
 ]
