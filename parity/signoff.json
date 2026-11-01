@@ -1,1 +1,12 @@
-{}
+{
+  "Language.default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: looks the same as the Ionic app",
+    "date": "2026-11-01"
+  },
+  "Language.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: looks the same as the Ionic app",
+    "date": "2026-11-01"
+  }
+}
