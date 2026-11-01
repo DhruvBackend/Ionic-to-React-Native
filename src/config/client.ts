@@ -116,7 +116,8 @@ export const client: ClientConfig = {
     "quotation": true,
     "pointTransfer": true,
     "nativeNavigation": false,
-    "nativeGeocode": false
+    "nativeGeocode": false,
+    "nativeUpload": false
   },
   "brandLabels": {
     "dealerBrand": "Agmeco",

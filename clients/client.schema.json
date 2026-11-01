@@ -359,7 +359,8 @@
         "quotation",
         "pointTransfer",
         "nativeNavigation",
-        "nativeGeocode"
+        "nativeGeocode",
+        "nativeUpload"
       ],
       "properties": {
         "push": {
@@ -420,6 +421,9 @@
           "type": "boolean"
         },
         "nativeGeocode": {
+          "type": "boolean"
+        },
+        "nativeUpload": {
           "type": "boolean"
         }
       }

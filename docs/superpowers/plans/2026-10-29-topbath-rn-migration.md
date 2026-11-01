@@ -667,6 +667,24 @@ Findings and decisions:
 
 ### Task 10: Native wrappers with MOCK implementations
 
+**Status** (2026-11-01): DONE except the phone checks listed below. Built by a Sonnet implementer, reviewed by an independent Sonnet reviewer (16 findings), fixed, then checked on the Android 16 emulator. Tests 431/431.
+- **Shipped plugins** (from `topsan.aab` `cordova_plugins.js`): barcodescanner 8.1.0, camera 7.0.0, geolocation 4.1.0, request-location-accuracy 2.3.0, x-socialsharing 6.0.4, inappbrowser 3.2.0, app-version 0.1.9, network-information 3.0.0. **Used by pages but not shipped:** file-transfer, launch-navigator, native-geocoder, diagnostic, android-permissions, media-capture, push.
+- **Scanner:** the plugin's own `barcodescanner-release-2.1.5.aar` (byte-identical) launched by `ScannerModule` with the plugin's exact intent extras, so it is the same ZXing screen. A `LocalBroadcastManager` shim forwards to AndroidX. Cancel resolves `ok('')`, because the pages assign `resp.text` before checking it.
+- **Camera/gallery:** a Kotlin `CameraModule` ports `CameraLauncher.java` (GET_CONTENT chooser "Get Picture", ACTION_IMAGE_CAPTURE, its scaling, JPEG re-encode, no EXIF rotation, so portrait photos stay sideways as in production). `react-native-image-picker` was removed. Permissions are asked at call time, as the plugin does.
+- **Location:** `LocationAccuracyModule` (play-services-location 21.3.0) mirrors the accuracy plugin, including its "already in progress" guard; `@react-native-community/geolocation` 3.4.0 with the WebView defaults when no options are passed (maximumAge 0, no timeout, low accuracy).
+- **Other wrappers:** share (own Kotlin module, plugin download folder and chooser), browser (`Linking`), app version (`BuildInfo.versionName`), network (`@react-native-community/netinfo` 12.0.1).
+- **Feature-gated:** `reverseGeocode`, `openNavigation` and **`uploadMultipart`** return `unavailable` unless `nativeGeocode` / `nativeNavigation` / **`nativeUpload`** is on (all off for Topbath). Production uploads are broken: the complaint-with-video loader never closes, and dispatch-with-photos skips its toast and refresh. Screens must replicate that.
+- **Manifest** matches the shipped permission set and `<queries>`.
+- **Emulator results:** camera prompt, then the ZXing scanner (viewfinder, laser, hint); photos prompt, then the system photo picker (Android 14+ routes GET_CONTENT for images there, for the shipped app too); location accuracy dialog, then the location prompt, then a fix.
+- **Fixed on the emulator:** with targetSdk 36 the scanner's hint text sat under the navigation bar. `MainApplication` now pads that activity for the nav bar and cutout, as under the shipped SDK 34.
+- **Deliberately not ported:** the camera plugin's `checkForDuplicateImage` (it can delete the user's newest gallery photo) and its real-path lookup.
+
+**Still to check on Dhruv's phone, against the Play Store app:**
+- Scanner: the status bar still shows over the camera on Android 15+ (hiding it had no effect on the emulator); the shipped app (SDK 34) hides it.
+- The no-options location call (6 pages) never returned on the emulator, because the emulator's network provider gives no fix. Confirm it returns on a real phone.
+- Camera capture result and orientation; the gallery picker on the phone's Android version.
+- Image share via FileProvider.
+
 **Files:** `src/native/{scanner,camera,location,share,browser,appVersion,geocode,navigate,upload,network,push}.ts` and `src/native/index.ts`. Modify `android/app/src/main/AndroidManifest.xml` (CAMERA, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, INTERNET; POST_NOTIFICATIONS is added in Phase 8). Test: `__tests__/native.test.ts`.
 
 **Interfaces.** Every function returns `Promise<NativeResult<T>>`, where `type NativeResult<T> = { ok: true; value: T } | { ok: false; reason: 'denied' | 'cancelled' | 'unavailable' | 'error'; message?: string }`. None of them ever throws.

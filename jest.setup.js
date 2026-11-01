@@ -18,3 +18,10 @@ jest.mock('react-native-webview', () => {
   const { View } = require('react-native');
   return { __esModule: true, WebView: props => React.createElement(View, props) };
 });
+
+// Native wrappers (src/native): MOCK mode never calls these libraries, but importing them needs no native module.
+jest.mock('@react-native-community/geolocation', () => ({
+  __esModule: true,
+  default: { getCurrentPosition: jest.fn(), setRNConfiguration: jest.fn() },
+}));
+jest.mock('@react-native-community/netinfo', () => require('@react-native-community/netinfo/jest/netinfo-mock.js'));

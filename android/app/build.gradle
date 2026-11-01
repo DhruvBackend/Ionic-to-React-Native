@@ -128,12 +128,26 @@ android {
     }
 }
 
+repositories {
+    // barcodescanner-release-2.1.5.aar: the ZXing scanner library bundled with phonegap-plugin-barcodescanner 8.1.0
+    // (copied unchanged from the npm package), so the scanner screen is the shipped one.
+    flatDir { dirs 'libs' }
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
     // Same library version the shipped Ionic build contains (aab META-INF/androidx.core_core-splashscreen.version = 1.0.0).
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // Scanner (src/native/scanner.ts): same library as phonegap-plugin-barcodescanner 8.1.0, see NativeToolsPackage.kt.
+    implementation(name: 'barcodescanner-release-2.1.5', ext: 'aar')
+    // The aar calls android.support.v4.content.LocalBroadcastManager; the shim in src/main/java/android/support/v4
+    // forwards it to this AndroidX artifact.
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
+    // Location-accuracy dialog (cordova-plugin-request-location-accuracy 2.3.0 used the same play-services-location).
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

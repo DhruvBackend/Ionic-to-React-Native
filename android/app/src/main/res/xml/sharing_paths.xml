@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Same folder the shipped cordova-plugin-x-socialsharing 6.0.4 writes to: getExternalFilesDir(null)/socialsharing-downloads. -->
+<paths>
+  <external-files-path name="socialsharing" path="socialsharing-downloads" />
+  <!-- CameraModule writes the captured photo to cache/.Pic.jpg and hands it to the camera app through this provider. -->
+  <cache-path name="camera" path="." />
+</paths>

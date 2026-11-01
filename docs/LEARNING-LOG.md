@@ -315,3 +315,19 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **The plan was wrong too.** It assumed a JS overlay and first-launch-only behaviour. When the evidence contradicts the plan, record it and follow the evidence.
 
 **Interview angle:** "How do you find out what an app really does?" → don't trust the config. Inspect the built artifact (aab resources, manifest) and read the exact framework version's source. The build is the spec.
+
+## 2026-11-01 — Task 10: native features (scanner, camera, location, share…)
+
+**What:** Wrappers for everything that talks to the phone: QR scanner, camera and gallery, location, share, browser links, app version, network status, uploads. Each one returns `{ ok, value }` or `{ ok: false, reason }` and never throws, with a mock mode for tests.
+
+**Why:** About 40 Topsan pages use these. One tested wrapper per feature keeps the screens simple and identical to Ionic.
+
+**Learned:**
+- **The shipped build's plugin list is the truth.** Seven plugins the code uses aren't in the Play Store build at all. That means **video and invoice uploads are broken in production today**: the complaint loader never closes, and dispatch skips its refresh. Under the 1:1 rule the RN app copies this behind a switch (`nativeUpload`, off for Topsan), and it's worth telling the colleague who fixes bugs.
+- **Reuse the original native piece when you can.** The scanner is the plugin's own ZXing library file, launched with the same settings, so the screen is identical by construction. A lookalike would never match exactly.
+- **Popular libraries aren't neutral.** `react-native-image-picker` rotated photos upright, kept PNGs, and opened a different picker. The Cordova camera plugin does none of that: portrait photos reach the server sideways. A small Kotlin port of the plugin was the only way to be 1:1.
+- **Library defaults change behaviour.** With no options, the RN geolocation library returned a cached location of any age; the WebView asks for a fresh one. Setting the WebView's defaults explicitly fixed stale check-in coordinates.
+- **Newer Android target, different layout.** Targeting Android 16 forces edge-to-edge, which pushed the scanner's hint text under the navigation bar. The emulator caught it; the shipped app targets an older SDK and doesn't have the problem.
+- **Know the emulator's limits.** No-options location never returned on the emulator (no network location provider), and the status bar wouldn't hide. Both go on the real-phone checklist instead of being "fixed" blindly.
+
+**Interview angle:** "How do you migrate native plugins?" → inventory what actually ships (not what the code imports), port the plugin's real logic (intents, scaling, permission timing, defaults), reuse native artifacts where possible, gate features that don't work in production, and verify on a device.

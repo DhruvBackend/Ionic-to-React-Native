@@ -113,7 +113,8 @@
     "quotation": true,
     "pointTransfer": true,
     "nativeNavigation": true,
-    "nativeGeocode": true
+    "nativeGeocode": true,
+    "nativeUpload": true
   },
   "brandLabels": {
     "dealerBrand": "Agmeco",

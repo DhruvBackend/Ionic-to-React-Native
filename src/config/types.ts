@@ -25,7 +25,8 @@ export type FeatureKey =
   | 'quotation'
   | 'pointTransfer'
   | 'nativeNavigation'
-  | 'nativeGeocode';
+  | 'nativeGeocode'
+  | 'nativeUpload';
 
 // Same names as the Ionic dbservice.ts fields, so ported code reads naturally.
 export interface Urls {

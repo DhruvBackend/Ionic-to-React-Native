@@ -1,6 +1,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Shipped Ionic build (topsan.aab base/manifest/AndroidManifest.xml) declares INTERNET, ACCESS_NETWORK_STATE,
+         ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA, FLASHLIGHT, READ_MEDIA_IMAGES, READ_MEDIA_VIDEO,
+         WRITE_EXTERNAL_STORAGE (+ FOREGROUND_SERVICE*, launcher badge permissions, not needed here). -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- Camera/gallery: cordova-plugin-camera 7.0.0 (plugin.xml l.58-60) asks for these at call time; the shipped manifest
+         has them with no maxSdkVersion (cordova-plugin-x-socialsharing adds WRITE_EXTERNAL_STORAGE unrestricted). -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="true" />
+    <!-- The shipped manifest's <queries> (CameraModule resolves the camera intent). -->
+    <queries>
+      <intent><action android:name="android.media.action.IMAGE_CAPTURE" /></intent>
+      <intent><action android:name="android.intent.action.GET_CONTENT" /></intent>
+      <intent><action android:name="android.intent.action.PICK" /></intent>
+      <intent>
+        <action android:name="com.android.camera.action.CROP" />
+        <data android:mimeType="image/*" android:scheme="content" />
+      </intent>
+    </queries>
 
     <application
       android:name=".MainApplication"
@@ -24,5 +49,21 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <!-- ZXing scanner screen of phonegap-plugin-barcodescanner 8.1.0 (attributes copied from the shipped manifest). -->
+      <activity
+        android:name="com.google.zxing.client.android.CaptureActivity"
+        android:clearTaskOnLaunch="true"
+        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        android:windowSoftInputMode="stateAlwaysHidden"
+        android:exported="false" />
+      <!-- Image share (cordova-plugin-x-socialsharing 6.0.4 authority "${applicationId}.sharing.provider"). -->
+      <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.sharing.provider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/sharing_paths" />
+      </provider>
     </application>
 </manifest>

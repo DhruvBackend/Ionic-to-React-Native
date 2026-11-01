@@ -12,7 +12,15 @@ import com.facebook.react.uimanager.ViewManager
 class BuildInfoModule(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
   override fun getName() = "BuildInfo"
 
-  override fun getConstants(): Map<String, Any> = mapOf("isDebugBuild" to BuildConfig.DEBUG)
+  // versionName is what cordova-plugin-app-version 0.1.9 getVersionNumber() returned (PackageInfo.versionName).
+  override fun getConstants(): Map<String, Any> =
+    mapOf(
+      "isDebugBuild" to BuildConfig.DEBUG,
+      "versionName" to (
+        reactApplicationContext.packageManager
+          .getPackageInfo(reactApplicationContext.packageName, 0).versionName ?: ""
+        ),
+    )
 }
 
 class BuildInfoPackage : ReactPackage {

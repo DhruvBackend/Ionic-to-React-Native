@@ -9,6 +9,7 @@ import { db } from '../api/client';
 import { debugToolsEnabled } from '../config/buildInfo';
 import { ComponentGallery } from '../dev/ComponentGallery';
 import { ScrollDemoScreen } from '../dev/gallery/ScrollDemoScreen';
+import { NativeDemoScreen } from '../dev/NativeDemoScreen';
 import { setFixtureVariant } from '../api/mock';
 import i18n from '../i18n';
 import { parseDebugLink, type DebugLink } from './debugLinks';
@@ -92,6 +93,7 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
           <Root.Screen name="Blank" component={BlankScreen} />
           {debugToolsEnabled && <Root.Screen name="_ComponentGallery" component={ComponentGallery} />}
           {debugToolsEnabled && <Root.Screen name="_ScrollDemo" component={ScrollDemoScreen} />}
+          {debugToolsEnabled && <Root.Screen name="_NativeDemo" component={NativeDemoScreen} />}
           {routes.map(r => (
             <Root.Screen
               key={r.name}
