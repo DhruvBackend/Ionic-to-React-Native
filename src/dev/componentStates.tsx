@@ -10,6 +10,7 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ImageViewer } from '../components/ImageViewer';
 import { IonButton } from '../components/ionic/IonButton';
+import { buttonMd } from '../theme/ionicMdContent';
 import {
   IonCard,
   IonCardContent,
@@ -44,7 +45,7 @@ import { IonSearchbar } from '../components/ionic/IonSearchbar';
 import { IonSegment, IonSegmentButton } from '../components/ionic/IonSegment';
 import { IonSelect } from '../components/ionic/IonSelect';
 import { IonSlide, IonSlides } from '../components/ionic/IonSlides';
-import { IonTabButton } from '../components/ionic/IonTabs';
+import { IonTabButton, IonTabRow } from '../components/ionic/IonTabs';
 import {
   IonicSelectable,
   type SelectableHandle,
@@ -228,9 +229,18 @@ export const OVERLAY_OPENERS: Record<string, () => Handle> = {
 };
 
 function OverlayState({ id }: { id: string }) {
+  // The Ionic gallery opens the overlay from ionViewDidEnter (after the page transition), so a
+  // dismissOnPageChange loader is not dismissed by the transition's own viewDidLeave. IonStack's
+  // page-change notification fires 280 ms after the push (RootNavigator), hence the 400 ms.
   useEffect(() => {
-    const h = OVERLAY_OPENERS[id]();
-    return () => h?.dismiss();
+    let h: { dismiss(): void } | void;
+    const t = setTimeout(() => {
+      h = OVERLAY_OPENERS[id]();
+    }, 400);
+    return () => {
+      clearTimeout(t);
+      h?.dismiss();
+    };
   }, [id]);
   return <IonContent />;
 }
@@ -373,7 +383,10 @@ const MARKUP: Record<string, () => React.ReactElement> = {
   'searchbar-gift-list': () => (
     <IonContent padding>
       <View style={styles.spacer40} />
-      <IonSearchbar type="text" context="search" />
+      {/* <div class="search">: `.search { position: relative; padding-left: 16px; margin-top: -23px; display: flex; max-height: 40px }` (main.css) */}
+      <View style={styles.giftSearch}>
+        <IonSearchbar type="text" context="search" />
+      </View>
     </IonContent>
   ),
   'searchbar-bare': () => (
@@ -416,7 +429,7 @@ const MARKUP: Record<string, () => React.ReactElement> = {
         <IonButton iconOnly="add" color="light" />
       </View>
       <View style={styles.row}>
-        <IonButton color="danger" iconStart="add" background="#43901b">
+        <IonButton color="danger" iconStart="add" background={buttonMd.greenColorBackground}>
           Scan
         </IonButton>
       </View>
@@ -511,6 +524,7 @@ const MARKUP: Record<string, () => React.ReactElement> = {
           maxLength={6}
           value="12"
           error
+          validation={{ valid: true }} // [(ngModel)] with a value: ng-valid, so the last item's bottom border is green
         />
       </MainField>
     </IonContent>
@@ -518,17 +532,26 @@ const MARKUP: Record<string, () => React.ReactElement> = {
   'input-plain': () => (
     <IonContent>
       <IonList>
-        <IonInputItem floating label="Mobile" type="tel" value="98765" />
+        {/* [(ngModel)] on the Ionic side: ng-valid + a value draws the green md underline */}
+        <IonInputItem
+          floating
+          label="Mobile"
+          type="tel"
+          value="98765"
+          validation={{ valid: true }}
+        />
         <IonInputItem placeholder="Search" value="" />
       </IonList>
     </IonContent>
   ),
   'form-edit': () => (
     <IonContent>
-      <View>
+      {/* <div class="edit"> : `.edit { margin: 0 16px }` (main.css) */}
+      <View style={styles.editWrap}>
         <IonList>
           <IonSelect
             variant="editCsNormalSelect"
+            itemStyle={styles.mt16mb0} // class="cs-normal-select mt16 mb0" (both !important)
             label="Select type"
             placeholder="Select Type"
             options={[
@@ -655,7 +678,7 @@ function TabsPage({ role }: { role: string }) {
   return (
     <View style={styles.tabsPage} testID="component-state-tabs">
       <View style={styles.grow} />
-      <View testID="ion-tabbar" style={styles.tabbar}>
+      <IonTabRow testID="ion-tabbar" style={styles.tabbar}>
         {tabsFor(role).map((t, i) => (
           <IonTabButton
             key={t.icon}
@@ -665,7 +688,7 @@ function TabsPage({ role }: { role: string }) {
             onPress={noop}
           />
         ))}
-      </View>
+      </IonTabRow>
     </View>
   );
 }
@@ -720,9 +743,16 @@ function InfiniteState() {
       () => content.current?.scrollToEnd({ animated: false }),
       900,
     );
+    // The Ionic reference scrolls to the end AFTER body.android-15 shrank the page (its page opens late in the run); RN's Android 15
+    // frame (ANDROID_15_DELAY_MS after app start) shrinks the ScrollView after the first two scrolls, which would leave the end cut off.
+    const t3 = setTimeout(
+      () => content.current?.scrollToEnd({ animated: false }),
+      3000,
+    );
     return () => {
       clearTimeout(t);
       clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, []);
   return (
@@ -782,6 +812,9 @@ export function renderComponentState(id: string): React.ReactElement | null {
 const styles = StyleSheet.create({
   grow: { flexGrow: 1 },
   mb10: { marginBottom: 10 },
+  editWrap: { marginHorizontal: 16 },
+  giftSearch: { flexDirection: 'row', paddingLeft: 16, marginTop: -23, maxHeight: 40 },
+  mt16mb0: { marginTop: 16, marginBottom: 0 },
   mb16: { marginBottom: 16 },
   mb50: { marginBottom: 50 },
   mt32: { marginTop: 32 },

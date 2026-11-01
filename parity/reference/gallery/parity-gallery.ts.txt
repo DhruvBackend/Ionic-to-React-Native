@@ -119,8 +119,14 @@ export const OPENERS: { [id: string]: Opener } = {
   // registration.html:33-37 (ion-datetime in ion-item.cs-date)
   'datetime-open': p => p.datetime.open(),
   // registration.html:243-254 (ionic-selectable in ion-item.cs-select)
-  'selectable-open': p => p.selectable.open(),
+  // A real tap goes through IonicSelectableComponent._click, which sets `_label` (the modal title is `selectComponent.label`, a getter
+  // of `_label`) from the sibling <ion-label> before open(); calling open() alone would show a title-less modal.
+  'selectable-open': p => {
+    p.selectable._label = (p.selectable as any)._getLabelText();
+    return p.selectable.open();
+  },
   'selectable-search': p => {
+    p.selectable._label = (p.selectable as any)._getLabelText();
     p.selectable.open().then(() => {
       p.zone.run(() => {
         p.selectable._searchText = 'Su';
@@ -145,7 +151,7 @@ export class ParityGalleryPage {
   executives = EXECUTIVES;
   blankRoot: any = ParityGalleryPage;
   blankParams = { id: 'blank' };
-  data: any = { registerType: 'Plumber', dob: '1990-05-15', state: 'Haryana', name: 'Ramesh Kumar', mobile: '98765', exec: null, editName: 'Ramesh Kumar', type: 'Full Day' };
+  data: any = { registerType: 'Plumber', dob: '1990-05-15', state: 'Haryana', name: 'Ramesh Kumar', mobile: '98765', exec: null, city: 'Gurugram', pincode: '12', editName: 'Ramesh Kumar', type: 'Full Day' };
   seg = 'Pending';
   search = '';
   tabs: any = {

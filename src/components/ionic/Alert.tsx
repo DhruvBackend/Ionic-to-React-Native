@@ -75,6 +75,7 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
   inputsRef.current = inputs;
   const [focused, setFocused] = useState<number | null>(null);
   const enabled = useRef(false);
+  const firstInput = useRef<React.ComponentRef<typeof TextInput>>(null);
 
   const inputType = inputs.length ? inputs[0].type : null;
   const hasTextInput =
@@ -90,6 +91,11 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
     },
     entry.leaving,
     () => {
+      // alert-component.js ionViewDidEnter: setTimeout(() => firstInput.focus()) on the first input
+      // (radio/checkbox rows are <button>s there and show no focus ring, so only text inputs matter)
+      if (hasTextInput) {
+        setTimeout(() => firstInput.current?.focus());
+      }
       enabled.current = true;
     },
     () => finishDismiss(entry.id),
@@ -275,7 +281,11 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
         </ScrollView>
 
         {inputs.length > 0 && inputType === 'radio' && (
-          <ScrollView testID="alert-radio-group" style={styles.list}>
+          <ScrollView
+            testID="alert-radio-group"
+            style={styles.list}
+            showsVerticalScrollIndicator={false}
+          >
             {inputs.map((i, n) => (
               <RippleButton
                 key={i.id}
@@ -323,7 +333,11 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
         )}
 
         {inputs.length > 0 && inputType === 'checkbox' && (
-          <ScrollView testID="alert-checkbox-group" style={styles.list}>
+          <ScrollView
+            testID="alert-checkbox-group"
+            style={styles.list}
+            showsVerticalScrollIndicator={false}
+          >
             {inputs.map((i, n) => (
               <RippleButton
                 key={i.id}
@@ -369,6 +383,7 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
               {inputs.map((i, n) => (
                 <View key={i.id}>
                   <TextInput
+                    ref={n === 0 ? firstInput : undefined}
                     testID={`alert-input-${n}`}
                     value={String(i.value ?? '')}
                     placeholder={i.placeholder}
@@ -426,7 +441,9 @@ export function AlertCmp({ entry }: { entry: OverlayEntry }) {
                     style={[
                       textStyle(
                         alertMd.button.fontSize,
-                        alertMd.button.fontWeight,
+                        // `.alert-md .alert-button { font-weight: 500 }` sits on the <button>, but the text is in the
+                        // span.button-inner that ion-button adds, and Topbath's `* { font-weight: 400 }` (main.css) hits that span
+                        400,
                         modal
                           ? topbathAlert.modal.buttonColor
                           : alertMd.button.color,
@@ -491,8 +508,9 @@ function RadioDot({ on }: { on: boolean }) {
 const styles = StyleSheet.create({
   // ion-alert { display: flex; align-items: center; justify-content: center }
   root: { alignItems: 'center', justifyContent: 'center' },
-  // ion-alert.alert-top { padding-top: 50px; align-items: flex-start }
-  rootTop: { paddingTop: alertMd.topPadding, alignItems: 'flex-start' },
+  // ion-alert.alert-top { padding-top: 50px; align-items: flex-start } (a row flex container, so the
+  // cross axis is vertical; the alert stays horizontally centred by justify-content: center)
+  rootTop: { paddingTop: alertMd.topPadding, justifyContent: 'flex-start' },
   wrapper: {
     minWidth: alertMd.minWidth,
     maxWidth: alertMd.maxWidth,
@@ -539,6 +557,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     left: alertMd.radio.left,
     top: 0,
+    alignSelf: 'center', // button content is vertically centred by Chrome
     width: alertMd.radio.size,
     height: alertMd.radio.size,
     borderWidth: alertMd.radio.borderWidth,
@@ -557,6 +576,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     left: alertMd.checkbox.left,
     top: 0,
+    alignSelf: 'center',
     width: alertMd.checkbox.size,
     height: alertMd.checkbox.size,
     borderWidth: alertMd.checkbox.borderWidth,
@@ -604,13 +624,13 @@ const styles = StyleSheet.create({
   buttonGroupVertical: { flexDirection: 'column', flexWrap: 'nowrap' },
   // .alert-modal .alert-button-group { width: 100%; padding: 10px 16px !important }
   modalGroup: {
-    width: '100%',
+    alignSelf: 'stretch', // width:100% is cyclic for the shrink-to-fit alert (CSS treats it as auto); stretch + flex cells match
     paddingTop: topbathAlert.modal.groupPadding.vertical,
     paddingBottom: topbathAlert.modal.groupPadding.vertical,
     paddingLeft: topbathAlert.modal.groupPadding.horizontal,
     paddingRight: topbathAlert.modal.groupPadding.horizontal,
   },
-  modalCell: { width: '50%', padding: topbathAlert.modal.buttonMargin },
+  modalCell: { flex: 1, padding: topbathAlert.modal.buttonMargin },
   // .alert-md .alert-button; the 8px margin-right is removed by Topbath `button { margin: 0 !important }`
   button: {
     padding: alertMd.button.padding,

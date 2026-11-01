@@ -1,6 +1,6 @@
 // Ionic 3.9.5 md-mode <ion-picker> (components/picker/picker-component.js, picker-column.js, picker.scss,
-// picker.md.scss, picker-transitions.js). md has no pickerRotateFactor/pickerScaleFactor in the Ionic config,
-// so the columns are FLAT lists (translateY only), 43 px per option, with white gradient bands above and below
+// picker.md.scss, picker-transitions.js). md has pickerRotateFactor 0 (mode-registry.js:46) and pickerScaleFactor 0.81,
+// so the columns are FLAT lists (translateY only; options other than the selected one are scale(0.81)), 43 px per option, with white gradient bands above and below
 // the selected row coloured with the primary colour. NOTE: picker.md.scss styles .picker-above-highlight and
 // .picker-below-highlight but never sets `display`, so picker.scss's `display: none` wins and md shows NO bands
 // (verified in headless Chrome with the shipped main.css). See src/theme/ionicMdPickers.ts for every value.
@@ -296,6 +296,7 @@ function PickerColumnView({ col, onChange, handleRef, testID }: ColumnProps) {
                   style={[
                     textStyle(P.optFontSize, 400, selected ? P.optSelectedColor : P.optColor, P.optLineHeight),
                     styles.optText,
+                    selected ? null : { transform: [{ scale: P.optScale }] }, // picker-column.js:277 scale(pickerScaleFactor)
                   ]}
                 >
                   {o.text}

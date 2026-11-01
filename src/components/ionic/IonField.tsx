@@ -165,6 +165,26 @@ export function resolveField(variant: FieldVariant, floating: boolean): FieldSpe
 const FieldContext = createContext<FieldSpec>(resolveField('plain', false));
 export const useField = () => useContext(FieldContext);
 
+// The vertical margins an `ion-item` of a Topbath variant has: `.main-field .cs-form ion-list ion-item.cs-input | .cs-select { margin: 16px 0 }`,
+// `.edit ion-list ion-item.cs-*select { margin-bottom: N }`. Sibling block margins COLLAPSE in CSS (ion-item is a block-level flex
+// container in a block ion-list), which Yoga does not do: IonList passes the previous sibling's bottom margin (`prevMarginBottom`).
+export function itemVerticalMargins(variant?: FieldVariant): { top: number; bottom: number } {
+  switch (variant) {
+    case 'csInput':
+      return { top: inputMd.csInput.marginVertical, bottom: inputMd.csInput.marginVertical };
+    case 'csSelect':
+      return { top: csForm.csSelect.marginVertical, bottom: csForm.csSelect.marginVertical };
+    case 'editCsSelect':
+      return { top: 0, bottom: editForm.csSelect.marginBottom };
+    case 'editCsNormalSelect':
+      return { top: 0, bottom: editForm.csNormalSelect.marginBottom };
+    case 'editCsSelectable':
+      return { top: 0, bottom: editForm.csSelectable.marginBottom };
+    default:
+      return { top: 0, bottom: 0 };
+  }
+}
+
 export interface IonFieldProps {
   variant?: FieldVariant;
   floating?: boolean; // <ion-label floating>
@@ -179,6 +199,7 @@ export interface IonFieldProps {
   // set by IonList (see IonList.tsx): `.list-md > .item-block:last-child .item-inner { border-bottom: 0 }` and [no-lines]
   isLast?: boolean;
   noLines?: boolean;
+  prevMarginBottom?: number; // set by IonList: bottom margin of the previous sibling item (margin collapsing)
   // item-input: the last such item keeps a 1px bottom border on the ITEM (`.list-md .item-input:last-child`, [CSS] 14863)
   inputItem?: boolean;
   // floating item: the height of the control below the label; the column wrapper reserves label + this so the item grows to its content
@@ -203,6 +224,7 @@ export function IonField({
   itemStyle,
   isLast,
   noLines,
+  prevMarginBottom,
   inputItem,
   contentMinHeight,
   cover,
@@ -252,6 +274,13 @@ export function IonField({
     item.minHeight = editForm.csSelectable.minHeight;
     item.marginBottom = editForm.csSelectable.marginBottom;
   }
+  if (prevMarginBottom !== undefined && item.marginVertical !== undefined) {
+    // adjoining margins collapse to the larger one: this item only adds what exceeds the previous sibling's bottom margin
+    const mv = Number(item.marginVertical);
+    delete item.marginVertical;
+    item.marginTop = Math.max(0, mv - prevMarginBottom);
+    item.marginBottom = mv;
+  }
 
   // ---- inner -----------------------------------------------------------------------------------------------
   const inner: Mutable<ViewStyle> = {
@@ -278,7 +307,9 @@ export function IonField({
   }
   if (lastInput) {
     item.borderBottomWidth = listMd.borderWidth;
-    item.borderBottomColor = underline && !mainCs && !edit && !csInput ? underline.color : listMd.borderColor;
+    // cs-input too: `.main-field ... ion-item.cs-input` sets no border, so `.list-md .item-input.ng-valid.input-has-value:last-child
+    // { border-bottom-color: #32db64 }` shows (only the inset box-shadow is switched off by Topbath's `box-shadow: none !important`)
+    item.borderBottomColor = underline && !mainCs && !edit ? underline.color : listMd.borderColor;
   }
   const editBorder =
     variant === 'editCsSelect'
@@ -422,7 +453,8 @@ export function IonField({
                   <Text testID={`${testID}-label-text`} numberOfLines={1} style={textStyle(fontSize, 400, color, lineHeight)}>
                     {label}
                     {requiredMark ? (
-                      <Text style={{ color: floating && edit ? editForm.floatingLabel.strongColor : csForm.requiredStarColor }}>*</Text>
+                      // registration.html: `{{ 'Name' | translate }} <span>*</span>` keeps the space before the star
+                      <Text style={{ color: floating && edit ? editForm.floatingLabel.strongColor : csForm.requiredStarColor }}>{floating && edit ? '' : ' '}*</Text>
                     ) : null}
                   </Text>
                 </View>

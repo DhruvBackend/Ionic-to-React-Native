@@ -704,12 +704,12 @@ describe('ion-slides', () => {
   );
   const activeBullet = () => [0, 1, 2].filter(i => style(`sl-bullet-${i}`).opacity === 1);
 
-  test('pager: 8px bullets (#000 at .2), active = primary at 1, bottom 10, margin 0 5', () => {
+  test('pager: 8px bullets (#000 at .2), active = primary at 1, bottom 10, margin 0 (Topbath button margin, bottom gap 4)', () => {
     mount(slidesEl({ pager: true }));
     layout('sl', 300, 100);
     expect(style('sl-pager')).toMatchObject({ bottom: 10, left: 0, position: 'absolute' });
     expect(style('sl-bullet-0')).toMatchObject({ width: 8, height: 8, opacity: 1, backgroundColor: slidesMd.bulletActiveColor });
-    expect(style('sl-bullet-1')).toMatchObject({ opacity: 0.2, backgroundColor: '#000', marginHorizontal: 5 });
+    expect(style('sl-bullet-1')).toMatchObject({ opacity: 0.2, backgroundColor: '#000', marginHorizontal: 0 });
   });
 
   test('pager=false / default: no bullets; more than 10 slides: no bullets', () => {

@@ -55,6 +55,9 @@ describe('_components parity states', () => {
     const src = fs.readFileSync(path.join(ROOT, 'src', 'dev', 'componentStates.tsx'), 'utf8');
     for (const s of states.filter(x => x.rnAction)) {
       const id = String(s.rnAction).replace(/^tap:/, '').replace(/-cover$/, '');
+      if (s.rnAction === 'hide-keyboard') {
+        continue; // key event, no element
+      }
       expect(src).toContain(`testID="${id}"`);
     }
   });

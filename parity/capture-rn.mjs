@@ -54,14 +54,20 @@ export function cropFor({ api, density, insets }) {
   };
 }
 
-/** `rnAction` of a state: only `tap:<testID>` exists. Returns { type: 'tap', testID } or null. */
+/**
+ * `rnAction` of a state: `tap:<testID>`, or `hide-keyboard` (Android BACK, which only closes the soft keyboard and keeps the focused
+ * TextInput focused; the Ionic reference runs in Chrome, which has no soft keyboard). Returns { type, testID? } or null.
+ */
 export function parseRnAction(action) {
   if (!action) {
     return null;
   }
+  if (action === 'hide-keyboard') {
+    return { type: 'hide-keyboard' };
+  }
   const m = /^tap:(.+)$/.exec(action);
   if (!m) {
-    throw new Error(`unknown rnAction "${action}" (supported: tap:<testID>)`);
+    throw new Error(`unknown rnAction "${action}" (supported: tap:<testID>, hide-keyboard)`);
   }
   return { type: 'tap', testID: m[1] };
 }
@@ -165,7 +171,10 @@ async function main() {
         process.stdout.write(`(WARNING ${readyIdFor(s)} not found after ${ready.waitedMs} ms, shooting anyway) `);
       }
       const action = parseRnAction(s.rnAction);
-      if (action) {
+      if (action?.type === 'hide-keyboard') {
+        adb(dev.serial, ['shell', 'input', 'keyevent', '4']);
+        await sleep(s.rnActionWaitMs ?? 1000);
+      } else if (action) {
         adb(dev.serial, ['shell', 'uiautomator', 'dump', '/sdcard/parity-ui.xml']);
         const xml = adb(dev.serial, ['shell', 'cat', '/sdcard/parity-ui.xml']).stdout;
         const at = findNodeCenter(xml, action.testID);

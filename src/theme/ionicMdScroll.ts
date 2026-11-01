@@ -245,7 +245,11 @@ export const slidesMd = {
   maxPagerSlides: 10, // slides.js:801 update() `length() > 10 -> paginationType = undefined`
   // [CSS] swiper pager
   bulletSize: 8, // .swiper-pagination-bullet width/height
-  bulletMarginHorizontal: 5, // .swiper-pagination-bullets .swiper-pagination-bullet{margin:0 5px}
+  // The bullets are <button>s: `.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet{margin:0 5px}` loses to
+  // Topbath's `button { margin: 0 !important }` (measured in the Ionic reference: computed margin 0, bullets 8 px apart)
+  bulletMarginHorizontal: 0,
+  // the pager is an inline line box (17 px): the inline-block bullet sits on the baseline, 4 px above the box bottom (measured: bullet bottom 14 px above the container)
+  bulletBaselineGap: 4,
   bulletColor: '#000', // .swiper-pagination-bullet background
   bulletOpacity: 0.2,
   bulletActiveColor: scssColors.primary, // .swiper-pagination-bullet-active{background:#002d25;opacity:1}

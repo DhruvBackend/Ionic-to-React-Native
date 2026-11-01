@@ -45,6 +45,7 @@ export interface IonDatetimeProps {
   error?: boolean;
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
+  prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
 }
 
 // datetime.js _inputNormalize: updateDate(this._value, val) on the persistent _value object. BaseInput._writeValue ignores
@@ -81,6 +82,7 @@ export function IonDatetime(props: IonDatetimeProps) {
     error,
     testID = 'ion-datetime',
     itemStyle,
+    prevMarginBottom,
   } = props;
   const latest = useRef(props);
   latest.current = props;
@@ -166,6 +168,7 @@ export function IonDatetime(props: IonDatetimeProps) {
       labelDisabled={disabled}
       testID={testID}
       itemStyle={itemStyle}
+      prevMarginBottom={prevMarginBottom}
       cover={{ onPress: open, disabled }}
     >
       <DatetimeBox text={text} placeholder={placeholder} disabled={disabled} testID={testID} />
@@ -224,3 +227,5 @@ const styles = StyleSheet.create({
   // .datetime-text { flex: 1; min-width: 16px; min-height: 1.2em; line-height: 1.2 }
   textWrap: { flexShrink: 1, minWidth: datetimeMd.textMinWidth, overflow: 'hidden' },
 });
+
+IonDatetime.ionListMarginAware = true; // IonList passes prevMarginBottom (margin collapsing)

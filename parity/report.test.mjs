@@ -59,6 +59,7 @@ test('capture-rn builds the debug deep link and crop', () => {
 
 test('capture-rn rnAction: parses tap:<testID> and rejects unknown actions', () => {
   assert.deepEqual(parseRnAction('tap:lang-hin-cover'), { type: 'tap', testID: 'lang-hin-cover' });
+  assert.deepEqual(parseRnAction('hide-keyboard'), { type: 'hide-keyboard' });
   assert.equal(parseRnAction(undefined), null);
   assert.throws(() => parseRnAction('swipe:up'), /unknown rnAction/);
 });

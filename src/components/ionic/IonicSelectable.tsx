@@ -71,6 +71,7 @@ export interface IonicSelectableProps<T = any> {
   error?: boolean;
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
+  prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
   // internal: which package's CSS class names / template this is (identical visuals)
   library?: 'ionic-selectable' | 'select-searchable';
 }
@@ -103,6 +104,7 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
     error,
     testID = 'ionic-selectable',
     itemStyle,
+    prevMarginBottom,
   } = props;
   const enabled = isEnabled && !disabled;
   const cfg: SelectableConfig = useMemo(
@@ -359,6 +361,7 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
       underline={underline}
       testID={testID}
       itemStyle={itemStyle}
+      prevMarginBottom={prevMarginBottom}
       cover={{ onPress: open, disabled: !enabled }}
     >
       <SelectableBox
@@ -437,7 +440,9 @@ function SelectableBox({
 
 const styles = StyleSheet.create({
   // .ionic-selectable { display: flex; max-width: 45% }
-  box: { flexDirection: 'row' },
+  // `.item-ionic-selectable .item-inner .input-wrapper { align-items: normal }` (and `.item-select-searchable`): the box stretches,
+  // so the arrow's `top: 20px` is measured from the top of the row and not from a vertically centred box
+  box: { flexDirection: 'row', alignSelf: 'stretch' },
   // .ionic-selectable-value { flex: 1; overflow: hidden }
   value: { flexShrink: 1, overflow: 'hidden' },
   // .ionic-selectable-icon { position: relative; width: 20px }
@@ -459,3 +464,5 @@ const styles = StyleSheet.create({
     borderTopColor: selectableMd.icon.color,
   },
 });
+
+(IonicSelectable as unknown as { ionListMarginAware?: boolean }).ionListMarginAware = true; // IonList passes prevMarginBottom

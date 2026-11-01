@@ -65,7 +65,13 @@ export function ToastCmp({ entry }: { entry: OverlayEntry }) {
       ? 0
       : 1;
   // toast-transitions.js:70 middle: top = floor(clientHeight / 2 - wrapperHeight / 2)
-  const middleTop = Math.floor(rootHeight / 2 - wrapperHeight / 2);
+  // The value is written once, at transition init (an inline `style.top`); it is NOT recomputed when ion-toast later
+  // resizes (e.g. when the Android 15 frame `body.android-15 { height: 94% }` applies 2 s after start).
+  const middleTopRef = useRef<number | null>(null);
+  if (middleTopRef.current === null && rootHeight > 0 && wrapperHeight > 0) {
+    middleTopRef.current = Math.floor(rootHeight / 2 - wrapperHeight / 2);
+  }
+  const middleTop = middleTopRef.current ?? 0;
 
   return (
     <View
@@ -120,7 +126,9 @@ export function ToastCmp({ entry }: { entry: OverlayEntry }) {
                     style={[
                       textStyle(
                         toastMd.buttonFontSize,
-                        toastMd.buttonFontWeight,
+                        // `.button-md { font-weight: 500 }` is on the <button>; the text sits in span.button-inner, which
+                        // Topbath's `* { font-weight: 400 }` (main.css) keeps at 400
+                        400,
                         toastMd.buttonColor,
                         toastMd.buttonFontSize,
                       ),

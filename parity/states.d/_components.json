@@ -88,7 +88,8 @@
     },
     "ionicNav": "nav.setRoot(Page('ParityGallery'), params)",
     "deviceVersion": "15",
-    "waitMs": 2800
+    "waitMs": 2800,
+    "rnAction": "hide-keyboard"
   },
   {
     "id": "_components.alert-3-buttons",

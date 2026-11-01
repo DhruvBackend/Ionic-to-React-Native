@@ -161,7 +161,7 @@ export const REF_FONT_CSS = REF_FONT_FAMILIES.map(
 @font-face{font-family:'${f}';font-weight:400;font-style:italic;src:url(/__fonts/Roboto-Italic.ttf)}
 @font-face{font-family:'${f}';font-weight:500;font-style:normal;src:url(/__fonts/Roboto-Medium.ttf)}
 @font-face{font-family:'${f}';font-weight:500;font-style:italic;src:url(/__fonts/Roboto-MediumItalic.ttf)}
-@font-face{font-family:'${f}';font-weight:600;font-style:normal;src:url(/__fonts/Roboto-Medium.ttf)}
+@font-face{font-family:'${f}';font-weight:600;font-style:normal;src:url(/__fonts/Roboto-Bold.ttf)}
 @font-face{font-family:'${f}';font-weight:700;font-style:normal;src:url(/__fonts/Roboto-Bold.ttf)}
 ${[300, 400, 500, 600, 700].map(w => `@font-face{font-family:'${f}';font-weight:${w};font-style:normal;unicode-range:${DEVANAGARI};src:url(/__fonts/NotoSansDevanagari-VF.ttf)}`).join(' ')}`,
 ).join('\n');

@@ -10,6 +10,7 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { ionicColors } from '../../theme';
 import { colorContrast, itemContentMd, listHeaderMd, listMd } from '../../theme/ionicMdContent';
+import { itemVerticalMargins, type FieldVariant } from './IonField';
 import { RippleButton } from './RippleButton';
 import { textStyle } from './text';
 
@@ -51,7 +52,7 @@ export interface IonListProps {
 // A component that is transparent for the list's DOM children (`<ion-list radio-group>` is ONE element in Ionic: its items are direct
 // children of the list; IonRadioGroup is a View here, so the list looks through it) sets static `ionListTransparent`; a component that
 // stands for an `.item-block` sets static `ionListItem` (IonItem, IonInputItem) and receives `isLast` / `noLines` props.
-type Marked = { ionListTransparent?: boolean; ionListItem?: boolean };
+type Marked = { ionListTransparent?: boolean; ionListItem?: boolean; ionListMarginAware?: boolean };
 const marks = (c: React.ReactNode) => (React.isValidElement(c) ? (c.type as Marked) : undefined);
 
 function countLeaves(children: React.ReactNode): number {
@@ -68,6 +69,7 @@ function countLeaves(children: React.ReactNode): number {
 export function IonList({ noLines, afterList, style, testID = 'ion-list', children }: IonListProps) {
   const total = countLeaves(children);
   let index = 0;
+  let prevBottom = 0; // bottom margin of the previous sibling item (adjoining block margins collapse)
   const decorate = (nodes: React.ReactNode): React.ReactNode[] =>
     React.Children.toArray(nodes).map(c => {
       if (!React.isValidElement(c)) {
@@ -78,13 +80,27 @@ export function IonList({ noLines, afterList, style, testID = 'ion-list', childr
         return React.cloneElement(c, undefined, ...decorate((c.props as { children?: React.ReactNode }).children));
       }
       const i = index++;
+      let marginProps: { prevMarginBottom?: number } = {};
+      const own = itemVerticalMargins((c.props as { variant?: FieldVariant }).variant);
+      if (m?.ionListItem || m?.ionListMarginAware) {
+        if (i > 0 && own.top > 0) {
+          marginProps = { prevMarginBottom: prevBottom };
+        }
+        prevBottom = own.bottom;
+      } else {
+        prevBottom = 0;
+      }
       if (m?.ionListItem) {
         const props = c.props as { noLines?: boolean };
         // `.list-md > .item-block:last-child`: only when the item really is the last DOM child
         return React.cloneElement(c as React.ReactElement<{ isLast?: boolean; noLines?: boolean }>, {
           isLast: i === total - 1,
           noLines: noLines || props.noLines,
+          ...marginProps,
         });
+      }
+      if (m?.ionListMarginAware && marginProps.prevMarginBottom !== undefined) {
+        return React.cloneElement(c as React.ReactElement<{ prevMarginBottom?: number }>, marginProps);
       }
       if (c.type === IonListHeader && afterList) {
         return React.cloneElement(c as React.ReactElement<IonListHeaderProps>, { afterList: true });

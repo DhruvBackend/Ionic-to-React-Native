@@ -67,7 +67,8 @@ export function IonInput({
         field.floating && [styles.boxColumn, { minHeight: height }],
         // `.edit ... ion-input { border: 1px solid #b5b5b5 (red when .cs-error); height: 35px }` on the element (border-box)
         edit && { borderWidth: inputMd.edit.borderWidth, borderColor: error ? inputMd.editErrorColor : inputMd.edit.borderColor, height: inputMd.edit.height },
-        { marginRight: f.widthInset },
+        // `.edit ion-input` (the bordered element) spans the item; only the inner <input> is `width: calc(100% - 8px)`
+        { marginRight: edit ? 0 : f.widthInset },
         disabled && { opacity: inputMd.disabledOpacity }]}>
       <TextInput
         testID={testID}
@@ -97,6 +98,7 @@ export function IonInput({
             paddingBottom: pad.bottom,
             paddingLeft: pad.left,
           },
+          edit && f.widthInset ? { marginRight: f.widthInset } : null,
           style,
         ]}
       />
@@ -262,7 +264,7 @@ export function IonInputItem({
       focused={focused}
       labelDisabled={disabled}
       contentMinHeight={inputContentHeight(field.variant, !!field.floating, !!textarea)}
-      underline={plain ? inputUnderline({ focused, hasValue, ...validation }) : null}
+      underline={plain || field.variant === 'csInput' ? inputUnderline({ focused, hasValue, ...validation }) : null}
     >
       {textarea ? (
         <IonTextarea {...common} maxLength={maxLength} readOnly={readOnly} error={error} testID={`${testID}-input`} />

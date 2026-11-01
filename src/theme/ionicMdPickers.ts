@@ -99,7 +99,8 @@ export const csForm = {
 
 // ---------------------------------------------------------------------------------------------------
 // ion-picker (md): picker.scss, picker.md.scss, picker-component.js, picker-column.js, picker-transitions.js,
-// Ionic default config (pickerRotateFactor / pickerScaleFactor are only configured for ios, so md is a flat list)
+// Ionic MODE_MD config (config/mode-registry.js:46-47): pickerRotateFactor 0 (a flat list) and pickerScaleFactor 0.81 (every option except
+// the selected one is drawn with scale(0.81), picker-column.js:277)
 // ---------------------------------------------------------------------------------------------------
 export const pickerMd = {
   wrapperHeight: 260, // picker.md.scss:5 $picker-md-height
@@ -111,7 +112,7 @@ export const pickerMd = {
   buttonHeight: 44, // :9
   buttonColor: primary, // :10 color($colors-md, primary)
   buttonFontSize: 14, // button.md.scss .button-md font-size 1.4rem ([CSS] 12566)
-  buttonFontWeight: 500,
+  buttonFontWeight: 400, // .button-md font-weight 500 sits on the <button>; the text span.button-inner gets Topbath's `* { font-weight: 400 }`
   buttonPaddingHorizontal: 15.4, // .button-md padding 0 1.1em at 14px ([CSS] 12566)
   buttonActivatedBackground: 'rgba(158, 158, 158, 0.2)', // .button-clear-md.activated ([CSS] 12580)
   rippleColor: '#999', // .button-clear-md .button-effect ([CSS] 12582)
@@ -119,6 +120,7 @@ export const pickerMd = {
   perspective: 1800, // :44
   columnPaddingHorizontal: 8, // :14 $picker-md-column-padding-end/start
   optFontSize: 22, // :28
+  optScale: 0.81, // MODE_MD pickerScaleFactor: applied to the options that are not selected
   optLineHeight: 42, // :29 $picker-md-option-height
   optHeight: 43, // :105 .picker-md .picker-opt height: 4.3rem  (also the step the wheel snaps to: picker-column.js optHeight = clientHeight)
   optsTop: 77, // :30 $picker-md-option-offset-y: ((260 - 44) / 2) - (42 / 2) - 10
@@ -166,7 +168,8 @@ export const selectableModal = {
   footerShadow: { height: 2 },
   // ion-title in the navbar: [CSS] 16720 .toolbar-title-md padding 0 12px, font-size 2rem, weight 500, #424242,
   // overridden for the span by Topbath [T] 5296-5312 + 12726-12731: span { font-size: 16px; color: #040404 !important }
-  title: { paddingHorizontal: 12, fontSize: 16, fontWeight: 500, color: '#040404' },
+  // The title text is a <span> (ionic-selectable modal template), so `* { font-weight: 400 }` (main.css) wins over the 500 of the div.
+  title: { paddingHorizontal: 12, fontSize: 16, fontWeight: 400, color: '#040404' },
   // ion-buttons start in md sorts AFTER the title ([CSS] 16721: order 4 vs content 3), so the close X is at the right edge.
   closeButton: { marginHorizontal: 2, paddingHorizontal: 5, height: 32, borderRadius: 2, fontSize: 14 /* icon 1.2em */, iconSize: 16.8, iconColor: '#151414' /* [T] 12726 */ },
   searchbar: {
@@ -202,7 +205,7 @@ export const selectableModal = {
   },
   message: { margin: 16, fontSize: 14 }, // <div margin>{{searchFailText}}</div>: [margin] = 16px; ion-content font-size 1.4rem
   footer: { height: 56, paddingTop: 5, paddingBottom: 4, paddingHorizontal: 16, colPadding: 5, buttonHeight: 36 }, // ionic-selectable-modal ion-footer ion-toolbar padding 5px 16px ([CSS] 18159); .button-md height 3.6rem
-  button: { background: primary, color: '#fff', fontSize: 14, fontWeight: 500, disabledOpacity: 0.4 /* [CSS] 12479 */ },
+  button: { background: primary, color: '#fff', fontSize: 14, fontWeight: 400 /* text in span.button-inner: `* { font-weight: 400 }` beats .button-md 500 */, disabledOpacity: 0.4 /* [CSS] 12479 */ },
   searchPlaceholder: 'Search', // ionic-selectable searchPlaceholder default
   searchFailText: 'No items found.', // searchFailText default
   clearButtonText: 'Clear',

@@ -47,6 +47,7 @@ export interface IonSelectProps<T = any> {
   error?: boolean;
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
+  prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
 }
 
 // util/util.js isCheckedProperty: Ionic's default compareWith (loose equality on purpose)
@@ -114,6 +115,7 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
     error,
     testID = 'ion-select',
     itemStyle,
+    prevMarginBottom,
   } = props;
   const value = effectiveValue(props);
   const text = selectText(options, value, compareWith);
@@ -197,6 +199,7 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
       labelDisabled={disabled}
       testID={testID}
       itemStyle={itemStyle}
+      prevMarginBottom={prevMarginBottom}
       cover={{ onPress: open, disabled }}
     >
       <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
@@ -283,3 +286,5 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
   },
 });
+
+IonSelect.ionListMarginAware = true; // IonList passes prevMarginBottom (margin collapsing)

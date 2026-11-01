@@ -29,7 +29,9 @@ Compares the Ionic reference (built from `b33d82f`, run in Chrome) with the RN d
 - RN side: optional `rnAction: "tap:<testID>"` (plus `rnActionWaitMs`, default 1000). After the deep link and `rnWaitMs`,
   `capture-rn.mjs` runs `adb shell uiautomator dump`, finds the node whose `resource-id` is the testID (RN sets the Android
   resource-id from `testID`, a package prefix `...:id/` is accepted), taps its centre with `adb shell input tap`, waits,
-  then takes the screenshot. A missing element fails that state. Only states reachable in production get a parity state.
+  then takes the screenshot. A missing element fails that state. `rnAction: "hide-keyboard"` sends Android BACK instead (closes the soft keyboard that
+  a focused TextInput opened, e.g. the alert with text inputs, which Ionic autofocuses; the focused underline stays). Chrome, the Ionic reference,
+  has no soft keyboard. Only states reachable in production get a parity state.
 
 ## Reference side (Playwright + Chrome)
 - Uses the installed Chrome (`channel: 'chrome'`, falling back to `C:\Program Files\Google\Chrome\...`); no browser download.

@@ -111,6 +111,8 @@ export function RippleButton({
     <Pressable
       testID={testID}
       disabled={disabled}
+      // button[disabled] { opacity: .4 } fades the button and its text as ONE layer (white text stays near-white over the fill)
+      needsOffscreenAlphaCompositing={disabled}
       hitSlop={hitSlop}
       accessibilityRole={accessibilityRole}
       accessibilityState={accessibilityState}

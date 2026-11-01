@@ -107,13 +107,13 @@ describe('Alert (alert.md.scss + Topbath overrides)', () => {
     expect(style('alert-message-content')).toMatchObject({ padding: 0 });
   });
 
-  test('buttons: uppercase, 14px/20px, weight 500, primary colour, 10px padding, no margin (Topbath button margin 0)', () => {
+  test('buttons: uppercase, 14px/20px, weight 400 (span.button-inner: Topbath * font-weight 400), primary colour, 10px padding, no margin (Topbath button margin 0)', () => {
     act(() => {
       showAlert({ title: 'T', buttons: ['Cancel', 'OK'] });
     });
     expect(style('alert-button-0')).toMatchObject({ padding: 10, borderRadius: 2 });
     const t = StyleSheet.flatten(find('alert-button-0-text').find(n => n.type === Text)!.props.style);
-    expect(t).toMatchObject({ fontSize: 14, lineHeight: 20, textTransform: 'uppercase', fontFamily: 'Roboto-Medium' });
+    expect(t).toMatchObject({ fontSize: 14, lineHeight: 20, textTransform: 'uppercase', fontFamily: 'Roboto-Regular' });
     expect(t.color).toBe(alertMd.button.color);
     const g = style('alert-button-group');
     expect(g).toMatchObject({ flexWrap: 'wrap-reverse', justifyContent: 'flex-end', flexDirection: 'row' });
@@ -280,7 +280,7 @@ describe('Alert (alert.md.scss + Topbath overrides)', () => {
         buttons: [{ text: 'OK', handler }],
       });
     });
-    expect(style('alert-root')).toMatchObject({ paddingTop: 50, alignItems: 'flex-start' });
+    expect(style('alert-root')).toMatchObject({ paddingTop: 50, justifyContent: 'flex-start', alignItems: 'center' });
     advance(200);
     const input = find('alert-input-1').find(n => typeof n.props.onChangeText === 'function')!;
     act(() => input.props.onChangeText('42'));
@@ -611,7 +611,7 @@ describe('Toast (toast.md.scss)', () => {
       showToast('Hi', { duration: 0, showCloseButton: true, onDidDismiss: dd });
     });
     expect(textOf('toast-close-text')).toBe('Close');
-    expect(StyleSheet.flatten(find('toast-close-text').find(n => n.type === Text)!.props.style)).toMatchObject({ textTransform: 'uppercase', fontSize: 15, color: '#fff', fontFamily: 'Roboto-Medium' });
+    expect(StyleSheet.flatten(find('toast-close-text').find(n => n.type === Text)!.props.style)).toMatchObject({ textTransform: 'uppercase', fontSize: 15, color: '#fff', fontFamily: 'Roboto-Regular' });
     expect(style('toast-close')).toMatchObject({ height: 36, paddingTop: 19, paddingBottom: 17, paddingLeft: 16, paddingRight: 16 });
     advance(5000);
     expect(exists('toast-wrapper')).toBe(true); // duration 0 means it stays
