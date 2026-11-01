@@ -146,6 +146,17 @@ describe('navbar (toolbar.md.scss + Topbath rules)', () => {
     expect(exists('ion-header-strip')).toBe(false); // no-border
   });
 
+  test('IonToolbar overlay: a child of the toolbar border box (not of the 0-high toolbar-content), before the content, so it can fill the whole box', () => {
+    mount(<IonToolbar color="white" tall testID="tb" overlay={<View testID="ov" />}>{<View testID="content-child" />}</IonToolbar>);
+    const box = host('tb').props.children.props.children.filter(Boolean);
+    expect(box[0].props.testID).toBe('ov'); // first child of the border box, behind everything (z-index -1 in Ionic)
+    expect(find('ov').length).toBeGreaterThan(0);
+    expect(find('content-child').length).toBeGreaterThan(0);
+    // the overlay is NOT inside the toolbar-content view
+    const content = box.find((c: any) => c.props?.style && StyleSheet.flatten(c.props.style)?.minWidth === 0);
+    expect(JSON.stringify(content?.props?.children?.props?.testID)).not.toBe('"ov"');
+  });
+
   test('<ion-toolbar class="h80" color="white"> (Language): height 80 inside the 4px padding, white, header strip below', () => {
     mount(
       <IonHeader>

@@ -7,7 +7,8 @@
     "variants": {},
     "params": {},
     "ionicNav": "nav.setRoot(Page('Language'))",
-    "waitMs": 800
+    "waitMs": 2800,
+    "deviceVersion": "15"
   },
   {
     "id": "Language.hin",
@@ -17,8 +18,8 @@
     "variants": {},
     "params": {},
     "ionicNav": "nav.setRoot(Page('Language')).then(() => new Promise(r => setTimeout(r, 600))).then(() => { const b = Array.from(document.querySelectorAll('page-language')).pop().querySelectorAll('ion-radio button')[1]; const o = { bubbles: true, cancelable: true }; b.dispatchEvent(new MouseEvent('mousedown', o)); b.dispatchEvent(new MouseEvent('mouseup', o)); b.dispatchEvent(new MouseEvent('click', o)); })",
-    "rnAction": "tap:lang-hin-cover",
-    "waitMs": 1000,
-    "rnWaitMs": 4500
+    "rnAction": "tap:lang-hin-radio",
+    "waitMs": 2800,
+    "deviceVersion": "15"
   }
 ]

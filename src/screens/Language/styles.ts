@@ -4,19 +4,18 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 import { listMd } from '../../theme/ionicMdContent';
-import { toolbarMd } from '../../theme/ionicMdPage';
 
 export const logoHeight = 45; // [T] 1215 `.header-logo img { height: 45px }`
 
 export const styles = StyleSheet.create({
   // [T] 1201-1213 `.header-logo`: position absolute; top 0; left 0; width/height 100% (of the toolbar, so it spans the
-  // toolbar's 4 px padding); flex centre; padding 0 10px; z-index -1; border-bottom 2px solid $primary.
+  // toolbar's 4 px padding: IonToolbar `overlay` is laid against the whole toolbar box); flex centre; padding 0 10px; z-index -1; border-bottom 2px solid $primary.
   headerLogo: {
     position: 'absolute',
-    top: -toolbarMd.padding,
-    left: -toolbarMd.padding,
-    right: -toolbarMd.padding,
-    bottom: -toolbarMd.padding,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

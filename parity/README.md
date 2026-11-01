@@ -46,7 +46,7 @@ Compares the Ionic reference (built from `b33d82f`, run in Chrome) with the RN d
 
 ## RN side (adb instead of Maestro)
 Deviation from the plan: no Maestro (global tool, not installed). `capture-rn.mjs` runs
-`adb shell am start -a VIEW -d '<link>' com.topsan.app.rn`, waits for the screen root (`readyId`, default `ion-card-<screen>`) in `uiautomator dump`, then `rnWaitMs` (default 2.5 s; covers the
+`adb shell am start -a VIEW -d '<link>' com.topsan.app.rn`, waits for the screen root (`readyId`, default `ion-card-<screen>`) in `uiautomator dump`, then `rnWaitMs` (default 5.5 s: the native splash can still cover the page after its root exists, and the
 2 s Android-15 delay), then `adb exec-out screencap -p`. No device (or several without `-s`) prints
 "SKIPPED RN capture: <why>" and exits 0. The debug app must already be installed.
 
@@ -55,6 +55,6 @@ system bars, so:
 - API < 35: `src/app/frame.ts` draws a status band and nav band; the top (and nav) inset read from `dumpsys window`
   (fallback 24 dp top, 0 bottom) is cropped.
 - API >= 35: Ionic's `body.android-15` black 30px top border covers the status area and RN reproduces it; nothing is
-  cropped. Give such states `"deviceVersion": "15"` so the reference has the same border.
+  cropped. Rule: states captured against an API >= 35 device/emulator (the Android 16 emulator) carry `"deviceVersion": "15"` so the reference gets the same border; give such states `"deviceVersion": "15"` so the reference has the same border.
 - The result is bilinearly scaled to 1080x2400. Devices with a different aspect ratio will show scaling differences in the
   diff; use a 1080x2400 (20:9) device or emulator for exact comparisons.

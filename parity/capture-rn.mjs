@@ -151,13 +151,14 @@ async function main() {
       if (/Error|does not exist/i.test(r.stdout + r.stderr)) {
         throw new Error((r.stdout + r.stderr).trim().split('\n')[0]);
       }
-      // poll uiautomator until the screen root (state.readyId, default ion-card-<screen>) exists, then 2.5 s more for the
-      // Android-15 band (applied 2 s after JS start) and the page transition; `rnWaitMs` overrides that settle time
+      // poll uiautomator until the screen root (state.readyId, default ion-card-<screen>) exists, then settle: the root can
+      // exist while the native splash (3 s hold + 3 s fade from activity start, Task 8b) still covers it, so the default
+      // settle is 5.5 s; it also covers the Android-15 band (2 s after JS start) and transitions. `rnWaitMs` overrides it.
       const ready = await waitForReady({
         dump: () => adb(dev.serial, ['exec-out', 'uiautomator', 'dump', '/dev/tty']).stdout,
         pkg: DEBUG_PACKAGE,
         readyId: readyIdFor(s),
-        settleMs: s.rnWaitMs ?? 2500,
+        settleMs: s.rnWaitMs ?? 5500,
       });
       if (!ready.ready) {
         process.stdout.write(`(WARNING ${readyIdFor(s)} not found after ${ready.waitedMs} ms, shooting anyway) `);

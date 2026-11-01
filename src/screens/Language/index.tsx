@@ -11,7 +11,7 @@ import { IonItem, IonList, IonListHeader, IonParagraph } from '../../components/
 import { IonFooter, IonHeader, IonToolbar } from '../../components/ionic/IonNavbar';
 import i18n from '../../i18n';
 import { storage } from '../../storage';
-import { styles } from './styles';
+import { logoHeight, styles } from './styles';
 
 // Logo: the client's logo.png (Ionic assets/imgs/logo.png), copied by scripts/use-client.mjs.
 const logo = require('../../assets/client/logo.png');
@@ -19,7 +19,8 @@ const logo = require('../../assets/client/logo.png');
 // Ionic text is HTML: runs of whitespace collapse to one space (hin.json "Continue" has two).
 const collapse = (s: string) => s.replace(/\s+/g, ' ');
 
-// Intrinsic ratio of the logo, so `img { height: 45px }` keeps its width (CSS auto width).
+// Intrinsic ratio of the logo: CSS `img { height: 45px }` has an auto width of height * ratio. NOTE: an aspectRatio style left the
+// width at the 2744 px intrinsic size on Android (emulator check), so the width is set explicitly.
 const logoSize = Image.resolveAssetSource?.(logo);
 const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSize.height : 1;
 
@@ -131,12 +132,16 @@ export default function LanguageScreen({ navigation, route }: Props) {
     <View style={styles.screen}>
       {/* language.html:1-7 */}
       <IonHeader>
-        <IonToolbar color="white" tall>
-          {/* NOTE (parity): toolbar, not navbar: no title and no back button, even when pushed (quirk 10). */}
-          <View testID="header-logo" style={styles.headerLogo}>
-            <Image source={logo} resizeMode="contain" style={[styles.headerLogoImg, { aspectRatio: logoRatio }]} />
-          </View>
-        </IonToolbar>
+        {/* NOTE (parity): toolbar, not navbar: no title and no back button, even when pushed (quirk 10). */}
+        <IonToolbar
+          color="white"
+          tall
+          overlay={
+            <View testID="header-logo" style={styles.headerLogo}>
+              <Image source={logo} resizeMode="contain" style={[styles.headerLogoImg, { width: logoHeight * logoRatio }]} />
+            </View>
+          }
+        />
       </IonHeader>
 
       {/* language.html:10-47; the commented country list (:11-27) is not ported */}
