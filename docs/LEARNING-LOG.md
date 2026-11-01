@@ -405,3 +405,21 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Test harnesses have their own quirks.** Ionic's tap handling ignores fake clicks, and Angular doesn't redraw after async work started outside its zone. The reference drives the page's own handler inside the zone instead.
 
 **Interview angle:** "How do you de-risk a large migration?" → run one screen through the whole pipeline first, fix the shared layer it exposes, write the lessons into the procedure (retro), and only then scale out in parallel.
+
+## 2026-11-02 — Phase 0 checkpoint: comparing every building block
+
+**What:** 49 building-block states (alerts, loaders, toasts, action sheets, pickers, headers, tab bars, buttons, forms, lists, sliders…) rendered in isolation in the real Ionic app and in RN, with the same inputs Topsan uses. Captured on Dhruv's phone and compared pair by pair.
+
+**Learned:**
+- **Checking blocks first pays off.** The first pass found ~20 real differences, each of which would have shown up on many screens:
+  - radio popups with the circle on its own line;
+  - a loader that never appeared;
+  - date-picker rows not shrunk the way Ionic shrinks them;
+  - doubled spacing between form fields;
+  - Hindi button labels wrapping and losing a word.
+- **A real phone beats the emulator here.** The emulator kept freezing from memory pressure. The phone was faster and more accurate, and it caught a bug the emulator didn't (the Hindi label wrapping with the phone's fonts).
+- **Control the device's environment.** A notification banner and the screen auto-locking spoiled screenshots. Do Not Disturb plus a temporary "stay awake while plugged in" (restored right after) fixed it.
+- **CSS defaults matter.** Ionic buttons are `white-space: nowrap`, so a label never wraps; RN text wraps by default. Copy the CSS rule, not just the look.
+- **Look at every pair.** I reviewed all 51 as contact sheets; two problems hid behind modest diff numbers.
+
+**Interview angle:** "How do you keep a UI kit faithful?" → compare each component in isolation against the original before any screen uses it, on real devices, under a controlled environment, with a human looking at every pair.

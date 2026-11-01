@@ -44,7 +44,9 @@ function renderLabel(children: React.ReactNode, ts: TextStyle) {
   const kids = React.Children.toArray(children);
   return kids.map((c, i) =>
     typeof c === 'string' || typeof c === 'number' ? (
-      <Text key={i} style={ts}>
+      // `.button{white-space:nowrap;text-overflow:ellipsis}` ([CSS] main.css): a label never wraps. Without this the
+      // Hindi "आगे  बढ़ें" wrapped on a real phone and the second word vanished below the 36dp button (2026-11-02).
+      <Text key={i} style={ts} numberOfLines={1}>
         {c}
       </Text>
     ) : (
