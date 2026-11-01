@@ -13,6 +13,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const WWW = path.join(HERE, 'work', 'www');
 const STUBS = fs.readFileSync(path.join(HERE, 'stubs.js'), 'utf8');
 const FONT_DIR = path.join(REPO, 'android', 'app', 'src', 'main', 'assets', 'fonts');
+const REF_FONT_DIR = path.join(HERE, 'fonts'); // Noto Sans Devanagari (Android's Devanagari fallback), see fonts/README.md
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const ANDROID_UA =
   'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36';
@@ -74,8 +75,8 @@ export function startServer(www = WWW) {
         return;
       }
       if (p.startsWith('/__fonts/')) {
-        const ff = path.join(FONT_DIR, path.basename(p));
-        if (fs.existsSync(ff)) {
+        const ff = [FONT_DIR, REF_FONT_DIR].map(d => path.join(d, path.basename(p))).find(f => fs.existsSync(f));
+        if (ff) {
           r.setHeader('content-type', 'font/ttf');
           r.end(fs.readFileSync(ff));
           return;
@@ -147,6 +148,23 @@ const FONT_CSS = `
 @font-face{font-family:'Roboto';font-weight:500;font-style:italic;src:url(/__fonts/Roboto-MediumItalic.ttf)}
 @font-face{font-family:'Roboto';font-weight:700;font-style:normal;src:url(/__fonts/Roboto-Bold.ttf)}
 @font-face{font-family:'Roboto Condensed';font-weight:400;font-style:normal;src:url(/__fonts/RobotoCondensed-Regular.ttf)}`;
+// The Ionic build declares its own "Roboto" faces (local() + ../assets/fonts/roboto-*.woff, not shipped) AFTER the injected
+// @import, and "Open Sans" (the Topbath utility classes) has no face at all, so on desktop Chrome those fell to Arial/Nirmala.
+// The real Android WebView resolves "Roboto", the unknown "Open Sans" -> sans-serif -> Roboto, and Devanagari -> Noto Sans
+// Devanagari. (Chrome picks ONE weight group per family, so every weight gets its own unicode-range Devanagari face.) This sheet is added to the page after load (so it wins by order) and maps all of that onto the same files.
+const DEVANAGARI = 'U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF';
+export const REF_FONT_FAMILIES = ['Roboto', 'Open Sans'];
+export const REF_FONT_CSS = REF_FONT_FAMILIES.map(
+  f => `
+@font-face{font-family:'${f}';font-weight:300;font-style:normal;src:url(/__fonts/Roboto-Light.ttf)}
+@font-face{font-family:'${f}';font-weight:400;font-style:normal;src:url(/__fonts/Roboto-Regular.ttf)}
+@font-face{font-family:'${f}';font-weight:400;font-style:italic;src:url(/__fonts/Roboto-Italic.ttf)}
+@font-face{font-family:'${f}';font-weight:500;font-style:normal;src:url(/__fonts/Roboto-Medium.ttf)}
+@font-face{font-family:'${f}';font-weight:500;font-style:italic;src:url(/__fonts/Roboto-MediumItalic.ttf)}
+@font-face{font-family:'${f}';font-weight:600;font-style:normal;src:url(/__fonts/Roboto-Medium.ttf)}
+@font-face{font-family:'${f}';font-weight:700;font-style:normal;src:url(/__fonts/Roboto-Bold.ttf)}
+${[300, 400, 500, 600, 700].map(w => `@font-face{font-family:'${f}';font-weight:${w};font-style:normal;unicode-range:${DEVANAGARI};src:url(/__fonts/NotoSansDevanagari-VF.ttf)}`).join(' ')}`,
+).join('\n');
 const ICON_CSS = `
 @font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(/__fonts/MaterialIcons-Regular.ttf)}
 .material-icons{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';-webkit-font-smoothing:antialiased}`;
@@ -246,7 +264,22 @@ export async function launchBrowser() {
   }
 }
 
-export async function captureState(browser, port, state, outFile, { log = () => {} } = {}) {
+/** Loads every Roboto / Open Sans face (Latin + Devanagari sample) and waits until the document's fonts are ready. */
+export async function waitForFonts(page) {
+  await page.evaluate(async families => {
+    const loads = [];
+    for (const f of families) {
+      for (const w of [300, 400, 500, 600, 700]) {
+        loads.push(document.fonts.load(`${w} 14px '${f}'`, 'Aa'), document.fonts.load(`${w} 14px '${f}'`, 'आगे'));
+      }
+    }
+    await Promise.all(loads.map(l => l.then(() => 1, () => 1)));
+    await document.fonts.ready.then(() => 1);
+    return 1;
+  }, REF_FONT_FAMILIES);
+}
+
+export async function captureState(browser, port, state, outFile, { log = () => {}, beforeShot } = {}) {
   const session = sessionFor(state.role);
   const context = await browser.newContext({
     viewport: { width: 360, height: 800 },
@@ -275,6 +308,8 @@ export async function captureState(browser, port, state, outFile, { log = () => 
     // Wait for the Ionic app (platform ready, a root page rendered).
     await page.waitForFunction(() => window.ng && document.querySelector('ion-nav .ion-page, ion-nav ion-content, ion-nav .content'), null, { timeout: 30000 });
     await page.waitForLoadState('networkidle');
+    await page.addStyleTag({ content: REF_FONT_CSS });
+    await waitForFonts(page);
     await page.waitForTimeout(500);
     await page.evaluate(HELPERS);
     if (state.lang && state.lang !== 'en') {
@@ -295,7 +330,11 @@ export async function captureState(browser, port, state, outFile, { log = () => 
       );
     }
     await page.waitForLoadState('networkidle');
+    await waitForFonts(page);
     await page.waitForTimeout(state.waitMs ?? 500);
+    if (beforeShot) {
+      await beforeShot(page);
+    }
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     await page.screenshot({ path: outFile });
   } finally {

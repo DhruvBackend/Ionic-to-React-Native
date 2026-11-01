@@ -38,7 +38,7 @@ Compares the Ionic reference (built from `b33d82f`, run in Chrome) with the RN d
 
 ## RN side (adb instead of Maestro)
 Deviation from the plan: no Maestro (global tool, not installed). `capture-rn.mjs` runs
-`adb shell am start -a VIEW -d '<link>' com.topsan.app.rn`, waits (`rnWaitMs` or `waitMs`, default 3.5 s, covers the
+`adb shell am start -a VIEW -d '<link>' com.topsan.app.rn`, waits for the screen root (`readyId`, default `ion-card-<screen>`) in `uiautomator dump`, then `rnWaitMs` (default 2.5 s; covers the
 2 s Android-15 delay), then `adb exec-out screencap -p`. No device (or several without `-s`) prints
 "SKIPPED RN capture: <why>" and exits 0. The debug app must already be installed.
 

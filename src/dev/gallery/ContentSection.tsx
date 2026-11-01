@@ -30,6 +30,10 @@ export function ContentSection() {
       <Text style={styles.label}>presses: {presses}</Text>
       <Text style={styles.label}>default / full / disabled / icon-only / icon-start / small clear / outline</Text>
       <IonButton>Default</IonButton>
+      <Text style={styles.label}>Hindi label (Devanagari marks must not be clipped)</Text>
+      <IonButton color="primary" block testID="ct-btn-hindi">
+        आगे  बढ़ें
+      </IonButton>
       <IonButton full color="primary">
         Full
       </IonButton>

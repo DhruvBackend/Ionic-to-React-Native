@@ -97,7 +97,7 @@ function Card({
     <Animated.View
       testID={testID}
       // a modal page is the white .modal-wrapper; an ion-nav page draws its own background
-      style={[StyleSheet.absoluteFill, presentation === 'modal' && { backgroundColor: modalTransition.backgroundColor }, animated, !visible && styles.hidden]}
+      style={[StyleSheet.absoluteFill, styles.clip, presentation === 'modal' && { backgroundColor: modalTransition.backgroundColor }, animated, !visible && styles.hidden]}
       accessibilityElementsHidden={!visible}
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
     >
@@ -275,6 +275,7 @@ function IonStackNavigator({ id, initialRouteName, children, screenOptions, scre
 const styles = StyleSheet.create({
   root: { flex: 1 },
   hidden: { display: 'none' },
+  clip: { overflow: 'hidden' }, // .ion-page { contain: strict }: nothing (shadows) paints outside the page box
 });
 
 // createIonStackNavigator() -> { Navigator, Screen, Group }, used like createNativeStackNavigator().

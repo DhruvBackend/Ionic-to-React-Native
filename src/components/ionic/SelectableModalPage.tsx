@@ -4,11 +4,10 @@
 // `button[ion-item]` rows (icon + text) and an optional ion-footer (Clear / OK). md mode, with Topbath's
 // global rules. Values and citations: src/theme/ionicMdPickers.ts (selectableModal).
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Path, Polygon } from 'react-native-svg';
 import {
   clearIconPoints,
-  headerShadowPng,
   itemMd,
   searchIconPath,
   selectableModal as M,
@@ -16,6 +15,7 @@ import {
 import { formatItem, isItemSelected, type SelectableConfig } from '../../ui/selectableModel';
 import { IonIcon } from './IonIcon';
 import { RippleButton } from './RippleButton';
+import { ShadowStripRows } from './ShadowStrip';
 import { textStyle } from './text';
 
 export interface SelectableModalState {
@@ -245,18 +245,14 @@ function FooterButton({
 function HeaderShadow() {
   return (
     <View pointerEvents="none" testID="selectable-header-shadow" style={styles.headerShadow}>
-      <Image
-        source={{ uri: headerShadowPng }}
-        resizeMode="repeat"
-        style={styles.shadowImage}
-      />
+      <ShadowStripRows startRow={M.headerShadow.offsetY} cssHeight={M.headerShadow.height} />
     </View>
   );
 }
 function FooterShadow() {
   return (
     <View pointerEvents="none" testID="selectable-footer-shadow" style={styles.footerShadow}>
-      <Image source={{ uri: headerShadowPng }} resizeMode="repeat" style={styles.shadowImageFooter} />
+      <ShadowStripRows startRow={0} cssHeight={M.footerShadow.height} />
     </View>
   );
 }
@@ -318,9 +314,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerShadow: { position: 'absolute', left: 0, right: 0, bottom: -M.headerShadow.height, height: M.headerShadow.height, overflow: 'hidden' },
-  shadowImage: { width: '100%', height: 7, marginTop: -M.headerShadow.offsetY },
   footerShadow: { position: 'absolute', left: 0, right: 0, top: -M.footerShadow.height, height: M.footerShadow.height, overflow: 'hidden' },
-  shadowImageFooter: { width: '100%', height: 7 },
   content: { flex: 1, backgroundColor: itemMd.backgroundColor },
   // <div margin>
   message: { margin: M.message.margin },

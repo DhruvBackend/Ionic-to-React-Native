@@ -13,6 +13,7 @@ import { IonCol, IonContent, IonGrid, IonRow } from '../src/components/ionic/Ion
 import { IonInputItem } from '../src/components/ionic/IonInput';
 import { IonItem, IonList, IonListHeader, IonParagraph } from '../src/components/ionic/IonList';
 import { ionicColors } from '../src/theme';
+import { normalLineHeight } from '../src/theme/ionicMdOverlays';
 import {
   buttonColors,
   buttonMd,
@@ -166,6 +167,33 @@ describe('ion-button', () => {
     expect(ls.fontFamily).toBe('Roboto-Regular'); // `* { font-weight: 400 }` keeps the span at 400
     press('b');
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+  test('label line box is never below the font normal line height (Android clips Devanagari marks) and keeps the CSS layout height', () => {
+    mount(
+      <View>
+        <IonButton testID="b1">आगे  बढ़ें</IonButton>
+        <IonButton testID="b2" small>
+          Small
+        </IonButton>
+        <IonButton testID="b3" csBtn>
+          Cs
+        </IonButton>
+        <IonButton testID="b4" as="a">
+          Link
+        </IonButton>
+      </View>,
+    );
+    for (const [text, fs, css] of [
+      ['आगे  बढ़ें', 14, 14], // button { line-height: 1 }
+      ['Small', buttonMd.small.fontSize, buttonMd.small.fontSize],
+      ['Cs', buttonMd.csBtn.fontSize, buttonMd.csBtn.lineHeight], // cs-btn span 22px
+      ['Link', 14, normalLineHeight(14)],
+    ] as const) {
+      const label = tree.root.findAll(n => n.props.children === text && typeof n.type === 'string')[0];
+      const ls = StyleSheet.flatten(label.props.style);
+      expect(ls.lineHeight).toBeGreaterThanOrEqual(normalLineHeight(fs));
+      expect(ls.lineHeight + 2 * (ls.marginVertical ?? 0)).toBe(css); // same layout height => same centre / baseline
+    }
   });
   test('default: 2px radius, 15.4 padding, shrinks to its text; <a> keeps the .4rem .2rem margin, <button> has none', () => {
     mount(

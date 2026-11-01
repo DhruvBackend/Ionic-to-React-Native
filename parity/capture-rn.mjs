@@ -9,6 +9,7 @@ import { pathToFileURL } from 'node:url';
 import { PNG } from 'pngjs';
 import { OUT, loadStates, parseArgs, selectStates, shotName } from './lib/common.mjs';
 import { crop, resize } from './lib/image.mjs';
+import { readyIdFor, waitForReady } from './lib/ready.mjs';
 
 export const REF_W = 1080;
 export const REF_H = 2400;
@@ -97,7 +98,6 @@ function deviceInfo(serial) {
   return { api, density, insets };
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -120,7 +120,17 @@ async function main() {
       if (/Error|does not exist/i.test(r.stdout + r.stderr)) {
         throw new Error((r.stdout + r.stderr).trim().split('\n')[0]);
       }
-      await sleep(s.rnWaitMs ?? s.waitMs ?? 3500); // cold start + Android-15 2 s delay + animations
+      // poll uiautomator until the screen root (state.readyId, default ion-card-<screen>) exists, then 2.5 s more for the
+      // Android-15 band (applied 2 s after JS start) and the page transition; `rnWaitMs` overrides that settle time
+      const ready = await waitForReady({
+        dump: () => adb(dev.serial, ['exec-out', 'uiautomator', 'dump', '/dev/tty']).stdout,
+        pkg: DEBUG_PACKAGE,
+        readyId: readyIdFor(s),
+        settleMs: s.rnWaitMs ?? 2500,
+      });
+      if (!ready.ready) {
+        process.stdout.write(`(WARNING ${readyIdFor(s)} not found after ${ready.waitedMs} ms, shooting anyway) `);
+      }
       const shot = adb(dev.serial, ['exec-out', 'screencap', '-p'], { binary: true });
       if (shot.status !== 0 || !shot.stdout.length) {
         throw new Error('screencap failed');

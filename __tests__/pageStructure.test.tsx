@@ -228,6 +228,11 @@ describe('IonStack', () => {
   }
   const visible = (name: string) => !StyleSheet.flatten(host(`ion-card-${name}`).props.style).display;
 
+  test('every page card clips to its box (.ion-page { contain: strict }), also while it moves', () => {
+    mount(<App />);
+    expect(StyleSheet.flatten(host('ion-card-A').props.style).overflow).toBe('hidden');
+  });
+
   test('the first page is not animated; a push animates the new page in and hides the old one afterwards', () => {
     mount(<App />);
     expect(exists('page-A')).toBe(true);
@@ -428,8 +433,9 @@ describe('ion-footer (toolbar.md.scss, [CSS] 12349 / 16716)', () => {
     expect(f.padding).toBeUndefined();
     expect(f.backgroundColor).toBeUndefined();
     expect(style('f-strip')).toMatchObject({ position: 'absolute', left: 0, right: 0, top: -2, height: 2, overflow: 'hidden' });
-    const img = tree.root.findAll(n => n.props.resizeMode === 'repeat')[0];
-    expect(StyleSheet.flatten(img.props.style)).toMatchObject({ width: '100%', height: 7, marginTop: 0 }); // background-position left 0 top 0
+    // the png's rows 0..1 as per-device-pixel alpha Views (ShadowStrip.tsx), no <Image>
+    expect(tree.root.findAll(n => n.props.resizeMode === 'repeat')).toHaveLength(0);
+    expect(tree.root.findAll(n => String(n.props.testID ?? '').startsWith('f-strip-row-')).length).toBeGreaterThan(0);
     expect(host('f-strip').props.pointerEvents).toBe('none');
   });
   test('[padding] = 16px; [no-border] / csm-footer-tabs / before-btn / af-none hide the strip; style adds page rules', () => {

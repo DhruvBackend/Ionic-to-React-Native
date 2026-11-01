@@ -9,11 +9,11 @@
 //   class="toolbarHeight"), <ion-header [hidden]="true">, catalogue-header (7x) / home-header (1x): classes without any CSS.
 // `Header` below is ion-header + ion-navbar in one.
 import React, { createContext, useContext } from 'react';
-import { Image, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { useSideMenu } from '../../navigation/SideMenu';
 import { ionicColors } from '../../theme';
-import { headerShadowPng } from '../../theme/ionicMdPickers';
+import { ShadowStripRows } from './ShadowStrip';
 import { footerMd, toolbarColors, toolbarMd, type ToolbarColor, type ToolbarColorSet } from '../../theme/ionicMdPage';
 import { ionPadding } from '../../theme/ionicMdContent';
 import { IonIcon } from './IonIcon';
@@ -51,7 +51,7 @@ export function IonHeader({ mainHeader = false, remove = false, noBorder = false
         {children}
         {strip ? (
           <View pointerEvents="none" testID="ion-header-strip" style={styles.strip}>
-            <Image source={{ uri: headerShadowPng }} resizeMode="repeat" style={styles.stripImage} />
+            <ShadowStripRows startRow={S.offsetY} cssHeight={S.height} />
           </View>
         ) : null}
       </View>
@@ -237,7 +237,7 @@ export function IonFooter({ padding = false, noBorder = false, style, testID = '
       {noBorder ? null : (
         // footer-md::before: top -2px, 2px high, the png's top 2px, repeat-x, over the content above the footer
         <View pointerEvents="none" testID={`${testID}-strip`} style={styles.footerStrip}>
-          <Image source={{ uri: headerShadowPng }} resizeMode="repeat" style={styles.footerStripImage} />
+          <ShadowStripRows startRow={footerMd.strip.offsetY} cssHeight={footerMd.strip.height} testID={`${testID}-strip`} />
         </View>
       )}
       {children}
@@ -371,11 +371,9 @@ const styles = StyleSheet.create({
   header: { zIndex: toolbarMd.headerZIndex },
   // header-md::after: left 0; bottom -5px; height 5px; background-position top -2px
   strip: { position: 'absolute', left: 0, right: 0, bottom: -S.height, height: S.height, overflow: 'hidden' },
-  stripImage: { width: '100%', height: 7, marginTop: -S.offsetY },
   // ion-footer: position absolute; bottom 0; z-index 10 (a column child here, relative so the strip can hang above it)
   footer: { position: 'relative', zIndex: footerMd.zIndex },
   footerStrip: { position: 'absolute', left: 0, right: 0, top: footerMd.strip.top, height: footerMd.strip.height, overflow: 'hidden' },
-  footerStripImage: { width: '100%', height: 7, marginTop: -footerMd.strip.offsetY || 0 },
   // .toolbar-content-md: flex 1, min-width 0
   content: { flex: 1, minWidth: 0 },
   // ion-title { display: flex; flex: 1; align-items: center } > .toolbar-title { width: 100%; overflow: hidden; ellipsis }

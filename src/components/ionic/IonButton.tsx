@@ -6,9 +6,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { buttonColors, buttonMd, type ButtonKind } from '../../theme/ionicMdContent';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { IonIcon } from './IonIcon';
 import { RippleButton } from './RippleButton';
-import { textStyle } from './text';
+import { clipSafeLineBox, textStyle } from './text';
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] };
 
@@ -152,10 +153,12 @@ export function IonButton({
   const lineHeight = cs
     ? buttonMd.csBtn.lineHeight
     : as === 'a'
-    ? undefined
+    ? normalLineHeight(fontSize)
     : fontSize * buttonMd.lineHeight; // `button { line-height: 1 }`
+  const box = clipSafeLineBox(fontSize, lineHeight); // taller Text box so Android does not clip Devanagari marks
   const ts: TextStyle = {
-    ...textStyle(fontSize, pdfBtn ? buttonMd.pdfBtn.fontWeight : buttonMd.textWeight, fg, lineHeight), // both 400: the span
+    ...textStyle(fontSize, pdfBtn ? buttonMd.pdfBtn.fontWeight : buttonMd.textWeight, fg, box.lineHeight), // both 400: the span
+    marginVertical: box.marginVertical,
     textTransform: transform === 'none' ? undefined : transform,
     letterSpacing: cs ? buttonMd.csBtn.letterSpacing : undefined,
   };
