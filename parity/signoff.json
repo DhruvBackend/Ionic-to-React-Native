@@ -244,14 +244,149 @@
     "note": "Dhruv 2026-11-02: approved (building-block report)",
     "date": "2026-11-02"
   },
+  "AboutusModal.default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "AboutusModal.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
   "Language.default": {
     "status": "ok",
-    "note": "Dhruv 2026-11-02: looks the same as the Ionic app",
-    "date": "2026-11-01"
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
   },
   "Language.hin": {
     "status": "ok",
-    "note": "Dhruv 2026-11-02: looks the same as the Ionic app",
-    "date": "2026-11-01"
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "MobileLogin.default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "MobileLogin.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Otp.default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Otp.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Otp.resendSent": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.dealer": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.edit": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.editExist": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.editSuspended": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.plumber": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.seller": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Registration.submitted": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "SelectRegistrationType.default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "SelectRegistrationType.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "SelectRegistrationType.selected": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Customer": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Customer.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Customer.index4": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Dealer": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Plumber": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Plumber.hin": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Plumber.index3": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Sales_Boy": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
+  },
+  "Tabs.Sales_Executive": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-03: Phase 1 done (phone pairs + tap check)",
+    "date": "2026-11-02"
   }
 }

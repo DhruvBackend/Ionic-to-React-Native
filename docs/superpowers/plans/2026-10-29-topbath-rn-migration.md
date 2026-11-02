@@ -923,7 +923,7 @@ Screens: Language (pilot, done), SelectRegistrationType, MobileLogin, Otp, Regis
 - Tap check: Language (rows, Continue), SelectRegistrationType (4 rows, disabled/enabled GO, back), MobileLogin (empty/short/10 digits), Otp (Resend alert + 30 s countdown, OK, wrong OTP -> "Wrong OTP value" on blur, right OTP -> Tabs), Tabs (all 5 Plumber tabs), Registration (State/District lists, DOB picker, typing, Submit validation, back -> Otp), AboutusModal (tel: chooser, mailto: Gmail, cancel -> Tabs). All PASS.
 - **Deferred:** `Tabs.Retailer` cannot be compared yet: Ionic's Retailer Home calls `loginBannersApp`, `product_catalogue_count`, `offerList` which have no fixtures, so the Ionic reference renders blank. Re-capture in Phase 2 once Home's fixtures exist.
 - **Kit question for the Phase 2 kit pass:** Android `Text` defaults to `textBreakStrategy="highQuality"` (balanced paragraphs); browsers break greedily. Only AboutusModal uses `simple` so far; decide globally before Phase 2 screens.
-- Open: Dhruv's sign-off.
+- **Signed off by Dhruv 2026-11-03** ("for now phase 1 is done"): 29 states recorded in parity/signoff.json; Tabs.Retailer deferred to Phase 2. Performance optimisation: later (see the optimisation note in the Phase 2 section when added).
 - [ ] **Flow test** `__tests__/flows/login.test.ts`, in MOCK, for each of the 4 roles: Language → SelectRegistrationType → MobileLogin → Otp. Then:
   - `auth/login` SUCCESS → Tabs with that role's tab set
   - `NOT FOUND` → Registration → submit → Tabs
