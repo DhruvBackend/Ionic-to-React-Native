@@ -3,6 +3,8 @@
 const HEX = '/^#[0-9a-fA-F]{3,8}$/';
 const BRAND = '/(Topsan|Topbath|Agmeco|Gravity)/';
 const URL = '/^https?:\\/\\//';
+// contact details: tel:/mailto: links, e-mail addresses, Indian 10-digit mobile numbers (with or without +91)
+const CONTACT = '/(^(tel|mailto):|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}|[6-9][0-9]{9})/';
 const msg = what => `${what} belongs in clients/<id>/client.json (use client or theme), not in screens/components.`;
 
 const noClientStrings = [
@@ -25,6 +27,14 @@ const noNativeStandIns = [
   { selector: "ImportDeclaration[source.value=/^react-native-vector-icons/]", message: screenMsg('react-native-vector-icons') },
 ];
 
+// Contact details are client data too, but tests legitimately use fake numbers, so this list skips *.test.* files.
+const noContact = [
+  { selector: `Literal[value=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
+  { selector: `TemplateElement[value.raw=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
+  { selector: `JSXText[value=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
+];
+const TESTS = ['**/*.test.ts', '**/*.test.tsx'];
+
 module.exports = {
   root: true,
   extends: '@react-native',
@@ -39,6 +49,17 @@ module.exports = {
       // test-fixtures/lint/screens-violation.tsx breaks it on purpose (see __tests__/theme-i18n.test.ts).
       files: ['src/screens/**', 'test-fixtures/lint/screens-violation.tsx'],
       rules: { 'no-restricted-syntax': ['error', ...noClientStrings, ...noNativeStandIns] },
+    },
+    {
+      // non-test component files additionally ban typed-in contact details (AboutusModal had tel:/mailto: literals)
+      files: ['src/components/**', 'test-fixtures/lint/contact-violation.tsx'],
+      excludedFiles: TESTS,
+      rules: { 'no-restricted-syntax': ['error', ...noClientStrings, ...noContact] },
+    },
+    {
+      files: ['src/screens/**'],
+      excludedFiles: TESTS,
+      rules: { 'no-restricted-syntax': ['error', ...noClientStrings, ...noNativeStandIns, ...noContact] },
     },
   ],
 };

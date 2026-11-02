@@ -69,3 +69,19 @@ test('lint flags Alert.alert, ToastAndroid, datetimepicker and vector-icons in s
   // line 4 holds two bans (the Alert and ToastAndroid imports)
   expect(messages.map((m: any) => m.line).sort((a: number, b: number) => a - b)).toEqual([4, 4, 5, 6, 10, 11]);
 });
+
+test('lint flags typed-in contact details (tel:/mailto:/e-mail/phone) in components and screens, not in tests', () => {
+  const root = path.resolve(__dirname, '..');
+  let out = '';
+  try {
+    out = execFileSync('npx', ['eslint', '--no-ignore', '-f', 'json', 'test-fixtures/lint/contact-violation.tsx'], {
+      cwd: root,
+      encoding: 'utf8',
+      shell: true,
+    });
+  } catch (e: any) {
+    out = e.stdout;
+  }
+  const messages = JSON.parse(out)[0].messages.filter((m: any) => /Contact detail/.test(m.message));
+  expect(messages.length).toBe(3); // 'tel:...', the e-mail JSX text, `mailto:` template
+});
