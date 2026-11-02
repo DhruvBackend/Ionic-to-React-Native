@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/sales_exec/dealer_dropdown",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "state": ""
+  },
+  "ionicSource": "src/pages/login-section/registration/registration.ts:133"
+}

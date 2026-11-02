@@ -1,0 +1,22 @@
+{
+  "endpoint": "app_karigar/addKarigar",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "id": "900101"
+    },
+    "EXIST": {
+      "status": "EXIST"
+    },
+    "other": {
+      "status": "FAILED"
+    },
+    "empty": {},
+    "malformed": null,
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}

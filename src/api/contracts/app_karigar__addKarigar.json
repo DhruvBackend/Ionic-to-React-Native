@@ -1,0 +1,32 @@
+{
+  "endpoint": "app_karigar/addKarigar",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar": {
+      "mobile_no": "",
+      "type": "",
+      "sales_boy_id": "",
+      "profile": "",
+      "document_image": "",
+      "certificate_image": "",
+      "status": "",
+      "karigar_edit_id": "",
+      "first_name": "",
+      "dob": "",
+      "address": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "sales_boy_name": "",
+      "sales_boy_mobile_no": "",
+      "dealer_contact_person": "",
+      "dealer_mobile": "",
+      "sales_executive_id": ""
+    }
+  },
+  "ionicSource": "src/pages/login-section/registration/registration.ts:643"
+}
