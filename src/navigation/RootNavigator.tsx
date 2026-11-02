@@ -11,7 +11,7 @@ import { ComponentGallery } from '../dev/ComponentGallery';
 import { ComponentState } from '../dev/ComponentState';
 import { ScrollDemoScreen } from '../dev/gallery/ScrollDemoScreen';
 import { NativeDemoScreen } from '../dev/NativeDemoScreen';
-import { setFixtureVariant } from '../api/mock';
+import { resetMock, setFixtureVariant } from '../api/mock';
 import sessionFixtures from '../api/fixtures/_sessions.json';
 import i18n from '../i18n';
 import { parseDebugLink, type DebugLink } from './debugLinks';
@@ -53,6 +53,8 @@ const REQUIRED_ROOT_ROUTES = ['Language'];
 export function applyDebugLink(link: DebugLink, sessions: Record<string, unknown> = {}) {
   if (link.mock) {
     switchToMockTransport();
+    // a clean MOCK backend per link: variants from an earlier link must not leak into this state (phone tap check 2026-11-02)
+    resetMock();
   }
   for (const [endpoint, variant] of Object.entries(link.variants)) {
     try {
