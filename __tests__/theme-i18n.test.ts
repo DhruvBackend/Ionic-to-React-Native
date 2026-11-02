@@ -83,5 +83,5 @@ test('lint flags typed-in contact details (tel:/mailto:/e-mail/phone) in compone
     out = e.stdout;
   }
   const messages = JSON.parse(out)[0].messages.filter((m: any) => /Contact detail/.test(m.message));
-  expect(messages.length).toBe(3); // 'tel:...', the e-mail JSX text, `mailto:` template
+  expect(messages.map((m: any) => m.line)).toEqual([3, 3, 4]); // 'tel:<number>', the e-mail JSX text, `mailto:<address>`; line 5 (`tel:${phone}`) is allowed
 });

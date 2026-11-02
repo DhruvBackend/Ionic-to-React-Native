@@ -5,6 +5,8 @@ const BRAND = '/(Topsan|Topbath|Agmeco|Gravity)/';
 const URL = '/^https?:\\/\\//';
 // contact details: tel:/mailto: links, e-mail addresses, Indian 10-digit mobile numbers (with or without +91)
 const CONTACT = '/(^(tel|mailto):|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}|[6-9][0-9]{9})/';
+// in template strings a bare `tel:` / `mailto:` prefix before ${client.contact...} is fine; typed-in values are not
+const CONTACT_VALUE = '/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}|[6-9][0-9]{9})/';
 const msg = what => `${what} belongs in clients/<id>/client.json (use client or theme), not in screens/components.`;
 
 const noClientStrings = [
@@ -30,7 +32,7 @@ const noNativeStandIns = [
 // Contact details are client data too, but tests legitimately use fake numbers, so this list skips *.test.* files.
 const noContact = [
   { selector: `Literal[value=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
-  { selector: `TemplateElement[value.raw=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
+  { selector: `TemplateElement[value.raw=${CONTACT_VALUE}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
   { selector: `JSXText[value=${CONTACT}]`, message: msg('Contact detail (phone/e-mail/tel:/mailto:)') },
 ];
 const TESTS = ['**/*.test.ts', '**/*.test.tsx'];
