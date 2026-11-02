@@ -450,3 +450,17 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **"Which screen is showing?" depends on where you ask.** Inside tabs, the navigator reports the tab's inner page (Home), so the test reads the *root* state to know it is on Tabs.
 
 **Interview angle:** "How do you test navigation end to end without a device?" → drive the real navigator in Jest with mocked HTTP, press real controls, and assert on route state and saved session rather than on mocked `navigate` calls.
+
+## 2026-11-03 — Phase 1 on the phone: what screenshots and Jest both missed
+
+**What:** Captured all 30 Phase 1 states on Dhruv's phone, compared every pair with Ionic, fixed what differed, then tap-tested every control.
+
+**Learned:**
+- **Measure the original instead of modelling it.** The "no green underline on pre-filled fields" rule was first guessed as "required fields only". Printing the real Angular classes from the Ionic DOM showed *every* pre-filled input is `ng-invalid`. One probe beat two rounds of guessing.
+- **A 2-pixel rounding difference can break scrolling.** Android lays text out in device pixels and rounds the font's ascent and descent up, so a 13dp line is 47px where we reserved 45px. That made each text box "scrollable", and React Native's `ReactEditText` then keeps every swipe that starts on it, so the page wouldn't scroll from any text box.
+- **Test-harness state leaks.** Debug links set only the fixture variants they name, so a "suspended" variant from one capture turned a later plain login into "account suspended". Each test session now starts from a clean backend.
+- **Don't trust the UI dump during overlays.** Android's `uiautomator dump` went stale while an RN alert was open, and it can't see views outside their parent's bounds (the GO pill). Screenshots and position taps were the truth.
+- **Rule out the device first.** A 30-second screen timeout locked the phone mid-test and made results look random. Fix the environment before diagnosing the app.
+- **Browsers and Android wrap text differently.** Android balances paragraphs; browsers fill each line greedily. `textBreakStrategy="simple"` gives the browser behaviour.
+
+**Interview angle:** "How do you verify a UI migration is really identical?" → side-by-side screenshots on a real device; read the original's computed DOM state instead of guessing; tap-test every control; and make the harness deterministic (clean state per test, offline data).
