@@ -4,11 +4,14 @@ import r0 from '../screens/Language/route';
 import C0 from '../screens/Language';
 import r1 from '../screens/MobileLogin/route';
 import C1 from '../screens/MobileLogin';
-import r2 from '../screens/SelectRegistrationType/route';
-import C2 from '../screens/SelectRegistrationType';
+import r2 from '../screens/Otp/route';
+import C2 from '../screens/Otp';
+import r3 from '../screens/SelectRegistrationType/route';
+import C3 from '../screens/SelectRegistrationType';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
   { ...r1, component: C1 },
   { ...r2, component: C2 },
+  { ...r3, component: C3 },
 ];

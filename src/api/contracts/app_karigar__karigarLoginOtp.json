@@ -5,6 +5,6 @@
   "method": "POST",
   "headers": "user",
   "body": { "login_data": { "mobile_no": "9000000011", "otp": 123456 } },
-  "note": "otp is a NUMBER for ordinary numbers and the STRING '123456' for the five bypass numbers (mobile-login.ts:104-110); country is undefined and dropped (:113). Same endpoint as otp.ts:139 (Otp resend), which may send other keys.",
-  "ionicSource": "src/pages/login-section/mobile-login/mobile-login.ts:114"
+  "note": "Two call sites, same key tree {login_data:{mobile_no, otp}}. MobileLogin (mobile-login.ts:114): otp is a NUMBER for ordinary numbers and the STRING '123456' for the five bypass numbers (:104-110); country is undefined and dropped (:113). Otp resend (otp.ts:139): login_data is the page data object, otp = what the user typed (key absent when nothing was typed).",
+  "ionicSource": "src/pages/login-section/mobile-login/mobile-login.ts:114; src/pages/login-section/otp/otp.ts:139"
 }

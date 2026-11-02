@@ -7,5 +7,6 @@ import f3 from './fixtures/app_karigar__get_user_lang.json';
 import f4 from './fixtures/app_karigar__karigarLoginOtp.json';
 import f5 from './fixtures/app_karigar__profile.json';
 import f6 from './fixtures/app_karigar__update_language.json';
+import f7 from './fixtures/auth__login.json';
 
-export const fixtureFiles = [f0, f1, f2, f3, f4, f5, f6] as FixtureFile[];
+export const fixtureFiles = [f0, f1, f2, f3, f4, f5, f6, f7] as FixtureFile[];

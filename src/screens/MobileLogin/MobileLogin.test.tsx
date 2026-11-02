@@ -174,8 +174,8 @@ describe('states (card States)', () => {
     expect(navigation.push).toHaveBeenCalledWith('Language');
   });
 
-  test('unknown status, empty and malformed answers: loader closes, nothing else happens', async () => {
-    for (const v of ['unknown', 'empty', 'malformed']) {
+  test('unknown status and empty answers: loader closes, nothing else happens', async () => {
+    for (const v of ['unknown', 'empty']) {
       setFixtureVariant('app_karigar/karigarLoginOtp', v);
       await mount();
       await expect(submit()).resolves.toBeUndefined();
@@ -184,6 +184,13 @@ describe('states (card States)', () => {
       act(() => tree.unmount());
       _resetOverlaysForTests();
     }
+  });
+
+  test('malformed karigarLoginOtp (SUCCESS without otp): still pushes Otp, with otp undefined (mobile-login.ts:180)', async () => {
+    setFixtureVariant('app_karigar/karigarLoginOtp', 'malformed');
+    await mount();
+    await submit();
+    expect(navigation.push).toHaveBeenCalledWith('Otp', expect.objectContaining({ otp: undefined }));
   });
 
   test('malformed checkType answer carries on to karigarLoginOtp', async () => {
@@ -198,7 +205,7 @@ describe('navigation', () => {
   test('SUCCESS pushes Otp with {lang, otp (the SERVER one), mobile_no, loginType}', async () => {
     await mount({ registerType: 'Dealer', lang: 'hin' });
     await submit('9000000011');
-    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: 123456, mobile_no: '9000000011', loginType: 'Dealer' });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: '123456', mobile_no: '9000000011', loginType: 'Dealer' });
   });
 });
 
@@ -211,7 +218,7 @@ describe('quirks', () => {
     expect(i18n.language).toBe('hin');
     await submit();
     expect(body('app_karigar/checkType')).toEqual({ mobile_no: '9000000011' });
-    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: undefined, otp: 123456, mobile_no: '9000000011', loginType: undefined });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: undefined, otp: '123456', mobile_no: '9000000011', loginType: undefined });
   });
 
   test('3: typed non-digits are rejected, a pasted run is not filtered, Continue needs exactly 10', async () => {
