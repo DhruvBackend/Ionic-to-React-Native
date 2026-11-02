@@ -7,7 +7,7 @@ import Screen from './index';
 
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
-const navigation = { navigate: jest.fn() };
+const navigation = { push: jest.fn() };
 
 async function mount(params: object = { lang: 'en' }) {
   await act(async () => {
@@ -29,7 +29,7 @@ async function press(id: string) {
 const goDisabled = () => !!host('reg-go').props.accessibilityState?.disabled;
 
 beforeEach(async () => {
-  navigation.navigate.mockClear();
+  navigation.push.mockClear();
   await act(async () => {
     await i18n.changeLanguage('en');
   });
@@ -74,7 +74,7 @@ describe('navigation', () => {
     await mount({ lang: 'hin' });
     await press(cover);
     await press('reg-go');
-    expect(navigation.navigate).toHaveBeenCalledWith('MobileLogin', { registerType: value, lang: 'hin' });
+    expect(navigation.push).toHaveBeenCalledWith('MobileLogin', { registerType: value, lang: 'hin' });
   });
 });
 

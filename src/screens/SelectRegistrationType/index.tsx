@@ -18,7 +18,7 @@ const logoSize = Image.resolveAssetSource?.(logo);
 const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSize.height : 1;
 
 interface Props {
-  navigation: { navigate: (name: string, params?: object) => void };
+  navigation: { push: (name: string, params?: object) => void };
   route?: { params?: { lang?: unknown } };
 }
 
@@ -43,9 +43,9 @@ export default function SelectRegistrationTypeScreen({ navigation, route }: Prop
     // NOTE (parity): loose `==`; 'Employee'/'DrLogin' are offered by no radio, so the Login branch is dead (card quirk 2).
     // eslint-disable-next-line eqeqeq
     if (registerType == 'Employee' || registerType == 'DrLogin') {
-      navigation.navigate('Login', { registerType, lang });
+      navigation.push('Login', { registerType, lang });
     } else {
-      navigation.navigate('MobileLogin', { registerType, lang });
+      navigation.push('MobileLogin', { registerType, lang });
     }
   }
 
