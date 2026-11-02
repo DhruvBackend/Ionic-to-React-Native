@@ -172,6 +172,10 @@ export function getTransport(): Transport {
 export function setTransport(t: Transport): void {
   transport = t;
 }
+// Debug deep links with mock=1 (parity captures): answer every request from src/api/mock, whatever MODE is.
+export function switchToMockTransport(): void {
+  transport = mockTransport;
+}
 
 function send(method: 'GET' | 'POST', serverURL: string, fn: string, headers: Headers, data?: any): Promise<any> {
   return transport({

@@ -7,7 +7,7 @@ import { generateLoginOtp } from '../../auth/otp';
 import { IonContent } from '../../components/ionic/IonContent';
 import { IonHeader, IonNavbar } from '../../components/ionic/IonNavbar';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
-import { textStyle } from '../../components/ionic/text';
+import { clipSafeLineBox, textStyle } from '../../components/ionic/text';
 import i18n from '../../i18n';
 import { colors } from '../../theme';
 import { loginMd } from '../../theme/ionicMdLogin';
@@ -199,7 +199,9 @@ export default function MobileLoginScreen({ navigation, route }: Props) {
                 onPress={onContinuePress}
                 style={[styles.loginBtnPress, disabled && styles.disabled]}
               >
-                <Text style={[textStyle(14, 100, colors.white, 14), styles.loginBtnText]}>{collapse(t('Continue'))}</Text>
+                {/* NOTE (parity): a 14px line box clips the Devanagari matras above the ascent on Android ("आगे बढ़ें" lost े and ं);
+                    clipSafeLineBox grows the Text box and gives the layout height back with a negative margin (see IonButton). */}
+                <Text style={[textStyle(14, 100, colors.white, 14), clipSafeLineBox(14, 14), styles.loginBtnText]}>{collapse(t('Continue'))}</Text>
               </Pressable>
             </View>
           </View>

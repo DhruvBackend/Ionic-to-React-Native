@@ -71,6 +71,7 @@ export interface IonicSelectableProps<T = any> {
   error?: boolean;
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
+  isLast?: boolean; // the item is the last child of its list (md :last-child underline rules)
   prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
   // internal: which package's CSS class names / template this is (identical visuals)
   library?: 'ionic-selectable' | 'select-searchable';
@@ -105,6 +106,7 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
     testID = 'ionic-selectable',
     itemStyle,
     prevMarginBottom,
+    isLast,
   } = props;
   const enabled = isEnabled && !disabled;
   const cfg: SelectableConfig = useMemo(
@@ -337,7 +339,9 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
   const hasPlaceholder = !(has || isNullOrWhiteSpace(placeholder));
   const invalid = !!required && !has;
   let underline: { color: string; inset: boolean } | null = null;
-  if (variant === 'plain') {
+  // NOTE (parity): the md ng-valid / has-value / focus rules target every `.item-input` item, the Topbath cs-select items included
+  // (Registration edit shows the green line under the sales executive select), as IonInput does for csInput.
+  if (variant === 'plain' || variant === 'csSelect') {
     if (st.focused) {
       underline = { color: selectableMd.underline.focus, inset: true };
     } else if (!invalid && has) {
@@ -362,6 +366,7 @@ function IonicSelectableInner<T = any>(props: IonicSelectableProps<T>, ref: Reac
       testID={testID}
       itemStyle={itemStyle}
       prevMarginBottom={prevMarginBottom}
+      isLast={isLast}
       cover={{ onPress: open, disabled: !enabled }}
     >
       <SelectableBox

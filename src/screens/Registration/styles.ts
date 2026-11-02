@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: R.h3.lineBottom,
     left: 0,
-    width: `${R.h3.lineWidthPct}%`,
     height: R.h3.lineHeight3,
     borderRadius: R.h3.lineRadius,
     backgroundColor: colors.primary,

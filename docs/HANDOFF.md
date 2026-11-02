@@ -14,7 +14,7 @@
 
 ## Hard rules (Dhruv's)
 
-1. **Never push, never add a git remote.** Commit and merge locally only. Dhruv will say where to push later.
+1. **Push only to `origin` = github.com/DhruvBackend/Ionic-to-React-Native** (private, named by Dhruv 2026-11-02, gh account `DhruvBackend`). No other remote.
 2. **Exact 1:1 copy.** Copy Ionic's loose `==`/`!=`, loaders that stay stuck on errors, typos and dead buttons. Mark each with `// NOTE (parity)`. Copy security weaknesses unchanged with `// NOTE (security, not changed)`: client-side OTP, 5 bypass numbers, "Bearer undefined".
 3. **The app talks to the DEV server** (`devcrm.abacusdesk.com`). Jest is forced to MOCK. **Never send anything to production** (`apps.abacusdesk.com`) without explicit approval.
 4. **Use Dhruv's phone, not the emulator.** He said the emulator is too heavy and laggy.

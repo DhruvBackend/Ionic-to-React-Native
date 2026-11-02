@@ -1,6 +1,8 @@
 // Debug-only deep links, used by Maestro flows and the parity screenshots to open any screen in any
 // state: topbathrn://open?screen=<Name>&role=<Role>&lang=<code>
-//                         &variant=<endpoint:variant,...>&params=<url-encoded JSON>
+//                         &variant=<endpoint:variant,...>&params=<url-encoded JSON>&mock=1
+// mock=1 switches the session to the MOCK transport, so `variant` fixtures answer every request and nothing reaches a
+// server (app builds default to DEV; the parity harness always sends it).
 // Only debug builds act on them (src/config/buildInfo.ts) (and the scheme is only registered in the debug manifest).
 export interface DebugLink {
   screen: string;
@@ -8,6 +10,7 @@ export interface DebugLink {
   lang?: string;
   variants: Record<string, string>;
   params: Record<string, unknown>;
+  mock?: boolean;
 }
 
 const PREFIX = 'topbathrn://open';
@@ -51,6 +54,9 @@ export function parseDebugLink(url: string, opts: { dev: boolean }): DebugLink |
   }
   if (query.lang) {
     link.lang = query.lang;
+  }
+  if (query.mock === '1') {
+    link.mock = true;
   }
   return link;
 }

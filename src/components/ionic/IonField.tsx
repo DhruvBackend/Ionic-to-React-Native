@@ -305,6 +305,11 @@ export function IonField({
   if (underline && !mainCs && !edit && !csInput && !lineless) {
     inner.borderBottomColor = underline.color;
   }
+  // NOTE (parity): measured on Registration edit (computed style): the last cs-select item with ng-valid + item-input-has-value
+  // gets `border-bottom: 1px solid #32db64` on the item itself (its own box border, no inner shadow).
+  if (isSelect && isLast && underline) {
+    item.borderBottomColor = underline.color;
+  }
   if (lastInput) {
     item.borderBottomWidth = listMd.borderWidth;
     // cs-input too: `.main-field ... ion-item.cs-input` sets no border, so `.list-md .item-input.ng-valid.input-has-value:last-child
