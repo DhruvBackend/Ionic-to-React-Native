@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/checkType",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "mobile_no": "9000000011", "type": "Plumber" },
+  "note": "Opened without params (from Otp) the `type` key is absent: JSON.stringify drops undefined (mobile-login.ts:32, :96).",
+  "ionicSource": "src/pages/login-section/mobile-login/mobile-login.ts:96"
+}

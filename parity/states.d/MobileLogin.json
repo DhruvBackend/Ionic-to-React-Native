@@ -1,0 +1,24 @@
+[
+  {
+    "id": "MobileLogin.default",
+    "screen": "MobileLogin",
+    "role": null,
+    "lang": "en",
+    "variants": {},
+    "params": { "registerType": "Plumber", "lang": "en" },
+    "ionicNav": "nav.setRoot(Page('MobileLogin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "MobileLogin.hin",
+    "screen": "MobileLogin",
+    "role": null,
+    "lang": "hin",
+    "variants": {},
+    "params": { "registerType": "Plumber", "lang": "hin" },
+    "ionicNav": "nav.setRoot(Page('MobileLogin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

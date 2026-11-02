@@ -1,0 +1,13 @@
+{
+  "endpoint": "app_karigar/karigarLoginOtp",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "otp": 123456 },
+    "REQUIRED MOBILE NO": { "status": "REQUIRED MOBILE NO" },
+    "WRONG COUNTRY": { "status": "WRONG COUNTRY" },
+    "unknown": { "status": "FAILED" },
+    "empty": {},
+    "malformed": {},
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

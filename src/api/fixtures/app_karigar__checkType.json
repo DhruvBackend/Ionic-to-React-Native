@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/checkType",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "TYPE_NOT_FOUND": { "status": "TYPE_NOT_FOUND" },
+    "empty": {},
+    "malformed": {},
+    "error": { "$httpError": 500, "body": {} }
+  }
+}
