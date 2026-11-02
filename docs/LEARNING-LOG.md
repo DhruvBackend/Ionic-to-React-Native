@@ -464,3 +464,15 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Browsers and Android wrap text differently.** Android balances paragraphs; browsers fill each line greedily. `textBreakStrategy="simple"` gives the browser behaviour.
 
 **Interview angle:** "How do you verify a UI migration is really identical?" → side-by-side screenshots on a real device; read the original's computed DOM state instead of guessing; tap-test every control; and make the harness deterministic (clean state per test, offline data).
+
+## 2026-11-03 — "It feels slower": measure a release build first
+
+**What:** Dhruv felt the RN app was slower than the Play Store app. Added a `releaseRn` build type (release settings, installed as `com.topsan.app.rn`) and timed cold starts on his phone.
+
+**Learned:**
+- **Never judge speed on a debug build.** Debug RN runs React dev mode, unminified JS and extra checks. Compare release against release.
+- **A release build can collide with the real app.** Release kept the plain `com.topsan.app` id, the same as the production app on the phone. A separate build type with `applicationIdSuffix ".rn"` gives release speed safely; check the id with `aapt dump badging` before installing.
+- **Custom build types miss plugin defaults.** The RN Gradle plugin fills `usesCleartextTraffic` only for debug/release, so `releaseRn` needs `manifestPlaceholders` set by hand.
+- **Read the number before optimising it.** Cold start measured ~3.3 s, but 3 s of that is the splash delay copied 1:1 from Ionic's `config.xml`. Real start-up work is ~0.3 s.
+
+**Interview angle:** "The new app feels slow, what do you do?" → reproduce on a release build on a real device, measure (`am start -W`), and split the number into deliberate (splash timers, animations) and real work before changing code.
