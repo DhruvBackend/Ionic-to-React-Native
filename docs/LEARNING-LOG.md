@@ -423,3 +423,16 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Look at every pair.** I reviewed all 51 as contact sheets; two problems hid behind modest diff numbers.
 
 **Interview angle:** "How do you keep a UI kit faithful?" → compare each component in isolation against the original before any screen uses it, on real devices, under a controlled environment, with a human looking at every pair.
+
+## 2026-11-02 — Phase 1 day: login screens, dev-server check, two real-device bugs
+
+**What:** Built and reviewed SelectRegistrationType, MobileLogin, Otp, Registration, AboutusModal and Tabs, mostly in parallel git worktrees. Then logged in with a real test account against the dev server.
+
+**Learned:**
+- **The real server finds what mocks can't.** The dev server sends ids, flags and OTPs as **numbers**, while our test data used strings. RN's strict `del === '1'` would never have blocked a suspended account; Ionic's loose `==` does. Rule: copy Ionic's loose comparisons, and make fixtures match real types.
+- **Logging structure, not values.** A debug-only log of each reply's *shape* (keys and types) let us compare real responses to fixtures without ever seeing the user's number, OTP or token.
+- **Screenshots don't test touch.** The tab bar matched Ionic pixel for pixel, yet every tap went to the last tab: an invisible, 1000dp-wide measuring `Text` overflowed the tab, and on Android a `Text` ignores `pointerEvents="none"`. A short trace (`tab onPress` logs) proved it in one run. New rule: tap-test every interactive element on the phone.
+- **Library defaults can target the wrong navigator.** React Navigation's container `reset()` goes to the *focused* (innermost) navigator, so a "reset to Language" only reset the current tab. Ionic's `setRoot` replaces everything, so we use `resetRoot`.
+- **Tools can bite:** `git worktree remove --force` followed Windows junctions and emptied the main repo's `node_modules`. Generated folders were rebuilt in minutes; the safe order (remove junctions first) is in the playbook.
+
+**Interview angle:** "What did testing on a real device teach you?" → real servers return different types than your mocks; screenshots prove looks but not behaviour; and you diagnose with a small, targeted trace instead of guessing.

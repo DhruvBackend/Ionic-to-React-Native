@@ -880,6 +880,7 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - Add a NOTE for every quirk.
 - [ ] **S6 – Gates** (pilot lessons: the lead runs RN captures on the single emulator at 360dp after merging kit fixes; **look at every ref/RN pair and confirm both show the same state** — the diff % alone is not proof).
   Original gate text: Run `npm test`, `npx tsc --noEmit` and `npx eslint src/screens/<Name>`. Expected: all green. Then run `node parity/capture-rn.mjs --only <Name>.` and `node parity/reference/capture.mjs --only <Name>.`. Expected: a PNG for every state.
+- **Interaction check on the phone** (added 2026-11-02 after the tab-bar bug): screenshots only prove looks. Before sign-off, the lead taps every interactive element of the screen on Dhruv's phone with `adb shell input tap` and confirms the right handler ran (pixel check or a debug log). The tab bar passed every screenshot test while every tap went to the last tab.
 - [ ] **S7 – Commit on the branch.** Run `git commit -m "feat(screen): port <Name>"`.
 - [ ] **S8 – Independent review.** The orchestrator dispatches a fresh Sonnet **reviewer** with the Ionic `.html`/`.ts`/`.scss`, the RN diff, `card.md` and both PNG sets. It answers PASS or a numbered list of concrete misses, each with Ionic file:line and RN file:line. Checklist:
   - every element and text
