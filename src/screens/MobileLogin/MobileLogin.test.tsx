@@ -115,6 +115,14 @@ describe('states (card States)', () => {
     expect(input().props.placeholder).toBe('मोबाइल नंबर');
   });
 
+  test('Continue label has a clip-safe line box (Devanagari marks are not clipped on Android)', async () => {
+    await mount({ registerType: 'Plumber', lang: 'hin' });
+    const label = tree.root.findAll(n => typeof n.type === 'string' && n.props.children === 'आगे बढ़ें')[0];
+    const st = Object.assign({}, ...[label.props.style].flat(5).filter(Boolean));
+    expect(st.lineHeight).toBe(21); // 1.5 x 14
+    expect(st.marginVertical).toBe(-3.5); // gives the CSS 14px layout height back
+  });
+
   test('partial number keeps Continue disabled, 10 digits enables it, max 10 chars', async () => {
     await mount();
     await typeDigits('900000001');
