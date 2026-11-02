@@ -12,7 +12,7 @@ import MobileLoginScreen from './index';
 
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
-const navigation = { navigate: jest.fn() };
+const navigation = { push: jest.fn() };
 let calls: ApiRequest[] = [];
 let restoreTransport: () => void = () => {};
 
@@ -72,7 +72,7 @@ beforeEach(async () => {
   await AsyncStorage.clear();
   resetMock();
   _resetOverlaysForTests();
-  navigation.navigate.mockClear();
+  navigation.push.mockClear();
   calls = [];
   await act(async () => {
     await i18n.changeLanguage('en');
@@ -158,7 +158,7 @@ describe('states (card States)', () => {
     await submit();
     const a = overlays().find(o => o.kind === 'alert')!;
     expect(a.options).toMatchObject({ title: 'Message!', cssClass: 'action-close', subTitle: 'Please enter Mobile No to continue.', buttons: ['OK'] });
-    expect(navigation.navigate).not.toHaveBeenCalled();
+    expect(navigation.push).not.toHaveBeenCalled();
   });
 
   test('WRONG COUNTRY: garbled title, empty message, OK pushes Language without params', async () => {
@@ -171,7 +171,7 @@ describe('states (card States)', () => {
     expect(a.options.buttons).toHaveLength(1);
     expect(a.options.buttons[0].text).toBe('Ok');
     a.options.buttons[0].handler();
-    expect(navigation.navigate).toHaveBeenCalledWith('Language');
+    expect(navigation.push).toHaveBeenCalledWith('Language');
   });
 
   test('unknown status, empty and malformed answers: loader closes, nothing else happens', async () => {
@@ -179,7 +179,7 @@ describe('states (card States)', () => {
       setFixtureVariant('app_karigar/karigarLoginOtp', v);
       await mount();
       await expect(submit()).resolves.toBeUndefined();
-      expect(navigation.navigate).not.toHaveBeenCalled();
+      expect(navigation.push).not.toHaveBeenCalled();
       expect(overlays().filter(o => o.kind !== 'loading' || !o.leaving)).toHaveLength(0);
       act(() => tree.unmount());
       _resetOverlaysForTests();
@@ -190,7 +190,7 @@ describe('states (card States)', () => {
     setFixtureVariant('app_karigar/checkType', 'malformed');
     await mount();
     await submit();
-    expect(navigation.navigate).toHaveBeenCalledWith('Otp', expect.anything());
+    expect(navigation.push).toHaveBeenCalledWith('Otp', expect.anything());
   });
 });
 
@@ -198,7 +198,7 @@ describe('navigation', () => {
   test('SUCCESS pushes Otp with {lang, otp (the SERVER one), mobile_no, loginType}', async () => {
     await mount({ registerType: 'Dealer', lang: 'hin' });
     await submit('9000000011');
-    expect(navigation.navigate).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: 123456, mobile_no: '9000000011', loginType: 'Dealer' });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: 123456, mobile_no: '9000000011', loginType: 'Dealer' });
   });
 });
 
@@ -211,7 +211,7 @@ describe('quirks', () => {
     expect(i18n.language).toBe('hin');
     await submit();
     expect(body('app_karigar/checkType')).toEqual({ mobile_no: '9000000011' });
-    expect(navigation.navigate).toHaveBeenCalledWith('Otp', { lang: undefined, otp: 123456, mobile_no: '9000000011', loginType: undefined });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: undefined, otp: 123456, mobile_no: '9000000011', loginType: undefined });
   });
 
   test('3: typed non-digits are rejected, a pasted run is not filtered, Continue needs exactly 10', async () => {
@@ -262,20 +262,20 @@ describe('quirks', () => {
     await mount();
     await submit();
     expect(overlays()).toHaveLength(0);
-    expect(navigation.navigate).not.toHaveBeenCalled();
+    expect(navigation.push).not.toHaveBeenCalled();
     expect(calls.some(c => c.fn === 'app_karigar/karigarLoginOtp')).toBe(false);
   });
 
-  test('11b: karigarLoginOtp HTTP error closes the loader (Ionic never did) and does not navigate', async () => {
+  test('11b: karigarLoginOtp HTTP error leaves the loader up (Ionic has no error callback) and does not push', async () => {
     setFixtureVariant('app_karigar/karigarLoginOtp', 'error');
     await mount();
     await submit();
-    expect(overlays().filter(o => o.kind === 'loading' && !o.leaving)).toHaveLength(0);
-    expect(navigation.navigate).not.toHaveBeenCalled();
+    expect(overlays().filter(o => o.kind === 'loading' && !o.leaving)).toHaveLength(1);
+    expect(navigation.push).not.toHaveBeenCalled();
   });
 
-  test('12: dead onBackButtonClickHanlder is not wired: nothing navigates to SelectRegistrationType', async () => {
+  test('12: dead onBackButtonClickHanlder is not wired: nothing pushs to SelectRegistrationType', async () => {
     await mount();
-    expect(navigation.navigate).not.toHaveBeenCalledWith('SelectRegistrationType');
+    expect(navigation.push).not.toHaveBeenCalledWith('SelectRegistrationType');
   });
 });

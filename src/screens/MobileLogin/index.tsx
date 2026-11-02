@@ -25,7 +25,7 @@ const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSiz
 const collapse = (s: string) => s.replace(/\s+/g, ' ');
 
 interface Props {
-  navigation: { navigate: (name: string, params?: object) => void };
+  navigation: { push: (name: string, params?: object) => void };
   route?: { params?: { registerType?: any; lang?: any } };
 }
 
@@ -76,7 +76,7 @@ export default function MobileLoginScreen({ navigation, route }: Props) {
         {
           text: t('Ok'),
           handler: () => {
-            navigation.navigate('Language'); // :79 navCtrl.push(LanguagePage), no params
+            navigation.push('Language'); // :79 navCtrl.push(LanguagePage), no params
           },
         },
       ],
@@ -113,7 +113,7 @@ export default function MobileLoginScreen({ navigation, route }: Props) {
               showCountryAlert();
             } else if (r2?.status == 'SUCCESS') { // eslint-disable-line eqeqeq
               // NOTE (parity): the OTP handed to the Otp page is the server's `r['otp']`, not the generated one (quirk 8).
-              navigation.navigate('Otp', {
+              navigation.push('Otp', {
                 lang: lang.current,
                 otp: r2.otp,
                 mobile_no: data.current.mobile_no,
@@ -122,8 +122,9 @@ export default function MobileLoginScreen({ navigation, route }: Props) {
             }
             // any other status: nothing (quirk 9)
           })
-          // NOTE (parity, plan Review Focus 4): Ionic has no error callback here, so its loader never closes (quirk 11). RN closes it.
-          .catch(() => loader.hide());
+          // NOTE (parity): Ionic has no error callback here, so after an HTTP error its 'Please wait...' loader stays up for good and blocks
+          // the app (quirk 11). Copied: the loader is only hidden in the success callback (or when the page is left, dismissOnPageChange).
+          .catch(() => {});
       })
       .catch(() => {});
   }
