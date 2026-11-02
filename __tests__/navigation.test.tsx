@@ -74,6 +74,15 @@ describe('debug deep links', () => {
     expect(parseDebugLink('topbathrn://open?screen=Otp&params=%7Bbroken', { dev: true })).toBeNull();
   });
 
+  test('mock=1 asks for the MOCK transport (parity captures: fixtures, no network)', () => {
+    expect(parseDebugLink('topbathrn://open?screen=Language&mock=1', { dev: true })).toEqual({
+      screen: 'Language',
+      variants: {},
+      params: {},
+      mock: true,
+    });
+  });
+
   test('optional parts may be left out', () => {
     expect(parseDebugLink('topbathrn://open?screen=Language', { dev: true })).toEqual({
       screen: 'Language',

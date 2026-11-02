@@ -19,7 +19,8 @@ export const ANDROID_15_API = 35; // src/app/frame.ts
 
 /** topbathrn://open?screen=&role=&lang=&variant=<endpoint:variant,...>&params=<json> (src/navigation/debugLinks.ts) */
 export function buildLink(state) {
-  const q = [`screen=${encodeURIComponent(state.screen)}`];
+  // mock=1: the RN debug session answers every request from the same fixtures the Ionic reference uses (no network).
+  const q = [`screen=${encodeURIComponent(state.screen)}`, 'mock=1'];
   if (state.role) {
     q.push(`role=${encodeURIComponent(state.role)}`);
   }

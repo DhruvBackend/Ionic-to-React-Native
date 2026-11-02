@@ -52,7 +52,7 @@ test('signoff.mjs writes sorted json', () => {
 
 test('capture-rn builds the debug deep link and crop', () => {
   const link = buildLink({ screen: 'Otp', role: 'Karigar', lang: 'hin', variants: { 'a/b': 'empty' }, params: { m: '9' } });
-  assert.equal(link, 'topbathrn://open?screen=Otp&role=Karigar&lang=hin&variant=a%2Fb%3Aempty&params=%7B%22m%22%3A%229%22%7D');
+  assert.equal(link, 'topbathrn://open?screen=Otp&mock=1&role=Karigar&lang=hin&variant=a%2Fb%3Aempty&params=%7B%22m%22%3A%229%22%7D');
   assert.deepEqual(cropFor({ api: 36, density: 420, insets: { top: 63 } }), { top: 0, bottom: 0 });
   assert.deepEqual(cropFor({ api: 33, density: 420, insets: { top: 63, bottom: 0 } }), { top: 63, bottom: 0 });
 });

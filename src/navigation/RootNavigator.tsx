@@ -5,7 +5,7 @@
 import React, { useEffect } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { db } from '../api/client';
+import { db, switchToMockTransport } from '../api/client';
 import { debugToolsEnabled } from '../config/buildInfo';
 import { ComponentGallery } from '../dev/ComponentGallery';
 import { ComponentState } from '../dev/ComponentState';
@@ -51,6 +51,9 @@ const REQUIRED_ROOT_ROUTES = ['Language'];
 
 // Debug deep link: put the app in the requested state, then open the screen.
 export function applyDebugLink(link: DebugLink, sessions: Record<string, unknown> = {}) {
+  if (link.mock) {
+    switchToMockTransport();
+  }
   for (const [endpoint, variant] of Object.entries(link.variants)) {
     try {
       setFixtureVariant(endpoint, variant);
