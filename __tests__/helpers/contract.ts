@@ -81,6 +81,8 @@ export async function expectContract(
     db.userStorageData = { ...(db.userStorageData ?? {}), token: 'contract-test-token' };
   }
 
+  // The headers depend on the token present WHEN the request is built; a login call stores a token afterwards.
+  const tokenAtCall = (db.userStorageData as any)?.token;
   const calls: ApiRequest[] = [];
   const previous = getTransport();
   setTransport(req => {
@@ -106,7 +108,7 @@ export async function expectContract(
     method: c.method,
   });
 
-  const token = (db.userStorageData as any)?.token;
+  const token = tokenAtCall;
   const expectedHeaders =
     c.headers === 'tokenOnly'
       ? ['Content-Type', 'Token']
