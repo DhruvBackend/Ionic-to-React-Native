@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/karigarLoginOtp",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "login_data": { "mobile_no": "9000000011", "otp": 123456 } },
+  "note": "otp is a NUMBER for ordinary numbers and the STRING '123456' for the five bypass numbers (mobile-login.ts:104-110); country is undefined and dropped (:113). Same endpoint as otp.ts:139 (Otp resend), which may send other keys.",
+  "ionicSource": "src/pages/login-section/mobile-login/mobile-login.ts:114"
+}
