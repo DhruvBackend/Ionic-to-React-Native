@@ -33,14 +33,16 @@ export async function decideStartRoute(): Promise<StartDecision> {
     return TABS;
   }
 
-  if (result?.status === 'SUCCESS') {
+  if (result?.status == 'SUCCESS') { // eslint-disable-line eqeqeq -- loose, as app.component.ts:407
     const karigar = result.karigar;
     if (!karigar || typeof karigar !== 'object') {
       // NOTE (parity): Ionic reads karigarData.del here and throws inside subscribe, so no root
       // page is ever set (blank screen). Copied without the crash.
       return { route: 'Blank' };
     }
-    if (karigar.del === '1') {
+    // NOTE (parity): loose == as in Ionic (app.component.ts:411). The dev server sends `del` as a NUMBER (seen
+    // 2026-11-02), so a strict === '1' would never block a suspended account.
+    if (karigar.del == '1') { // eslint-disable-line eqeqeq
       showAlert({ title: 'Message!', subTitle: 'Your Account has been suspended', buttons: ['OK'] });
       await session.clear();
       return { route: 'Language' };

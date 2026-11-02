@@ -5,14 +5,14 @@
     "default": {
       "status": "SUCCESS",
       "karigar": {
-        "id": "7",
+        "id": 7,
         "first_name": "Ramesh Kumar",
         "mobile_no": "9812345670",
         "type": "Plumber",
         "status": "Verified",
-        "del": "0",
+        "del": 0,
         "referral_code": "TB7RK",
-        "balance_point": "1250",
+        "balance_point": 1250,
         "state": "UTTAR PRADESH",
         "district": "GHAZIABAD",
         "city": "Sahibabad",
@@ -23,17 +23,36 @@
     },
     "unverified": {
       "status": "SUCCESS",
-      "karigar": { "id": "7", "first_name": "Ramesh Kumar", "mobile_no": "9812345670", "type": "Plumber", "status": "Pending", "del": "0" },
+      "karigar": {
+        "id": 7,
+        "first_name": "Ramesh Kumar",
+        "mobile_no": "9812345670",
+        "type": "Plumber",
+        "status": "Pending",
+        "del": 0
+      },
       "last_point": "0",
       "today_point": "0"
     },
     "suspended": {
       "status": "SUCCESS",
-      "karigar": { "id": "7", "first_name": "Ramesh Kumar", "mobile_no": "9812345670", "type": "Plumber", "status": "Verified", "del": "1" },
+      "karigar": {
+        "id": 7,
+        "first_name": "Ramesh Kumar",
+        "mobile_no": "9812345670",
+        "type": "Plumber",
+        "status": "Verified",
+        "del": 1
+      },
       "last_point": "0",
       "today_point": "0"
     },
-    "notSuccess": { "status": "NOT FOUND" },
-    "malformed": { "status": "SUCCESS", "karigar": null }
+    "notSuccess": {
+      "status": "NOT FOUND"
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "karigar": null
+    }
   }
 }

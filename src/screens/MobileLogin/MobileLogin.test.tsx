@@ -205,7 +205,7 @@ describe('navigation', () => {
   test('SUCCESS pushes Otp with {lang, otp (the SERVER one), mobile_no, loginType}', async () => {
     await mount({ registerType: 'Dealer', lang: 'hin' });
     await submit('9000000011');
-    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: '123456', mobile_no: '9000000011', loginType: 'Dealer' });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: 'hin', otp: 123456, mobile_no: '9000000011', loginType: 'Dealer' });
   });
 });
 
@@ -218,7 +218,7 @@ describe('quirks', () => {
     expect(i18n.language).toBe('hin');
     await submit();
     expect(body('app_karigar/checkType')).toEqual({ mobile_no: '9000000011' });
-    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: undefined, otp: '123456', mobile_no: '9000000011', loginType: undefined });
+    expect(navigation.push).toHaveBeenCalledWith('Otp', { lang: undefined, otp: 123456, mobile_no: '9000000011', loginType: undefined });
   });
 
   test('3: typed non-digits are rejected, a pasted run is not filtered, Continue needs exactly 10', async () => {
