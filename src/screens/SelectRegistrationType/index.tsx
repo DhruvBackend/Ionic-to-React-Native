@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { IonButton } from '../../components/ionic/IonButton';
 import { IonRadio, IonRadioGroup } from '../../components/ionic/IonChoice';
 import { IonContent } from '../../components/ionic/IonContent';
-import { IonItem, IonList, IonListHeader, IonParagraph } from '../../components/ionic/IonList';
+import { IonItem, IonList, IonListHeader } from '../../components/ionic/IonList';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { IonFooter, IonHeader, IonNavbar } from '../../components/ionic/IonNavbar';
 import i18n from '../../i18n';
@@ -77,7 +77,8 @@ export default function SelectRegistrationTypeScreen({ navigation, route }: Prop
         <IonList style={styles.list}>
           <IonRadioGroup value={registerType} onChange={setRegisterType}>
             <IonListHeader borderHeading>
-              <IonParagraph>{t('Select Registration Type')}</IonParagraph>
+              {/* bare text, no <p> (select-registration-type.html:15): the .border-heading label style applies (16px/600/#000) */}
+              {t('Select Registration Type')}
             </IonListHeader>
             {radio('plumber', 'Plumber', 'Plumber')}
             {radio('seller', 'Seller', 'Sales_Boy')}
