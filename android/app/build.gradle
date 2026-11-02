@@ -125,6 +125,17 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
+        // Speed test build: identical to release (no dev mode, Hermes bytecode, no debug tools)
+        // but installs as <applicationId>.rn, so it never touches the client's Play Store app.
+        // Build: cd android && ./gradlew assembleReleaseRn
+        releaseRn {
+            initWith release
+            matchingFallbacks = ["release"]
+            applicationIdSuffix ".rn"
+            resValue "string", "app_name", clientProps.getProperty("appName") + " RN"
+            // The RN plugin only fills this placeholder for debug/release; use release's value.
+            manifestPlaceholders = [usesCleartextTraffic: "false"]
+        }
     }
 }
 
