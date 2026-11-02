@@ -1,0 +1,29 @@
+{
+  "endpoint": "app_karigar/sales_exec/seller_dropdown",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "sellers": [
+        {
+          "id": "900002",
+          "first_name": "Test Seller",
+          "mobile_no": "9000000002"
+        },
+        {
+          "id": "900012",
+          "first_name": "Anil Sharma",
+          "mobile_no": "9810000012"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "sellers": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "sellers": null
+    }
+  }
+}

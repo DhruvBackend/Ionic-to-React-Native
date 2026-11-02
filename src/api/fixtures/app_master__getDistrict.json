@@ -1,0 +1,34 @@
+{
+  "endpoint": "app_master/getDistrict",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "districts": [
+        {
+          "district_name": "AGRA"
+        },
+        {
+          "district_name": "GHAZIABAD"
+        },
+        {
+          "district_name": "KANPUR NAGAR"
+        },
+        {
+          "district_name": "LUCKNOW"
+        },
+        {
+          "district_name": "MEERUT"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "districts": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "districts": null
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "endpoint": "app_karigar/seller_list",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "seller_list": [
+        {
+          "id": "900002",
+          "first_name": "Test Seller",
+          "mobile_no": "9000000002"
+        },
+        {
+          "id": "900012",
+          "first_name": "Anil Sharma",
+          "mobile_no": null
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "seller_list": []
+    },
+    "send_state": {
+      "status": "send_state",
+      "seller_list": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "seller_list": null
+    }
+  }
+}

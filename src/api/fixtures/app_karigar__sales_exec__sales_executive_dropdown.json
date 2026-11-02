@@ -1,0 +1,34 @@
+{
+  "endpoint": "app_karigar/sales_exec/sales_executive_dropdown",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "sales_executives": [
+        {
+          "id": "900004",
+          "first_name": "Test Executive",
+          "mobile_no": "9000000004"
+        },
+        {
+          "id": "900014",
+          "first_name": "Rakesh Verma",
+          "mobile_no": "9810000014"
+        },
+        {
+          "id": "900015",
+          "first_name": "Sunita Rao",
+          "mobile_no": "9810000015"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "sales_executives": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "sales_executives": null
+    }
+  }
+}

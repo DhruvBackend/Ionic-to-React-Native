@@ -1,0 +1,31 @@
+{
+  "endpoint": "app_karigar/sales_exec/dealer_dropdown",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "dealers": [
+        {
+          "id": "900003",
+          "first_name": "Test Dealer",
+          "mobile_no": "9000000003",
+          "company_name": "Test Traders"
+        },
+        {
+          "id": "900013",
+          "first_name": "Mohan Lal",
+          "mobile_no": "9810000013",
+          "company_name": "Lal Sanitary"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "dealers": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "dealers": null
+    }
+  }
+}

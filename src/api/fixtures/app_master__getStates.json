@@ -1,0 +1,34 @@
+{
+  "endpoint": "app_master/getStates",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "states": [
+        {
+          "state_name": "DELHI"
+        },
+        {
+          "state_name": "HARYANA"
+        },
+        {
+          "state_name": "MAHARASHTRA"
+        },
+        {
+          "state_name": "RAJASTHAN"
+        },
+        {
+          "state_name": "UTTAR PRADESH"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "states": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "states": null
+    }
+  }
+}

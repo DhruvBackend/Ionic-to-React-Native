@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/sales_exec/sales_executive_dropdown",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {},
+  "ionicSource": "src/pages/login-section/registration/registration.ts:142"
+}

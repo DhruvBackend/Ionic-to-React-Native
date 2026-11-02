@@ -1,0 +1,14 @@
+{
+  "endpoint": "app_karigar/seller_list",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "filter": {
+      "state": "",
+      "search": ""
+    }
+  },
+  "ionicSource": "src/pages/login-section/registration/registration.ts:217"
+}

@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_master/getDistrict",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "state_name": ""
+  },
+  "ionicSource": "src/pages/login-section/registration/registration.ts:177"
+}

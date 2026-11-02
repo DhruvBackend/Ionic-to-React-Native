@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/getStates",
+  "helper": "onGetRequestDataFromApi",
+  "server": "root",
+  "method": "GET",
+  "headers": "user",
+  "body": null,
+  "ionicSource": "src/pages/login-section/registration/registration.ts:165"
+}
