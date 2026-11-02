@@ -261,9 +261,9 @@ describe('quirks', () => {
     expect(openLoaders()).toHaveLength(0);
   });
 
-  test('HTTP error on auth/login: loader closes (Ionic left it open), nothing else happens', async () => {
+  test('HTTP error on auth/login: the loader stays up forever (no error callback in Ionic), nothing else happens', async () => {
     await submitWith('error');
-    expect(openLoaders()).toHaveLength(0);
+    expect(openLoaders()).toHaveLength(1);
     expect(navigation.push).not.toHaveBeenCalled();
     expect(alerts()).toHaveLength(0);
   });

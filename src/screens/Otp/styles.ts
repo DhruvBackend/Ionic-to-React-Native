@@ -3,14 +3,13 @@
 // Chrome 360x800).
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
+import { loginMd } from '../../theme/ionicMdLogin';
 import { fontFor } from '../../theme/typography';
+
+export const placeholderColor = loginMd.placeholder;
 
 export const logoHeight = 45; // [T] 1215 `.header-logo img { height: 45px }`
 
-// [T] 1245 `#D4D4D4`, written as rgb() because screens may not contain hex literals.
-export const lineColor = 'rgb(212, 212, 212)';
-// Chrome's default `::placeholder` colour (darkgray 54% black): rgba(117,117,117).
-export const placeholderColor = 'rgb(117, 117, 117)';
 
 // "line-height: normal" of Roboto (1.172 em) and of the Devanagari fallback face Chrome picked ([M] hin p 18.4 px at 14 px, resend 15.6 at 12 px).
 export const normalLine = (fontSize: number, text: string) => (/[ऀ-ॿ]/.test(text) ? fontSize * 1.32 : fontSize * 1.172);
@@ -50,9 +49,9 @@ export const styles = StyleSheet.create({
   },
 
   // [T] 562-575 `.text`: border-bottom 1px #D4D4D4, padding 16 ([M] block 76 px with the border)
-  text: { borderBottomWidth: 1, borderBottomColor: lineColor, padding: 16 },
+  text: { borderBottomWidth: 1, borderBottomColor: loginMd.border, padding: 16 },
   // `.text p`: 14px, #000, weight 500 (global `p { margin: 0 !important }`)
-  p: { includeFontPadding: false, fontSize: 14, color: 'black', ...fontFor(500) },
+  p: { includeFontPadding: false, fontSize: 14, color: loginMd.ink, ...fontFor(500) },
   // `.text span` (.blue-color): inline-block, padding-top 5, 14px, weight 600, colour #002d25 (= the client primary, [T] 415-417)
   // [M] the span row sits 11 px below the p line box (line-height of the inline-block row).
   spanRow: { marginTop: 11 },
@@ -64,13 +63,13 @@ export const styles = StyleSheet.create({
   input: {
     height: 45,
     borderWidth: 1,
-    borderColor: lineColor,
+    borderColor: loginMd.border,
     borderRadius: 0,
     paddingLeft: 16,
     paddingRight: 16,
     paddingVertical: 0,
     fontSize: 14,
-    color: 'black',
+    color: loginMd.ink,
     ...fontFor(400),
   },
   // [T] 4595 `.eror p`: 12px, danger, margin 7px 0, text-align right

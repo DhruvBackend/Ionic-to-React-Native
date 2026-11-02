@@ -88,9 +88,8 @@ export default function OtpScreen({ navigation, route }: Props) {
     try {
       result = await db.onPostRequestDataFromApi({ mobile_no: mobileNo, mode: 'App' }, 'auth/login', db.rootUrl);
     } catch {
-      // NOTE (parity): Ionic's subscribe has no error callback, so its loader stayed open forever (Review Focus 4); here it closes
-      // and nothing else happens.
-      loader.hide();
+      // NOTE (parity): Ionic's subscribe has no error callback (otp.ts:124), so after an HTTP error the "Please wait..." loader stays up
+      // forever and nothing else happens. Same here (only leaving the page closes it, dismissOnPageChange).
       return;
     }
     loader.hide(); // otp.ts:127
