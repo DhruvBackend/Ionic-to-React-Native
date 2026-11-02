@@ -14,6 +14,15 @@ export function normalLineHeight(fontSize: number): number {
   return Math.round((fontSize * 1900) / 2048) + Math.round((fontSize * 500) / 2048);
 }
 
+// The line box Android really lays out for a single-line EditText (includeFontPadding false): FontMetricsInt rounds
+// ascent and descent UP in device px, which can exceed the CSS estimate by 1-2px (13dp at 3x: 47px vs 45px). A text
+// area smaller than that makes the EditText scrollable, and ReactEditText.kt:316-337 then keeps every touch that starts
+// on it, so the page's ScrollView never scrolls from a text box (phone check 2026-11-02, Registration).
+export function androidLineHeight(fontSize: number, pixelRatio: number): number {
+  const px = Math.ceil((fontSize * pixelRatio * 1900) / 2048) + Math.ceil((fontSize * pixelRatio * 500) / 2048);
+  return Math.max(normalLineHeight(fontSize), px / pixelRatio);
+}
+
 // themes/ionic.theme.default.md.scss:14 $font-size-md-base (1.4rem, themes/ionic.theme.dark.scss $font-size-base)
 export const appFontSize = 14;
 // components/app/app.scss:32 $headings-line-height (h1-h6 { line-height: 1.2 })

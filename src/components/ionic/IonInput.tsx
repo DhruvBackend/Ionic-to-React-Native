@@ -7,9 +7,9 @@
 //   a <input type="number"> spinner; 61 of the 251 inputs pass `min` with type text/tel, where it does nothing. Ignored here.
 // NOTE (parity): Ionic disables autocomplete and autocorrect for every ion-input (input.js:141-142).
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, type KeyboardTypeOptions, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { PixelRatio, Platform, StyleSheet, TextInput, View, type KeyboardTypeOptions, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { inputMd } from '../../theme/ionicMdContent';
-import { normalLineHeight } from '../../theme/ionicMdOverlays';
+import { androidLineHeight, normalLineHeight } from '../../theme/ionicMdOverlays';
 import { fontFor } from '../../theme/typography';
 import { IonField, resolveField, useField, type FieldVariant, type IonFieldProps } from './IonField';
 
@@ -58,7 +58,10 @@ export function IonInput({
   const field = useField();
   const f = field.input;
   const pad = f.pad;
-  const height = f.height ?? normalLineHeight(f.fontSize) + pad.top + pad.bottom;
+  // NOTE (parity): Android needs the device-px line box (androidLineHeight), else a swipe starting on the box never scrolls
+  // the page. At most +2px (under 1dp), and inside min-height items (csInput: 45) the item does not grow at all.
+  const line = Platform.OS === 'android' ? androidLineHeight(f.fontSize, PixelRatio.get()) : normalLineHeight(f.fontSize);
+  const height = f.height ?? line + pad.top + pad.bottom;
   const edit = field.variant === 'edit';
   return (
     <View
