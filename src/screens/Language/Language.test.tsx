@@ -67,6 +67,7 @@ beforeEach(async () => {
   await AsyncStorage.clear();
   resetMock();
   navigation.navigate.mockClear();
+  navigation.push.mockClear();
   calls = [];
   await act(async () => {
     await i18n.changeLanguage('en');
@@ -145,7 +146,7 @@ describe('states (card States)', () => {
     await mount();
     await press('lang-continue');
     await settle();
-    expect(navigation.navigate).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'en' });
+    expect(navigation.push).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'en' });
   });
 });
 
@@ -153,9 +154,9 @@ describe('navigation', () => {
   test('Continue posts update_language then navigates to SelectRegistrationType with {lang}', async () => {
     await mount();
     await press('lang-continue');
-    expect(navigation.navigate).not.toHaveBeenCalled(); // only in the success callback
+    expect(navigation.push).not.toHaveBeenCalled(); // only in the success callback
     await settle();
-    expect(navigation.navigate).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'en' });
+    expect(navigation.push).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'en' });
   });
 
   test('with Hindi chosen the param is hin', async () => {
@@ -163,7 +164,7 @@ describe('navigation', () => {
     await press('lang-hin-cover');
     await press('lang-continue');
     await settle();
-    expect(navigation.navigate).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'hin' });
+    expect(navigation.push).toHaveBeenCalledWith('SelectRegistrationType', { lang: 'hin' });
   });
 });
 
@@ -206,7 +207,7 @@ describe('quirks', () => {
     await mount();
     await press('lang-continue');
     await settle();
-    expect(navigation.navigate).not.toHaveBeenCalled();
+    expect(navigation.push).not.toHaveBeenCalled();
     expect(isOverlayOpen()).toBe(false);
   });
 

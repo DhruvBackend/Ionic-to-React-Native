@@ -873,6 +873,8 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - Port SCSS values (px→dp 1:1) and the applicable global `variables.scss` rules into `styles.ts`. Every overlay or control uses its `src/components/ionic` replica with the same options the Ionic code passed (titles, button texts, input types, `enableBackdropDismiss`, `dismissOnPageChange`).
   - Icons use the same name and family as Ionic: `ion-icon name` becomes `IonIcon`, and `<i class="material-icons">` becomes `MaterialIcon`.
   - **No improvements.** Typos, odd spacing, inconsistent capitalisation and dead buttons are all copied.
+  - **Navigation mapping** (2026-11-02): Ionic `navCtrl.push(Page, params)` → `navigation.push('Name', params)` (always adds a page; `navigate()` would jump back to an existing route). `setRoot` → `resetTo`/`reset`; `pop` → `goBack()`; `modalCtrl.create` → a `presentation: 'modal'` route.
+  - **Loaders and errors as in Ionic:** if Ionic leaves a loader up on an error path (no dismiss in the error callback), the RN screen does the same — do not use `useLoader().wrap` there. Copy the exact show/hide calls.
   - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
   - Add a NOTE for every quirk.
 - [ ] **S6 – Gates** (pilot lessons: the lead runs RN captures on the single emulator at 360dp after merging kit fixes; **look at every ref/RN pair and confirm both show the same state** — the diff % alone is not proof).

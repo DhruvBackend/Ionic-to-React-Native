@@ -25,7 +25,7 @@ const logoSize = Image.resolveAssetSource?.(logo);
 const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSize.height : 1;
 
 interface Props {
-  navigation: { navigate: (name: string, params?: object) => void };
+  navigation: { navigate: (name: string, params?: object) => void; push: (name: string, params?: object) => void };
   route?: { params?: { come_from?: unknown } };
 }
 
@@ -97,7 +97,8 @@ export default function LanguageScreen({ navigation, route }: Props) {
     db.post_rqst({ data: karigarDetail.current }, 'app_karigar/update_language')
       .then(() => {
         // NOTE (parity): only in the success callback; an HTTP error does nothing at all (no loader, toast or alert) (quirk 5).
-        navigation.navigate('SelectRegistrationType', { lang: langRef.current });
+        // Ionic navCtrl.push always adds a page; React Navigation navigate() would jump back to an existing one.
+        navigation.push('SelectRegistrationType', { lang: langRef.current });
       })
       .catch(() => {});
   }
