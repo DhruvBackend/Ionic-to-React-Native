@@ -81,12 +81,14 @@ export async function expectContract(
     db.userStorageData = { ...(db.userStorageData ?? {}), token: 'contract-test-token' };
   }
 
-  // The headers depend on the token present WHEN the request is built; a login call stores a token afterwards.
-  const tokenAtCall = (db.userStorageData as any)?.token;
+  // The headers depend on the token present WHEN the request is built (a login call stores one afterwards; the start-up
+  // profile call loads one first), so record it per request.
   const calls: ApiRequest[] = [];
+  const tokens: unknown[] = [];
   const previous = getTransport();
   setTransport(req => {
     calls.push(req);
+    tokens.push((db.userStorageData as any)?.token);
     return previous(req);
   });
   try {
@@ -95,7 +97,8 @@ export async function expectContract(
     setTransport(previous);
   }
 
-  const call = calls.find(r => r.fn === c.endpoint);
+  const callIndex = calls.findIndex(r => r.fn === c.endpoint);
+  const call = calls[callIndex];
   if (!call) {
     throw new Error(
       `expectContract: ${c.endpoint} was never called (calls: ${calls.map(r => r.fn).join(', ') || 'none'}). Ionic: ${c.ionicSource}`,
@@ -108,7 +111,7 @@ export async function expectContract(
     method: c.method,
   });
 
-  const token = tokenAtCall;
+  const token = tokens[callIndex];
   const expectedHeaders =
     c.headers === 'tokenOnly'
       ? ['Content-Type', 'Token']
