@@ -139,6 +139,7 @@ export interface IonNavbarProps {
   onBack?: () => void;
   menuToggle?: boolean; // <button menuToggle>
   tall?: boolean; // class="h80"
+  overlay?: React.ReactNode; // absolute-against-the-navbar child, e.g. Topbath `.header-logo` (same slot as IonToolbar's)
   start?: React.ReactNode; // <ion-buttons start> (md: drawn AFTER the title)
   left?: React.ReactNode; // <ion-buttons left>
   end?: React.ReactNode; // <ion-buttons end>
@@ -155,6 +156,7 @@ export function IonNavbar({
   onBack,
   menuToggle = false,
   tall,
+  overlay,
   start,
   left,
   end,
@@ -191,6 +193,7 @@ export function IonNavbar({
       style={style}
       testID={testID}
       tall={tall}
+      overlay={overlay}
       back={backShown ? <BackButton onPress={onBackPress} /> : null}
       menuToggle={menuToggle && !buttonsHidden ? <MenuToggle /> : null}
       left={left ? <IonButtons testID="ion-navbar-left">{left}</IonButtons> : null}

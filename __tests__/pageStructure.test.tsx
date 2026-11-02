@@ -157,6 +157,12 @@ describe('navbar (toolbar.md.scss + Topbath rules)', () => {
     expect(JSON.stringify(content?.props?.children?.props?.testID)).not.toBe('"ov"');
   });
 
+  test('IonNavbar overlay: same slot as IonToolbar (first child of the navbar border box)', () => {
+    mount(<IonNavbar color="white" tall testID="nb" overlay={<View testID="ov" />} />);
+    const box = host('nb').props.children.props.children.filter(Boolean);
+    expect(box[0].props.testID).toBe('ov');
+  });
+
   test('<ion-toolbar class="h80" color="white"> (Language): height 80 inside the 4px padding, white, header strip below', () => {
     mount(
       <IonHeader>
