@@ -587,7 +587,10 @@ export default function RegistrationScreen({ navigation, route }: Props) {
         variant="csSelect"
         label={t('Select Sales Executive (optional)')}
         items={salesExecutives.current}
-        value={data.sales_executive_id && typeof data.sales_executive_id === 'object' ? data.sales_executive_id : null}
+        // NOTE (parity): `[(ngModel)]="data.sales_executive_id"` binds the raw saved id when no list item matched it: ionic-selectable
+        // then counts as having a value (no text shown, `id[first_name]` is undefined) and the md ng-valid + has-value rule draws
+        // the green underline (measured: edit mode shows it, a new registration does not).
+        value={data.sales_executive_id ?? null}
         itemValueField="first_name"
         itemTextField="first_name"
         hasVirtualScroll
