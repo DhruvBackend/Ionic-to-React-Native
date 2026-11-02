@@ -1,4 +1,249 @@
 {
+  "_components.actionsheet-icons": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.actionsheet-plain": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-3-buttons": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-checkbox": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-confirm": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-full": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-message": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-modal": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-plain": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-radio": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-text-input": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.alert-version-update": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.buttons-cs": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.buttons-icons-outline": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.buttons-solid": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.card-grid": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.datetime-open": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.fab": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.form-cs-input": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.form-edit": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.image-viewer": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.infinite-scroll": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.input-plain": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.list-checkbox": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.list-radio": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.loading-default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.loading-gif": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.navbar-h80-white": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.navbar-main": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.navbar-main-remove": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.navbar-plain": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.navbar-primary-end": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.searchbar-add-search": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.searchbar-bare": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.searchbar-gift-list": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.segment-default": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.segment-tab-btn": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.select-open": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.selectable-closed": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.selectable-open": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.selectable-search": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.slides": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.tabs-customer": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.tabs-plumber": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.tabs-sales-exec": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.toast-bottom": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.toast-close": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.toast-middle": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
+  "_components.toast-top": {
+    "status": "ok",
+    "note": "Dhruv 2026-11-02: approved (building-block report)",
+    "date": "2026-11-02"
+  },
   "Language.default": {
     "status": "ok",
     "note": "Dhruv 2026-11-02: looks the same as the Ionic app",

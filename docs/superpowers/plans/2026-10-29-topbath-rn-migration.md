@@ -833,11 +833,11 @@ Port `Language` using the **S-task procedure below**, end to end, with one Sonne
 
 **Phase 0 gate:**
 - `npm test` is green and `npx eslint src` is clean.
-- Every `_components.*` state is signed off in the parity report (Task 9 Step 6). ⏳ 49 states built (b0f0627), fixed (48b1b34 + button nowrap), captured on Dhruv's phone 2026-11-02 at 360dp; all 51 pairs looked at by the lead; all ≤ 2.6% diff with the same state on both sides. Awaiting Dhruv's sign-off.
+- Every `_components.*` state is signed off in the parity report (Task 9 Step 6). ⏳ 49 states built (b0f0627), fixed (48b1b34 + button nowrap), captured on Dhruv's phone 2026-11-02 at 360dp; all 51 pairs looked at by the lead; all ≤ 2.6% diff with the same state on both sides. ✅ Signed off by Dhruv 2026-11-02.
 - The splash screen matches the **shipped** app (corrected by Task 8b: cordova-android 12 ignores `SplashShowOnlyFirstTime`): `resources/splash.png`, every cold start, 3 s hold, 3 s fade. ✅ Verified on Dhruv's phone 2026-11-01 (0.00% diff).
 - The debug APK runs on the phone. ✅ (2026-11-01, Android 16)
 - The `Language` state is signed off in `parity/out/report.html`. ✅ (2026-11-02)
-- Dhruv approves moving to Phase 1.
+- Dhruv approves moving to Phase 1. ✅ 2026-11-02 ("approved, go Phase 1"). **Phase 0 complete.**
 
 ---
 
