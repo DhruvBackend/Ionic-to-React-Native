@@ -1,0 +1,155 @@
+[
+  {
+    "id": "Tabs.Plumber",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "Compare the tab bar and frame only: the tab ROOT pages are other screens (not ported yet), so RN shows a placeholder where Ionic shows the real page. Production reaches Tabs by Otp push(Tabs,{lang}); the harness uses setRoot, the same view since Tabs has no navbar."
+  },
+  {
+    "id": "Tabs.Sales_Boy",
+    "screen": "Tabs",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Dealer",
+    "screen": "Tabs",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Sales_Executive",
+    "screen": "Tabs",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Customer",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Retailer",
+    "screen": "Tabs",
+    "role": "Retailer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Plumber.hin",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "lang": "hin"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Customer.hin",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "lang": "hin"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Tabs.Plumber.index3",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "3"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "setRoot(TabsPage,{index:'3'}) from cancelpolicy-modal.ts:129 / shipping-detail.ts:98: selects the 4th tab (Profile for loyalty roles)."
+  },
+  {
+    "id": "Tabs.Customer.index4",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "4"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "setRoot(TabsPage,{index:'4'}) from edit-profile.ts:195: the 5th tab (Profile for Customer/Retailer)."
+  }
+]
