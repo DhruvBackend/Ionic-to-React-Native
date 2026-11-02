@@ -428,3 +428,6 @@ All Basiq/Abacusdesk loyalty apps come from the **same Ionic template** (same `d
 - **Task:** Convert to React Native, build and test APKs locally, keep backend compatibility.
 - **Action:** Inventoried the app with scripts, designed a mock-able API layer, set up local Android build pipeline on day 1, ported in gated phases with per-role device testing, then turned the first app into a starter kit.
 - **Result:** Fill in with real numbers when done (screens ported, time per screen for app 1 vs app 2, bugs found in testing).
+
+### Worktree clean-up (2026-11-02 incident)
+Never `git worktree remove --force` a worktree that contains junctions (`node_modules`, `parity/reference/work`): on Windows it follows them and empties the MAIN repo's folders. First remove the junctions themselves (`cmd /c rmdir <junction>` or PowerShell `(Get-Item <junction>).Delete()`), then `git worktree remove`. Recovery if it happens: `npm ci` in the main repo, then `bash parity/reference/build-ionic.sh`.
