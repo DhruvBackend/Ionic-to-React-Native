@@ -1,0 +1,26 @@
+[
+  {
+    "id": "AboutusModal.default",
+    "screen": "AboutusModal",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('AboutusModal'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Production reaches this page by PUSH from Otp/Registration after login of a user whose status is not 'Verified' ({country: undefined}); a role session is seeded because the constructor reads dbService.userStorageData.country (it throws with none). The navbar is commented out, so no back button shows either way."
+  },
+  {
+    "id": "AboutusModal.hin",
+    "screen": "AboutusModal",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('AboutusModal'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "The module has its own TranslateModule.forRoot and the page never calls use(): the text stays the English key whatever language the app is in (same in RN: no t())."
+  }
+]
