@@ -49,6 +49,21 @@ interface Block {
   render: (margins: { marginTop: number; marginBottom: number }) => React.ReactNode;
 }
 
+// `.main-field h3 { width: fit-content; position: relative }` + `&:after { width: 107%; bottom: -3px; height: 3px }`.
+// NOTE (parity): the underline is 107% of the heading TEXT width. A percentage width on an absolute child of a shrink-wrapped
+// View is resolved against the full row on Android, so the text width is measured and the 107% is computed from it.
+function H3({ label, marginTop }: { label: string; marginTop: number }) {
+  const [w, setW] = useState(0);
+  return (
+    <View style={[styles.h3, { marginTop, marginBottom: R.h3.marginBottom }]} onLayout={e => setW(e.nativeEvent.layout.width)}>
+      <Text style={textStyle(R.h3.fontSize, 400, R.h3.ink, R.h3.lineHeight)}>
+        <Text style={styles.h3Text}>{label}</Text>
+      </Text>
+      <View style={[styles.h3Line, { width: (w * R.h3.lineWidthPct) / 100 }]} />
+    </View>
+  );
+}
+
 export default function RegistrationScreen({ navigation, route }: Props) {
   const { t } = useTranslation();
   const loader = useLoader();
@@ -66,6 +81,7 @@ export default function RegistrationScreen({ navigation, route }: Props) {
   const filter = useRef<any>({});
   const [submitted, setSubmitted] = useState(false); // f.submitted
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const edited = useRef<Record<string, boolean>>({}); // controls whose value was changed by the user
 
   // registration.ts:45-77 constructor. NOTE (parity): `navParams.data.data` (the karigar_detail of Profile / GiftDetail /
   // CancelPolicyModal) REPLACES `data` and is mutated in place, as in Ionic.
@@ -75,6 +91,7 @@ export default function RegistrationScreen({ navigation, route }: Props) {
 
   const set = (name: string, value: any) => {
     dataRef.current[name] = value;
+    edited.current[name] = true;
     rerender();
   };
 
@@ -297,6 +314,15 @@ export default function RegistrationScreen({ navigation, route }: Props) {
   const invalid = (name: string) => !!controls[name];
   const formValid = Object.values(controls).every(v => !v);
   const err = (name: string) => submitted && invalid(name);
+  // NOTE (parity): the ng-valid / ng-invalid classes Ionic puts on a pre-filled item (edit mode, or the mobile number) stay at the
+  // state of the still-empty control (ngModel writes the value asynchronously; measured on Registration.edit: every item is
+  // `ng-invalid`, pincode included) until the user changes that control, so the valid + has-value green underline never shows.
+  const REQUIRED = ['first_name', 'mobile_no', 'address', 'state', 'district', 'city', 'pincode'];
+  const ngClasses = (name: string) => {
+    const stale = !edited.current[name] && !isEmpty(data[name]);
+    const bad = stale ? REQUIRED.includes(name) && (edit || name === 'first_name' || name === 'mobile_no') : invalid(name);
+    return { valid: !bad, invalid: bad, touched: !!touched[name] };
+  };
   const touch = (name: string) => setTouched(prev => ({ ...prev, [name]: true }));
 
   // registration.ts:575-582
@@ -400,12 +426,7 @@ export default function RegistrationScreen({ navigation, route }: Props) {
   const add = (key: string, mt: number, mb: number, render: Block['render']) => blocks.push({ key, mt, mb, render });
   const h3 = (key: string, label: string, mt: number) =>
     add(key, mt, R.h3.marginBottom, ({ marginTop }) => (
-      <View key={key} style={[styles.h3, { marginTop, marginBottom: R.h3.marginBottom }]}>
-        <Text style={textStyle(R.h3.fontSize, 400, R.h3.ink, R.h3.lineHeight)}>
-          <Text style={styles.h3Text}>{label}</Text>
-        </Text>
-        <View style={styles.h3Line} />
-      </View>
+      <H3 key={key} label={label} marginTop={marginTop} />
     ));
   const eror = (key: string) =>
     add(key, R.eror.marginVertical, R.eror.marginVertical, ({ marginTop, marginBottom }) => (
@@ -442,11 +463,12 @@ export default function RegistrationScreen({ navigation, route }: Props) {
         requiredMark={o.required}
         type={o.type}
         readOnly={o.readOnly}
-        disabled={o.disabled}
+        // NOTE (parity): `[disabled]="data.karigar_edit_id"` only adds the (unstyled) `item-input-disabled` class to the item; measured on
+        // Registration.edit the native <input> is NOT disabled (no .4 opacity, label normal, still editable), so `disabled` is not passed on.
         isLast={o.last}
         error={o.error}
         value={data[o.name] ?? ''}
-        validation={{ valid: !invalid(o.name), invalid: invalid(o.name), touched: !!touched[o.name] }}
+        validation={ngClasses(o.name)}
         onBlur={() => touch(o.name)}
         onChangeText={s => {
           // `[(ngModel)]` writes the filtered text (an untouched field never gets a key in `data`)

@@ -262,7 +262,8 @@ export function IonInputItem({
       error={error}
       hasValue={hasValue}
       focused={focused}
-      labelDisabled={disabled}
+      // NOTE (parity): no `.item-input-disabled ion-label` rule exists in Ionic 3.9.5 (only select / datetime / radio / checkbox / toggle):
+      // a disabled <ion-input> dims only its native <input> (`.text-input[disabled] { opacity: .4 }`), never the label.
       contentMinHeight={inputContentHeight(field.variant, !!field.floating, !!textarea)}
       underline={plain || field.variant === 'csInput' ? inputUnderline({ focused, hasValue, ...validation }) : null}
     >
