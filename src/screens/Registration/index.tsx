@@ -591,6 +591,7 @@ export default function RegistrationScreen({ navigation, route }: Props) {
         // then counts as having a value (no text shown, `id[first_name]` is undefined) and the md ng-valid + has-value rule draws
         // the green underline (measured: edit mode shows it, a new registration does not).
         value={data.sales_executive_id ?? null}
+        isLast
         itemValueField="first_name"
         itemTextField="first_name"
         hasVirtualScroll
