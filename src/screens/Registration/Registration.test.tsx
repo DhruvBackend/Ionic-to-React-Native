@@ -237,8 +237,9 @@ describe('states (card States)', () => {
     expect(allText()).toEqual(expect.arrayContaining(['Edit Profile', 'Update']));
     expect(host('first_name-input').props.value).toBe('Test Plumber');
     expect(host('pincode-input').props.value).toBe('201010');
-    expect(host('sales_boy_name-input').props.editable).toBe(false);
-    expect(host('dealer_mobile-input').props.editable).toBe(false);
+    // measured in the Ionic ref: `[disabled]` only adds `item-input-disabled`; the native <input> stays enabled and undimmed
+    expect(host('sales_boy_name-input').props.editable).toBe(true);
+    expect(host('dealer_mobile-input').props.editable).toBe(true);
     expect(hasText('Rakesh Verma')).toBe(true); // sales_executive_id 900014 preselected from the list
   });
   test('Registration.submitted: empty Name keeps the form from sending and shows the error', async () => {
