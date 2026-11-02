@@ -436,3 +436,17 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Tools can bite:** `git worktree remove --force` followed Windows junctions and emptied the main repo's `node_modules`. Generated folders were rebuilt in minutes; the safe order (remove junctions first) is in the playbook.
 
 **Interview angle:** "What did testing on a real device teach you?" → real servers return different types than your mocks; screenshots prove looks but not behaviour; and you diagnose with a small, targeted trace instead of guessing.
+
+## 2026-11-02 (session 2) — Phase 1 merged; a whole-login flow test
+
+**What:** Two independent reviews (AboutusModal, Tabs) passed. Registration, AboutusModal and Tabs were merged into `master`. A new flow test logs in for each of the 4 roles on the real navigator in MOCK mode and checks every outcome: success, not registered and unverified.
+
+**Why:** Screen tests prove each page alone. A flow test proves the pages hand over to each other correctly: the right params, the right session saved and the right tab bar at the end.
+
+**Learned:**
+- **Reviews still catch rule drift on "equivalent" code.** `String(x) === '5'` behaves like Ionic's `x == '5'` for every real input. The rule is still to copy the loose `==`, so a reader never has to prove that equivalence again.
+- **Specs can be wrong where the source is right.** The plan said "NOT FOUND → Registration" for every role. Ionic's `otp.ts:83-86` sends Sales Executives back to login with an alert instead, so the test follows the source, not the plan.
+- **Generated files conflict in every merge.** Don't hand-merge `routes.generated.ts`; regenerate it after each merge.
+- **"Which screen is showing?" depends on where you ask.** Inside tabs, the navigator reports the tab's inner page (Home), so the test reads the *root* state to know it is on Tabs.
+
+**Interview angle:** "How do you test navigation end to end without a device?" → drive the real navigator in Jest with mocked HTTP, press real controls, and assert on route state and saved session rather than on mocked `navigate` calls.
