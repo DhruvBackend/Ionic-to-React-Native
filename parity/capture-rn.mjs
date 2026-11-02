@@ -58,6 +58,9 @@ export function cropFor({ api, density, insets }) {
  * `rnAction` of a state: `tap:<testID>`, or `hide-keyboard` (Android BACK, which only closes the soft keyboard and keeps the focused
  * TextInput focused; the Ionic reference runs in Chrome, which has no soft keyboard). Returns { type, testID? } or null.
  */
+/** Swipes tried to bring a `tap:` target below the fold into view. */
+const SCROLL_TRIES = 6;
+
 export function parseRnAction(action) {
   if (!action) {
     return null;
@@ -175,14 +178,34 @@ async function main() {
         adb(dev.serial, ['shell', 'input', 'keyevent', '4']);
         await sleep(s.rnActionWaitMs ?? 1000);
       } else if (action) {
-        adb(dev.serial, ['shell', 'uiautomator', 'dump', '/sdcard/parity-ui.xml']);
-        const xml = adb(dev.serial, ['shell', 'cat', '/sdcard/parity-ui.xml']).stdout;
-        const at = findNodeCenter(xml, action.testID);
+        // uiautomator only lists what is on screen, so a control below the fold (e.g. Registration's submit button) is
+        // brought into view by swiping the page up, at most SCROLL_TRIES times. The Ionic reference fires the same
+        // handler without scrolling, so `rnScrollTop: true` swipes back to the top after the tap (only usable when the
+        // tap opens no overlay: an overlay window takes the swipes).
+        const find = () => {
+          adb(dev.serial, ['shell', 'uiautomator', 'dump', '/sdcard/parity-ui.xml']);
+          return findNodeCenter(adb(dev.serial, ['shell', 'cat', '/sdcard/parity-ui.xml']).stdout, action.testID);
+        };
+        let at = find();
+        let swipes = 0;
+        while (!at && swipes < SCROLL_TRIES) {
+          adb(dev.serial, ['shell', 'input', 'swipe', '540', '1800', '540', '700', '300']);
+          swipes++;
+          await sleep(800);
+          at = find();
+        }
         if (!at) {
-          throw new Error(`rnAction: no element with resource-id "${action.testID}" on screen`);
+          throw new Error(`rnAction: no element with resource-id "${action.testID}" on screen (after ${swipes} swipes)`);
         }
         adb(dev.serial, ['shell', 'input', 'tap', String(at.x), String(at.y)]);
         await sleep(s.rnActionWaitMs ?? 1000);
+        if (s.rnScrollTop && swipes > 0) {
+          for (let i = 0; i < swipes + 1; i++) {
+            adb(dev.serial, ['shell', 'input', 'swipe', '540', '700', '540', '1800', '300']);
+            await sleep(500);
+          }
+          await sleep(800);
+        }
       }
       const shot = adb(dev.serial, ['exec-out', 'screencap', '-p'], { binary: true });
       if (shot.status !== 0 || !shot.stdout.length) {
