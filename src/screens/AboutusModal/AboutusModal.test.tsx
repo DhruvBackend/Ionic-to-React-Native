@@ -39,7 +39,7 @@ test('AboutusModal.default: title, under-review text and the contact line', asyn
   await mount();
   const t = text();
   expect(t).toContain(client.appName);
-  expect(t).toContain(`Your request to access the ${client.appName}  is under review. You will be able to log in as soon as the overseeing dealer acknowledges your application.`);
+  expect(t).toContain(`Your request to access the ${client.appName} is under review. You will be able to log in as soon as the overseeing dealer acknowledges your application.`); // the key's double space collapses (HTML)
   expect(t).toContain('Meanwhile, you can contact us+91 8655050950');
   expect(t).toContain('or mail us');
   expect(t).toContain('care@topsan.in');

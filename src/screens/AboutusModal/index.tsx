@@ -39,7 +39,9 @@ export default function AboutusModalScreen({ navigation }: Props) {
             <Text style={styles.h1}>{t(client.appName)}</Text>
             <Text style={styles.h2}>
               {/* i18n key = the Ionic template text with the client app name (double space kept) */}
-              {t(`Your request to access the ${client.appName}  is under review. You will be able to log in as soon as the overseeing dealer acknowledges your application.`)}
+              {/* NOTE (parity): the key has a double space ("Topsan  is") which HTML collapses to one; RN keeps both, and the 4dp
+                  wrapped "is" to the next line (ref line 1 is "...the Topsan is"). */}
+              {t(`Your request to access the ${client.appName}  is under review. You will be able to log in as soon as the overseeing dealer acknowledges your application.`).replace(/ {2,}/g, ' ')}
               {'\n'}
               {/* NOTE (parity): en.json has a trailing space in this value; the Ionic reference shows none before the link (html:14 has no space
                   between the text and <a>), so it is trimmed. */}
