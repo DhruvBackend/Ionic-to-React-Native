@@ -37,7 +37,9 @@ export default function AboutusModalScreen({ navigation }: Props) {
         <View testID="main-modal" style={[styles.mainModal, { height }]}>
           <View style={styles.modalBox}>
             <Text style={styles.h1}>{t(client.appName)}</Text>
-            <Text style={styles.h2}>
+            {/* NOTE (parity): textBreakStrategy simple = the browser's greedy line breaking. Android's default (highQuality) balances
+                the paragraph and moved "us+91" to the next line where Ionic keeps it (phone check 2026-11-02). */}
+            <Text style={styles.h2} textBreakStrategy="simple">
               {/* i18n key = the Ionic template text with the client app name (double space kept) */}
               {/* NOTE (parity): the key has a double space ("Topsan  is") which HTML collapses to one; RN keeps both, and the 4dp
                   wrapped "is" to the next line (ref line 1 is "...the Topsan is"). */}

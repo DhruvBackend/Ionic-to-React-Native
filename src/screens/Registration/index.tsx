@@ -315,12 +315,12 @@ export default function RegistrationScreen({ navigation, route }: Props) {
   const formValid = Object.values(controls).every(v => !v);
   const err = (name: string) => submitted && invalid(name);
   // NOTE (parity): the ng-valid / ng-invalid classes Ionic puts on a pre-filled item (edit mode, or the mobile number) stay at the
-  // state of the still-empty control (ngModel writes the value asynchronously; measured on Registration.edit: every item is
-  // `ng-invalid`, pincode included) until the user changes that control, so the valid + has-value green underline never shows.
-  const REQUIRED = ['first_name', 'mobile_no', 'address', 'state', 'district', 'city', 'pincode'];
+  // state of the still-empty control (ngModel writes the value asynchronously) until the user changes that control, so the
+  // valid + has-value green underline never shows. Measured in the Ionic DOM on Registration.editExist (after submit): EVERY
+  // pre-filled ion-input item is `ng-untouched ng-pristine ng-invalid`, the optional seller/dealer fields included.
   const ngClasses = (name: string) => {
     const stale = !edited.current[name] && !isEmpty(data[name]);
-    const bad = stale ? REQUIRED.includes(name) && (edit || name === 'first_name' || name === 'mobile_no') : invalid(name);
+    const bad = stale ? true : invalid(name);
     return { valid: !bad, invalid: bad, touched: !!touched[name] };
   };
   const touch = (name: string) => setTouched(prev => ({ ...prev, [name]: true }));
