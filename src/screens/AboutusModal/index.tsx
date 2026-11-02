@@ -41,14 +41,15 @@ export default function AboutusModalScreen({ navigation }: Props) {
               {/* NOTE (parity): en.json has a trailing space in this value; the Ionic reference shows none before the link (html:14 has no space
                   between the text and <a>), so it is trimmed. */}
               {t('Meanwhile, you can contact us').trimEnd()}
-              <Text testID="aboutus-tel" style={styles.link} onPress={() => Linking.openURL('tel:8655050950')}>
-                +91 8655050950
+              {/* aboutus-modal.html: href="tel:..." / "mailto:..." with the client's contact details (white-label: from client.json) */}
+              <Text testID="aboutus-tel" style={styles.link} onPress={() => Linking.openURL(`tel:${client.contact.phone}`)}>
+                {client.contact.phoneDisplay}
               </Text>
               {' '}
               {t('or mail us')}
               {' '}
-              <Text testID="aboutus-mail" style={styles.link} onPress={() => Linking.openURL('mailto:care@topsan.in')}>
-                care@topsan.in
+              <Text testID="aboutus-mail" style={styles.link} onPress={() => Linking.openURL(`mailto:${client.contact.email}`)}>
+                {client.contact.email}
               </Text>
               {' '}
               {t('if you any question')}
