@@ -16,11 +16,14 @@ interface Props {
 // NOTE (parity): aboutus-modal.ts:19-24 reads navParams.data.country and dbService.userStorageData.country into fields that are never
 // used (dead). The page has no endpoints, storage, loaders or alerts. dismiss() and exitapp() (ts:30-38) are never called by the
 // template (dead, not ported).
+// NOTE (parity): aboutus-modal.module.ts has its own TranslateModule.forRoot and never calls use(), yet the Ionic .hin reference
+// shows Hindi, so the global t() gives the same language.
 export default function AboutusModalScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const { height } = useWindowDimensions();
 
   // aboutus-modal.ts:40-44 gotoHomePage: this.navCtrl.setRoot(TabsPage, {index:'0'}) (the cancel icon, html:19-21)
+  // NOTE (parity): setRoot(Tabs) although the user is not verified; no logout, the session stays stored.
   function gotoHomePage() {
     navigation.reset({ index: 0, routes: [{ name: 'Tabs', params: { index: '0' } }] });
   }
