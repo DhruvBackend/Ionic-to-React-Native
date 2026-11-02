@@ -398,11 +398,11 @@ describe('ionic-selectable modal', () => {
   // Phone check 2026-11-02 (Registration edit): `.list-md .item-input.ng-valid.item-input-has-value:last-child` turns a cs-select
   // item green too; the saved raw id (no matching item) still counts as a value.
   test('csSelect item underline: green with a value, also a raw id that matches no item; none when empty', () => {
-    mount(<IonicSelectable {...base} variant="csSelect" isLast value={'900014'} />);
+    mount(<IonicSelectable {...base} variant="csSelect" isLast value={'900014' as any} />);
     expect(style('x').borderBottomColor).toBe(selectableMd.underline.valid);
     mount(<IonicSelectable {...base} variant="csSelect" isLast value={null} />);
     expect(style('x').borderBottomColor).not.toBe(selectableMd.underline.valid);
-    mount(<IonicSelectable {...base} variant="csSelect" value={'900014'} />);
+    mount(<IonicSelectable {...base} variant="csSelect" value={'900014' as any} />);
     expect(style('x').borderBottomColor).not.toBe(selectableMd.underline.valid);
   });
 
