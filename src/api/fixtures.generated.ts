@@ -3,7 +3,9 @@ import type { FixtureFile } from './mock';
 import f0 from './fixtures/app_karigar__app_version.json';
 import f1 from './fixtures/app_karigar__get_languages.json';
 import f2 from './fixtures/app_karigar__get_user_lang.json';
-import f3 from './fixtures/app_karigar__profile.json';
-import f4 from './fixtures/app_karigar__update_language.json';
+import f3 from './fixtures/app_karigar__karigarLoginOtp.json';
+import f4 from './fixtures/app_karigar__profile.json';
+import f5 from './fixtures/app_karigar__update_language.json';
+import f6 from './fixtures/auth__login.json';
 
-export const fixtureFiles = [f0, f1, f2, f3, f4] as FixtureFile[];
+export const fixtureFiles = [f0, f1, f2, f3, f4, f5, f6] as FixtureFile[];

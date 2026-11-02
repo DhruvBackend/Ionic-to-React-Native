@@ -2,7 +2,10 @@
 import type { RouteDef } from './types';
 import r0 from '../screens/Language/route';
 import C0 from '../screens/Language';
+import r1 from '../screens/Otp/route';
+import C1 from '../screens/Otp';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
+  { ...r1, component: C1 },
 ];

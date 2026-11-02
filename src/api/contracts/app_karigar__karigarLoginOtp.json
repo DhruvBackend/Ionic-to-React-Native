@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_karigar/karigarLoginOtp",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "login_data": {
+      "otp": "",
+      "mobile_no": ""
+    }
+  },
+  "note": "Otp resend (otp.ts:139): login_data is the page data object {otp: <what the user typed, key absent when nothing typed>, mobile_no}. MobileLogin (mobile-login.ts:67) sends {mobile_no, otp, country}; country is undefined there and JSON drops it.",
+  "ionicSource": "src/pages/login-section/otp/otp.ts:139"
+}

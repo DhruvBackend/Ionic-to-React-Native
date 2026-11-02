@@ -1,0 +1,12 @@
+{
+  "endpoint": "auth/login",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "mobile_no": "",
+    "mode": "=App"
+  },
+  "ionicSource": "src/pages/login-section/otp/otp.ts:78"
+}

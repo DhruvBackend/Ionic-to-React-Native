@@ -99,5 +99,36 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+Filled from `src/pages/login-section/otp/otp.html` / `.ts` (all copied, each with a `// NOTE (parity)` or `(security, not changed)`). Line numbers are the card's (otp.ts as in the Endpoints table; the html lines as numbered in otp.html).
+
+1. **Params.** MobileLogin pushes `{lang, otp, mobile_no, loginType}` (mobile-login.ts:104-109). The constructor reads `lang` (otp.ts:49), `ionViewDidLoad` reads `mobile_no`, `otp` (the SMS OTP, a string `'123456'` for the five test numbers, else a number), `loginType` (:59-62) and calls `translate.setDefaultLang(lang)` + `use(lang)` (:64-65). `country` is never set anywhere (always undefined).
+2. **OTP input (otp.html:23).** `type="tel"`, `maxlength="6" minlength="6" required`, `(keypress)="dbService.onMobileValidateHandler($event)"` (dbservice.ts:177-187: blocks every key except 0-9), placeholder `Enter OTP`. Each change (`ngModelChange`) runs `onValidateUserOtpHandler` (otp.ts:247-258): `isOtpValid = (data.otp == smsOTP)`, a **loose ==** (so `'123456'` matches 123456). `isOtpValid` starts undefined. `// NOTE (security, not changed)`: the code is checked on the phone (src/auth/otp.ts `otpMatches`).
+3. **Error text (html:24-26).** `*ngIf="!isOtpValid && otp?.touched"`: "Wrong OTP value", shown after the field was blurred once, **even when empty / never typed** (isOtpValid undefined), and live afterwards while the value is wrong. Right-aligned, 12px, danger.
+4. **Submit (html:36-38).** `<button [disabled]="!isOtpValid">Submit</button>`: disabled (opacity .4, no events) until the typed value matches. The form is `(ngSubmit)="f.form.valid && onSubmitUserOtpHandler()"`: additionally needs length >= 6, so a matched OTP shorter than 6 digits (short server OTP) submits nothing.
+5. **`auth/login`** (otp.ts:78), body `{mobile_no: this.mobileNo, mode: 'App'}`, `onPostRequestDataFromApi` on rootUrl. Loader `dbService.onShowLoadingHandler()` ("Please wait...", dismissOnPageChange) before (:76), dismissed first thing in the callback (:81). **No error callback**: on an HTTP error the loader stays open forever (RN closes it, Review Focus 4; nothing else happens). Branches on `result.status`:
+   - `NOT FOUND` (:85): if `loginType === 'Sales_Executive'`: alert (Message!/action-close) "Sales Executive account not found. Please contact admin to get registered." then `push(MobileLogin)` **with no params** (a new page, lang and registerType undefined); else `push(Registration, {mobile_no, loginType})` (:91) (no lang).
+   - `ACCOUNT SUSPENDED` (:96): alert "Your account has been suspended", `push(MobileLogin)` no params.
+   - `SUCCESS` (:101): `user.token = result.token; user.loginType = 'CMS'`; `storage.set('userStorageData', user)` (:106; not awaited) and `dbService.userStorageData = user`. Then `user.status != 'Verified'` -> `push(AboutusModal, {country: undefined})` (:111; the `modalCtrl` version is commented out, so it is a pushed page) and return; else `push(Tabs, {lang})` (:117). **It is push, not setRoot**: the login pages stay below Tabs in the stack.
+   - any other status or none: nothing (no alert).
+   - `SUCCESS` with no `user`: `result['user']['token'] = ...` throws a TypeError inside subscribe (loader already closed): nothing stored, no navigation. RN does the same without crashing.
+6. **Stored session shape** (matches src/auth/session.ts `saveLoginResult`): key `userStorageData` = `{...result.user, token: result.token, loginType: 'CMS'}`; the Tabs set follows `user.type`.
+7. **Resend (html:28-33).** `resendActiveClass` starts false: the "Resend" link (a primary pill, 12px) shows. Click -> `onResendOtpHandler` (otp.ts:169-211): loader, `otpInputMaxTime = 30`, `onStartOtpExpireTimer` (1 s chained timeouts: 29, 28, ... then back to 30 at 0), then POST `app_karigar/karigarLoginOtp` (:139) with `{login_data: this.data}` where `data = {otp: <whatever the user typed, key absent when nothing typed>, mobile_no}` (**no new random OTP is made**; the server decides). SUCCESS: alert "OTP has been sent." then `smsOTP = r.otp` (the compare value changes; SUCCESS without otp leaves it undefined). The loader is dismissed after that; any other status only dismisses. Error callback: dismiss, alert "Error..!!!". `resendActiveClass = true` for 30 s (setTimeout 30000): the greyed (`.opacity`, .5) text "New OTP resent to be available in seconds {{otpInputMaxTime}}" replaces the link, then the link returns.
+8. **Dead code.** `onManageTimeCounter` (:214-224) builds an Observable.timer that is never subscribed (the 30*60 counter never runs, `if (counter == 0)` in resend never holds); `hidevalue`, `onBackButtonClickHanlder` (push MobileLogin), `HomePage`/`modalCtrl`/`event` unused. Not ported.
+9. **Header.** `ion-navbar class="h80" color="white"` with only `div.header-logo > img logo.png`: a navbar, so the back button shows when pushed (pops to MobileLogin).
+10. **Layout.** `form.hp100 > .main-login` centres a 311 px card (radius 10, shadow); the "+91" is a nested `span`, the number is `{{mobileNo}}`.
+11. Hardcoded: "+91" (html:18).
+
 ## States
 
+| State id | Setup | Expect |
+|---|---|---|
+| `Otp.default` | params `{lang:'en', otp:'123456', mobile_no:'9000000001', loginType:'Plumber'}` | prompt, "+91 9000000001", placeholder "Enter OTP", Resend link, Submit disabled, no error |
+| `Otp.hin` | same with `lang:'hin'` (reached after choosing Hindi on Language) | Hindi prompt / placeholder / "पुन: भेजें" / "निवेदन" |
+| `Otp.resendSent` | default, tap Resend (rnAction `tap:otp-resend`) | alert "OTP has been sent." over the greyed countdown pill (the number is time-dependent) |
+| `Otp.wrongOtp` | default, focus + blur or type a wrong code | "Wrong OTP value" under the field, Submit disabled. **No parity state:** the harness cannot type on RN; unit-tested. |
+| `Otp.validOtp` | type the right code | Submit enabled. **No parity state** (typing); unit-tested. |
+| `Otp.malformed` | `auth/login` SUCCESS with `user: null` | nothing happens, no crash. Unit-tested only (no visible state). |
+
+Response branches (unit-tested): `auth/login` SUCCESS Verified -> Tabs {lang} (per role: Plumber, Sales_Boy, Dealer, Sales_Executive, Customer, Retailer), SUCCESS unverified -> AboutusModal, NOT FOUND -> Registration (Sales_Executive: alert + MobileLogin), ACCOUNT SUSPENDED -> alert + MobileLogin, other / empty / malformed / HTTP error -> nothing.
+
+Endpoint fixtures: `auth/login` (variants default, Sales_Boy, Dealer, Sales_Executive, Customer, Retailer, unverified, `NOT FOUND`, suspended, other, empty, malformed, error), `app_karigar/karigarLoginOtp` (default, newOtp, empty, malformed, `REQUIRED MOBILE NO`, `WRONG COUNTRY`, error).

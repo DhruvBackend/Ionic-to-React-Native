@@ -1,0 +1,158 @@
+{
+  "endpoint": "auth/login",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDEiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900001",
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST001",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "Sales_Boy": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDIiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900002",
+        "first_name": "Test Seller",
+        "mobile_no": "9000000002",
+        "type": "Sales_Boy",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST002",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "Dealer": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDMiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900003",
+        "first_name": "Test Dealer",
+        "mobile_no": "9000000003",
+        "type": "Dealer",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST003",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "Sales_Executive": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDQiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900004",
+        "first_name": "Test Sales Executive",
+        "mobile_no": "9000000004",
+        "type": "Sales_Executive",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST004",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "Customer": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDUiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900005",
+        "first_name": "Test Customer",
+        "mobile_no": "9000000005",
+        "type": "Customer",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST005",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "Retailer": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDYiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900006",
+        "first_name": "Test Retailer",
+        "mobile_no": "9000000006",
+        "type": "Retailer",
+        "status": "Verified",
+        "del": "0",
+        "referral_code": "TST006",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "unverified": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDEiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": {
+        "id": "900001",
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "status": "Pending",
+        "del": "0",
+        "referral_code": "TST001",
+        "balance_point": "1250",
+        "country": "India",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "NOT FOUND": {
+      "status": "NOT FOUND"
+    },
+    "suspended": {
+      "status": "ACCOUNT SUSPENDED"
+    },
+    "other": {
+      "status": "FAILED"
+    },
+    "empty": {},
+    "malformed": {
+      "status": "SUCCESS",
+      "token": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJ0b3BiYXRoLXJuLWZpeHR1cmUiLCJzdWIiOiI5MDAwMDEiLCJraW5kIjoiQ01TIiwiaWF0IjoxNzY3MjI1NjAwLCJleHAiOjQxMDI0NDQ4MDB9.",
+      "user": null
+    },
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}
