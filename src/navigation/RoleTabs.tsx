@@ -43,7 +43,7 @@ export function RoleTabs({ route }: { route: { params?: { index?: number | strin
   // NOTE (parity): tabs.ts:84-93 (constructor). With a token and index == '5', Ionic does navCtrl.setRoot(ProfilePage):
   // the whole root becomes Profile and the tab bar is gone. No live caller passes 5 (every setRoot(TabsPage,{index:'5'})
   // is commented out), kept for exactness. Without a token the constructor only assigns an unused rootPage.
-  const toProfile = !!token && String(rawIndex) === '5';
+  const toProfile = !!token && rawIndex == '5'; // eslint-disable-line eqeqeq
   useEffect(() => {
     if (toProfile) {
       resetTo('Profile');
