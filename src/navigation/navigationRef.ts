@@ -6,7 +6,9 @@ export const navigationRef = createNavigationContainerRef<any>();
 // Ionic app.getRootNav().setRoot(Page, params): replace everything with one page.
 export function resetTo(name: string, params?: object): void {
   if (navigationRef.isReady()) {
-    navigationRef.reset({ index: 0, routes: [{ name, params }] });
+    // resetRoot, not reset: the container's reset() is handled by the FOCUSED (deepest) navigator, so inside the tabs it
+    // only reset the current tab's stack (seen on the phone 2026-11-02). Ionic setRoot on the root nav replaces everything.
+    navigationRef.resetRoot({ index: 0, routes: [{ name, params }] });
   }
 }
 

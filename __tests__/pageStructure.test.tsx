@@ -473,3 +473,17 @@ describe('ion-footer (toolbar.md.scss, [CSS] 12349 / 16716)', () => {
     expect(b.margin).toBeUndefined();
   });
 });
+
+describe('tab bar hit-testing (phone bug 2026-11-02)', () => {
+  test('the label-measuring copy sits inside a View with pointerEvents="none" (a Text ignores it on Android)', () => {
+    const { IonTabButton } = require('../src/components/ionic/IonTabs');
+    const ReactTestRenderer = require('react-test-renderer');
+    let tree: any;
+    ReactTestRenderer.act(() => {
+      tree = ReactTestRenderer.create(require('react').createElement(IonTabButton, { icon: 'tab-menu', label: 'Menu', selected: false, onPress: () => {} }));
+    });
+    const box = tree.root.findAll((n: any) => n.props.testID === 'ion-tab-measure-tab-menu' && n.props.pointerEvents === 'none');
+    expect(box.length).toBeGreaterThan(0);
+    ReactTestRenderer.act(() => tree.unmount());
+  });
+});

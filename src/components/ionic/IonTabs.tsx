@@ -120,20 +120,24 @@ export function IonTabButton({ icon, label, selected, onPress, testID }: IonTabB
       >
         {label}
       </Text>
-      <Text
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-        pointerEvents="none"
-        style={[labelStyle, styles.measure]}
-        onTextLayout={ev => {
-          const w = ev.nativeEvent.lines[0]?.width;
-          if (w && Math.ceil(w) !== natural) {
-            setNatural(Math.ceil(w));
-          }
-        }}
-      >
-        {label}
-      </Text>
+      {/* The measuring copy is 1000dp wide and overflows the tab. A Text ignores pointerEvents on Android, so the LAST tab's
+          copy caught every tap on the bar (all taps became Menu, seen on the phone 2026-11-02). A View honours
+          pointerEvents="none", so the copy lives inside one. */}
+      <View pointerEvents="none" style={styles.measureBox} testID={`ion-tab-measure-${icon}`}>
+        <Text
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+          style={[labelStyle, styles.measure]}
+          onTextLayout={ev => {
+            const w = ev.nativeEvent.lines[0]?.width;
+            if (w && Math.ceil(w) !== natural) {
+              setNatural(Math.ceil(w));
+            }
+          }}
+        >
+          {label}
+        </Text>
+      </View>
     </Pressable>
   );
 }
@@ -176,5 +180,7 @@ const styles = StyleSheet.create({
   icon: { alignItems: 'center', justifyContent: 'center' },
   // .tab-button-text { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
   label: { maxWidth: '100%' },
-  measure: { position: 'absolute', opacity: 0, width: 1000 },
+  // off-layout measuring box: absolute, invisible, left-anchored, never hit-testable (pointerEvents none on the View)
+  measureBox: { position: 'absolute', left: 0, top: 0, width: 1000, opacity: 0 },
+  measure: { alignSelf: 'flex-start' },
 });
