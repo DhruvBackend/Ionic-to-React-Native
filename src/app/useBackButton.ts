@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { BackHandler } from 'react-native';
 import { db } from '../api/client';
-import { navigationRef } from '../navigation/navigationRef';
+import { activeNavCanGoBack, navigationRef } from '../navigation/navigationRef';
 import { tabsFor } from '../navigation/tabs';
 import { dismissTopOverlay, isModalOpen, isOverlayOpen } from '../ui/overlays';
 import { confirmExit, handleBack } from './backButton';
@@ -19,7 +19,7 @@ export function useBackButton() {
       const action = handleBack({
         overlayOpen: isOverlayOpen(),
         routeName: modal ? 'IonicSelectableModalComponent' : navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name ?? '' : '',
-        canGoBack: modal ? false : navigationRef.isReady() && navigationRef.canGoBack(),
+        canGoBack: modal ? false : navigationRef.isReady() && activeNavCanGoBack(navigationRef.getRootState() as any),
       });
       switch (action) {
         case 'dismissOverlay':
