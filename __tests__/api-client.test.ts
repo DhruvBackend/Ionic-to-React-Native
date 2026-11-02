@@ -78,3 +78,14 @@ test('non-2xx rejects like Angular HttpClient', async () => {
   fakeFetch(500, { message: 'boom' });
   await expect(db.onGetRequestDataFromApi('x', db.rootUrl)).rejects.toBeInstanceOf(HttpError);
 });
+
+describe('shapeOf (debug [api-shape] log: structure only, never values)', () => {
+  const { shapeOf } = require('../src/api/client');
+  test('replaces every value by its type, keeps keys, first array item only', () => {
+    expect(shapeOf({ status: 'SUCCESS', user: { mobile_no: '9999999999', id: 7, ok: true, x: null }, list: [{ a: 1 }, { a: 2 }] })).toEqual({
+      status: 'string',
+      user: { mobile_no: 'string', id: 'number', ok: 'boolean', x: 'null' },
+      list: [{ a: 'number' }],
+    });
+  });
+});

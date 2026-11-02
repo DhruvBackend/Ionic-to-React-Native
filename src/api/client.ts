@@ -15,6 +15,7 @@
 import { jwtDecode } from 'jwt-decode';
 import { MODE, URLS } from '../config/env';
 import { mockRequest } from './mock';
+import { debugToolsEnabled } from '../config/buildInfo';
 import { storage } from '../storage';
 
 export class HttpError extends Error {
@@ -128,11 +129,37 @@ const networkTransport: Transport = async req => {
   } catch {
     // non-JSON body: Angular would also hand back the raw error; keep the text
   }
+  if (debugToolsEnabled) {
+    // Debug builds only: log the SHAPE of each server reply (keys + value types, and `status`), never values, so real
+    // responses can be compared with the fixtures without leaking numbers, OTPs, names or tokens into the log.
+    console.log(`[api-shape] ${req.method} ${req.fn} http=${res.status} status=${JSON.stringify(data?.status ?? null)} shape=${JSON.stringify(shapeOf(data))}`);
+  }
   if (!res.ok) {
     throw new HttpError(res.status, data);
   }
   return data;
 };
+
+// {a: 1, b: {c: 'x'}, d: [{e: true}]} -> {a: 'number', b: {c: 'string'}, d: [{e: 'boolean'}]} (first array item only)
+export function shapeOf(v: unknown, depth = 0): unknown {
+  if (v === null) {
+    return 'null';
+  }
+  if (Array.isArray(v)) {
+    return depth > 4 ? 'array' : v.length ? [shapeOf(v[0], depth + 1)] : [];
+  }
+  if (typeof v === 'object') {
+    if (depth > 4) {
+      return 'object';
+    }
+    const out: Record<string, unknown> = {};
+    for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+      out[k] = shapeOf(val, depth + 1);
+    }
+    return out;
+  }
+  return typeof v;
+}
 
 const mockTransport: Transport = req => mockRequest(req.method, req.fn, req.data, req.serverURL);
 
