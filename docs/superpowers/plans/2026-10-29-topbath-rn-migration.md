@@ -907,6 +907,8 @@ Each phase = S-tasks for the listed screens, followed by its **flow tests** and 
 - the debug APK has been checked on the phone by Dhruv against the phase checklist in `docs/PLAN.md`
 
 ### Phase 1: Onboarding & auth (7 + Customer/Retailer tabs)
+
+**Global risk to re-check in later phases (from the SelectRegistrationType S8 review, 2026-11-02):** Ionic pages whose `.module.ts` calls `TranslateModule.forRoot` get their *own* TranslateService instance. `setDefaultLang/use` on such a page only affect that page, and pages that never call `use()` show English keys. RN switches the language globally (`i18n.changeLanguage`). That is identical for the login flow (Language → SelectRegistrationType → MobileLogin, which calls its own `use(lang)`), but **every later screen's S8 review must check whether its Ionic module has its own `forRoot` and calls `use()`**, and copy the resulting language (e.g. force English where Ionic would).
 Screens: Language (pilot, done), SelectRegistrationType, MobileLogin, Otp, Registration, AboutusModal, Tabs.
 - [ ] **Flow test** `__tests__/flows/login.test.ts`, in MOCK, for each of the 4 roles: Language → SelectRegistrationType → MobileLogin → Otp. Then:
   - `auth/login` SUCCESS → Tabs with that role's tab set
