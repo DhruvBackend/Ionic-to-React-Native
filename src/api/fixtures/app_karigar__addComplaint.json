@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_karigar/addComplaint",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS"
+    },
+    "empty": {},
+    "malformed": null,
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}

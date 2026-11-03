@@ -1,0 +1,39 @@
+{
+  "endpoint": "app_karigar/get_customer",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "EXIST",
+      "customer": {
+        "id": "900021",
+        "first_name": "Ramesh Kumar",
+        "address": "12 Rajnagar Extension",
+        "state": "UTTAR PRADESH",
+        "district": "GHAZIABAD",
+        "city": "Sahibabad",
+        "pincode": "201010"
+      }
+    },
+    "NOTEXIST": {
+      "status": "NOTEXIST",
+      "karigar_type": "Customer",
+      "customer": ""
+    },
+    "seller": {
+      "status": "NOTEXIST",
+      "karigar_type": "Sales_Boy",
+      "customer": ""
+    },
+    "plumber": {
+      "status": "NOTEXIST",
+      "karigar_type": "Plumber",
+      "customer": ""
+    },
+    "empty": {},
+    "malformed": null,
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}
