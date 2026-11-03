@@ -37,3 +37,18 @@ test('Tabs for an unknown user type render no tabs (Ionic parity)', async () => 
   expect(tree!.root.findAllByProps({ testID: 'tabs-none' }).length).toBeGreaterThan(0);
   await ReactTestRenderer.act(async () => tree!.unmount());
 });
+
+test('a reachable Ionic page that is not ported yet opens as a placeholder route (Phase 2 kit)', async () => {
+   
+  const { placeholderRoutes } = require('../src/navigation/routes.generated');
+  if (!placeholderRoutes.length) {
+    return; // every page ported
+  }
+  const name = placeholderRoutes[0].name;
+  let tree: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => {
+    tree = ReactTestRenderer.create(<RootNavigator initialRouteName={name} />);
+  });
+  expect(tree!.root.findAllByProps({ testID: `placeholder-${name}` }).length).toBeGreaterThan(0);
+  await ReactTestRenderer.act(async () => tree!.unmount());
+});
