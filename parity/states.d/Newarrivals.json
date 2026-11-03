@@ -1,0 +1,50 @@
+[
+  {
+    "id": "Newarrivals.default",
+    "screen": "Newarrivals",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Newarrivals'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Newarrivals.oddCount",
+    "screen": "Newarrivals",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/newArrivals": "oddCount"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Newarrivals'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Newarrivals.empty",
+    "screen": "Newarrivals",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/newArrivals": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Newarrivals'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Newarrivals.hin",
+    "screen": "Newarrivals",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Newarrivals'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

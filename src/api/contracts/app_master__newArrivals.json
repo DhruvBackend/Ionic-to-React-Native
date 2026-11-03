@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/newArrivals",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "filter": { "search": "=", "limit": 0, "id": "=", "karigar_id": "900001" } },
+  "ionicSource": "src/pages/newarrivals/newarrivals.ts:102 (getProductList, constructor :36 and ionViewDidLoad :46; loadData at :76 sends limit = prod_list.length plus type: 'New Arivals', which one contract file cannot record: the test checks that call by hand)"
+}
