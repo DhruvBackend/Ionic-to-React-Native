@@ -543,3 +543,15 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Some "visual" bugs are functional.** The location screen's Google map would never have loaded on a phone. Only the side-by-side picture exposed it.
 
 **Interview angle:** "Your screenshot tests show big differences; what do you do first?" → verify the harness (timing, scaling, stubs) with a known-good pair, then diagnose app differences by root cause, and fix shared causes once in the shared component.
+
+## 2026-11-03 — Cutting token use without weakening the checks
+
+**What:** Added three token savers. `npm run parity:triage` crops each differing screenshot pair to the bands that differ and puts near-identical pairs on contact sheets (12 per image). `npm run gates` runs jest, tsc, eslint and the parity tests and prints one line each, plus errors only. `docs/TOKEN-POLICY.md`, `docs/IMPLEMENTER-BRIEF.md` and `docs/REVIEWER-BRIEF.md` give agents short briefs, diff-only reviews, report limits and batching of simple screens.
+
+**Learned:**
+- **Most AI cost is input, not output.** Every screenshot, log line and file an agent reads is paid for, and it is paid again on every later turn of that conversation. The cheapest token is one that is never read.
+- **Filter with code, judge with the model.** A pixel diff script costs nothing and decides which pairs need a model's eyes. The model still looks at everything, but a near-identical pair costs 1/12 of an image instead of two full screenshots.
+- **Mask what always differs.** The phone status bar and gesture bar differ in every pair and made every crop full height until they were masked out.
+- **Write the rules once.** The plan is 1,000 lines; the brief is about 60. Agents read the brief, and a missing rule gets fixed in one place.
+
+**Interview angle:** "Your LLM pipeline is too expensive; what do you do?" → measure where the tokens go (images, logs, repeated context), pre-filter with deterministic code, shrink the inputs (crops, quiet logs, short briefs), cap the outputs, and use smaller models only where a miss is cheap. Keep the quality gate the same.

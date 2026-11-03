@@ -13,7 +13,9 @@
     "parity:ref": "node parity/reference/capture.mjs",
     "parity:rn": "node parity/capture-rn.mjs",
     "parity:report": "node parity/report.mjs",
-    "parity:test": "node --test parity/reference/capture.test.mjs parity/report.test.mjs parity/ready.test.mjs"
+    "parity:test": "node --test parity/reference/capture.test.mjs parity/report.test.mjs parity/ready.test.mjs",
+    "gates": "node scripts/gates.mjs",
+    "parity:triage": "node parity/triage.mjs"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.1.1",

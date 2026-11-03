@@ -12,6 +12,7 @@
   - Global Constraints are at the top.
   - The **S-task** per-screen procedure (S1–S9, the S5 rules, the interaction check) is in the middle. **The S5 rules list every kit helper screens must use** (kit `Text`, `useIonViewWillEnter`, `src/ui/angularPipes`, `webAlert`, modal-portal back, alert text rules…). Read them.
   - Phase 2 status is recorded in "Phase 2: Core loyalty (22)". Phase 3 is "Phase 3: Catalogue & content (11)".
+- **Token rules (2026-11-03, read these):** `docs/TOKEN-POLICY.md`, agent briefs `docs/IMPLEMENTER-BRIEF.md` and `docs/REVIEWER-BRIEF.md`, `npm run gates` (quiet gates), `npm run parity:triage` (cropped diffs + contact sheets).
 - **Also:** `docs/PLAYBOOK.md` (worktree clean-up), `docs/LEARNING-LOG.md` (Dhruv's interview-prep log; add an entry per step), `docs/inventory.json`, `parity/README.md`.
 
 ## Hard rules (Dhruv's)
@@ -73,13 +74,13 @@
 Screens: Category, SubCategory, Products, ProductDetail, ProductSubdetail, Newarrivals, VideoCategory, Video, About, Contact, QuotationGenrateByPdf.
 
 - Same process as Phase 2: `node scripts/screen-card.mjs <Name>` → worktree `../tb-wt-<Name>` (branch `screen/<Name>`, junction node_modules) → Sonnet implementer with the brief → independent Sonnet S8 review → fix loop (max 2) → merge → `node scripts/gen-routes.mjs` + `node scripts/gen-fixtures.mjs` → jest, tsc, eslint, parity:test → remove worktree (junctions first).
-- **The implementer brief** used all of session 3 was in the session scratchpad (lost). Recreate it from: the plan's Global Constraints + S-task + S5 rules, this file's hard rules and kit list, "do not edit shared code — STOP and report", "shared fixtures: only add variants", "pass Ionic's exact strings", "no APK/Gradle/adb", "jest --maxWorkers=2", "report: files, gates, Quirks/States, STOP items, not-1:1 items". Save it in `docs/` this time (e.g. `docs/IMPLEMENTER-BRIEF.md`).
+- **Implementer and reviewer briefs:** recreated as `docs/IMPLEMENTER-BRIEF.md` and `docs/REVIEWER-BRIEF.md` (2026-11-03). Send those, not the plan. Batch simple screens 2–3 per implementer (`docs/TOKEN-POLICY.md`).
 - Order: screens with the most inbound links first (check the cards' "Nav targets"); check endpoint overlaps before running screens in parallel (a shared endpoint's contract/fixture goes on master first, as `offerList` did).
 - Phase 3 flow test (plan): Category → SubCategory → ProductDetail (infinite scroll next offset) → ProductSubdetail → share with the Ionic text; Quotation: build a list → `quotation_pdf` → `openExternal(upload_url3 + file_name)`.
 
 ### 2. Phone pass for Phase 2 + Phase 3 together
 
-Build the debug APK, install, capture refs (`node parity/reference/capture.mjs --only <Screen>.`) and RN (`node parity/capture-rn.mjs --only <Screen>. -s 444538eb`) for both phases, compute diffs (`node .reference/logs/diffs.mjs`), review every pair (split between reviewer agents, spot-check), fix, re-capture, tap-check every control, report for sign-off. Then build the **speed build** for Dhruv's TL demo.
+Build the debug APK, install, capture refs (`node parity/reference/capture.mjs --only <Screen>.`) and RN (`node parity/capture-rn.mjs --only <Screen>. -s 444538eb`) for both phases, run `npm run parity:triage` (cropped DIFF images + OK contact sheets), review every DIFF crop and every contact sheet (split between reviewer agents, spot-check), fix, re-capture, tap-check every control, report for sign-off. Then build the **speed build** for Dhruv's TL demo.
 
 ### 3. Phase 4: Complaints & service (15 screens), starting 2026-11-04
 
