@@ -1,0 +1,13 @@
+{
+  "endpoint": "app_karigar/cancelComplaintByCustomer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "id": 71,
+    "reason_cancel": "No longer needed",
+    "customer_id": "900001"
+  },
+  "ionicSource": "src/pages/cancel-complaint/cancel-complaint.ts:47 (submit)"
+}

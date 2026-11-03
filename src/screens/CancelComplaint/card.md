@@ -72,5 +72,13 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** Ionic MODAL page opened by ComplaintDetail.cancelComplaint(label) with `{id, label}`; `label` is never read (cancel-complaint.ts:32 is commented out). Listed in ionicModalPages.json.
+2. **Form.** `<form (ngSubmit)="f.form.valid && submit()">` with a `required` ion-textarea: an empty or missing remark sends nothing (spaces pass). The `error` class set after a submit has no style on `.cs-textarea`.
+3. **submit()** posts `{id, reason_cancel, customer_id}` and calls `closeModal()` (viewCtrl.dismiss) for ANY answer; the result is never read; no error callback (an HTTP error leaves the modal open).
+4. **Close** `<a (click)="closeModal()">` red 30 x 30 round icon at top 9 / right 9.
+5. **Dead markup.** The second `ion-content` (amount, html:39-66) is commented out. `.mb20` is defined nowhere.
+6. **No i18n**: hardcoded English.
+
 ## States
 
+default (modal over ComplaintDetail). Unit-tested only: empty remark, malformed answer, HTTP error.

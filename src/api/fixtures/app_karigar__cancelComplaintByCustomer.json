@@ -1,0 +1,14 @@
+{
+  "endpoint": "app_karigar/cancelComplaintByCustomer",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "msg": "Complaint cancelled"
+    },
+    "empty": {},
+    "malformed": {
+      "status": null
+    }
+  }
+}
