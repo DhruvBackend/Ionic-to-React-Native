@@ -1,0 +1,28 @@
+{
+  "endpoint": "app_karigar/list_of_plumber",
+  "server": "root",
+  "variants": {
+    "default": {
+      "karigars": [
+        { "id": "900001", "karigar_id": "900001", "first_name": "Rakesh Verma", "mobile_no": "9810000001" },
+        { "id": "900011", "karigar_id": "900011", "first_name": "Sunil Kumar", "mobile_no": "9810000011" },
+        { "id": "900012", "karigar_id": "900012", "first_name": "Mohan Lal", "mobile_no": "9810000012" }
+      ]
+    },
+    "nulls": {
+      "karigars": [
+        { "id": "900021", "karigar_id": "900021", "first_name": null, "mobile_no": "9810000021" },
+        { "id": "900022", "karigar_id": "900022", "first_name": "Anil Sharma", "mobile_no": null },
+        { "id": "900023", "karigar_id": "900023", "first_name": null, "mobile_no": null }
+      ]
+    },
+    "noId": {
+      "karigars": [
+        { "first_name": "Rakesh Verma", "mobile_no": "9810000001" }
+      ]
+    },
+    "none": { "karigars": [] },
+    "empty": {},
+    "malformed": null
+  }
+}

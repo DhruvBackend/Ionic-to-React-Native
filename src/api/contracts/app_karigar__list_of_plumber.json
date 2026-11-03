@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/list_of_plumber",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "filter": { "limit": "20" } },
+  "ionicSource": "src/pages/sales-point-transfer/sales-point-transfer.ts:46"
+}

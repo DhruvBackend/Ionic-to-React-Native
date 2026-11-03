@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/bonus_points",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "sales_boy_id": "900002", "plumber_id": "900001", "points": "100" },
+  "ionicSource": "src/pages/sales-point-transfer/sales-point-transfer.ts:98"
+}
