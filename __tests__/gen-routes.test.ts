@@ -19,9 +19,11 @@ function screensDir(screens: Record<string, { route?: string; index?: boolean }>
 }
 const route = (name: string) => `export default { name: '${name}', presentation: 'card', links: [] };`;
 
-function gen(dir: string) {
+function gen(dir: string, inventory: object[] = []) {
   const out = path.join(dir, 'routes.generated.ts');
-  execFileSync('node', [SCRIPT, '--dir', dir, '--out', out], { encoding: 'utf8', stdio: 'pipe' });
+  const inv = path.join(dir, 'inventory.json');
+  fs.writeFileSync(inv, JSON.stringify(inventory));
+  execFileSync('node', [SCRIPT, '--dir', dir, '--out', out, '--inventory', inv], { encoding: 'utf8', stdio: 'pipe' });
   return fs.readFileSync(out, 'utf8');
 }
 function genStatus(dir: string): number {
@@ -59,4 +61,42 @@ test('route name must equal the folder name (the Ionic page class without "Page"
 
 test('no screens yet still produces a valid, empty list', () => {
   expect(gen(screensDir({}))).toMatch(/export const routes: RouteDef\[\] = \[\];/);
+});
+
+// Phase 2 kit (2026-11-03): every reachable Ionic page that is not ported yet gets a placeholder route, so a ported
+// screen can push its real targets (OfferList -> Offers) and the phone tap check sees a page, not an unhandled action.
+function placeholders(out: string): { name: string; presentation: string }[] {
+  const m = out.match(/export const placeholderRoutes[^=]*= (\[[\s\S]*?\]);/);
+  return m ? JSON.parse(m[1]) : [];
+}
+
+test('LIVE and PUSH-ONLY inventory pages without a screen become placeholders; DEAD, ported and Tabs do not', () => {
+  const dir = screensDir({ Otp: { route: route('Otp'), index: true } });
+  const out = gen(dir, [
+    { name: 'Otp', status: 'LIVE' },
+    { name: 'Offers', status: 'LIVE' },
+    { name: 'Transaction', status: 'PUSH-ONLY' },
+    { name: 'Attendence', status: 'DEAD' },
+    { name: 'Tabs', status: 'LIVE' },
+  ]);
+  expect(placeholders(out)).toEqual([
+    { name: 'Offers', presentation: 'card' },
+    { name: 'Transaction', presentation: 'card' },
+  ]);
+});
+
+test('pages Ionic opened with modalCtrl.create get a modal placeholder', () => {
+  const out = gen(screensDir({}), [
+    { name: 'ViewProfile', status: 'LIVE' },
+    { name: 'CancelpolicyModal', status: 'LIVE' },
+  ]);
+  expect(placeholders(out)).toEqual([
+    { name: 'CancelpolicyModal', presentation: 'modal' },
+    { name: 'ViewProfile', presentation: 'modal' },
+  ]);
+});
+
+test('no inventory entries still produces an empty placeholder list', () => {
+  expect(placeholders(gen(screensDir({})))).toEqual([]);
+  expect(gen(screensDir({}))).toMatch(/export const placeholderRoutes/);
 });

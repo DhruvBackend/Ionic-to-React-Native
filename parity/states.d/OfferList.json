@@ -1,0 +1,36 @@
+[
+  {
+    "id": "OfferList.default",
+    "screen": "OfferList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('OfferList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "OfferList.empty",
+    "screen": "OfferList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/offerList": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('OfferList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "OfferList.hin",
+    "screen": "OfferList",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('OfferList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "No lang param: production never passes one (tab root / Home push); the app language is global (state lang), the title and label come from hin.json while the dates stay en-US."
+  }
+]
