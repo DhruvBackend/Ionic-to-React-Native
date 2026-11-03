@@ -1,0 +1,8 @@
+[
+  { "id": "PlumberList.default", "screen": "PlumberList", "role": "Sales_Boy", "lang": "en", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "PlumberList.dealer", "screen": "PlumberList", "role": "Dealer", "lang": "en", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "PlumberList.verified", "screen": "PlumberList", "role": "Sales_Boy", "lang": "en", "variants": { "app_karigar/sales_boy_plumber_list": "verified" }, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "PlumberList.reject", "screen": "PlumberList", "role": "Sales_Boy", "lang": "en", "variants": { "app_karigar/sales_boy_plumber_list": "reject" }, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "PlumberList.empty", "screen": "PlumberList", "role": "Sales_Boy", "lang": "en", "variants": { "app_karigar/sales_boy_plumber_list": "empty" }, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "PlumberList.malformed", "screen": "PlumberList", "role": "Sales_Boy", "lang": "en", "variants": { "app_karigar/sales_boy_plumber_list": "malformed" }, "params": {}, "ionicNav": "nav.setRoot(Page('PlumberList'), params)", "waitMs": 2800, "deviceVersion": "15" }
+]

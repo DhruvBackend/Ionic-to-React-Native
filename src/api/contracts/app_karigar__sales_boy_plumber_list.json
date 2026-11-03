@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/sales_boy_plumber_list",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "sales_boy_id": "", "limit": 0, "status": "=Pending", "search": "" } },
+  "note": "The entry / refresh / search / segment call. Segment taps send search undefined (dropped by JSON.stringify); status is the segment value.",
+  "ionicSource": "src/pages/plumber-list/plumber-list.ts:79"
+}

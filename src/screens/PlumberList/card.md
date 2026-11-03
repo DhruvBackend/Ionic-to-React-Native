@@ -86,5 +86,13 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- plumber-list.ts:40 ionViewDidLoad only logs (not ported); :49 onCancel only logs.
+- plumber-list.ts:101 / html:87: loadData reads `karigars` from app_karigar/getComplaintList (copy-paste) with loose `== ''`; a page without `karigars` appends an undefined row (Ionic's template then throws; RN shows an empty card).
+- plumber-list.ts:82-86: loader dismissed before the response is read; `karigars: null` throws at `.data` after the three counts are set.
+- plumber-list.ts:70: a segment tap calls getPlumber(statusType) with search undefined, which also clears the search box (ngModel).
+- plumber-list.html:52 'Satus:' (sic); no titlecase on the name; `.pt0 { padding-top: 0 !important }` beats the inline 6px of the foot block; the empty-state image sits outside the ngFor, so it shows when the list is empty.
+- No error callbacks: after an HTTP error the loader / infinite scroll stay up. Dialer click also bubbles to goToDetail.
+
 ## States
 
+- default (Pending, 3 plumbers, dash for missing last active/scan, points 0), verified, reject, empty (no_found image), malformed (karigars null), dealer (same page).
