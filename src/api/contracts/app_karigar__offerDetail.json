@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/offerDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "offer_id": 11, "karigar_id": "900001" },
+  "ionicSource": "src/pages/offers/offers.ts:74"
+}

@@ -1,0 +1,30 @@
+{
+  "endpoint": "app_karigar/offerDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "offer": { "id": 11, "title": "diwali dhamaka offer", "offer_banner": "offer_banner_11.jpg", "end_date": "2026-12-31" },
+      "gift": [
+        { "id": 21, "gift_title": "steel water bottle", "type": "Gift", "coupon_points": "500", "image": "gift_21.jpg", "offer_balance": "1200" },
+        { "id": 22, "gift_title": "bluetooth speaker", "type": "Gift", "coupon_points": "2500", "image": "gift_22.jpg", "offer_balance": "1200" },
+        { "id": 23, "gift_title": "cash voucher", "type": "", "coupon_points": "1000", "image": "", "offer_balance": "1200" }
+      ],
+      "karigar": { "balance_point": 1200, "reg_points": 100, "total_balance": 1200 }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "offer": { "id": 11, "title": "diwali dhamaka offer", "offer_banner": "offer_banner_11.jpg", "end_date": "2026-12-31" },
+      "gift": [],
+      "karigar": { "balance_point": 1200, "reg_points": 100, "total_balance": 1200 }
+    },
+    "malformed": { "status": "SUCCESS", "offer": null, "gift": null, "karigar": null },
+    "noKarigar": {
+      "status": "SUCCESS",
+      "offer": { "id": 11, "title": "diwali dhamaka offer", "offer_banner": "offer_banner_11.jpg", "end_date": "2026-12-31" },
+      "gift": [{ "id": 21, "gift_title": "steel water bottle", "type": "Gift", "coupon_points": "500", "image": "gift_21.jpg", "offer_balance": "1200" }],
+      "karigar": null
+    },
+    "NOT FOUND": { "status": "NOT FOUND" }
+  }
+}
