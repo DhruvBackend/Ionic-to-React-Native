@@ -1,0 +1,64 @@
+{
+  "endpoint": "app_karigar/sendOtp",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "otp": 123456,
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010",
+        "account_holder_name": "",
+        "bank_name": "",
+        "account_number": "",
+        "ifsc_code": ""
+      },
+      "gift": {
+        "id": 21,
+        "offer_id": 11,
+        "gift_title": "steel water bottle",
+        "coupon_points": "500",
+        "type": "Gift"
+      }
+    },
+    "cash": {
+      "status": "SUCCESS",
+      "otp": 123456,
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010"
+      },
+      "gift": {
+        "id": 22,
+        "offer_id": 11,
+        "gift_title": "cash voucher",
+        "coupon_points": "1000",
+        "type": "Cash"
+      }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "otp": 123456,
+      "karigar": {},
+      "gift": {}
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "otp": null,
+      "karigar": null,
+      "gift": null
+    }
+  }
+}
