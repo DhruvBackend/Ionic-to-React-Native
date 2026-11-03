@@ -67,7 +67,13 @@ export function applyDebugLink(link: DebugLink, sessions: Record<string, unknown
   if (link.role && sessions[link.role]) {
     db.userStorageData = sessions[link.role];
   }
-  if (link.lang) {
+  // Same as the Ionic reference harness (parity/reference/capture.mjs): a non-English state is a session where the user chose
+  // that language at login; an English state with a logged-in role is a cold start, where Ionic has no language (keys show).
+  if (link.lang && link.lang !== 'en') {
+    i18n.changeLanguage(link.lang);
+  } else if (link.role) {
+    i18n.changeLanguage('cimode');
+  } else if (link.lang) {
     i18n.changeLanguage(link.lang);
   }
   resetTo(link.screen, link.params);

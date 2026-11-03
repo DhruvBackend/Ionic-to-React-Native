@@ -32,7 +32,11 @@ export function buildResources(base: Record<string, Bundle>, overrides: Record<s
 
 i18n.use(initReactI18next).init({
   resources: buildResources({ en, hin, nep, es }, { en: enClient, hin: hinClient, nep: nepClient, es: esClient }),
-  lng: 'en', // Ionic: translate.setDefaultLang('en') in language.ts
+  // NOTE (parity): Ionic's app.component.ts never sets a language; only language.ts:56-57, mobile-login.ts:42-43 and otp.ts:64-65
+  // call setDefaultLang/use. After a restart while logged in, ngx-translate has no language and `| translate` prints the key
+  // (confirmed on the Play Store app 2026-11-03: Home reads "Last 7 Days", not "LAST 7 DAYS"; a Hindi user sees English keys).
+  // i18next 'cimode' returns the key; the Language / MobileLogin / Otp screens set the language exactly where Ionic does.
+  lng: 'cimode',
   fallbackLng: 'en',
   keySeparator: false,
   nsSeparator: false,

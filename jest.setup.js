@@ -25,3 +25,7 @@ jest.mock('@react-native-community/geolocation', () => ({
   default: { getCurrentPosition: jest.fn(), setRNConfiguration: jest.fn() },
 }));
 jest.mock('@react-native-community/netinfo', () => require('@react-native-community/netinfo/jest/netinfo-mock.js'));
+
+// Screen tests model a user who logged in during this session (MobileLogin/Otp set the language). The app itself starts
+// without a language (src/i18n 'cimode', the Ionic cold-start quirk); __tests__/i18nColdStart.test.ts covers that.
+require('./src/i18n').default.changeLanguage('en');
