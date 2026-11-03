@@ -146,10 +146,11 @@ export default function GiftDetailScreen({ navigation, route }: Props) {
           if (m.flag == '1') { // eslint-disable-line eqeqeq
             // :107-114. translate.get(undefined/'') throws "Parameter "key" required" in ngx-translate, so no alert then.
             const msg = r.msg;
-            if (msg === undefined || msg === null || !String(msg).length) {
+            // NOTE (parity): ngx-translate get(key) throws unless key is a non-empty string (get(5): `!key.length`), so no alert then.
+            if (typeof msg !== "string" || !msg.length) {
               throw new Error('Parameter "key" required');
             }
-            showAlertDialog(t(String(msg)));
+            showAlertDialog(t(msg));
             return; // :114
           }
           m.gift.coupon_points = parseInt(m.gift.coupon_points); // :118 (mutates the response object)
@@ -274,6 +275,8 @@ export default function GiftDetailScreen({ navigation, route }: Props) {
   // 16px broken-image box (unverified, as in Offers).
   const imgW = natural ? Math.min((natural.w * innerH) / natural.h, innerW) : imgFailed ? imageViewerMd.brokenImageSize : 0;
 
+  // NOTE (parity): Angular throws InvalidPipeArgument for a non-string title (titlecase) or an unparseable end_date (date pipe) and aborts that
+  // change detection; the shared pipes convert / print empty instead, so those odd server values are not modelled.
   const ink = colors.text;
   const muted = colors.textMuted;
 
@@ -355,7 +358,11 @@ export default function GiftDetailScreen({ navigation, route }: Props) {
                     {collapseWs(t('Update Now'))}
                   </Text>
                 </Text>
-              ) : null}
+              ) : (
+                // NOTE (parity): the aborted view still holds its static nodes, among them the empty inline-block <a class="kyc-reject-text">:
+                // one 20px line box inside the padding and border.
+                <View testID="gift-address-empty-line" style={styles.emptyLine} />
+              )}
             </View>
           ) : null}
 

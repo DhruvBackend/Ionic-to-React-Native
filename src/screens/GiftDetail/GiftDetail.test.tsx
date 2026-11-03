@@ -145,6 +145,7 @@ describe('states (card States)', () => {
     expect(box.backgroundColor).toBeUndefined(); // no 'kyc-reject' class
     expect(exists('gift-address-text')).toBe(false);
     expect(exists('gift-update-now')).toBe(false);
+    expect(StyleSheet.flatten(find('gift-address-empty-line')[0].props.style).height).toBe(20);
     // the error aborted the root view's text update: the initial empty template stays; the embedded views that were checked first show
     expect(text('gift-balance')).toBe('0');
     expect(text('gift-title')).toBe('');
@@ -196,6 +197,15 @@ describe('states (card States)', () => {
     await mount();
     expect(alerts()).toHaveLength(0);
     expect(openLoaders()).toHaveLength(0);
+  });
+
+  test('flag 1 with a non-string msg: translate.get throws, no alert', async () => {
+    setFixtureVariant('app_karigar/giftDetail', 'flag1');
+    const previous = getTransport();
+    setTransport(async req => ({ ...(await previous(req)), msg: 5 }) as any);
+    restoreTransport = () => setTransport(previous);
+    await mount();
+    expect(alerts()).toHaveLength(0);
   });
 
   test('empty (gift: {}, karigar: {}): blank values, NaN points (parseInt of undefined), no button', async () => {

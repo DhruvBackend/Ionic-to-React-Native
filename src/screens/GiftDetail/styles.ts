@@ -46,7 +46,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginRight: 16,
     boxShadow: giftDetailMd.imgSectionShadow,
-    width: 40,
+    // NOTE (parity): the CSS box is width 40 with flex-shrink 1 next to `.info { width: 100% }`; the row overflows, so it shrinks to its
+    // min-content, the 37px img ([T] 3783-3794, main.css). Hence 37, not 40.
+    width: 37,
     flexShrink: 0,
   },
   imgSectionImg: { width: 37, height: 37 },
@@ -65,6 +67,8 @@ export const styles = StyleSheet.create({
   kycReject: { backgroundColor: giftDetailMd.rejectBackground, borderColor: giftDetailMd.rejectBorder },
   // [S] 28-33 `.kyc-reject-text { color: #3a40ff; text-decoration: underline; margin-left: 5px; display: inline-block }`
   kycRejectText: { color: giftDetailMd.linkColor, textDecorationLine: 'underline' },
+  // the empty inline-block <a> of the aborted error block: one 20px line box
+  emptyLine: { height: 20 },
   // [CSS] `.h32 { height: 32px !important }`
   h32: { height: 32 },
 });
