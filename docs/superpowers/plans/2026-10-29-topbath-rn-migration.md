@@ -878,6 +878,7 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - **Loaders and errors as in Ionic:** if Ionic leaves a loader up on an error path (no dismiss in the error callback), the RN screen does the same — do not use `useLoader().wrap` there. Copy the exact show/hide calls.
   - Ionic `ionViewWillEnter` → `useIonViewWillEnter(cb)` from `src/navigation/useIonViewWillEnter` (runs on first entry and on every return, but not after a modal from `src/navigation/ionicModalPages.json` is dismissed, as in Ionic 3). Never a timing guard.
   - Angular pipes and moment come from `src/ui/angularPipes` (`interp`, `collapseWs`, `titlecase`, `datePipe(v, fmt)`, `momentFormat(v, fmt)`), never a local copy. `activeNavNames()` (Ionic `getActiveNav()`) lives in `src/navigation/navigationRef`. Client pictures go through `scripts/use-client.mjs` (`clients/<id>/assets/...`), never a separate generator.
+  - Alert/loading texts: pass Ionic's exact strings (double spaces, trailing spaces). The kit renders them like Ionic's `innerHTML` (whitespace collapses, `<br>` breaks; `src/components/ionic/html.ts`); never pre-collapse in the screen.
   - Text uses the kit `Text` from `src/components/ionic/IonText` (browser-like line breaking; lint enforces it).
   - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
   - Add a NOTE for every quirk.
