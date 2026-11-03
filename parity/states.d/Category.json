@@ -1,0 +1,6 @@
+[
+  { "id": "Category.default", "screen": "Category", "role": "Plumber", "lang": "en", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('Category'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "Five category rows (two without a picture show the perm_media icon); the infinite scroll element sits below the list." },
+  { "id": "Category.hin", "screen": "Category", "role": "Plumber", "lang": "hin", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('Category'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "Title and search placeholder come from hin.json." },
+  { "id": "Category.empty", "screen": "Category", "role": "Plumber", "lang": "en", "variants": { "app_master/parentCategory_List": "empty" }, "params": {}, "ionicNav": "nav.setRoot(Page('Category'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "No rows and no no-found image (the template test is `(!length) == 57`)." },
+  { "id": "Category.malformed", "screen": "Category", "role": "Plumber", "lang": "en", "variants": { "app_master/parentCategory_List": "malformed" }, "params": {}, "ionicNav": "nav.setRoot(Page('Category'), params)", "waitMs": 2800, "deviceVersion": "15" }
+]

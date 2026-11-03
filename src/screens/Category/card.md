@@ -85,5 +85,15 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** No navParams. `ionViewDidLoad` calls `presentLoading()` (empty body) then `getProductCategoryList('')`; `ionViewWillEnter` is empty, so coming back does not reload. i18n: own `TranslateModule.forRoot` but no `use()`: the app language applies ('Category', 'Search').
+2. **Shared filter.** One `filter` object feeds every call: `limit`, `search`, `name` (set by a row tap, never cleared) and `category_name` (the search box model) all stay in later bodies.
+3. **Loader.** `loadingCtrl.create({content: "", dismissOnPageChange: false})`. getProductCategoryList: the error callback does nothing (dismiss commented out), so an HTTP error leaves the loader up. goOnCategoryListPage dismisses before reading the answer; a null `categories` throws after it (no navigation).
+4. **Row tap.** `checkCategoryLength` answer length == 1 pushes SubCategory `{id: categories[0].id}`, otherwise (also 0) Products `{name}`. `goToNewArrivals` (Newarrivals) has no caller in the html.
+5. **Infinite scroll.** `threshold=100px`, `*ngIf="flag!=1"`, limit = list length. It reads `r['categories']==''` but the page uses `r['category']`: only `categories: ''`/`[]` ends it. 500 ms timer, `concat(r['category'])`, `complete()`.
+6. **Dead markup.** The no-found image test `!prod_cat_list.length == 57` never holds. `primary-bg` has no CSS rule. The commented `main-div` list is not ported.
+7. **Search.** Typing sets `filter.category_name`; emptying it reloads with search ''; Enter reloads with search = the text.
+8. **Leave.** `ionViewDidLeave` pops to root when the active nav shows a root page and its previous page is not one (same as PointList).
+
 ## States
 
+`default`, `hin` (title, placeholder), `empty` (no rows, no image), `malformed` (`category: null`: no rows).

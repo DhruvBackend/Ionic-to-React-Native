@@ -1,0 +1,14 @@
+{
+  "endpoint": "app_master/categoryList",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "filter": {
+      "limit": 0,
+      "name": "Pipes"
+    }
+  },
+  "ionicSource": "src/pages/products/products.ts:52 (getProductCategoryList: filter.limit = 0, filter.name = navParams name; filter.category_name1 joins once the search box is typed in); :94 loadData is dead (its infinite scroll is commented out in the html)"
+}
