@@ -7,7 +7,7 @@
 // `compareWith` anywhere in src/pages/**.html (grep of `<ion-select`). Those are supported anyway, except the
 // action-sheet and popover interfaces (never used; the alert is the Ionic default).
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Text } from './IonText';
 import { itemMd, selectMd } from '../../theme/ionicMdPickers';
 import { showAlert } from '../../ui/overlays';
@@ -99,24 +99,15 @@ function effectiveValue<T>(props: IonSelectProps<T>): unknown {
   return props.value;
 }
 
-export function IonSelect<T = any>(props: IonSelectProps<T>) {
+// the select logic shared by IonSelect (own item) and IonSelectInline (inside another item): text, ionChange rules, alert
+function useSelectLogic<T>(props: IonSelectProps<T>) {
   const {
     options,
-    label,
-    requiredMark,
-    floating = false,
     multiple = false,
     okText = 'OK',
     cancelText = 'Cancel',
-    placeholder = '',
-    selectedText = '',
     compareWith = isCheckedProperty,
     disabled = false,
-    variant = 'plain',
-    error,
-    testID = 'ion-select',
-    itemStyle,
-    prevMarginBottom,
   } = props;
   const value = effectiveValue(props);
   const text = selectText(options, value, compareWith);
@@ -187,6 +178,12 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
       },
     });
   };
+  return { text, open };
+}
+
+export function IonSelect<T = any>(props: IonSelectProps<T>) {
+  const { label, requiredMark, floating = false, placeholder = '', selectedText = '', disabled = false, variant = 'plain', error, testID = 'ion-select', itemStyle, prevMarginBottom } = props;
+  const { text, open } = useSelectLogic(props);
 
   return (
     <IonField
@@ -205,6 +202,19 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
     >
       <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
     </IonField>
+  );
+}
+
+// <ion-item><ion-input/><ion-select/></ion-item> (my-camplaints .serach-filter): only the select box (text + arrow) with the same
+// alert; pass it as IonInputItem `trailing`. Ionic's button.item-cover would cover the whole item (and the input); here only the
+// box is tappable so the input stays editable. Padding / arrow / colours / max-width come from the enclosing field spec (select.md.scss).
+export function IonSelectInline<T = any>(props: Omit<IonSelectProps<T>, 'label' | 'requiredMark' | 'floating' | 'variant' | 'error' | 'itemStyle' | 'prevMarginBottom'>) {
+  const { placeholder = '', selectedText = '', disabled = false, testID = 'ion-select' } = props;
+  const { text, open } = useSelectLogic(props);
+  return (
+    <Pressable testID={`${testID}-cover`} accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={open} style={styles.inlinePress}>
+      <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
+    </Pressable>
   );
 }
 
@@ -262,6 +272,8 @@ function SelectBox({
 }
 
 const styles = StyleSheet.create({
+  // ion-select sits at the end of the input-wrapper row; the input (flex: 1) takes the rest
+  inlinePress: { flexShrink: 0, maxWidth: '100%' },
   bordered: { borderWidth: 1 },
   // ion-select { display: flex; overflow: hidden }
   select: { flexDirection: 'row', overflow: 'hidden' },

@@ -215,6 +215,8 @@ export interface IonInputItemProps extends Omit<IonFieldProps, 'hasValue' | 'foc
   textarea?: boolean; // ion-textarea
   validation?: { valid?: boolean; invalid?: boolean; touched?: boolean }; // the ng-* classes copied to the item
   inputStyle?: StyleProp<TextStyle>;
+  // a second control in the same item-inner after the input (e.g. <IonSelectInline/> for `<ion-input/><ion-select/>`)
+  trailing?: React.ReactNode;
   itemStyle?: StyleProp<ViewStyle>;
   testID?: string;
 }
@@ -234,6 +236,7 @@ export function IonInputItem({
   autoFocus,
   validation,
   inputStyle,
+  trailing,
   testID = 'ion-input-item',
   error,
   ...field
@@ -275,6 +278,7 @@ export function IonInputItem({
       ) : (
         <IonInput {...common} error={error} type={type} maxLength={maxLength} readOnly={readOnly} testID={`${testID}-input`} />
       )}
+      {trailing}
     </IonField>
   );
 }
