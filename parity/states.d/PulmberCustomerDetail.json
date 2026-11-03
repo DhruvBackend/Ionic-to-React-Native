@@ -1,0 +1,172 @@
+[
+  {
+    "id": "PulmberCustomerDetail.default",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberPending"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pending, two images and a video, plumber assigned: Start Checkin button."
+  },
+  {
+    "id": "PulmberCustomerDetail.remark",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberRemark"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pending with a cancel remark: the new-remark block with View All."
+  },
+  {
+    "id": "PulmberCustomerDetail.verifying",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberVerifying"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pending, plumberStatus Pending: no Start Checkin."
+  },
+  {
+    "id": "PulmberCustomerDetail.closed",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberClosed"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Closed: Closed By / Closing Date / Closing Remark rows and a 4 star rating."
+  },
+  {
+    "id": "PulmberCustomerDetail.cancel",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberCancel"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Cancel: Cancel By / Date / Remark rows and View all."
+  },
+  {
+    "id": "PulmberCustomerDetail.partPending",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "partPending"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Part_Pending: Image row and Start Checkin."
+  },
+  {
+    "id": "PulmberCustomerDetail.unitReplacement",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "unitReplacement"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Unit_Replacement: Image row and Start Checkin."
+  },
+  {
+    "id": "PulmberCustomerDetail.empty",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "empty"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintDetails {}: upper part blank, no gallery (the template throws at complaint_media.length)."
+  },
+  {
+    "id": "PulmberCustomerDetail.malformed",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "malformed"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintDetails null: the template throws, blank page."
+  },
+  {
+    "id": "PulmberCustomerDetail.hin",
+    "screen": "PulmberCustomerDetail",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {
+      "app_karigar/getComplaintbyId": "plumberPending"
+    },
+    "params": {
+      "id": 71,
+      "close_com": false
+    },
+    "ionicNav": "nav.push(Page('PulmberCustomerDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Hindi labels."
+  }
+]

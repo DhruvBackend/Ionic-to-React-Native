@@ -1,0 +1,21 @@
+{
+  "endpoint": "app_karigar/plumberCheckIn",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "msg": "CheckinSuccess"
+    },
+    "failed": {
+      "status": "SUCCESS",
+      "msg": "CheckinFailed"
+    },
+    "empty": {
+      "status": "SUCCESS"
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "msg": null
+    }
+  }
+}

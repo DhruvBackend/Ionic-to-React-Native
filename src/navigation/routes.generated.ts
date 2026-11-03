@@ -66,32 +66,34 @@ import r31 from '../screens/Products/route';
 import C31 from '../screens/Products';
 import r32 from '../screens/Profile/route';
 import C32 from '../screens/Profile';
-import r33 from '../screens/QuotationGenrateByPdf/route';
-import C33 from '../screens/QuotationGenrateByPdf';
-import r34 from '../screens/Registration/route';
-import C34 from '../screens/Registration';
-import r35 from '../screens/SalesPointTransfer/route';
-import C35 from '../screens/SalesPointTransfer';
-import r36 from '../screens/ScanPoint/route';
-import C36 from '../screens/ScanPoint';
-import r37 from '../screens/SelectRegistrationType/route';
-import C37 from '../screens/SelectRegistrationType';
-import r38 from '../screens/ShippingDetail/route';
-import C38 from '../screens/ShippingDetail';
-import r39 from '../screens/SubCategory/route';
-import C39 from '../screens/SubCategory';
-import r40 from '../screens/Super30/route';
-import C40 from '../screens/Super30';
-import r41 from '../screens/Terms/route';
-import C41 from '../screens/Terms';
-import r42 from '../screens/Transaction/route';
-import C42 from '../screens/Transaction';
-import r43 from '../screens/Video/route';
-import C43 from '../screens/Video';
-import r44 from '../screens/VideoCategory/route';
-import C44 from '../screens/VideoCategory';
-import r45 from '../screens/ViewProfile/route';
-import C45 from '../screens/ViewProfile';
+import r33 from '../screens/PulmberCustomerDetail/route';
+import C33 from '../screens/PulmberCustomerDetail';
+import r34 from '../screens/QuotationGenrateByPdf/route';
+import C34 from '../screens/QuotationGenrateByPdf';
+import r35 from '../screens/Registration/route';
+import C35 from '../screens/Registration';
+import r36 from '../screens/SalesPointTransfer/route';
+import C36 from '../screens/SalesPointTransfer';
+import r37 from '../screens/ScanPoint/route';
+import C37 from '../screens/ScanPoint';
+import r38 from '../screens/SelectRegistrationType/route';
+import C38 from '../screens/SelectRegistrationType';
+import r39 from '../screens/ShippingDetail/route';
+import C39 from '../screens/ShippingDetail';
+import r40 from '../screens/SubCategory/route';
+import C40 from '../screens/SubCategory';
+import r41 from '../screens/Super30/route';
+import C41 from '../screens/Super30';
+import r42 from '../screens/Terms/route';
+import C42 from '../screens/Terms';
+import r43 from '../screens/Transaction/route';
+import C43 from '../screens/Transaction';
+import r44 from '../screens/Video/route';
+import C44 from '../screens/Video';
+import r45 from '../screens/VideoCategory/route';
+import C45 from '../screens/VideoCategory';
+import r46 from '../screens/ViewProfile/route';
+import C46 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -140,7 +142,8 @@ export const routes: RouteDef[] = [
   { ...r43, component: C43 },
   { ...r44, component: C44 },
   { ...r45, component: C45 },
+  { ...r46, component: C46 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
-export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"Customeradd","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"PulmberCustomerDetail","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"TaskClose","presentation":"card"}];
+export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"Customeradd","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"TaskClose","presentation":"card"}];
