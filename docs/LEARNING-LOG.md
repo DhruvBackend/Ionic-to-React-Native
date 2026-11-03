@@ -487,3 +487,19 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Keep an escape hatch.** An explicit `textBreakStrategy` on the kit `Text` still wins, so a screen can opt out if Ionic ever wrapped differently.
 
 **Interview angle:** "How do you enforce a cross-cutting UI rule across a large codebase?" → a thin wrapper component with the right default, a lint rule that bans the raw primitive, and a test that proves the lint rule fires.
+
+## 2026-11-03 — Phase 2 batch 1: four screens, and what reviews taught the kit
+
+**What:** Ported Home, Profile, OfferList and Offers in parallel worktrees: a Sonnet implementer and an independent Sonnet reviewer per screen. Three gaps the reviews exposed went into the shared kit:
+- a lifecycle hook (`useIonViewWillEnter`);
+- placeholder routes for the 50 unported pages;
+- one shared module for Angular pipes and moment formats.
+
+**Learned:**
+- **Framework lifecycles don't map 1:1.** Ionic 3 shows modals in an overlay portal, so closing one never re-enters the page below. React Navigation fires `focus` either way. Profile had patched it with a 150 ms timing guard, which a slow phone would break. The fix is a hook that remembers *why* the page lost focus: if a modal page took over, the next focus is swallowed.
+- **Duplication shows up in review, not in planning.** Three screens each copied Angular's `titlecase` and `date` pipes. A shared module, tested against Angular's own edge cases ("it's" becomes "It'S", `'0000-00-00'` becomes 30 Nov 1899), means every later screen gets them right for free.
+- **Check your own instructions too.** My brief said unported pages "resolve to placeholders". Only one did, so tapping an offer would silently do nothing on the phone. Reading the navigator code caught it before the phone check did.
+- **Read your grep.** My first list of Ionic modal pages counted commented-out `modalCtrl.create` lines (AboutusModal). A second grep over live code only was the truth.
+- **Generated files always conflict when merging parallel branches; that's fine.** The fix is to regenerate after each merge (`gen-routes`, `gen-fixtures`), not to hand-merge.
+
+**Interview angle:** "How do you keep quality up when several AI agents write code in parallel?" → isolated worktrees, an independent reviewer that sees the source but not the author's reasoning, at most two fix loops, and every repeated finding promoted into a shared, tested component plus a written rule.

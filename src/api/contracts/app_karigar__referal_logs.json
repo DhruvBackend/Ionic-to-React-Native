@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/referal_logs",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "900001", "filter": { "limit": 0 } },
+  "ionicSource": "src/pages/points/point-list/point-list.ts:174 (referal(), dead: never called)"
+}

@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_karigar/referal_logs",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "referal_logs": [
+        { "id": 41, "referred_name": "Vikas More", "mobile_no": "9000000031", "point": 50, "date_created": "2026-09-30 12:00:00" },
+        { "id": 42, "referred_name": "Prakash Jadhav", "mobile_no": "9000000032", "point": 100, "date_created": "2026-10-08 18:45:00" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "referal_logs": [] },
+    "malformed": { "status": "SUCCESS", "referal_logs": null }
+  }
+}
