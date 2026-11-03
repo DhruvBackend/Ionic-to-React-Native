@@ -26,6 +26,12 @@ interface Props {
 
 // `.tr-tags` / `.tr-points` text is `white-space: nowrap` inside `ion-label` (clipped, no ellipsis)
 const nowrap = { numberOfLines: 1, ellipsizeMode: 'clip' } as const;
+// NOTE (parity): html:118 / :124 a smaller inline <span> inside the item's 16px / line-height normal line box: the box is the strut
+// (ascent 15 + descent 4 = 19) and the span sits on its baseline (15 down). A Text's own lineHeight would win over an outer strut Text,
+// so the line is a View of the strut height holding the small Text pushed down by (strut ascent - span ascent).
+const spanAscent = (fontSize: number) => Math.round((fontSize * 1900) / 2048);
+const STRUT_BASELINE = spanAscent(16);
+const strutLine = { height: normalLineHeight(16) };
 
 // PointHistoryPage has no `receive_status` property; the template reads `receive_status != ''` at html:118 and :124. Always undefined.
 // NOTE (parity): `undefined != ''` is true, so for EVERY redeem row with gift_status 'Reject' the reject reason and the 'Refunded' label
@@ -560,9 +566,11 @@ export default function PointHistoryScreen({ route }: Props) {
                                 </Text>
                                 {/* html:118 an inline <span> in a line box whose strut is the item's 16px / line-height normal */}
                                 {rejectExtras && interp(titlecase(list.reject_reason)) !== '' ? (
-                                  <Text testID={`redeem-reason-${i}`} {...nowrap} style={textStyle(16, 400, P.ink, normalLineHeight(16))}>
-                                    <Text style={textStyle(11, 400, P.danger, normalLineHeight(11))}>{interp(titlecase(list.reject_reason))}</Text>
-                                  </Text>
+                                  <View testID={`redeem-reason-${i}`} style={strutLine}>
+                                    <Text {...nowrap} style={{ ...textStyle(11, 400, P.danger, normalLineHeight(11)), marginTop: STRUT_BASELINE - spanAscent(11) }}>
+                                      {interp(titlecase(list.reject_reason))}
+                                    </Text>
+                                  </View>
                                 ) : null}
                               </View>
                             </View>
@@ -575,9 +583,15 @@ export default function PointHistoryScreen({ route }: Props) {
                               </Text>
                               {/* html:124 span.refund has no rule of its own, but carries style="font-size: 12px!important": 12px black inside the item's 16px / line-height normal line box */}
                               {rejectExtras ? (
-                                <Text testID={`redeem-refund-${i}`} {...nowrap} style={[textStyle(16, 400, P.ink, normalLineHeight(16)), styles.trPointsText]}>
-                                  <Text testID={`redeem-refund-text-${i}`} style={textStyle(12, 400, P.ink, normalLineHeight(12))}>{collapseWs(t('Refunded'))}</Text>
-                                </Text>
+                                <View testID={`redeem-refund-${i}`} style={strutLine}>
+                                  <Text
+                                    testID={`redeem-refund-text-${i}`}
+                                    {...nowrap}
+                                    style={{ ...textStyle(12, 400, P.ink, normalLineHeight(12)), ...styles.trPointsText, marginTop: STRUT_BASELINE - spanAscent(12) }}
+                                  >
+                                    {collapseWs(t('Refunded'))}
+                                  </Text>
+                                </View>
                               ) : null}
                             </View>
                           </View>
