@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ViewProfile.profile",
+    "screen": "ViewProfile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "Image": "profile/ramesh.jpg", "mode": "profile" },
+    "ionicNav": "nav.setRoot(Page('ViewProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Production opens this as a modal from Profile (profile.ts:277, tap on the avatar) and plumber-customer-detail.ts:214; the harness sets it as root with the same params."
+  },
+  {
+    "id": "ViewProfile.productImg",
+    "screen": "ViewProfile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "Image": "sample.png", "mode": "product_img" },
+    "ionicNav": "nav.setRoot(Page('ViewProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Production: product-subdetail.ts:396 modal with mode 'product_img' (product_image_url + Image)."
+  },
+  {
+    "id": "ViewProfile.noMode",
+    "screen": "ViewProfile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "Image": "profile/ramesh.jpg" },
+    "ionicNav": "nav.setRoot(Page('ViewProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Callers that send only {Image} (home.ts:416, dealer-profile, order-detail, complaint-detail...): neither *ngIf matches, so the modal is an empty dark page with no close button."
+  }
+]
