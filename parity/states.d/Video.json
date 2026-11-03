@@ -1,0 +1,55 @@
+[
+  {
+    "id": "Video.default",
+    "screen": "Video",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "cat": "installation"
+    },
+    "ionicNav": "nav.setRoot(Page('Video'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Video.empty",
+    "screen": "Video",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/videoList": "empty"
+    },
+    "params": {
+      "cat": "installation"
+    },
+    "ionicNav": "nav.setRoot(Page('Video'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Video.nocategory",
+    "screen": "Video",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Video'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pushed without params the title is the translated Videos."
+  },
+  {
+    "id": "Video.hin",
+    "screen": "Video",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "cat": "installation"
+    },
+    "ionicNav": "nav.setRoot(Page('Video'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

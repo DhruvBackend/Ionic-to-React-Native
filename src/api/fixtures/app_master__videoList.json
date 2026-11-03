@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_master/videoList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "video": [
+        { "id": 1, "url": "https://www.youtube.com/embed/aqz-KE-bpKQ", "desc": "How to install a basin mixer" },
+        { "id": 2, "url": "https://www.youtube.com/embed/ysz5S6PUM-U", "desc": "Care and cleaning of chrome fittings" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "video": [] },
+    "malformed": { "status": "SUCCESS", "video": null }
+  }
+}
