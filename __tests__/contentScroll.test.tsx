@@ -407,6 +407,39 @@ describe('ion-refresher', () => {
       expect(exists('sv-refresher-edge')).toBe(true);
     });
 
+    // Phase 2 phone pass (2026-11-03): the one-shot scroll to 160 was clamped natively (content not tall enough yet) and never
+    // re-applied, so a 160 dp white gap stayed above Home / OfferList / PointHistory at random.
+    test('while idle and not dragging, any later layout / content-size change re-parks the content at offset 160', () => {
+      mount(
+        <IonContent testID="sv">
+          <IonRefresher>
+            <IonRefresherContent />
+          </IonRefresher>
+          <Text>row</Text>
+        </IonContent>,
+      );
+      act(() => props().onContentSizeChange(360, 160)); // first size event before the viewport is known: clamped natively
+      act(() => props().onScroll(raw(0))); // the native position stayed at 0 (inside the spacer)
+      scrollTo().mockClear();
+      act(() => props().onLayout({ nativeEvent: { layout: { x: 0, y: 0, width: 360, height: 400 } } }));
+      act(() => props().onContentSizeChange(360, 560));
+      expect(scrollTo()).toHaveBeenCalledWith({ x: 0, y: 160, animated: false });
+    });
+
+    test('Ionic scrollTop is never negative: onScroll and the metrics clamp a position inside the spacer to 0', () => {
+      const onScroll = jest.fn();
+      mount(
+        <IonContent testID="sv" onScroll={onScroll}>
+          <IonRefresher>
+            <IonRefresherContent />
+          </IonRefresher>
+          <Text>row</Text>
+        </IonContent>,
+      );
+      act(() => props().onScroll(raw(0)));
+      expect(onScroll.mock.calls[0][0].nativeEvent.contentOffset.y).toBe(0);
+    });
+
     test('without a refresher there is no spacer', () => {
       mount(
         <IonContent testID="sv">

@@ -194,13 +194,25 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
     [scrollToRaw],
   );
 
+  // Phase 2 phone pass (2026-11-03): the one-shot scroll to the spacer could be clamped natively (content not tall enough yet)
+  // and was never re-applied, leaving a 160 dp white gap above the page at random. While the refresher is idle and nobody is
+  // dragging, a position inside the spacer is never valid, so every layout / content-size change parks it at scrollTop 0 again.
+  const repark = () => {
+    const base = spacerRef.current;
+    if (base > 0 && !dragging.current && controller.state === 'inactive' && offset.current < base - 0.5) {
+      scrollToRaw(base, false);
+    }
+  };
+
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const n = e.nativeEvent;
     const base = spacerRef.current;
     offset.current = n.contentOffset.y;
     const top = n.contentOffset.y - base;
     metrics.current = {
-      scrollTop: top,
+      // Ionic's scrollTop is never negative (during a pull the content is translated, scrollTop stays 0). A negative value
+      // here made ion-infinite-scroll load pages by itself (PointHistory rows doubled on the phone, 2026-11-03).
+      scrollTop: Math.max(0, top),
       scrollHeight: n.contentSize.height - base,
       contentHeight: n.layoutMeasurement.height,
     };
@@ -222,7 +234,7 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
         ...e,
         nativeEvent: {
           ...n,
-          contentOffset: { ...n.contentOffset, y: top },
+          contentOffset: { ...n.contentOffset, y: Math.max(0, top) },
           contentSize: { ...n.contentSize, height: metrics.current.scrollHeight },
         },
       } as NativeSyntheticEvent<NativeScrollEvent>);
@@ -282,11 +294,13 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
               scrollToRaw(Math.max(0, offset.current + shift.current), false);
               shift.current = null;
             }
+            repark();
             onContentSizeChange?.(w, h);
           }}
           onLayout={e => {
             metrics.current = { ...metrics.current, contentHeight: e.nativeEvent.layout.height };
             setViewport(e.nativeEvent.layout.height);
+            repark();
             onLayout?.(e);
           }}
           contentContainerStyle={[pad, spacer > 0 && { paddingTop: baseTop + spacer, minHeight: viewport + spacer }]}
