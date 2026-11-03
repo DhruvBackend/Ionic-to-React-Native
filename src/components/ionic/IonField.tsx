@@ -200,7 +200,10 @@ export interface IonFieldProps {
   itemStyle?: StyleProp<ViewStyle>;
   // A page's own SCSS overrides of the label (e.g. scan-point.scss restyles the cs-input label: 13px at margin-top -17).
   // Applied after the variant values, so only the given keys change.
-  labelStyle?: { fontSize?: number; marginTop?: number; paddingLeft?: number };
+  // `color` models a page's `ion-label { color: … !important }` (e.g. variables.scss:1086-1092 .cs-textarea): wins over focus/error colours.
+  labelStyle?: { fontSize?: number; marginTop?: number; paddingLeft?: number; color?: string };
+  // A page's own `.item-inner` overrides (e.g. `.cs-textarea .item-inner { padding-right: 0 }`, variables.scss:1083-1085).
+  innerStyle?: { paddingRight?: number };
   // set by IonList (see IonList.tsx): `.list-md > .item-block:last-child .item-inner { border-bottom: 0 }` and [no-lines]
   isLast?: boolean;
   noLines?: boolean;
@@ -229,6 +232,7 @@ export function IonField({
   underline,
   itemStyle,
   labelStyle,
+  innerStyle,
   isLast,
   noLines,
   prevMarginBottom,
@@ -296,7 +300,7 @@ export function IonField({
     alignItems: 'center',
     alignSelf: 'stretch',
     overflow: 'hidden',
-    paddingRight: mainCs || csInput ? csForm.innerPaddingRight : edit ? editForm.innerPaddingRight : itemMd.innerPaddingRight,
+    paddingRight: innerStyle?.paddingRight ?? (mainCs || csInput ? csForm.innerPaddingRight : edit ? editForm.innerPaddingRight : itemMd.innerPaddingRight),
     // .edit .item-inner { border: none !important }; cs-select: border-bottom 0 !important
     borderBottomWidth: edit ? 0 : isSelect ? csForm.csSelect.innerBorderBottomWidth : itemMd.innerBorderBottomWidth,
     borderBottomColor: itemMd.innerBorderBottomColor,
@@ -433,6 +437,7 @@ export function IonField({
     fontSize = labelStyle.fontSize ?? fontSize;
     paddingLeft = labelStyle.paddingLeft ?? paddingLeft;
     margins = { ...margins, top: labelStyle.marginTop ?? margins.top };
+    color = labelStyle.color ?? color;
   }
   const labelHeight = lineHeight ?? normalLineHeight(fontSize);
   const labelFlow = label !== undefined && !absolute ? margins.top + labelHeight + margins.bottom : 0;
