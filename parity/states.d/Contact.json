@@ -1,0 +1,35 @@
+[
+  {
+    "id": "Contact.default",
+    "screen": "Contact",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Contact'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Contact.customer",
+    "screen": "Contact",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Contact'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Contact.hin",
+    "screen": "Contact",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Contact'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
