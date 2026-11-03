@@ -59,15 +59,17 @@ export interface IonFabButtonProps {
   color?: 'primary' | 'danger' | 'secondary' | 'light' | 'dark' | 'success' | 'warning' | 'white';
   mini?: boolean; // [mini]: 40 px (margin 8 px, removed by Topbath's global button{margin:0!important})
   icon?: string; // ion-icon name drawn 24 px in the contrast colour
+  size?: number; // page SCSS override of the fab box (e.g. `.fab[mini]{width:30px;height:30px}`); wins over `mini`
+  iconSize?: number; // page SCSS override of `.fab ion-icon{font-size}` in px
   onPress?: () => void;
   testID?: string;
   children?: React.ReactNode;
 }
 
-export function IonFabButton({ color = 'primary', mini, icon, onPress, testID = 'ion-fab-button', children }: IonFabButtonProps) {
+export function IonFabButton({ color = 'primary', mini, icon, size: sizeOverride, iconSize, onPress, testID = 'ion-fab-button', children }: IonFabButtonProps) {
   const bg = ionicColors[color];
   const fg = fabMd.contrast; // primary and danger contrast = #fff (fab.md.scss:16)
-  const size = mini ? fabMd.miniSize : fabMd.size;
+  const size = sizeOverride ?? (mini ? fabMd.miniSize : fabMd.size);
   return (
     <RippleButton
       testID={testID}
@@ -79,7 +81,7 @@ export function IonFabButton({ color = 'primary', mini, icon, onPress, testID = 
       ]}
       activatedStyle={{ backgroundColor: colorShade(bg), boxShadow: fabMd.boxShadowActivated }}
     >
-      {icon ? <IonIcon name={icon} size={fabMd.iconSize} color={fg} /> : children}
+      {icon ? <IonIcon name={icon} size={iconSize ?? fabMd.iconSize} color={fg} /> : children}
     </RippleButton>
   );
 }
