@@ -79,5 +79,14 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- newarrivals.ts:36/49: getProductList runs twice on entry (constructor and ionViewDidLoad): two identical requests; no loader (presentLoading is never called).
+- newarrivals.ts:76: infinite scroll sends type 'New Arivals' (sic) with {filter}; getProductList (:102) sends {filter} only. Both via post_rqst (tokenOnly).
+- newarrivals.ts:74/78: offset limit = prod_list.length; `r['products']==''` is loose, so [] ends paging (flag=1); doRefresh resets flag to '' (:66) so the infinite scroll returns.
+- newarrivals.html:8: (ngModelChange) searches on every keystroke; no debounce, no Enter handler.
+- newarrivals.html:1: [ngClass]="{remove: usertype == 'Plumber'}": Plumber sees the back button, others a hidden one (usertype read once in the constructor).
+- newarrivals.html:29: main-div only with products; null `products` throws in Ionic (view keeps its old state). Banner is assets/imgs/banner.png (client file); the remote newarrival.jpg is commented out.
+- newarrivals.html:36: the grid wrapper div is a flex item with auto width (shrink-wrap in CSS); RN gives it the full row width (equal for long product names).
+
 ## States
 
+- default (4 products, one without image), oddCount (3), empty (no_found image), hin (title and Search translated), malformed and HTTP error (unit-tested: blank view, no loader).

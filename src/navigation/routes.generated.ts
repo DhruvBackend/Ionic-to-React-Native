@@ -20,46 +20,48 @@ import r8 from '../screens/MainHome/route';
 import C8 from '../screens/MainHome';
 import r9 from '../screens/MobileLogin/route';
 import C9 from '../screens/MobileLogin';
-import r10 from '../screens/Notification/route';
-import C10 from '../screens/Notification';
-import r11 from '../screens/OfferList/route';
-import C11 from '../screens/OfferList';
-import r12 from '../screens/Offers/route';
-import C12 from '../screens/Offers';
-import r13 from '../screens/Otp/route';
-import C13 from '../screens/Otp';
-import r14 from '../screens/PointHistory/route';
-import C14 from '../screens/PointHistory';
-import r15 from '../screens/PointList/route';
-import C15 from '../screens/PointList';
-import r16 from '../screens/PointLocation/route';
-import C16 from '../screens/PointLocation';
-import r17 from '../screens/Pointtranfer/route';
-import C17 from '../screens/Pointtranfer';
-import r18 from '../screens/ProductDetail/route';
-import C18 from '../screens/ProductDetail';
-import r19 from '../screens/ProductSubdetail/route';
-import C19 from '../screens/ProductSubdetail';
-import r20 from '../screens/Profile/route';
-import C20 from '../screens/Profile';
-import r21 from '../screens/Registration/route';
-import C21 from '../screens/Registration';
-import r22 from '../screens/SalesPointTransfer/route';
-import C22 from '../screens/SalesPointTransfer';
-import r23 from '../screens/ScanPoint/route';
-import C23 from '../screens/ScanPoint';
-import r24 from '../screens/SelectRegistrationType/route';
-import C24 from '../screens/SelectRegistrationType';
-import r25 from '../screens/ShippingDetail/route';
-import C25 from '../screens/ShippingDetail';
-import r26 from '../screens/Super30/route';
-import C26 from '../screens/Super30';
-import r27 from '../screens/Terms/route';
-import C27 from '../screens/Terms';
-import r28 from '../screens/Transaction/route';
-import C28 from '../screens/Transaction';
-import r29 from '../screens/ViewProfile/route';
-import C29 from '../screens/ViewProfile';
+import r10 from '../screens/Newarrivals/route';
+import C10 from '../screens/Newarrivals';
+import r11 from '../screens/Notification/route';
+import C11 from '../screens/Notification';
+import r12 from '../screens/OfferList/route';
+import C12 from '../screens/OfferList';
+import r13 from '../screens/Offers/route';
+import C13 from '../screens/Offers';
+import r14 from '../screens/Otp/route';
+import C14 from '../screens/Otp';
+import r15 from '../screens/PointHistory/route';
+import C15 from '../screens/PointHistory';
+import r16 from '../screens/PointList/route';
+import C16 from '../screens/PointList';
+import r17 from '../screens/PointLocation/route';
+import C17 from '../screens/PointLocation';
+import r18 from '../screens/Pointtranfer/route';
+import C18 from '../screens/Pointtranfer';
+import r19 from '../screens/ProductDetail/route';
+import C19 from '../screens/ProductDetail';
+import r20 from '../screens/ProductSubdetail/route';
+import C20 from '../screens/ProductSubdetail';
+import r21 from '../screens/Profile/route';
+import C21 from '../screens/Profile';
+import r22 from '../screens/Registration/route';
+import C22 from '../screens/Registration';
+import r23 from '../screens/SalesPointTransfer/route';
+import C23 from '../screens/SalesPointTransfer';
+import r24 from '../screens/ScanPoint/route';
+import C24 from '../screens/ScanPoint';
+import r25 from '../screens/SelectRegistrationType/route';
+import C25 from '../screens/SelectRegistrationType';
+import r26 from '../screens/ShippingDetail/route';
+import C26 from '../screens/ShippingDetail';
+import r27 from '../screens/Super30/route';
+import C27 from '../screens/Super30';
+import r28 from '../screens/Terms/route';
+import C28 from '../screens/Terms';
+import r29 from '../screens/Transaction/route';
+import C29 from '../screens/Transaction';
+import r30 from '../screens/ViewProfile/route';
+import C30 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -92,7 +94,8 @@ export const routes: RouteDef[] = [
   { ...r27, component: C27 },
   { ...r28, component: C28 },
   { ...r29, component: C29 },
+  { ...r30, component: C30 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
-export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"About","presentation":"card"},{"name":"AddNewComplaint","presentation":"card"},{"name":"CancelComplaint","presentation":"modal"},{"name":"Category","presentation":"card"},{"name":"ComplaintDetail","presentation":"card"},{"name":"ComplaintHistory","presentation":"card"},{"name":"ComplaintRemarks","presentation":"card"},{"name":"Contact","presentation":"card"},{"name":"Customeradd","presentation":"card"},{"name":"Customerdetail","presentation":"card"},{"name":"Customerlist","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"Newarrivals","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"Products","presentation":"card"},{"name":"PulmberCustomerDetail","presentation":"card"},{"name":"QuotationGenrateByPdf","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"SubCategory","presentation":"card"},{"name":"TaskClose","presentation":"card"},{"name":"Video","presentation":"card"},{"name":"VideoCategory","presentation":"card"}];
+export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"About","presentation":"card"},{"name":"AddNewComplaint","presentation":"card"},{"name":"CancelComplaint","presentation":"modal"},{"name":"Category","presentation":"card"},{"name":"ComplaintDetail","presentation":"card"},{"name":"ComplaintHistory","presentation":"card"},{"name":"ComplaintRemarks","presentation":"card"},{"name":"Contact","presentation":"card"},{"name":"Customeradd","presentation":"card"},{"name":"Customerdetail","presentation":"card"},{"name":"Customerlist","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"Products","presentation":"card"},{"name":"PulmberCustomerDetail","presentation":"card"},{"name":"QuotationGenrateByPdf","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"SubCategory","presentation":"card"},{"name":"TaskClose","presentation":"card"},{"name":"Video","presentation":"card"},{"name":"VideoCategory","presentation":"card"}];
