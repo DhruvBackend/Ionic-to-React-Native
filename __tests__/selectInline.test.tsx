@@ -3,7 +3,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import { View } from 'react-native';
 import { IonInputItem } from '../src/components/ionic/IonInput';
-import { IonSelectInline } from '../src/components/ionic/IonSelect';
+import { IonSelectBox, IonSelectInline, useIonSelect } from '../src/components/ionic/IonSelect';
 import { OverlayHost } from '../src/components/ionic/OverlayHost';
 import { _resetOverlaysForTests } from '../src/ui/overlays';
 
@@ -44,4 +44,30 @@ test('select inside an input item: one item, selected text shown, alert with opt
   press('alert-radio-2');
   press('alert-button-1');
   expect(onChange).toHaveBeenCalledWith('Closed');
+});
+
+test('useIonSelect + IonSelectBox + IonInputItem cover: the whole item opens the select (Ionic item-cover)', () => {
+
+
+  const opts = [{ value: '', label: 'All' }, { value: 'Pending', label: 'Pending' }];
+  function Row() {
+    const sel = useIonSelect({ options: opts, value: 'Pending', onChange: () => {} });
+    return <IonInputItem testID="row" value="" onChangeText={() => {}} cover={{ onPress: sel.open }} trailing={<IonSelectBox text={sel.text} />} />;
+  }
+  let r!: ReactTestRenderer.ReactTestRenderer;
+  ReactTestRenderer.act(() => { r = ReactTestRenderer.create(<Row />); });
+  expect(r.root.findAll(n => n.props.testID === 'row-cover').length).toBeGreaterThan(0);
+  expect(JSON.stringify(r.toJSON())).toContain('Pending');
+});
+
+test('IonSelect fontSize / isLast pass through (plumber-checkin .bodr-botm ion-item { font-size: 14px })', () => {
+  const { IonSelect } = require('../src/components/ionic/IonSelect');
+  const { StyleSheet } = require('react-native');
+  let r!: ReactTestRenderer.ReactTestRenderer;
+  ReactTestRenderer.act(() => {
+    r = ReactTestRenderer.create(<IonSelect label="Complaint" options={[{ value: 1, label: 'A' }]} value={1} fontSize={14} isLast testID="s" />);
+  });
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-text').props.style).fontSize).toBe(14);
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-label-text').props.style).fontSize).toBe(14);
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-inner').props.style).borderBottomWidth).toBe(0);
 });

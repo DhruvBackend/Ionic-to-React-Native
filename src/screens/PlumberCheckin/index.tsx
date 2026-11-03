@@ -200,11 +200,11 @@ export default function PlumberCheckinScreen({ navigation }: Props) {
         {has ? (
           <IonList style={styles.list}>
             <View>
-              {/* html:15-21. NOTE (parity): `.bodr-botm ion-item { font-size: 14px }` (the label and the selected text are 14px) is not applied:
-                  IonSelect has no font-size prop (STOP item); the option text is the template's `{{customerName}}  COM# {{id}} ({{type}})`
-                  (the double space collapses like HTML). */}
+              {/* html:15-21: the option text is the template's `{{customerName}}  COM# {{id}} ({{type}})` (the double space collapses like HTML). `.bodr-botm ion-item { font-size: 14px }`; the select item is the list's only child (`.list-md > .item-block:last-child .item-inner { border-bottom: 0 }`). */}
               <IonSelect
                 testID="complaint-select"
+                fontSize={14}
+                isLast
                 label={t('Complaint')}
                 value={selected}
                 options={complaintList.map((row: any) => ({
@@ -213,8 +213,6 @@ export default function PlumberCheckinScreen({ navigation }: Props) {
                 }))}
                 onChange={onSelect}
               />
-              {/* the select item is the list's last child: `.list-md > .item-block:last-child .item-inner { border-bottom: 0 }` */}
-              <View pointerEvents="none" style={styles.lastLineCover} />
             </View>
           </IonList>
         ) : null}

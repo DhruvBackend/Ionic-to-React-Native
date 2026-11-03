@@ -12,6 +12,4 @@ export const styles = StyleSheet.create({
   // the height is set from the content's measured height in index.tsx
   dataNot: { width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' },
   dataNotText: { fontStyle: 'italic', letterSpacing: C.dataNot.letterSpacing },
-  // covers the 1px #dedede inner line of the select item (`.list-md > .item-block:last-child .item-inner { border-bottom: 0 }`), see index.tsx
-  lastLineCover: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 1, backgroundColor: colors.white },
 });

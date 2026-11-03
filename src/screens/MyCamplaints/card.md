@@ -88,5 +88,13 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** `ionViewDidLoad` (not the constructor) shows the loader, calls getComplaintlist(type) and then sets `filter.status = ''`: the first request has no `status` key, later ones send `''` until the select changes. The loader is dismissed before `response['plumberComplaintList']` is read; no error callback (an HTTP error leaves the loader up).
+2. **Header.** One `ion-item` holds the search `ion-input` and the status `ion-select` (All / Pending / Closed / Cancel). Search keystroke: `getComplaintlist()` with no argument sets `data.type = undefined`, so that request and every later one (paging, refresh) sends no `type`. Select change: `getComplaintlist(data.type)`. The `.found` div is empty. The select's `button.item-cover` covers the whole item, so the search input cannot be focused (a tap anywhere opens the select); the search handler is unreachable by touch.
+3. **List.** `*ngIf="!complaint_list"` shows the no-found image only for null/undefined (an empty array is truthy: blank). Rows: letter badge (`span.alphabet`, absolute), titlecased name, mobile, call link (no bubbling), `Address` + `COM#id`, address `address city district state pincode` (titlecase), `Nature Problem :`, `Status :` with the `.Pending/.Closed/.Cancel` colour classes applied to the `p` (they do show here). The last box has no border-bottom and margin-bottom 30. Tapping name, mobile, address block, problem or status pushes PulmberCustomerDetail `{id, close_com: false}`; the call anchor only dials.
+4. **Paging** (`flag != 1`): loadData sets `limit = list.length`, an empty page (`== ''`) sets `flag = 1` without `complete()`, otherwise after 1 s concat + complete. `doRefresh` completes at once.
+5. **Dead:** `complaint_count`, `close_com` (never read by the template), the commented plumberDetail branches (:108-123).
+6. **i18n:** `| translate` keys; own TranslateModule never calls `use()` (global language).
+
 ## States
 
+`default` (`complaints`: Pending / Closed / Cancel rows), `empty` (`[]`), `malformed` (`null`: no-found image), `hin`. Fixture `app_karigar/getPlumberComplaintList` (variants added: complaints, complaintsMore, complaintsClosed); contract `app_karigar/getPlumberComplaintList.MyCamplaints` (the base contract belongs to PointHistory/PointList); `parity/states.d/MyCamplaints.json`.

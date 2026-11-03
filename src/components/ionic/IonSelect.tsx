@@ -13,6 +13,7 @@ import { itemMd, selectMd } from '../../theme/ionicMdPickers';
 import { showAlert } from '../../ui/overlays';
 import { IonField, useField, type FieldVariant } from './IonField';
 import { textStyle } from './text';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 
 export interface IonOption<T = any> {
   value: T;
@@ -49,6 +50,10 @@ export interface IonSelectProps<T = any> {
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
   prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
+  // page `ion-item { font-size }` overrides (e.g. plumber-checkin `.bodr-botm ion-item { font-size: 14px }`): label and selected text inherit it
+  fontSize?: number;
+  isLast?: boolean; // as IonField: last item of an ion-list (no inner bottom line)
+  noLines?: boolean; // as IonField: [no-lines]
 }
 
 // util/util.js isCheckedProperty: Ionic's default compareWith (loose equality on purpose)
@@ -100,6 +105,13 @@ function effectiveValue<T>(props: IonSelectProps<T>): unknown {
 }
 
 // the select logic shared by IonSelect (own item) and IonSelectInline (inside another item): text, ionChange rules, alert
+// Exported for items that hold an input AND a select (my-camplaints .serach-filter): Ionic's button.item-cover belongs to the
+// ion-select but covers the WHOLE ion-item (nearest positioned ancestor), so the input underneath cannot be focused.
+// Usage: const sel = useIonSelect(props); <IonInputItem cover={{ onPress: sel.open }} trailing={<IonSelectBox text={sel.text} />} />
+export function useIonSelect<T>(props: IonSelectProps<T>) {
+  return useSelectLogic(props);
+}
+
 function useSelectLogic<T>(props: IonSelectProps<T>) {
   const {
     options,
@@ -182,7 +194,7 @@ function useSelectLogic<T>(props: IonSelectProps<T>) {
 }
 
 export function IonSelect<T = any>(props: IonSelectProps<T>) {
-  const { label, requiredMark, floating = false, placeholder = '', selectedText = '', disabled = false, variant = 'plain', error, testID = 'ion-select', itemStyle, prevMarginBottom } = props;
+  const { label, requiredMark, floating = false, placeholder = '', selectedText = '', disabled = false, variant = 'plain', error, testID = 'ion-select', itemStyle, prevMarginBottom, fontSize, isLast, noLines } = props;
   const { text, open } = useSelectLogic(props);
 
   return (
@@ -198,16 +210,19 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
       testID={testID}
       itemStyle={itemStyle}
       prevMarginBottom={prevMarginBottom}
+      labelStyle={fontSize !== undefined ? { fontSize } : undefined}
+      isLast={isLast}
+      noLines={noLines}
       cover={{ onPress: open, disabled }}
     >
-      <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
+      <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} fontSize={fontSize} />
     </IonField>
   );
 }
 
 // <ion-item><ion-input/><ion-select/></ion-item> (my-camplaints .serach-filter): only the select box (text + arrow) with the same
-// alert; pass it as IonInputItem `trailing`. Ionic's button.item-cover would cover the whole item (and the input); here only the
-// box is tappable so the input stays editable. Padding / arrow / colours / max-width come from the enclosing field spec (select.md.scss).
+// alert; pass it as IonInputItem `trailing`. NOTE: only the box is tappable here; Ionic's button.item-cover covers the whole item
+// (and the input). For an exact copy use useIonSelect + IonSelectBox + IonInputItem `cover` (see useIonSelect). Padding / arrow / colours / max-width come from the enclosing field spec (select.md.scss).
 export function IonSelectInline<T = any>(props: Omit<IonSelectProps<T>, 'label' | 'requiredMark' | 'floating' | 'variant' | 'error' | 'itemStyle' | 'prevMarginBottom'>) {
   const { placeholder = '', selectedText = '', disabled = false, testID = 'ion-select' } = props;
   const { text, open } = useSelectLogic(props);
@@ -218,18 +233,24 @@ export function IonSelectInline<T = any>(props: Omit<IonSelectProps<T>, 'label' 
   );
 }
 
+export function IonSelectBox(p: { text: string; placeholder?: string; selectedText?: string; disabled?: boolean; testID?: string }) {
+  return <SelectBox text={p.text} placeholder={p.placeholder ?? ''} selectedText={p.selectedText ?? ''} disabled={p.disabled ?? false} testID={p.testID ?? 'ion-select'} />;
+}
+
 function SelectBox({
   text,
   placeholder,
   selectedText,
   disabled,
   testID,
+  fontSize,
 }: {
   text: string;
   placeholder: string;
   selectedText: string;
   disabled: boolean;
   testID: string;
+  fontSize?: number;
 }) {
   const spec = useField();
   const sp = spec.select;
@@ -255,7 +276,7 @@ function SelectBox({
         <Text
           testID={`${testID}-text`}
           numberOfLines={1}
-          style={textStyle(sp.fontSize, 400, hasText ? sp.textColor : sp.placeholderColor, sp.lineHeight)}
+          style={textStyle(fontSize ?? sp.fontSize, 400, hasText ? sp.textColor : sp.placeholderColor, fontSize !== undefined ? normalLineHeight(fontSize) : sp.lineHeight)}
         >
           {hasText ? selectedText || text : placeholder}
         </Text>
