@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/childCategoryList_quotation",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "category": [{ "id": 11, "main_category": "Mixers" }] },
+    "empty": { "status": "SUCCESS", "category": [] },
+    "malformed": null
+  }
+}

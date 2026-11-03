@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_master/quotation_List",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "products": [
+        { "id": 11, "product_name": "Basin Mixer", "material_code": "TB-101", "actual_image_name": "tb101.jpg", "price": 1500, "main_category": "Taps", "sub_category": "Mixers", "qty": 0, "total_amount": 0 },
+        { "id": 12, "product_name": "Rain Shower", "material_code": "TB-202", "actual_image_name": "tb202.jpg", "price": 2400, "main_category": "Showers", "sub_category": "Overhead", "qty": 0, "total_amount": 0 }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "products": [] },
+    "malformed": null
+  }
+}

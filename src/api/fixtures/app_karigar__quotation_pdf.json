@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/quotation_pdf",
+  "server": "root",
+  "variants": {
+    "default": { "status": "success", "file_name": "quotation_900001.pdf" },
+    "failed": { "status": "failed" },
+    "empty": {},
+    "malformed": null
+  }
+}

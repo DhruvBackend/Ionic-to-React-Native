@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/childCategoryList_quotation",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "filter": { "limit": 0 }, "category_id": "1" },
+  "ionicSource": "src/pages/quotation-genrate-by-pdf/quotation-genrate-by-pdf.ts:70"
+}
