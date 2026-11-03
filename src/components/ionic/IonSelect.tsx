@@ -7,7 +7,8 @@
 // `compareWith` anywhere in src/pages/**.html (grep of `<ion-select`). Those are supported anyway, except the
 // action-sheet and popover interfaces (never used; the alert is the Ionic default).
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { itemMd, selectMd } from '../../theme/ionicMdPickers';
 import { showAlert } from '../../ui/overlays';
 import { IonField, useField, type FieldVariant } from './IonField';

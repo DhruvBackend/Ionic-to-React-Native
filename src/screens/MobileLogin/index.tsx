@@ -1,6 +1,7 @@
 // Ported from: src/pages/login-section/mobile-login/mobile-login.html + .ts + .scss
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, TextInput, View } from 'react-native';
+import { Text } from '../../components/ionic/IonText';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../api/client';
 import { generateLoginOtp } from '../../auth/otp';

@@ -9,14 +9,8 @@
 //  - a button's icon + label row is wider than the 69px content box and is clipped by the button's
 //    overflow: hidden, exactly as in the WebView.
 import React, { useState } from 'react';
-import {
-  Animated,
-  ScrollView,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Animated, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Text } from './IonText';
 import { md } from '../../theme/ionicMd';
 import {
   actionSheetMd,

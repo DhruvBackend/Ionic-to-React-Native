@@ -1,6 +1,7 @@
 // Ported from: src/pages/aboutus-modal/aboutus-modal.html + .ts + .scss
 import React from 'react';
-import { Linking, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, View, useWindowDimensions } from 'react-native';
+import { Text } from '../../components/ionic/IonText';
 import { useTranslation } from 'react-i18next';
 import { IonContent } from '../../components/ionic/IonContent';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';

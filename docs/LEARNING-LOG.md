@@ -476,3 +476,14 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Read the number before optimising it.** Cold start measured ~3.3 s, but 3 s of that is the splash delay copied 1:1 from Ionic's `config.xml`. Real start-up work is ~0.3 s.
 
 **Interview angle:** "The new app feels slow, what do you do?" → reproduce on a release build on a real device, measure (`am start -W`), and split the number into deliberate (splash timers, animations) and real work before changing code.
+
+## 2026-11-03 — Phase 2 kit pass: one default instead of 117 reminders
+
+**What:** Made browser-style (greedy) line breaking the default for all app text. A kit `Text` (`src/components/ionic/IonText.tsx`) sets `textBreakStrategy="simple"`, and a lint rule stops screens and kit components importing React Native's own `Text`. The 4 Phase 1 screens and 19 kit components were switched over.
+
+**Learned:**
+- **Fix a rule once, at the lowest shared layer.** Writing `textBreakStrategy="simple"` on every `<Text>` in 117 screens would be forgotten somewhere. A wrapper with the right default plus a lint ban makes the correct choice the only easy one.
+- **Lint turns a convention into a guarantee.** `no-restricted-imports` with `importNames: ['Text']` blocks exactly one named import from `react-native`. A fixture file that breaks the rule on purpose proves the rule still fires.
+- **Keep an escape hatch.** An explicit `textBreakStrategy` on the kit `Text` still wins, so a screen can opt out if Ionic ever wrapped differently.
+
+**Interview angle:** "How do you enforce a cross-cutting UI rule across a large codebase?" → a thin wrapper component with the right default, a lint rule that bans the raw primitive, and a test that proves the lint rule fires.

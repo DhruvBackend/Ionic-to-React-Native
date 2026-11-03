@@ -9,7 +9,8 @@
 //   display-format="MMM DD, YYYY"                   sales-app/add-dealer.html:129,134, add-distribution.html:61,66
 // The model value is an ISO string: 'YYYY-MM-DD' (convertDataToISO of a date-only picker result).
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { datetimeMd, itemMd } from '../../theme/ionicMdPickers';
 import { buildDatetimePicker, validateDatetimePicker, type BuiltPicker } from '../../ui/datetimePicker';
 import {

@@ -4,7 +4,8 @@
 //   - the label is a span that `* { font-weight: 400 }` keeps at 400 (the button itself is 500)
 //   - `[disabled]` = opacity .4, no taps; a tap shows the 80 ms `activated` state and the ripple (RippleButton)
 import React from 'react';
-import { StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { buttonColors, buttonMd, type ButtonKind } from '../../theme/ionicMdContent';
 import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { IonIcon } from './IonIcon';

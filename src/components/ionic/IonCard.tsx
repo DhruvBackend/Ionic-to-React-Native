@@ -1,7 +1,8 @@
 // <ion-card>, <ion-card-header>, <ion-card-content> in md mode (components/card/card.md.scss, card.scss; [CSS] 12784-12932).
 // Values: src/theme/ionicMdContent.ts cardMd. Topbath styles the one card it uses (survey-list) in the page stylesheet.
 import React from 'react';
-import { StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { cardMd } from '../../theme/ionicMdContent';
 import { textStyle } from './text';
 

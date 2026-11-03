@@ -1,7 +1,8 @@
 // Ionic 3.9.5 md-mode <ion-toast> (components/toast/toast-component.js + toast.scss + toast.md.scss).
 // There is no backdrop; the wrapper slides in from the edge (or fades in the middle).
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { overlay, toastMd } from '../../theme/ionicMdOverlays';
 import {
   finishDismiss,

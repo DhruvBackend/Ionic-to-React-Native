@@ -9,7 +9,8 @@
 //   class="toolbarHeight"), <ion-header [hidden]="true">, catalogue-header (7x) / home-header (1x): classes without any CSS.
 // `Header` below is ion-header + ion-navbar in one.
 import React, { createContext, useContext } from 'react';
-import { StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { NavigationContext } from '@react-navigation/native';
 import { useSideMenu } from '../../navigation/SideMenu';
 import { ionicColors } from '../../theme';

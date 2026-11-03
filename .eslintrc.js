@@ -63,5 +63,25 @@ module.exports = {
       excludedFiles: TESTS,
       rules: { 'no-restricted-syntax': ['error', ...noClientStrings, ...noNativeStandIns, ...noContact] },
     },
+    {
+      // Phase 2 kit pass: text goes through the kit Text (src/components/ionic/IonText.tsx), whose default
+      // textBreakStrategy "simple" wraps lines like the browser did. test-fixtures/lint/text-violation.tsx breaks it on purpose.
+      files: ['src/screens/**', 'src/components/**', 'test-fixtures/lint/text-violation.tsx'],
+      excludedFiles: [...TESTS, 'src/components/ionic/IonText.tsx'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              {
+                name: 'react-native',
+                importNames: ['Text'],
+                message: "Import Text from src/components/ionic/IonText (browser-like line breaking), not from react-native.",
+              },
+            ],
+          },
+        ],
+      },
+    },
   ],
 };

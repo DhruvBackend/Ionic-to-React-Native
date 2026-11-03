@@ -7,7 +7,8 @@
 // IonItem takes the label text (`label`) or any content (`children`, laid out in the input-wrapper); a child with a static
 // `ionSlot` of 'start' or 'end' (IonCheckbox, IonRadio) goes to that slot, like Ionic's content projection.
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { ionicColors } from '../../theme';
 import { colorContrast, itemContentMd, listHeaderMd, listMd } from '../../theme/ionicMdContent';
 import { itemVerticalMargins, type FieldVariant } from './IonField';

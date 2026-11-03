@@ -2,7 +2,8 @@
 // The font draws icons through ligatures, so the text is the icon name, exactly as in the HTML.
 // Defaults are Google's .material-icons rule: font-size 24px, line-height 1.
 import React from 'react';
-import { StyleSheet, Text, type StyleProp, type TextStyle } from 'react-native';
+import { StyleSheet, type StyleProp, type TextStyle } from 'react-native';
+import { Text } from './IonText';
 
 export interface MaterialIconProps {
   name: string;

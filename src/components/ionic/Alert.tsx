@@ -1,15 +1,8 @@
 // Ionic 3.9.5 md-mode <ion-alert> (components/alert/alert-component.js + alert.scss + alert.md.scss),
 // including the Topbath global overrides that reach it (src/theme/ionicMdOverlays.ts for the citations).
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Animated,
-  Easing,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Animated, Easing, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Text } from './IonText';
 import { md } from '../../theme/ionicMd';
 import { alertMd, overlay, topbathAlert } from '../../theme/ionicMdOverlays';
 import {

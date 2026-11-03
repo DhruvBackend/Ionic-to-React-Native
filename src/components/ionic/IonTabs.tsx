@@ -10,7 +10,8 @@
 // React Navigation: the tab navigator switches without animation by default and the stack navigator inside
 // the tab pops to top on a `tabPress` of the focused tab (IonStack.tsx does the same as native-stack).
 import React, { createContext, useContext, useEffect, useMemo, useState, type ReactElement } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { SvgXml } from 'react-native-svg';
 import { CommonActions } from '@react-navigation/native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';

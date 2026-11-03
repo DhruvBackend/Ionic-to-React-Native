@@ -13,7 +13,8 @@
 // Not ported (never used in src/pages): groups, multiple/confirm button templates, add/save/delete item,
 // infinite scroll, the template directives, searchFocus. `hasVirtualScroll` has no visual effect.
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { itemMd, selectableMd, selectableModal } from '../../theme/ionicMdPickers';
 import { showModal, type ModalHandle } from '../../ui/overlays';
 import {

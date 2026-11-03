@@ -876,6 +876,7 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - **Navigation mapping** (2026-11-02): Ionic `navCtrl.push(Page, params)` → `navigation.push('Name', params)` (always adds a page; `navigate()` would jump back to an existing route). `setRoot` → `resetTo`/`reset`; `pop` → `goBack()`; `modalCtrl.create` → a `presentation: 'modal'` route.
   - **Comparisons as in Ionic** (dev-server check 2026-11-02): where Ionic uses `==`/`!=`, RN uses `==`/`!=` too (`// eslint-disable-line eqeqeq`). The dev server sends ids, flags (`del`), points and OTPs as NUMBERS where the fixtures had strings, so a strict `===` silently breaks branches (it stopped suspended accounts being blocked at start-up). Fixtures use the real server types (see `.reference/logs/devcheck_shapes*.txt`).
   - **Loaders and errors as in Ionic:** if Ionic leaves a loader up on an error path (no dismiss in the error callback), the RN screen does the same — do not use `useLoader().wrap` there. Copy the exact show/hide calls.
+  - Text uses the kit `Text` from `src/components/ionic/IonText` (browser-like line breaking; lint enforces it).
   - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
   - Add a NOTE for every quirk.
 - [ ] **S6 – Gates** (pilot lessons: the lead runs RN captures on the single emulator at 360dp after merging kit fixes; **look at every ref/RN pair and confirm both show the same state** — the diff % alone is not proof).
@@ -933,6 +934,7 @@ Screens: Language (pilot, done), SelectRegistrationType, MobileLogin, Otp, Regis
 
 ### Phase 2: Core loyalty (22)
 Home (Plumber and Seller/Dealer variants are two state sets on one screen), MainHome, Profile, ViewProfile, PointList, PointHistory, OfferList, Offers, Terms, GiftDetail, CancelpolicyModal, CancelationPolicy, Transaction, ShippingDetail, Notification, Feedback, Pointtranfer, CoupanCode, ScanPoint, SalesPointTransfer, Super30, PointLocation.
+**Kit pass** (2026-11-03, decision): screen and kit text renders through `src/components/ionic/IonText.tsx`, whose `textBreakStrategy` defaults to `"simple"` (the browser's greedy line breaking; Android's default `highQuality` balances paragraphs). `.eslintrc.js` bans `Text` from `react-native` in `src/screens/**` and `src/components/**` (fixture `test-fixtures/lint/text-violation.tsx`, test `__tests__/textBreak.test.tsx`). An explicit prop still wins. Phase 1 screens and the kit were switched; their phone captures are re-checked in the Phase 2 phone pass.
 - [ ] **Flow test** `flows/scan-redeem.test.ts`:
   - Plumber: scan (`setMockScan`) → `karigarCoupon` → balance increases on PointList → GiftDetail → CancelpolicyModal (`sendOtp`, then the client OTP match) → `redeemRequest` → Transaction lists it
   - Seller: ScanPoint multi-scan → `saveCoupon`

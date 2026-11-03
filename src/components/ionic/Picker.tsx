@@ -5,15 +5,8 @@
 // .picker-below-highlight but never sets `display`, so picker.scss's `display: none` wins and md shows NO bands
 // (verified in headless Chrome with the shipped main.css). See src/theme/ionicMdPickers.ts for every value.
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Animated,
-  Easing,
-  PanResponder,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Animated, Easing, PanResponder, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Text } from './IonText';
 import { pickerMd } from '../../theme/ionicMdPickers';
 import { pickerSelected } from '../../ui/datetimePicker';
 import {

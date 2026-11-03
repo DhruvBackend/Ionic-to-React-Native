@@ -10,7 +10,8 @@
 // `floating` is `<ion-label floating>`. Values and citations: src/theme/ionicMdPickers.ts.
 // Other page-level containers (.common_form, .enquiry ...) belong to the screen that uses them: `itemStyle`.
 import React, { createContext, useContext } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Text } from './IonText';
 import { ionicColors } from '../../theme';
 import { inputMd, listMd } from '../../theme/ionicMdContent';
 import { csForm, datetimeMd, editForm, itemMd, selectableMd, selectMd } from '../../theme/ionicMdPickers';

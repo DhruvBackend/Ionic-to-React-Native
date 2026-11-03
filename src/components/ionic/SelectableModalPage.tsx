@@ -4,7 +4,8 @@
 // `button[ion-item]` rows (icon + text) and an optional ion-footer (Clear / OK). md mode, with Topbath's
 // global rules. Values and citations: src/theme/ionicMdPickers.ts (selectableModal).
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Text } from './IonText';
 import Svg, { Path, Polygon } from 'react-native-svg';
 import {
   clearIconPoints,

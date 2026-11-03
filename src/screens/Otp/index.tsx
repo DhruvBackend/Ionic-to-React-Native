@@ -1,6 +1,7 @@
 // Ported from: src/pages/login-section/otp/otp.html + .ts + .scss
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, TextInput, View } from 'react-native';
+import { Text } from '../../components/ionic/IonText';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../api/client';
 import { otpMatches } from '../../auth/otp';

@@ -10,7 +10,8 @@
 // A '%' threshold is a fraction of the visible height, otherwise pixels. No scroll event, no check: a list shorter than
 // the screen never triggers (same as Ionic).
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { infiniteMd, scrollMetrics } from '../../theme/ionicMdScroll';
 import { fontFor } from '../../theme/typography';
 import { IonSpinner, type SpinnerName } from './IonSpinner';

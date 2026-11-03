@@ -10,7 +10,8 @@
 //     ...
 //   </IonContent>
 import React, { useContext, useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { refresherMd, scrollMetrics } from '../../theme/ionicMdScroll';
 import { fontFor } from '../../theme/typography';
 import { IonIcon } from './IonIcon';

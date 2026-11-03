@@ -2,7 +2,8 @@
 // In md mode a plain name resolves to its md- variant; ios- and logo- names are used as given.
 // Ionic's ion-icon has no size of its own (it inherits font-size), so callers pass the computed size.
 import React from 'react';
-import { StyleSheet, Text, type StyleProp, type TextStyle } from 'react-native';
+import { StyleSheet, type StyleProp, type TextStyle } from 'react-native';
+import { Text } from './IonText';
 import glyphs from './ionicons3.json';
 
 const MAP = glyphs as Record<string, number>;

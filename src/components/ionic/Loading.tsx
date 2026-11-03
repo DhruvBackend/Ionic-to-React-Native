@@ -2,7 +2,8 @@
 // loading.md.scss) with the Topbath overrides: transparent wrapper, no shadow (variables.scss:9940)
 // and white content text (variables.scss:9945).
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
+import { Text } from './IonText';
 import { appFontSize, loadingMd, normalLineHeight, overlay, topbathLoading } from '../../theme/ionicMdOverlays';
 import { finishDismiss, requestDismiss, type LoadingOptions, type OverlayEntry } from '../../ui/overlays';
 import { Backdrop } from './Backdrop';
