@@ -1,0 +1,41 @@
+{
+  "endpoint": "app_karigar/couponHistory",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigar": {
+        "id": 900001,
+        "first_name": "Ramesh",
+        "last_name": "Patil",
+        "mobile_no": "9000000011",
+        "earn_by_scan": 1250,
+        "earn_by_referal": 150,
+        "earn_by_service": 300,
+        "total_earn": 1700,
+        "total_redeem": 500,
+        "total_balance": 1200
+      },
+      "coupon": [
+        { "id": 301, "coupon_code": "TB-A1B2C3", "coupon_value": 50, "scan_date": "2026-10-28 11:42:10", "karigar_id": 900001 },
+        { "id": 302, "coupon_code": "TB-D4E5F6", "coupon_value": 100, "scan_date": "2026-10-21 16:05:33", "karigar_id": 900001 },
+        { "id": 303, "coupon_code": "TB-G7H8J9", "coupon_value": 25, "scan_date": "2026-10-15 09:18:47", "karigar_id": 900001 }
+      ]
+    },
+    "zero": {
+      "status": "SUCCESS",
+      "karigar": {
+        "id": 900001,
+        "earn_by_scan": 0,
+        "earn_by_referal": 0,
+        "earn_by_service": 0,
+        "total_earn": 0,
+        "total_redeem": 0,
+        "total_balance": 0
+      },
+      "coupon": []
+    },
+    "empty": { "status": "SUCCESS", "karigar": {}, "coupon": [] },
+    "malformed": { "status": "SUCCESS", "karigar": null, "coupon": null }
+  }
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "PointList.Plumber",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "2"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "PointList is tab7Root, the third tab (My Wallet) of the loyalty roles: Tabs params index 2 selects it, the tab bar is part of the capture."
+  },
+  {
+    "id": "PointList.Dealer",
+    "screen": "Tabs",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "2"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "Sales_Boy and Dealer: no Earn By Service Points card (userType != Plumber)."
+  },
+  {
+    "id": "PointList.empty",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/couponHistory": "empty"
+    },
+    "params": {
+      "index": "2"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "karigar: {} : the cards show with blank values (also what the page looks like before the response)."
+  },
+  {
+    "id": "PointList.hin",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "index": "2"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): labels come from hin.json."
+  }
+]

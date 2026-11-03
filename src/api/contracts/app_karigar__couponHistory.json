@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/couponHistory",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0 }, "karigar_id": "900001" },
+  "ionicSource": "src/pages/points/point-list/point-list.ts:81 (getCoupanHistory, filter.limit = 0); :114 (loadData, dead: filter.limit = coupon_list.length)"
+}
