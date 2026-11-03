@@ -1,0 +1,16 @@
+{
+  "endpoint": "app_karigar/offerList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "offer": [
+        { "id": 11, "title": "diwali dhamaka offer", "offer_banner": "offer_banner_11.jpg", "end_date": "2026-12-31" },
+        { "id": 12, "title": "monsoon bonanza", "offer_banner": "offer_banner_12.jpg", "end_date": "2027-01-15" },
+        { "id": 13, "title": "new year scheme", "offer_banner": "offer_banner_13.jpg", "end_date": "2027-02-28" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "offer": [] },
+    "malformed": { "status": "SUCCESS", "offer": null }
+  }
+}
