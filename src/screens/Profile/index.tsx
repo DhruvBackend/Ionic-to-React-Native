@@ -364,8 +364,9 @@ export default function ProfileScreen({ navigation }: Props) {
         </View>
 
         {d.type == 'Plumber' ? (
-          <View testID="profile-document">
-            <Text style={[textStyle(14, 400, P.black, 14 * 1.2), { paddingBottom: 10 }]}>{t('Document Information')}</Text>
+          <View testID="profile-document" style={styles.documentSection}>
+            {/* NOTE (parity): global `h1..h6{font-weight:500}` (`.document-section h4` sets only size/colour/padding) */}
+            <Text style={[textStyle(14, 500, P.black, 14 * 1.2), { paddingBottom: 10 }]}>{t('Document Information')}</Text>
             <View style={styles.documentImg}>
               <Image style={styles.documentImage} source={{ uri: url + d.document_image }} />
               <View style={styles.documentGap} />
@@ -386,7 +387,8 @@ export default function ProfileScreen({ navigation }: Props) {
   // profile.html:140-149
   function shareCode() {
     const box = clipSafeLineBox(12, 12);
-    const p = textStyle(12, 400, colors.white);
+    // NOTE (parity): `.share-code p span{line-height:22px}`: every <p> line holds that span, so the line boxes are 22px
+    const p = textStyle(12, 400, colors.white, 22);
     const span = textStyle(12, 600, P.shareText, 22);
     return (
       <View testID="profile-share-code" style={styles.shareCode}>

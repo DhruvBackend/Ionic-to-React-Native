@@ -162,6 +162,26 @@ describe('states (card States)', () => {
     expect(textEq('TB7RK')).toBe(true);
     expect(exists('profile-location')).toBe(false);
   });
+  test('parity: header icon mr16, rating-area mt16, document pt10/pb10 + h4 500, share p line boxes 22', async () => {
+    await mount('Plumber');
+    const { StyleSheet } = require('react-native');
+    const st = (id: string) => StyleSheet.flatten(find(id)[0].props.style);
+    expect(st('profile-logout')).toMatchObject({ marginRight: 16 });
+    expect(st('profile-document')).toMatchObject({ paddingTop: 10, paddingBottom: 10 });
+    const heading = tree.root.findAll(n => (n.type as any) === 'Text' && flat(n.props.children) === 'Document Information')[0];
+    expect(StyleSheet.flatten(heading.props.style).fontFamily).toBe(StyleSheet.flatten(require('../../theme/typography').fontFor(500)).fontFamily);
+    const shareP = find('profile-share-code')[0].findAll((n: any) => (n.type as any) === 'Text' && /Invite friends/.test(flat(n.props.children)))[0];
+    expect(StyleSheet.flatten(shareP.props.style).lineHeight).toBe(22);
+    const ratingAreas = tree.root.findAll(n => (n.type as any) === 'View' && StyleSheet.flatten(n.props.style)?.borderRadius === 6 && StyleSheet.flatten(n.props.style)?.width === '100%');
+    expect(ratingAreas.length).toBeGreaterThan(0);
+    expect(StyleSheet.flatten(ratingAreas[0].props.style).marginTop).toBe(16);
+  });
+  test('parity: Customer footer button h35 and the 2-row geo textarea (40)', async () => {
+    await mount('Customer', 'customer');
+    const { StyleSheet } = require('react-native');
+    expect(StyleSheet.flatten(find('profile-location')[0].props.style).height).toBe(35);
+    expect(StyleSheet.flatten(find('profile-geo')[0].props.style).height).toBe(40);
+  });
   test.each([
     ['Pending', 'pending', 'Pending Documents under review (Plumber)', 'hourglass_full'],
     ['Suspect', 'suspect', 'Suspect Mismatch (Plumber)', 'info'],
