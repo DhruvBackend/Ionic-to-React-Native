@@ -100,6 +100,13 @@ function effectiveValue<T>(props: IonSelectProps<T>): unknown {
 }
 
 // the select logic shared by IonSelect (own item) and IonSelectInline (inside another item): text, ionChange rules, alert
+// Exported for items that hold an input AND a select (my-camplaints .serach-filter): Ionic's button.item-cover belongs to the
+// ion-select but covers the WHOLE ion-item (nearest positioned ancestor), so the input underneath cannot be focused.
+// Usage: const sel = useIonSelect(props); <IonInputItem cover={{ onPress: sel.open }} trailing={<IonSelectBox text={sel.text} />} />
+export function useIonSelect<T>(props: IonSelectProps<T>) {
+  return useSelectLogic(props);
+}
+
 function useSelectLogic<T>(props: IonSelectProps<T>) {
   const {
     options,
@@ -206,8 +213,8 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
 }
 
 // <ion-item><ion-input/><ion-select/></ion-item> (my-camplaints .serach-filter): only the select box (text + arrow) with the same
-// alert; pass it as IonInputItem `trailing`. Ionic's button.item-cover would cover the whole item (and the input); here only the
-// box is tappable so the input stays editable. Padding / arrow / colours / max-width come from the enclosing field spec (select.md.scss).
+// alert; pass it as IonInputItem `trailing`. NOTE: only the box is tappable here; Ionic's button.item-cover covers the whole item
+// (and the input). For an exact copy use useIonSelect + IonSelectBox + IonInputItem `cover` (see useIonSelect). Padding / arrow / colours / max-width come from the enclosing field spec (select.md.scss).
 export function IonSelectInline<T = any>(props: Omit<IonSelectProps<T>, 'label' | 'requiredMark' | 'floating' | 'variant' | 'error' | 'itemStyle' | 'prevMarginBottom'>) {
   const { placeholder = '', selectedText = '', disabled = false, testID = 'ion-select' } = props;
   const { text, open } = useSelectLogic(props);
@@ -216,6 +223,10 @@ export function IonSelectInline<T = any>(props: Omit<IonSelectProps<T>, 'label' 
       <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
     </Pressable>
   );
+}
+
+export function IonSelectBox(p: { text: string; placeholder?: string; selectedText?: string; disabled?: boolean; testID?: string }) {
+  return <SelectBox text={p.text} placeholder={p.placeholder ?? ''} selectedText={p.selectedText ?? ''} disabled={p.disabled ?? false} testID={p.testID ?? 'ion-select'} />;
 }
 
 function SelectBox({
