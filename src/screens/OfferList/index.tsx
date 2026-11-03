@@ -12,92 +12,19 @@ import { Text } from '../../components/ionic/IonText';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { textStyle } from '../../components/ionic/text';
 import i18n from '../../i18n';
-import { navigationRef } from '../../navigation/navigationRef';
+import { activeNavNames } from '../../navigation/navigationRef';
+import { collapseWs, datePipe, titlecase } from '../../ui/angularPipes';
 import { colors } from '../../theme';
 import { useLoader } from '../../ui/useLoader';
 import { noFoundSize, noFoundXml } from './noFound';
 import { styles } from './styles';
 
-// Ionic text is HTML: runs of whitespace collapse to one space.
-const collapse = (s: string) => s.replace(/\s+/g, ' ');
 
-// Angular 5.2.11 TitleCasePipe: value.split(/\b/g).map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join('')
-// ("it's" becomes "It'S"). A falsy value is returned as it is.
-function titlecase(value: any): any {
-  if (!value) {
-    return value;
-  }
-  return String(value)
-    .split(/\b/g)
-    .map(word => (word ? word[0].toUpperCase() + word.substr(1).toLowerCase() : word))
-    .join('');
-}
 
-// Angular 5.2.11 DatePipe with format 'd MMMM y' in the default locale (en-US: no LOCALE_ID is provided in app.module.ts, so the dates stay
-// in English even when the app language is Hindi). Same parsing as DatePipe.transform: numbers are timestamps, 'yyyy-M-d' is a local date,
-// ISO 8601 strings follow isoStringToDate, anything else goes through new Date().
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const ISO8601 = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
-function datePipe(value: any): string {
-  if (value == null || value === '' || value !== value) { // eslint-disable-line no-self-compare
-    return '';
-  }
-  if (typeof value === 'string') {
-    value = value.trim();
-  }
-  let date: Date;
-  let match: RegExpMatchArray | null;
-  if (value instanceof Date) {
-    date = value;
-  } else if (!isNaN(value - parseFloat(value))) {
-    date = new Date(parseFloat(value));
-  } else if (typeof value === 'string' && /^(\d{4}-\d{1,2}-\d{1,2})$/.test(value)) {
-    const [y, m, d] = value.split('-').map((v: string) => +v);
-    date = new Date(y, m - 1, d);
-  } else if (typeof value === 'string' && (match = value.match(ISO8601))) {
-    date = new Date(0);
-    const utc = !!match[8];
-    const tzHour = match[9] ? +(match[9] + match[10]) : 0;
-    const tzMin = match[9] ? +(match[9] + match[11]) : 0;
-    (utc ? date.setUTCFullYear : date.setFullYear).call(date, +match[1], +match[2] - 1, +match[3]);
-    (utc ? date.setUTCHours : date.setHours).call(
-      date,
-      +(match[4] || '0') - tzHour,
-      +(match[5] || '0') - tzMin,
-      +(match[6] || '0'),
-      Math.round(parseFloat('0.' + (match[7] || 0)) * 1000),
-    );
-  } else {
-    date = new Date(value);
-  }
-  if (isNaN(date.valueOf())) {
-    // NOTE (parity): Angular's DatePipe throws InvalidPipeArgument here and Ionic's change detection fails for the whole list; RN shows nothing for
-    // this date instead of crashing (not production-reachable: the server sends 'YYYY-MM-DD').
-    return '';
-  }
-  return `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
-}
 
 // app.getActiveNav() page names that offer-list.ts:131 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
 
-// Ionic app.getActiveNav(): the deepest stack that is showing (inside <ion-tabs> the selected tab's own nav). Returns its active and
-// previous route names (class names without 'Page').
-function activeNavNames(): { active: string; previous: string } | null {
-  let s: any = navigationRef.isReady() ? navigationRef.getRootState() : undefined;
-  let deepest: any;
-  while (s) {
-    if (s.type === 'stack') {
-      deepest = s;
-    }
-    s = s.routes?.[s.index ?? 0]?.state;
-  }
-  if (!deepest || !deepest.routes?.length) {
-    return null;
-  }
-  const index = deepest.index ?? deepest.routes.length - 1;
-  return { active: deepest.routes[index]?.name ?? '', previous: deepest.routes[index - 1]?.name ?? '' };
-}
 
 interface Props {
   navigation: {
@@ -212,7 +139,7 @@ export default function OfferListScreen({ navigation, route }: Props) {
       <IonHeader mainHeader>
         {/* NOTE (parity): the title is 'My Offer' | translate with a trailing space inside the interpolation; the back button is hidden by
             `.main-header ion-navbar button { display: none !important }`. */}
-        <IonNavbar color="primary" title={collapse(t('My Offer'))} />
+        <IonNavbar color="primary" title={collapseWs(t('My Offer'))} />
       </IonHeader>
 
       {/* html:9-42 */}
@@ -253,11 +180,11 @@ export default function OfferListScreen({ navigation, route }: Props) {
                         {/* html:33 {{list.title | titlecase | translate}}. NOTE (parity): the h1/p are nowrap inside ion-label (clipped, no
                             ellipsis); a very long title pushes the arrow out of the item, here the arrow overflows the same way. */}
                         <Text testID={`offer-title-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(15, 600, colors.white, 18), styles.h1]}>
-                          {collapse(t(titlecase(list.title) ?? ''))}
+                          {collapseWs(t(titlecase(list.title) ?? ''))}
                         </Text>
                         {/* html:34 {{ 'Valid Upto' | translate}} : {{list.end_date | date:'d MMMM y'}} */}
                         <Text testID={`offer-valid-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(12, 400, colors.white), styles.p]}>
-                          {`${collapse(t('Valid Upto'))} : ${datePipe(list.end_date)}`}
+                          {`${collapseWs(t('Valid Upto'))} : ${datePipe(list.end_date, 'd MMMM y')}`}
                         </Text>
                       </View>
                       {/* html:35 <i class="material-icons">trending_flat</i> */}

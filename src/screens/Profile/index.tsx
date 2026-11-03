@@ -18,6 +18,7 @@ import { storage } from '../../storage';
 import { colors, scssColors } from '../../theme';
 import { profileMd as P } from '../../theme/ionicMdProfile';
 import { showActionSheet, showAlert } from '../../ui/overlays';
+import { datePipe, interp, titlecase } from '../../ui/angularPipes';
 import { useLoader } from '../../ui/useLoader';
 import { giftSvg } from './giftSvg';
 import { styles } from './styles';
@@ -29,30 +30,14 @@ interface Props {
   route?: { params?: any };
 }
 
-// ---- Angular template pipes / interpolation ---------------------------------------------------------------------
-// `{{ x }}`: null and undefined print as an empty string.
-const s = (v: any): string => (v === null || v === undefined ? '' : String(v));
-// TitleCasePipe (@angular/common 5.2.11): null / '' pass through, every `\b` segment gets its first character upper-cased and the rest lower-cased.
-// NOTE (parity): Angular throws InvalidPipeArgument for a non-string; the value is converted instead.
-const tc = (v: any): string =>
-  !v
-    ? ''
-    : String(v)
-        .split(/\b/g)
-        .map(w => (w ? w.charAt(0).toUpperCase() + w.substr(1).toLowerCase() : w))
-        .join('');
+// Angular template helpers (src/ui/angularPipes): `{{ x }}` and `{{ x | titlecase }}` (null prints as an empty string).
+const s = interp;
+const tc = (v: any): string => interp(titlecase(v));
+// `| date:'d MMM,y'` (en-US).
+const formatDate = (v: any): string => datePipe(v, "d MMM,y");
+
 // HTML collapses runs of white space (not &nbsp;) and a block drops the white space at its edges.
 const ws = (v: string): string => v.replace(/[ \t\n\r\f]+/g, ' ').replace(/^ | $/g, '');
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-// `| date:'d MMM,y'` (en-US). NOTE (parity): Angular throws InvalidPipeArgument for text that is no date; an empty string is shown instead.
-function formatDate(v: any): string {
-  if (v === null || v === undefined || v === '') {
-    return '';
-  }
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v));
-  const d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(v);
-  return isNaN(d.getTime()) ? '' : `${d.getDate()} ${MONTHS[d.getMonth()]},${d.getFullYear()}`;
-}
 
 // dbservice.ts:190-200 onShowMessageAlertHandler
 function messageAlert(subTitle: string) {

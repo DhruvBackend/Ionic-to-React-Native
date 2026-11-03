@@ -10,7 +10,8 @@ import { IonRefresher, IonRefresherContent } from '../../components/ionic/IonRef
 import { Text } from '../../components/ionic/IonText';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { textStyle } from '../../components/ionic/text';
-import { navigationRef } from '../../navigation/navigationRef';
+import { activeNavNames } from '../../navigation/navigationRef';
+import { collapseWs, datePipe, interp, titlecase } from '../../ui/angularPipes';
 import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { colors } from '../../theme';
 import { md } from '../../theme/ionicMd';
@@ -20,87 +21,13 @@ import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { useLoader } from '../../ui/useLoader';
 import { styles, stripeColor } from './styles';
 
-// Ionic text is HTML: runs of whitespace collapse to one space.
-const collapse = (s: string) => s.replace(/\s+/g, ' ');
 
-// Angular interpolation `{{x}}`: null/undefined print as '', everything else through String() (NaN prints "NaN").
-const interp = (v: any): string => (v == null ? '' : String(v));
 
-// NOTE: titlecase / datePipe / activeNavNames below are copies of the helpers inside src/screens/OfferList/index.tsx (they are not exported
-// there). The lead can move them to a shared module.
-// Angular 5.2.11 TitleCasePipe: value.split(/\b/g).map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join('')
-// ("it's" becomes "It'S"). A falsy value is returned as it is.
-function titlecase(value: any): any {
-  if (!value) {
-    return value;
-  }
-  return String(value)
-    .split(/\b/g)
-    .map(word => (word ? word[0].toUpperCase() + word.substr(1).toLowerCase() : word))
-    .join('');
-}
 
-// Angular 5.2.11 DatePipe with format 'd MMMM y' in the default locale (en-US: no LOCALE_ID is provided in app.module.ts).
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const ISO8601 = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
-function datePipe(value: any): string {
-  if (value == null || value === '' || value !== value) { // eslint-disable-line no-self-compare
-    return '';
-  }
-  if (typeof value === 'string') {
-    value = value.trim();
-  }
-  let date: Date;
-  let match: RegExpMatchArray | null;
-  if (value instanceof Date) {
-    date = value;
-  } else if (!isNaN(value - parseFloat(value))) {
-    date = new Date(parseFloat(value));
-  } else if (typeof value === 'string' && /^(\d{4}-\d{1,2}-\d{1,2})$/.test(value)) {
-    const [y, m, d] = value.split('-').map((v: string) => +v);
-    date = new Date(y, m - 1, d);
-  } else if (typeof value === 'string' && (match = value.match(ISO8601))) {
-    date = new Date(0);
-    const utc = !!match[8];
-    const tzHour = match[9] ? +(match[9] + match[10]) : 0;
-    const tzMin = match[9] ? +(match[9] + match[11]) : 0;
-    (utc ? date.setUTCFullYear : date.setFullYear).call(date, +match[1], +match[2] - 1, +match[3]);
-    (utc ? date.setUTCHours : date.setHours).call(
-      date,
-      +(match[4] || '0') - tzHour,
-      +(match[5] || '0') - tzMin,
-      +(match[6] || '0'),
-      Math.round(parseFloat('0.' + (match[7] || 0)) * 1000),
-    );
-  } else {
-    date = new Date(value);
-  }
-  if (isNaN(date.valueOf())) {
-    // NOTE (parity): Angular's DatePipe throws InvalidPipeArgument here; RN shows nothing for this date instead of crashing.
-    return '';
-  }
-  return `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
-}
 
 // app.getActiveNav() page names that offers.ts:121 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
 
-// Ionic app.getActiveNav(): the deepest stack that is showing. Returns its active and previous route names (class names without 'Page').
-function activeNavNames(): { active: string; previous: string } | null {
-  let s: any = navigationRef.isReady() ? navigationRef.getRootState() : undefined;
-  let deepest: any;
-  while (s) {
-    if (s.type === 'stack') {
-      deepest = s;
-    }
-    s = s.routes?.[s.index ?? 0]?.state;
-  }
-  if (!deepest || !deepest.routes?.length) {
-    return null;
-  }
-  const index = deepest.index ?? deepest.routes.length - 1;
-  return { active: deepest.routes[index]?.name ?? '', previous: deepest.routes[index - 1]?.name ?? '' };
-}
 
 interface Props {
   navigation: {
@@ -280,7 +207,7 @@ export default function OffersScreen({ navigation, route }: Props) {
     <View style={styles.screen}>
       {/* html:1-5 */}
       <IonHeader mainHeader remove>
-        <IonNavbar color="primary" title={collapse(title)} />
+        <IonNavbar color="primary" title={collapseWs(title)} />
       </IonHeader>
 
       <IonContent>
@@ -298,10 +225,10 @@ export default function OffersScreen({ navigation, route }: Props) {
               gift_list stays '' (and the callback threw before). The block (title, valid-upto, Description / Terms links) never shows. */}
           {giftList.length && notdata ? (
             <View testID="offer-content-box" style={styles.contentBox}>
-              <Text style={[textStyle(16, 500, md.textColor, 20), { textTransform: 'capitalize' }]}>{collapse(title)}</Text>
+              <Text style={[textStyle(16, 500, md.textColor, 20), { textTransform: 'capitalize' }]}>{collapseWs(title)}</Text>
               <Text style={textStyle(14, 400, md.textColor)}> </Text>
               <Text style={textStyle(13, 400, md.textColor, 20)}>
-                {`${collapse(t('Valid Upto'))}:${datePipe(offerDetail.end_date)}`}
+                {`${collapseWs(t('Valid Upto'))}:${datePipe(offerDetail.end_date, 'd MMMM y')}`}
               </Text>
               <View style={styles.style}>
                 <Text
@@ -310,7 +237,7 @@ export default function OffersScreen({ navigation, route }: Props) {
                   numberOfLines={1}
                   style={[textStyle(12, 400, md.linkColor), { textAlign: 'right' }]}
                 >
-                  {collapse(t('Description'))}
+                  {collapseWs(t('Description'))}
                 </Text>
                 <Text
                   testID="offer-terms-link"
@@ -318,7 +245,7 @@ export default function OffersScreen({ navigation, route }: Props) {
                   numberOfLines={1}
                   style={[textStyle(12, 400, md.linkColor), { textAlign: 'right' }]}
                 >
-                  {collapse(t('Terms & Condition'))}
+                  {collapseWs(t('Terms & Condition'))}
                 </Text>
               </View>
             </View>
@@ -344,7 +271,7 @@ export default function OffersScreen({ navigation, route }: Props) {
                       {/* html:77 <span>{{list.type}}</span> in the .head's anonymous line box (strut: the 14px label font) */}
                       {list.type == null || list.type === '' ? null : (
                         <Text testID={`gift-type-${i}`} style={[textStyle(12, 400, muted, normalLineHeight(14)), styles.headSpan]}>
-                          {collapse(interp(list.type))}
+                          {collapseWs(interp(list.type))}
                         </Text>
                       )}
                       <Text testID={`gift-points-${i}`} style={[textStyle(20, 600, ink, 24), styles.headH1]}>
@@ -352,7 +279,7 @@ export default function OffersScreen({ navigation, route }: Props) {
                       </Text>
                       <View style={styles.redeem}>
                         <Text testID={`gift-redeem-${i}`} style={[textStyle(12, 400, muted), styles.redeemText]} numberOfLines={1} ellipsizeMode="clip">
-                          {collapse(t('Redeem Points'))}
+                          {collapseWs(t('Redeem Points'))}
                         </Text>
                       </View>
                       {toInt(list.coupon_points) <= totalBalance ? (
@@ -365,7 +292,7 @@ export default function OffersScreen({ navigation, route }: Props) {
                     <View style={styles.detail}>
                       {/* `.detail h1`: 16px, weight 400 (.item-md h1), ellipsis, nowrap */}
                       <Text testID={`gift-title-${i}`} numberOfLines={1} ellipsizeMode="tail" style={[textStyle(16, 400, ink, 19.2), { textAlign: 'left' }]}>
-                        {collapse(interp(titlecase(list.gift_title)))}
+                        {collapseWs(interp(titlecase(list.gift_title)))}
                       </Text>
                     </View>
                   </View>

@@ -18,7 +18,7 @@ import { homeMd } from '../../theme/ionicMdHome';
 import { toolbarMd } from '../../theme/ionicMdPage';
 import { showAlert, showToast } from '../../ui/overlays';
 import { useLoader } from '../../ui/useLoader';
-import { formatScanDate } from './scanDate';
+import { momentFormat } from '../../ui/angularPipes';
 import { AutoImage, GroupButton, SvgImg } from './parts';
 import { styles } from './styles';
 
@@ -320,21 +320,21 @@ export default function HomeScreen({ navigation }: Props) {
         db.onPostRequestDataFromApi({ karigar_id: db.userStorageData.id, qr_code: qrCode }, 'app_karigar/karigarCoupon', db.rootUrl)
           .then((r: any) => {
             try {
-              if (r['status'] == 'INVALID') { // eslint-disable-line eqeqeq
+              if (r.status == 'INVALID') { // eslint-disable-line eqeqeq
                 showAlertMsg('Invalid Coupon Code');
                 return;
-              } else if (r['status'] == 'USED') { // eslint-disable-line eqeqeq
-                const scanDate = formatScanDate(r.scan_date);
+              } else if (r.status == 'USED') { // eslint-disable-line eqeqeq
+                const scanDate = momentFormat(r.scan_date, 'D-M-Y'); // home.ts:390 moment(r.scan_date).format("D-M-Y")
                 showAlertMsg('Coupon Already Used By ' + r.karigar_data.first_name + ' ( ' + r.karigar_data.mobile_no + ' ) on ' + scanDate);
                 return;
-              } else if (r['status'] == 'POINTS NOT EXIST') { // eslint-disable-line eqeqeq
+              } else if (r.status == 'POINTS NOT EXIST') { // eslint-disable-line eqeqeq
                 showAlertMsg('No Points Exit This Product');
                 return;
-              } else if (r['status'] == 'UNASSIGNED OFFER') { // eslint-disable-line eqeqeq
+              } else if (r.status == 'UNASSIGNED OFFER') { // eslint-disable-line eqeqeq
                 showAlertMsg('This Coupon Code is not applicable in your Area');
                 return;
               }
-              showSuccess(r['coupon_value'] + ' points has been added into your wallet');
+              showSuccess(r.coupon_value + ' points has been added into your wallet');
               getData();
             } catch (e) {
               console.log(e); // a subscribe callback that throws: nothing visible in Ionic either

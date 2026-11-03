@@ -29,3 +29,21 @@ export function activeNavCanGoBack(root: NavState | undefined): boolean {
   }
   return (deepest?.index ?? 0) > 0;
 }
+
+// Ionic app.getActiveNav(): the deepest stack that is showing (inside <ion-tabs> the selected tab's own nav). Returns its active and
+// previous route names (class names without 'Page'). Used to copy ionViewDidLeave checks such as offer-list.ts:131.
+export function activeNavNames(): { active: string; previous: string } | null {
+  let s: any = navigationRef.isReady() ? navigationRef.getRootState() : undefined;
+  let deepest: any;
+  while (s) {
+    if (s.type === 'stack') {
+      deepest = s;
+    }
+    s = s.routes?.[s.index ?? 0]?.state;
+  }
+  if (!deepest || !deepest.routes?.length) {
+    return null;
+  }
+  const index = deepest.index ?? deepest.routes.length - 1;
+  return { active: deepest.routes[index]?.name ?? '', previous: deepest.routes[index - 1]?.name ?? '' };
+}
