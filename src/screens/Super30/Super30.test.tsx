@@ -193,3 +193,35 @@ describe('refresh', () => {
     expect(title()).toBe('super30 || Your Rank : 3');
   });
 });
+
+describe('S8 review additions', () => {
+  const onStars = (i: number) =>
+    ['1', '2', '3', '4', '5'].filter(n =>
+      JSON.stringify(find(`super30-star-${i}-${n}`)[0].findAll(x => (x.type as any) === 'Text')[0].props.style).includes(S.starOn),
+    ).length;
+  const withRows = (ratings: any[]) => {
+    const rows = ratings.map((rating, k) => ({ id: 1000 + k, first_name: 'x', city: 'c', state: 's', rating, profile: '' }));
+    const previous = getTransport();
+    setTransport(req => (req.fn === 'app_karigar/getSuperPlumberList' ? Promise.resolve({ status: 'SUCCESS', karigars: rows, karigarData: [] }) : previous(req)));
+    restoreTransport = () => setTransport(previous);
+  };
+  test('string ratings compare as text: "3" lights 3 stars, "10" lights 1 ("10" >= "1" only)', async () => {
+    withRows(['3', '10']);
+    await mount();
+    expect(onStars(0)).toBe(3);
+    expect(onStars(1)).toBe(1);
+  });
+  test('karigarData null but karigars valid: the list shows, the rank stays empty', async () => {
+    const previous = getTransport();
+    setTransport(req =>
+      req.fn === 'app_karigar/getSuperPlumberList'
+        ? Promise.resolve({ status: 'SUCCESS', karigars: [{ id: 900001, first_name: 'a', city: 'c', state: 's', rating: 2, profile: '' }], karigarData: null })
+        : previous(req),
+    );
+    restoreTransport = () => setTransport(previous);
+    await mount();
+    expect(exists('super30-item-0')).toBe(true);
+    expect(exists('super30-empty')).toBe(false);
+    expect(title()).toBe('super30 || Your Rank : ');
+  });
+});

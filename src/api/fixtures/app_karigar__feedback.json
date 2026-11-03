@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/feedback",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "failed": { "status": "FAILED" },
+    "empty": {},
+    "malformed": { "status": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

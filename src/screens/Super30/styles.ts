@@ -31,9 +31,9 @@ export const styles = StyleSheet.create({
   info: { paddingLeft: 8, flexShrink: 0 },
   // [T] 4877 `h4 { padding-bottom: 4px }`
   name: { paddingBottom: 4 },
-  // [T] 4883-4884 `ul { display: flex }`; `li` height from the line box (see NOTE in index.tsx)
+  // [T] 4883-4884 `ul { display: flex }`; `li` height from the line box (measured on the Ionic build: 20px, font-size 16px, line-height normal)
   stars: { flexDirection: 'row' },
-  star: { height: 19 },
+  star: { height: 20 },
   // [T] 4903-4913 `.photo { 55x55; overflow hidden; background #ccc; radius 100; flex centre }`
   photo: { width: 55, height: 55, overflow: 'hidden', backgroundColor: S.line, borderRadius: 100, alignItems: 'center', justifyContent: 'center' },
   // [T] 4914-4918 `.photo img { height: 100%; border-radius: 8px; max-width: inherit }`

@@ -91,7 +91,7 @@ Classes defined by the page SCSS and used in the template: _none_
 9. **Stars.** `[ngClass]="{'active': row.rating>='N'}"` compares against the STRINGS '1'..'5' with JS loose rules: a number rating is coerced; a string rating compares as text ('10' >= '5' is false).
 10. **Picture.** `<img [src]="row.profile">`: the raw value, NO base URL is prepended (unlike other pages that use `upload_url3`). The server value must therefore already be a full URL. `img { height: 100%; border-radius: 8px }`, width auto, inside a 55x55 grey circle (`overflow: hidden`). An empty/failed value leaves the grey circle.
 11. **Dead code.** `loadData(infiniteScroll)` (:105-131, with its second `getSuperPlumberList` call `{filter, country_name}` and `flag`) has no caller: super30.html has no `<ion-infinite-scroll>`. Not ported (a test asserts a single list request on load). Also dead: `test`, `country_name` reads, commented-out `getList()` calls.
-12. **Layout (global `.super-plumber` rules, variables.scss:4829-5010).** super30.scss is empty. Star row height (19dp) is a measured-by-reasoning estimate (li line box around a 16px inline-block icon), to be checked on the phone.
+12. **Layout (global `.super-plumber` rules, variables.scss:4829-5010).** super30.scss is empty. Star row height is 20dp: MEASURED on the Ionic reference build (the `li` and `ul` are 20px high, computed font-size 16px, line-height normal; the `<i>` is 16px).
 13. **Storage.** Reads `userStorageData.id` only. Writes nothing.
 
 ## States

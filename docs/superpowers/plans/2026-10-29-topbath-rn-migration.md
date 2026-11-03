@@ -880,6 +880,7 @@ The orchestrator dispatches one **implementer** (Sonnet) per screen in its own w
   - Angular pipes and moment come from `src/ui/angularPipes` (`interp`, `collapseWs`, `titlecase`, `datePipe(v, fmt)`, `momentFormat(v, fmt)`), never a local copy. `activeNavNames()` (Ionic `getActiveNav()`) lives in `src/navigation/navigationRef`. Client pictures go through `scripts/use-client.mjs` (`clients/<id>/assets/...`), never a separate generator.
   - Alert/loading texts: pass Ionic's exact strings (double spaces, trailing spaces). The kit renders them like Ionic's `innerHTML` (whitespace collapses, `<br>` breaks; `src/components/ionic/html.ts`); never pre-collapse in the screen.
   - Hardware back on Ionic modal pages: Ionic modals live in the MODAL portal, which `getActiveNavs()` returns first, so a modal page (or a page a modal pushes, listed in `src/navigation/ionicModalPortalPages.json`) has `canGoBack()` false and the Topbath handler shows the exit alert. `modalPortalNav` in `src/navigation/navigationRef.ts` reproduces this; add a page to `ionicModalPortalPages.json` when a modal pushes it.
+  - Ionic `window.alert('…')` (browser alert, not alertCtrl) → `webAlert('…')` from `src/ui/webAlert` (cordova-android's native dialog titled "Alert" with OK).
   - Text uses the kit `Text` from `src/components/ionic/IonText` (browser-like line breaking; lint enforces it).
   - Every visible string either uses `t('<same key>')` where Ionic used `| translate`, or stays a literal where Ionic hardcoded it.
   - Add a NOTE for every quirk.
