@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_country",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "country": "India" },
+    "empty": { "status": "SUCCESS", "country": "" },
+    "malformed": {}
+  }
+}
