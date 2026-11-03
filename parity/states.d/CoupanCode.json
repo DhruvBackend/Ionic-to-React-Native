@@ -1,0 +1,27 @@
+[
+  {
+    "id": "CoupanCode.default",
+    "screen": "CoupanCode",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "mode": "home" },
+    "ionicNav": "nav.setRoot(Page('CoupanCode'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Reached from Home's radio alert ('Enter Coupon Code', params {mode:'home'}); the page never reads params. The harness uses setRoot like the other states. No endpoint is called on load."
+  },
+  {
+    "id": "CoupanCode.submitEmpty",
+    "screen": "CoupanCode",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/karigarCoupon": "REQUIRED" },
+    "params": { "mode": "home" },
+    "ionicNav": "nav.setRoot(Page('CoupanCode'), params).then(() => new Promise(r => setTimeout(r, 600))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.submit(undefined); }); })",
+    "rnAction": "tap:coupon-submit",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Submit with the box empty: flag=1 shows 'Required', karigarCoupon answers REQUIRED and the 'Alert!' / 'Please Enter Coupon Code' alert opens. The button click is driven as submit(data.code) inside NgZone (TapClick swallows synthetic clicks)."
+  }
+]
