@@ -1,0 +1,50 @@
+[
+  {
+    "id": "MainHome.Plumber",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "4"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "MainHome is tab6Root, the fifth tab (Menu) of the loyalty roles: Tabs params index 4 selects it, the tab bar is part of the capture. Plumber sees the extra Super 30 Plumber row."
+  },
+  {
+    "id": "MainHome.Dealer",
+    "screen": "Tabs",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "index": "4"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "Sales_Boy, Dealer and Sales_Executive: no Super 30 Plumber row (userStorageData.type != Plumber); the stripe colours shift up by one."
+  },
+  {
+    "id": "MainHome.hin",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "index": "4"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "The app language is global (state lang): the title and the five labels come from hin.json."
+  }
+]
