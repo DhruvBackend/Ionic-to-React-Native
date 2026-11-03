@@ -59,3 +59,15 @@ test('useIonSelect + IonSelectBox + IonInputItem cover: the whole item opens the
   expect(r.root.findAll(n => n.props.testID === 'row-cover').length).toBeGreaterThan(0);
   expect(JSON.stringify(r.toJSON())).toContain('Pending');
 });
+
+test('IonSelect fontSize / isLast pass through (plumber-checkin .bodr-botm ion-item { font-size: 14px })', () => {
+  const { IonSelect } = require('../src/components/ionic/IonSelect');
+  const { StyleSheet } = require('react-native');
+  let r!: ReactTestRenderer.ReactTestRenderer;
+  ReactTestRenderer.act(() => {
+    r = ReactTestRenderer.create(<IonSelect label="Complaint" options={[{ value: 1, label: 'A' }]} value={1} fontSize={14} isLast testID="s" />);
+  });
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-text').props.style).fontSize).toBe(14);
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-label-text').props.style).fontSize).toBe(14);
+  expect(StyleSheet.flatten(r.root.find(n => n.props.testID === 's-inner').props.style).borderBottomWidth).toBe(0);
+});

@@ -13,6 +13,7 @@ import { itemMd, selectMd } from '../../theme/ionicMdPickers';
 import { showAlert } from '../../ui/overlays';
 import { IonField, useField, type FieldVariant } from './IonField';
 import { textStyle } from './text';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 
 export interface IonOption<T = any> {
   value: T;
@@ -49,6 +50,10 @@ export interface IonSelectProps<T = any> {
   testID?: string;
   itemStyle?: React.ComponentProps<typeof IonField>['itemStyle'];
   prevMarginBottom?: number; // set by IonList (margin collapsing, see IonField itemVerticalMargins)
+  // page `ion-item { font-size }` overrides (e.g. plumber-checkin `.bodr-botm ion-item { font-size: 14px }`): label and selected text inherit it
+  fontSize?: number;
+  isLast?: boolean; // as IonField: last item of an ion-list (no inner bottom line)
+  noLines?: boolean; // as IonField: [no-lines]
 }
 
 // util/util.js isCheckedProperty: Ionic's default compareWith (loose equality on purpose)
@@ -189,7 +194,7 @@ function useSelectLogic<T>(props: IonSelectProps<T>) {
 }
 
 export function IonSelect<T = any>(props: IonSelectProps<T>) {
-  const { label, requiredMark, floating = false, placeholder = '', selectedText = '', disabled = false, variant = 'plain', error, testID = 'ion-select', itemStyle, prevMarginBottom } = props;
+  const { label, requiredMark, floating = false, placeholder = '', selectedText = '', disabled = false, variant = 'plain', error, testID = 'ion-select', itemStyle, prevMarginBottom, fontSize, isLast, noLines } = props;
   const { text, open } = useSelectLogic(props);
 
   return (
@@ -205,9 +210,12 @@ export function IonSelect<T = any>(props: IonSelectProps<T>) {
       testID={testID}
       itemStyle={itemStyle}
       prevMarginBottom={prevMarginBottom}
+      labelStyle={fontSize !== undefined ? { fontSize } : undefined}
+      isLast={isLast}
+      noLines={noLines}
       cover={{ onPress: open, disabled }}
     >
-      <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} />
+      <SelectBox text={text} placeholder={placeholder} selectedText={selectedText} disabled={disabled} testID={testID} fontSize={fontSize} />
     </IonField>
   );
 }
@@ -235,12 +243,14 @@ function SelectBox({
   selectedText,
   disabled,
   testID,
+  fontSize,
 }: {
   text: string;
   placeholder: string;
   selectedText: string;
   disabled: boolean;
   testID: string;
+  fontSize?: number;
 }) {
   const spec = useField();
   const sp = spec.select;
@@ -266,7 +276,7 @@ function SelectBox({
         <Text
           testID={`${testID}-text`}
           numberOfLines={1}
-          style={textStyle(sp.fontSize, 400, hasText ? sp.textColor : sp.placeholderColor, sp.lineHeight)}
+          style={textStyle(fontSize ?? sp.fontSize, 400, hasText ? sp.textColor : sp.placeholderColor, fontSize !== undefined ? normalLineHeight(fontSize) : sp.lineHeight)}
         >
           {hasText ? selectedText || text : placeholder}
         </Text>
