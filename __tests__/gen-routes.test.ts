@@ -100,3 +100,9 @@ test('no inventory entries still produces an empty placeholder list', () => {
   expect(placeholders(gen(screensDir({})))).toEqual([]);
   expect(gen(screensDir({}))).toMatch(/export const placeholderRoutes/);
 });
+
+test("a modal page's route.ts may write presentation: 'modal' with normal spacing; a card route for it is rejected", () => {
+  const modalRoute = `export default { name: 'ViewProfile', presentation: 'modal', links: [] };`;
+  expect(genStatus(screensDir({ ViewProfile: { route: modalRoute, index: true } }))).toBe(0);
+  expect(genStatus(screensDir({ ViewProfile: { route: route('ViewProfile'), index: true } }))).not.toBe(0);
+});
