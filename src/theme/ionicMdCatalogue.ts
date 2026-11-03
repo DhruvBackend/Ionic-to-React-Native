@@ -10,5 +10,6 @@ export const catalogueMd = {
   gridName: '#333333', // [T] 1865 `.image-manage ~ p` colour
   gridNameBg: '#f3f3f3', // [T] 1869 background
   skeleton: '#ddd', // [T] 9908 `.skleton-box` (the animated gradient starts and ends with #ddd)
+  skeletonShine: '#e8e8e8', // [T] 9909 gradient middle stop
   noDataText: '#000', // [T] 7353-7362 `.nothing-here p { color: $black-clr }`
 } as const;

@@ -161,11 +161,11 @@ export default function CategoryScreen({ navigation }: Props) {
     filter.current.search = search;
     db.post_rqst({ filter: filter.current }, 'app_master/parentCategory_List').then(
       (r: any) => {
-        // NOTE (parity): a null body throws at r['category'] before the dismiss: the loader stays up.
+        // NOTE (parity): the dismiss (:212) runs before r['category'] is read; a null body then throws at :213 and the list stays.
+        loader.hide(); // :212
         if (r == null) {
           return;
         }
-        loader.hide(); // :210
         setData(r.category); // :211
       },
       () => {},

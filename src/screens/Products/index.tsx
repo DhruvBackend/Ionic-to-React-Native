@@ -14,6 +14,7 @@ import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { catalogueMd as C } from '../../theme/ionicMdCatalogue';
 import { interp } from '../../ui/angularPipes';
 import { noFoundSize, noFoundXml } from '../OfferList/noFound';
+import { Shimmer } from './Shimmer';
 import { styles } from './styles';
 
 // app.getActiveNav() page names that products.ts:132 looks for, without the 'Page' suffix.
@@ -134,7 +135,7 @@ export default function ProductsScreen({ navigation, route }: Props) {
       </IonHeader>
 
       {/* html:15 <ion-content class="listing add-images grid-listing"> */}
-      {/* NOTE (parity, not verified on device): the global `.listing { margin: 16px 0; padding: 0 16px }` also reaches this ion-content; not applied (same as MainHome). */}
+      {/* NOTE (parity): the global `.listing { margin: 16px 0; padding: 0 16px }` reaches this ion-content: absolutely positioned, the margin shrinks it 16px top and bottom (padding has no effect). */}
       <IonContent style={styles.content} onLayout={e => setViewport(e.nativeEvent.layout.height)}>
         {/* html:25-35 */}
         {!list.length && noRec ? (
@@ -182,12 +183,11 @@ export default function ProductsScreen({ navigation, route }: Props) {
         ) : null}
 
         {/* html:60-66 *ngIf="!prod_cat_list.length && !no_rec": ten skeleton cells */}
-        {/* NOTE (not 1:1): `.skleton-box` animates a grey gradient (shine-avatar); RN draws it as a flat #ddd. */}
         {!list.length && !noRec ? (
           <View testID="products-skeleton" style={styles.mainDiv}>
             {SKELETON.map((_, i) => (
               <View key={i} style={i % 2 === 0 ? styles.cellLeft : styles.cellRight}>
-                <View style={styles.skeleton} />
+                <Shimmer />
               </View>
             ))}
           </View>

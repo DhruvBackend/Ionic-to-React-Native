@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
   filter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' },
   fullWidth: { width: '100%' },
   // [T] 1825-1826 `.listing.grid-listing { background: #f8f8f8 }` on the ion-content element
-  content: { backgroundColor: C.gridBg },
+  // [T] 5560-5565 `.listing { margin: 16px 0 }`: the ion-content is absolutely positioned, so the margin shrinks it top and bottom
+  content: { backgroundColor: C.gridBg, marginVertical: 16 },
   // [T] 1827-1836 `.main-div`: flex wrap, space-between, `padding-top: 0 !important; padding: 16px`, margin-bottom 32
   mainDiv: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', paddingTop: 0, paddingHorizontal: 16, paddingBottom: 16, marginBottom: 32 },
   // [T] 1837-1839 `ion-list { width: calc(50% - 8px) !important; margin-bottom: 16px !important }`: a 50% cell with 8px on the inner side
@@ -30,7 +31,8 @@ export const styles = StyleSheet.create({
   // [T] 1869-1881 `p { font-size: 13px; line-height: normal; color: #333; font-weight: 500; text-align: center; background: #f3f3f3; padding: 6px; margin: 0 }`
   name: { textAlign: 'center', backgroundColor: C.gridNameBg, padding: 6 },
   // [T] 9908-9913 `.skleton-box { width: 100%; height: 135px }` + `.listing button` radius / shadow
-  skeleton: { width: '100%', height: 135, borderRadius: 6, backgroundColor: C.skeleton, boxShadow: C.gridShadow },
+  skeleton: { width: '100%', height: 135, borderRadius: 6, backgroundColor: C.skeleton, boxShadow: C.gridShadow, overflow: 'hidden' },
+  shimmerBand: { width: 80, height: 135 },
   // [T] 7353-7362 `.nothing-here { height: 80% }` (of the ion-content height, set from the measured layout); 7850-7860 `.outer`/`.innear`: table cell, middle, centred
   nothingHere: { width: '100%' },
   innear: { flex: 1, alignItems: 'center', justifyContent: 'center' },
