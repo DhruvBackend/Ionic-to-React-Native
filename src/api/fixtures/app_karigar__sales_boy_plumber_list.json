@@ -1,0 +1,55 @@
+{
+  "endpoint": "app_karigar/sales_boy_plumber_list",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigar_pending": 3,
+      "karigar_reject": 1,
+      "karigar_verified": 5,
+      "karigars": {
+        "data": [
+          { "id": 401, "first_name": "ramesh kumar", "mobile_no": "9000000401", "date_created": "2026-09-14 11:20:00", "status": "Pending", "last_login_at": "2026-10-30 18:05:00", "last_scan_at": "2026-10-29 09:15:00", "balance_point": 1250 },
+          { "id": 402, "first_name": "SUNITA PAWAR", "mobile_no": "9000000402", "date_created": "2026-10-02 16:45:00", "status": "Pending", "last_login_at": null, "last_scan_at": null, "balance_point": 0 },
+          { "id": 403, "first_name": "imran sheikh", "mobile_no": "9000000403", "date_created": "2026-10-21 09:05:00", "status": "Suspect", "last_login_at": "2026-11-01 07:30:00", "last_scan_at": null, "balance_point": null }
+        ]
+      }
+    },
+    "verified": {
+      "status": "SUCCESS",
+      "karigar_pending": 3,
+      "karigar_reject": 1,
+      "karigar_verified": 5,
+      "karigars": {
+        "data": [
+          { "id": 411, "first_name": "anil more", "mobile_no": "9000000411", "date_created": "2026-08-01 10:00:00", "status": "Verified", "last_login_at": "2026-11-02 21:10:00", "last_scan_at": "2026-11-02 21:12:00", "balance_point": 480 }
+        ]
+      }
+    },
+    "reject": {
+      "status": "SUCCESS",
+      "karigar_pending": 3,
+      "karigar_reject": 1,
+      "karigar_verified": 5,
+      "karigars": {
+        "data": [
+          { "id": 421, "first_name": "kiran jadhav", "mobile_no": "9000000421", "date_created": "2026-07-19 15:30:00", "status": "Reject", "last_login_at": null, "last_scan_at": null, "balance_point": 0 }
+        ]
+      }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "karigar_pending": 0,
+      "karigar_reject": 0,
+      "karigar_verified": 0,
+      "karigars": { "data": [] }
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "karigar_pending": null,
+      "karigar_reject": null,
+      "karigar_verified": null,
+      "karigars": null
+    }
+  }
+}
