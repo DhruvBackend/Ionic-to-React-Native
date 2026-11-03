@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_master/childCategoryList",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "filter": {
+      "limit": 0,
+      "search": ""
+    },
+    "category_id": 7
+  },
+  "ionicSource": "src/pages/sub-category/sub-category.ts:67 (get_subcategory: filter.limit = 0, filter.search, category_id = navParams id); :92 (loadData: filter.limit = prod_cat_list.length)"
+}

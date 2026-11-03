@@ -1,0 +1,38 @@
+{
+  "endpoint": "app_master/productList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "category_name": [{ "id": 4, "main_category": "BATH FITTINGS", "category_name": "Showers" }],
+      "product_count": 4,
+      "product_count_all": 4,
+      "products": [
+        { "id": 31, "product_name": "Rain shower with extension arm chrome finish", "material_code": "tb-1001", "price": 2499, "actual_image_name": "shower_a.png" },
+        { "id": 32, "product_name": "single lever wall mixer with diverter", "material_code": "tb-2002", "price": 1250, "actual_image_name": "mixer.png" },
+        { "id": 33, "product_name": "Concealed stop cock with flange", "material_code": "tb-3003", "price": 899, "actual_image_name": "" },
+        { "id": 34, "product_name": "Health faucet with 1 metre braided hose", "material_code": "tb-4004", "price": 640, "actual_image_name": "faucet.png" }
+      ]
+    },
+    "oddCount": {
+      "status": "SUCCESS",
+      "category_name": [{ "id": 4, "main_category": "BATH FITTINGS", "category_name": "Showers" }],
+      "product_count": 3,
+      "product_count_all": 3,
+      "products": [
+        { "id": 31, "product_name": "Rain shower with extension arm chrome finish", "material_code": "tb-1001", "price": 2499, "actual_image_name": "shower_a.png" },
+        { "id": 32, "product_name": "single lever wall mixer with diverter", "material_code": "tb-2002", "price": 1250, "actual_image_name": "mixer.png" },
+        { "id": 33, "product_name": "Concealed stop cock with flange", "material_code": "tb-3003", "price": 899, "actual_image_name": "" }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "category_name": [{ "id": 4, "main_category": "BATH FITTINGS", "category_name": "Showers" }],
+      "product_count": 0,
+      "product_count_all": 0,
+      "products": []
+    },
+    "malformed": { "status": "SUCCESS", "products": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

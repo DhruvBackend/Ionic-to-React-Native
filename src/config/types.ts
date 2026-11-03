@@ -83,6 +83,7 @@ export interface ClientConfig {
   fcmSenderId: string;
   features: Record<FeatureKey, boolean>;
   brandLabels: Record<string, string>;
+  aboutParagraphs?: string[]; // About page <li> translate keys (about.html), exact Ionic text incl. white space; Topbath only
   splashBackground?: string; // splash screen colour; Ionic default #FFFFFF (docs/splash-parity.md)
   assetsFrom?: string; // reuse another client's assets folder (test configs)
 }

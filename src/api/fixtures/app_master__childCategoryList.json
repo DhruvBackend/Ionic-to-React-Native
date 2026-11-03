@@ -1,0 +1,42 @@
+{
+  "endpoint": "app_master/childCategoryList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "category": [
+        {
+          "id": 11,
+          "main_category": "PVC Pipes",
+          "actual_image_name": "pvc.png"
+        },
+        {
+          "id": 12,
+          "main_category": "CPVC Pipes",
+          "actual_image_name": ""
+        },
+        {
+          "id": 13,
+          "main_category": "Column Pipes And Casing Pipes For Borewell",
+          "actual_image_name": "column.png"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "category": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "category": null
+    },
+    "endOfList": {
+      "status": "SUCCESS",
+      "category": ""
+    },
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}

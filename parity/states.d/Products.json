@@ -1,0 +1,5 @@
+[
+  { "id": "Products.default", "screen": "Products", "role": "Plumber", "lang": "en", "variants": {}, "params": { "name": "Pipes" }, "ionicNav": "nav.setRoot(Page('Products'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "Two-column grid, three cells; the first cell has no `image`, so its picture never loads (src=imageUrl+...)." },
+  { "id": "Products.empty", "screen": "Products", "role": "Plumber", "lang": "en", "variants": { "app_master/categoryList": "empty" }, "params": { "name": "Pipes" }, "ionicNav": "nav.setRoot(Page('Products'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Products.malformed", "screen": "Products", "role": "Plumber", "lang": "en", "variants": { "app_master/categoryList": "malformed" }, "params": { "name": "Pipes" }, "ionicNav": "nav.setRoot(Page('Products'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "The skeleton cells stay." }
+]

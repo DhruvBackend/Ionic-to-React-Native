@@ -78,5 +78,14 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** Pushed by Category with `{name}`. `ionViewDidLoad` copies it to `filter.name`; `ionViewWillEnter` (first entry and every return from a pushed page) calls `getProductCategoryList()` (`filter.limit = 0`) and `presentLoading()` (empty body: no loader). No `TranslateModule`: hardcoded English ('Category', 'Data not Available').
+2. **Request.** `{filter: {limit: 0, name, [category_name1]}}` through `post_rqst`. The search box is `[(ngModel)]="filter.category_name1"`, so typed text rides along in later requests.
+3. **Search.** `(keyup.enter)="goToProductsWithSearch(...)"` calls a method `products.ts` does not have: Enter does nothing (Ionic throws a TypeError in the handler).
+4. **States.** `!prod_cat_list.length && !no_rec` shows ten skeleton cells (`.skleton-box`, 135 px, animated grey gradient; RN draws it flat #ddd); `no_rec` is set from `categories.length == 0` on every answer; `!length && no_rec` shows `.nothing-here` (no_found.svg 150 px + 'Data not Available'). A null `categories` throws after the assignment: `no_rec` stays. An HTTP error does nothing (empty error callback): the skeleton stays.
+5. **Rows.** `.grid-listing .main-div`: two cells per row (`ion-list` width calc(50% - 8px)), `button ion-item` with `.image-manage` (120 px) and the name `p` (13px, 500, #333, #f3f3f3). Without `list.image` the template renders `src="imageUrl+{{actual_image_name}}"` (the text `imageUrl+` is a typo inside a relative URL): the picture never loads. With `image` it shows `list.image`. Tap pushes ProductDetail `{id}` (the html passes `imageCompletePath` too, ignored).
+6. **Dead code.** `doRefresh` and `loadData` (the refresher and the infinite scroll are commented out in the html) are not ported. `ion-content class="listing add-images grid-listing"`: the `.add-images` rules reach nothing in this template.
+7. **Leave.** `ionViewDidLeave` pops to root when the active nav shows a root page and its previous page is not one (same as PointList).
+
 ## States
 
+`default` (3 rows), `empty` ('Data not Available'), `malformed` (`categories: null`: the skeleton stays).

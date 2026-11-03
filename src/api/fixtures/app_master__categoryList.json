@@ -1,0 +1,44 @@
+{
+  "endpoint": "app_master/categoryList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "categories": [
+        {
+          "id": 21,
+          "category_name": "Pressure Pipe 1 Inch",
+          "image": "",
+          "actual_image_name": "pp1.png",
+          "imageCompletePath": ""
+        },
+        {
+          "id": 22,
+          "category_name": "Pressure Pipe 2 Inch",
+          "image": "https://example.invalid/img/pp2.png",
+          "actual_image_name": "pp2.png",
+          "imageCompletePath": "https://example.invalid/img/pp2.png"
+        },
+        {
+          "id": 23,
+          "category_name": "Elbow 90",
+          "image": "https://example.invalid/img/elbow.png",
+          "actual_image_name": "elbow.png",
+          "imageCompletePath": "https://example.invalid/img/elbow.png"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "categories": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "categories": null
+    },
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}

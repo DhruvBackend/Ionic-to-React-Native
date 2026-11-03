@@ -1,0 +1,53 @@
+{
+  "endpoint": "app_master/parentCategory_List",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "category": [
+        {
+          "id": 1,
+          "main_category": "Pipes",
+          "actual_image_name": "pipes.png"
+        },
+        {
+          "id": 2,
+          "main_category": "Fittings",
+          "actual_image_name": "fittings.png"
+        },
+        {
+          "id": 3,
+          "main_category": "Valves",
+          "actual_image_name": ""
+        },
+        {
+          "id": 4,
+          "main_category": "Water Tanks",
+          "actual_image_name": "tanks.png"
+        },
+        {
+          "id": 5,
+          "main_category": "Taps And Showers Collection",
+          "actual_image_name": ""
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "category": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "category": null
+    },
+    "endOfList": {
+      "status": "SUCCESS",
+      "categories": "",
+      "category": []
+    },
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}
