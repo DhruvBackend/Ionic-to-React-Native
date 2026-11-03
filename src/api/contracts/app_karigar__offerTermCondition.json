@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/offerTermCondition",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "offer_id": 11, "karigar_id": 22 },
+  "ionicSource": "src/pages/terms/terms.ts:35"
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "Terms.default",
+    "screen": "Terms",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 11, "term": "term_and_conditions" },
+    "ionicNav": "nav.setRoot(Page('Terms'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "NOT production-reachable: the only callers (offers.ts:50/:53) sit behind a dead *ngIf. Kept for the template. Title 'Terms & Condtion', terms text."
+  },
+  {
+    "id": "Terms.description",
+    "screen": "Terms",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 11, "term": "discriptions" },
+    "ionicNav": "nav.setRoot(Page('Terms'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "NOT production-reachable (see Terms.default). term != 'term_and_conditions': title 'Description', description text."
+  }
+]
