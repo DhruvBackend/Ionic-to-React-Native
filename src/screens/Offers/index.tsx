@@ -11,6 +11,7 @@ import { Text } from '../../components/ionic/IonText';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { textStyle } from '../../components/ionic/text';
 import { navigationRef } from '../../navigation/navigationRef';
+import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { colors } from '../../theme';
 import { md } from '../../theme/ionicMd';
 import { offersMd } from '../../theme/ionicMdOffers';
@@ -126,7 +127,6 @@ export default function OffersScreen({ navigation, route }: Props) {
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
   const [bannerFailed, setBannerFailed] = useState(false);
   const alive = useRef(true);
-  const left = useRef(false);
 
   // :36-40 ionViewDidEnter (runs on the first entry AND every time the page becomes the active one again, e.g. back from Terms/GiftDetail)
   function enter() {
@@ -137,26 +137,18 @@ export default function OffersScreen({ navigation, route }: Props) {
 
   useEffect(() => {
     alive.current = true;
-    enter();
+    // Without a navigation object that has listeners (unit tests) there is no focus event: enter once on mount.
+    if (!navigation.addListener) {
+      enter();
+    }
     return () => {
       alive.current = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 'focus' after a 'blur' = Ionic's ionViewDidEnter on a page that was left and is entered again (the first entry is the effect above).
-  useEffect(() => {
-    if (!navigation.addListener) {
-      return undefined;
-    }
-    return navigation.addListener('focus', () => {
-      if (left.current) {
-        left.current = false;
-        enter();
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  // ionViewDidEnter: the first entry and every return to this page (not after an Ionic modal above it is dismissed).
+  useIonViewWillEnter(enter, { navigation: navigation.addListener ? (navigation as any) : undefined });
 
   // :111-132 ionViewDidLeave. React Navigation's 'blur' fires on a push over this screen and on a tab switch, like Ionic's didLeave.
   // NOTE (parity): when the nav that is active after leaving shows one of the root pages (and its previous page is not one of them),
@@ -166,7 +158,6 @@ export default function OffersScreen({ navigation, route }: Props) {
       return undefined;
     }
     return navigation.addListener('blur', () => {
-      left.current = true;
       const names = activeNavNames();
       if (names && ROOT_PAGES.includes(names.active) && !ROOT_PAGES.includes(names.previous)) {
         const stack = navigation.getState?.();

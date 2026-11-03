@@ -227,14 +227,18 @@ describe('refresh and re-entry', () => {
     await settle();
   });
 
-  test('ionViewDidEnter again (focus after blur) reloads and shows a new loader; the first focus does not', async () => {
+  test('ionViewDidEnter again (focus after blur) reloads and shows a new loader (the first focus is the first entry)', async () => {
     installSpy();
     const listeners: Record<string, () => void> = {};
+    const all: Record<string, (() => void)[]> = {};
     const nav = {
       push: jest.fn(),
       addListener: (type: string, cb: () => void) => {
-        listeners[type] = cb;
-        return () => {};
+        (all[type] ||= []).push(cb);
+        listeners[type] = () => (all[type] || []).forEach(f => f());
+        return () => {
+          all[type] = (all[type] || []).filter(f => f !== cb);
+        };
       },
     };
     await mount({ id: 11 }, nav);
@@ -274,13 +278,17 @@ describe('ionViewDidLeave (offers.ts:111-132)', () => {
     jest.spyOn(navigationRef, 'getRootState').mockReturnValue(rootState);
     installSpy();
     const listeners: Record<string, () => void> = {};
+    const all: Record<string, (() => void)[]> = {};
     const nav = {
       push: jest.fn(),
       popToTop: jest.fn(),
       getState: () => ({ routes: new Array(stackRoutes).fill({}) }),
       addListener: (type: string, cb: () => void) => {
-        listeners[type] = cb;
-        return () => {};
+        (all[type] ||= []).push(cb);
+        listeners[type] = () => (all[type] || []).forEach(f => f());
+        return () => {
+          all[type] = (all[type] || []).filter(f => f !== cb);
+        };
       },
     };
     await mount({ id: 11 }, nav);
