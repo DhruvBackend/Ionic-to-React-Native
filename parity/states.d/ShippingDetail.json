@@ -1,0 +1,67 @@
+[
+  {
+    "id": "ShippingDetail.default",
+    "screen": "ShippingDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/giftDetail": "redeemShipped"
+    },
+    "params": {
+      "id": 501
+    },
+    "ionicNav": "nav.setRoot(Page('ShippingDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "PUSH-ONLY via Transaction (itself push-only: push notification type redeem; push is off for Topbath, so this is the template/push-enabled clients view). Transaction pushes {id}; giftDetail is asked without gift_id. The image src is the raw server value (a bare file name is a broken image). Shipped: both cards and the Receive button."
+  },
+  {
+    "id": "ShippingDetail.received",
+    "screen": "ShippingDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/giftDetail": "redeemReceived"
+    },
+    "params": {
+      "id": 501
+    },
+    "ionicNav": "nav.setRoot(Page('ShippingDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Received: no Receive button, both cards."
+  },
+  {
+    "id": "ShippingDetail.approved",
+    "screen": "ShippingDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/giftDetail": "redeemApproved"
+    },
+    "params": {
+      "id": 501
+    },
+    "ionicNav": "nav.setRoot(Page('ShippingDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "receive_status empty: empty Gift Status, Receive button shown."
+  },
+  {
+    "id": "ShippingDetail.noShipping",
+    "screen": "ShippingDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/giftDetail": "redeemApproved",
+      "app_karigar/shippedDetail": "empty"
+    },
+    "params": {
+      "id": 501
+    },
+    "ionicNav": "nav.setRoot(Page('ShippingDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "shipped {}: no Shipping Detail card."
+  }
+]

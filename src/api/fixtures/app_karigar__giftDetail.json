@@ -225,6 +225,171 @@
       },
       "msg": "This gift is not available right now"
     },
+    "redeemApproved": {
+      "status": "SUCCESS",
+      "flag": 0,
+      "gift": {
+        "id": 21,
+        "offer_id": 11,
+        "gift_title": "steel water bottle",
+        "coupon_points": "500",
+        "image": "gift_21.jpg",
+        "offer_banner": "offer_banner_11.jpg",
+        "title": "diwali dhamaka offer",
+        "end_date": "2026-12-31",
+        "gift_specification": "Insulated steel bottle, 1 litre, keeps drinks hot or cold for 12 hours.",
+        "type": "Gift",
+        "rating": "4",
+        "offer_balance": "1200"
+      },
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010",
+        "balance_point": 1000,
+        "service_wallet_balance_points": 100,
+        "referal_point_balance": 100,
+        "total_balance": 1200
+      },
+      "karigar_gift": {
+        "id": 501,
+        "receive_status": "",
+        "bank_name": "State Bank Of India",
+        "account_holder_name": "Test Plumber",
+        "bank_account_number": "123456789012",
+        "bank_ifsc_code": "SBIN0001234"
+      },
+      "gift_star": {
+        "star": "4"
+      }
+    },
+    "redeemShipped": {
+      "status": "SUCCESS",
+      "flag": 0,
+      "gift": {
+        "id": 21,
+        "offer_id": 11,
+        "gift_title": "steel water bottle",
+        "coupon_points": "500",
+        "image": "gift_21.jpg",
+        "offer_banner": "offer_banner_11.jpg",
+        "title": "diwali dhamaka offer",
+        "end_date": "2026-12-31",
+        "gift_specification": "Insulated steel bottle, 1 litre, keeps drinks hot or cold for 12 hours.",
+        "type": "Gift",
+        "rating": "4",
+        "offer_balance": "1200"
+      },
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010",
+        "balance_point": 1000,
+        "service_wallet_balance_points": 100,
+        "referal_point_balance": 100,
+        "total_balance": 1200
+      },
+      "karigar_gift": {
+        "id": 501,
+        "receive_status": "Shipped",
+        "bank_name": "State Bank Of India",
+        "account_holder_name": "Test Plumber",
+        "bank_account_number": "123456789012",
+        "bank_ifsc_code": "SBIN0001234"
+      },
+      "gift_star": {
+        "star": "4"
+      }
+    },
+    "redeemReceived": {
+      "status": "SUCCESS",
+      "flag": 0,
+      "gift": {
+        "id": 21,
+        "offer_id": 11,
+        "gift_title": "steel water bottle",
+        "coupon_points": "500",
+        "image": "gift_21.jpg",
+        "offer_banner": "offer_banner_11.jpg",
+        "title": "diwali dhamaka offer",
+        "end_date": "2026-12-31",
+        "gift_specification": "Insulated steel bottle, 1 litre, keeps drinks hot or cold for 12 hours.",
+        "type": "Gift",
+        "rating": "4",
+        "offer_balance": "1200"
+      },
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010",
+        "balance_point": 1000,
+        "service_wallet_balance_points": 100,
+        "referal_point_balance": 100,
+        "total_balance": 1200
+      },
+      "karigar_gift": {
+        "id": 501,
+        "receive_status": "Received",
+        "bank_name": "State Bank Of India",
+        "account_holder_name": "Test Plumber",
+        "bank_account_number": "123456789012",
+        "bank_ifsc_code": "SBIN0001234"
+      },
+      "gift_star": {
+        "star": "4"
+      }
+    },
+    "noKarigarGift": {
+      "status": "SUCCESS",
+      "flag": 0,
+      "gift": {
+        "id": 21,
+        "offer_id": 11,
+        "gift_title": "steel water bottle",
+        "coupon_points": "500",
+        "image": "gift_21.jpg",
+        "offer_banner": "offer_banner_11.jpg",
+        "title": "diwali dhamaka offer",
+        "end_date": "2026-12-31",
+        "gift_specification": "Insulated steel bottle, 1 litre, keeps drinks hot or cold for 12 hours.",
+        "type": "Gift",
+        "rating": "4",
+        "offer_balance": "1200"
+      },
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "address": "12 Rose Lane",
+        "city": "Sahibabad",
+        "district": "GHAZIABAD",
+        "state": "UTTAR PRADESH",
+        "pincode": "201010",
+        "balance_point": 1000,
+        "service_wallet_balance_points": 100,
+        "referal_point_balance": 100,
+        "total_balance": 1200
+      },
+      "karigar_gift": null,
+      "gift_star": {
+        "star": "4"
+      }
+    },
     "NOT FOUND": {
       "status": "NOT FOUND"
     }

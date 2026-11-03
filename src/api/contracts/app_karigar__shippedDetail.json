@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/shippedDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_gift_id": 501 },
+  "note": "karigar_gift_id is navParams.get('id') (the redeem request id Transaction pushes).",
+  "ionicSource": "src/pages/shipping-detail/shipping-detail.ts:41"
+}
