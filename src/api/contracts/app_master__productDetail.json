@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/productDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "product_id": 31 },
+  "ionicSource": "src/pages/product-subdetail/product-subdetail.ts:87"
+}
