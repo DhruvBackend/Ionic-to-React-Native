@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/complaintTaskCloseByPlumber",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "status": {
+      "complaints_id": 71,
+      "name": "Sunita Deshmukh",
+      "image": "=",
+      "remark": "Work done",
+      "otp": "123456",
+      "closed_by": "900011",
+      "status": "=Closed"
+    }
+  },
+  "ionicSource": "src/pages/task-close/task-close.ts:185 (submit; `otp` only for lable 'Closed', `image` is '' or a data URL)"
+}

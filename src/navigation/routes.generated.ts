@@ -94,16 +94,18 @@ import r45 from '../screens/SubCategory/route';
 import C45 from '../screens/SubCategory';
 import r46 from '../screens/Super30/route';
 import C46 from '../screens/Super30';
-import r47 from '../screens/Terms/route';
-import C47 from '../screens/Terms';
-import r48 from '../screens/Transaction/route';
-import C48 from '../screens/Transaction';
-import r49 from '../screens/Video/route';
-import C49 from '../screens/Video';
-import r50 from '../screens/VideoCategory/route';
-import C50 from '../screens/VideoCategory';
-import r51 from '../screens/ViewProfile/route';
-import C51 from '../screens/ViewProfile';
+import r47 from '../screens/TaskClose/route';
+import C47 from '../screens/TaskClose';
+import r48 from '../screens/Terms/route';
+import C48 from '../screens/Terms';
+import r49 from '../screens/Transaction/route';
+import C49 from '../screens/Transaction';
+import r50 from '../screens/Video/route';
+import C50 from '../screens/Video';
+import r51 from '../screens/VideoCategory/route';
+import C51 from '../screens/VideoCategory';
+import r52 from '../screens/ViewProfile/route';
+import C52 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -158,7 +160,8 @@ export const routes: RouteDef[] = [
   { ...r49, component: C49 },
   { ...r50, component: C50 },
   { ...r51, component: C51 },
+  { ...r52, component: C52 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
-export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"MyCamplaints","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"TaskClose","presentation":"card"}];
+export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"MyCamplaints","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"}];

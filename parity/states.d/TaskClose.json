@@ -1,0 +1,26 @@
+[
+  {
+    "id": "TaskClose.default",
+    "screen": "TaskClose",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 71, "mobile": "9000000051", "name": "Sunita Deshmukh", "lable": "Closed" },
+    "ionicNav": "nav.push(Page('TaskClose'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Closed: Remark, Upload Image and the OTP field."
+  },
+  {
+    "id": "TaskClose.pending",
+    "screen": "TaskClose",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 71, "mobile": "9000000051", "name": "Sunita Deshmukh", "lable": "Pending" },
+    "ionicNav": "nav.push(Page('TaskClose'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "In process: no OTP field."
+  }
+]
