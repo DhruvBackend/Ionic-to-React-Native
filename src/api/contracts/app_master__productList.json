@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/productList",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "filter": { "search": "=", "limit": 0, "id": 4, "karigar_id": "900001" } },
+  "ionicSource": "src/pages/product-detail/product-detail.ts:89 (getProductList; loadData at :63 sends the same body with limit = prod_list.length)"
+}

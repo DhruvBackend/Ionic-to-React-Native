@@ -80,5 +80,15 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- product-detail.ts:63/89: both calls use post_rqst (tokenOnly headers); body {filter} is ONE object mutated by every call (search, limit, id, karigar_id).
+- product-detail.ts:67: infinite scroll asks for offset limit = prod_list.length; :71 `r['products']==''` is loose, so [] ends paging for good (flag=1, never reset); the new page is appended after a 1000 ms timer.
+- product-detail.ts:103-123: a null `products` or missing `category_name` throws mid-handler (loader already dismissed): no_rec / title keep their old values.
+- product-detail.ts:139: loader has no content (commented out); an HTTP error leaves it up (empty error callback).
+- product-detail.html:3-4: second title branch (globalSearchData) is dead: filter never gets that key.
+- product-detail.html:10: emptying the search box reloads; Enter searches; typing alone does nothing. Refresh clears the box (model reset).
+- product-detail.html:7: class primary-bg has no rule: the toolbar is a plain one.
+- product-detail.ts:145-168: ionViewDidLeave popToRoot rule (root pages), via the blur listener.
+
 ## States
 
+- default (4 products, one without image), oddCount (3: empty second column), empty (no_found image), hin (Search placeholder translated), malformed (unit-tested: products null, no crash).

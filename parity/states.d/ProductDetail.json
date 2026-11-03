@@ -1,0 +1,58 @@
+[
+  {
+    "id": "ProductDetail.default",
+    "screen": "ProductDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": 4
+    },
+    "ionicNav": "nav.setRoot(Page('ProductDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductDetail.oddCount",
+    "screen": "ProductDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/productList": "oddCount"
+    },
+    "params": {
+      "id": 4
+    },
+    "ionicNav": "nav.setRoot(Page('ProductDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductDetail.empty",
+    "screen": "ProductDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/productList": "empty"
+    },
+    "params": {
+      "id": 4
+    },
+    "ionicNav": "nav.setRoot(Page('ProductDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductDetail.hin",
+    "screen": "ProductDetail",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "id": 4
+    },
+    "ionicNav": "nav.setRoot(Page('ProductDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
