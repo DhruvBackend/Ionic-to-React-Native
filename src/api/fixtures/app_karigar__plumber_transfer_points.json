@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/plumber_transfer_points",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "karigar_not_exist": { "status": "karigar_not_exist" },
+    "empty": {},
+    "malformed": null
+  }
+}

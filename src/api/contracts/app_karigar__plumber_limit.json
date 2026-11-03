@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/plumber_limit",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {},
+  "ionicSource": "src/pages/pointtranfer/pointtranfer.ts:49"
+}

@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/plumber_limit",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "limit": 500 },
+    "low": { "status": "SUCCESS", "limit": 100 },
+    "string": { "status": "SUCCESS", "limit": "500" },
+    "empty": {},
+    "malformed": null
+  }
+}
