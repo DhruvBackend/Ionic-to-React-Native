@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/plumberCheckIn",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "plumber_id": "900011", "complaint_id": 71, "cust_lat": 28.6692, "cust_long": 77.4538 },
+  "ionicSource": "src/pages/plumber-camplaints/pulmber-customer-detail/pulmber-customer-detail.ts:295 (checkinPass); also src/pages/plumber-checkin/plumber-checkin.ts:231"
+}
