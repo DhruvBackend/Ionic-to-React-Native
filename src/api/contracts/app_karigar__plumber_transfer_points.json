@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/plumber_transfer_points",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "mobile_no": "9812345670", "points": "100", "karigar_id": "900001" },
+  "ionicSource": "src/pages/pointtranfer/pointtranfer.ts:78"
+}
