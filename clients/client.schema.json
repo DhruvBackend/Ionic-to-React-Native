@@ -440,6 +440,13 @@
     "assetsFrom": {
       "type": "string",
       "pattern": "^[a-z0-9_-]+$"
+    },
+    "aboutParagraphs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "About page (about.html <li> translate keys), exact Ionic text incl. white space"
     }
   }
 }
