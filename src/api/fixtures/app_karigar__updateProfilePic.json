@@ -1,0 +1,13 @@
+{
+  "endpoint": "app_karigar/updateProfilePic",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS"
+    },
+    "empty": {},
+    "malformed": {
+      "status": null
+    }
+  }
+}

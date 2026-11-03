@@ -1,0 +1,12 @@
+{
+  "endpoint": "app_karigar/updateProfilePic",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar_id": "7",
+    "profile": "data:image/jpeg;base64,..."
+  },
+  "ionicSource": "src/pages/profile/profile.ts:266"
+}

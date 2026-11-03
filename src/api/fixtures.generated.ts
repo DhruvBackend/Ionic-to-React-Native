@@ -12,9 +12,10 @@ import f8 from './fixtures/app_karigar__sales_exec__dealer_dropdown.json';
 import f9 from './fixtures/app_karigar__sales_exec__sales_executive_dropdown.json';
 import f10 from './fixtures/app_karigar__sales_exec__seller_dropdown.json';
 import f11 from './fixtures/app_karigar__seller_list.json';
-import f12 from './fixtures/app_karigar__update_language.json';
-import f13 from './fixtures/app_master__getDistrict.json';
-import f14 from './fixtures/app_master__getStates.json';
-import f15 from './fixtures/auth__login.json';
+import f12 from './fixtures/app_karigar__updateProfilePic.json';
+import f13 from './fixtures/app_karigar__update_language.json';
+import f14 from './fixtures/app_master__getDistrict.json';
+import f15 from './fixtures/app_master__getStates.json';
+import f16 from './fixtures/auth__login.json';
 
-export const fixtureFiles = [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15] as FixtureFile[];
+export const fixtureFiles = [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16] as FixtureFile[];

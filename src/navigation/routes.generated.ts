@@ -8,10 +8,12 @@ import r2 from '../screens/MobileLogin/route';
 import C2 from '../screens/MobileLogin';
 import r3 from '../screens/Otp/route';
 import C3 from '../screens/Otp';
-import r4 from '../screens/Registration/route';
-import C4 from '../screens/Registration';
-import r5 from '../screens/SelectRegistrationType/route';
-import C5 from '../screens/SelectRegistrationType';
+import r4 from '../screens/Profile/route';
+import C4 from '../screens/Profile';
+import r5 from '../screens/Registration/route';
+import C5 from '../screens/Registration';
+import r6 from '../screens/SelectRegistrationType/route';
+import C6 from '../screens/SelectRegistrationType';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -20,4 +22,5 @@ export const routes: RouteDef[] = [
   { ...r3, component: C3 },
   { ...r4, component: C4 },
   { ...r5, component: C5 },
+  { ...r6, component: C6 },
 ];
