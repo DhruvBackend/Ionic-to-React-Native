@@ -88,5 +88,16 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- customerdetail.html:7-20 / :93-108: two ion-segments (header: Basic Details / Complaint; in the Complaint tab: Pending / Closed / Cancel). The title is the raw tab name (alltab), untranslated; "Basic Details" has no hin entry.
+- customerdetail.ts:62-72: getKarigarDetail sends filter.status "" for Basic Details, else the status tab; the Basic Details button refetches even when already active, with no loader.
+- customerdetail.ts:57-59: getType ignores its argument for the request; getComplaintHistory reads statusType. complaintDetail sends {filter:{status,limit:0}, karigar_id}.
+- customerdetail.ts:77 / :98: customerDetail dismisses the loader then reads r.customer; complaintDetail assigns the list then dismisses. No error callbacks: an HTTP error leaves the loader up.
+- customerdetail.html:25 and :124: the Complaint tab has two ion-refreshers, so one pull calls doRefresh twice there (the kit draws one indicator).
+- customerdetail.ts:120-123: loadData reads complain_detail.length, which is never assigned: it throws, the infinite scroll (html:159) stays loading, and sales_boy_customer_list (:125) is never called.
+- customerdetail.html:33-67: Basic Details uses the global .profile / .rating-area rules; each .boxs is the only child of its .border-box, so it has no right border. Mobile is "+91" + mobile_no.
+- customerdetail.html:138: the translate key is "Satus" (sic). Status colours come from .Closed / .Pending / .Cancel (variables.scss:503-517).
+- customerdetail.ts:44: ionViewDidLoad only logs (not ported). No role branches in the template.
+
 ## States
 
+- default (Basic Details), hin (labels translated), dealer (same page), empty / malformed customer (blank values / unchanged view), Complaint tab with Pending / Closed / Cancel cards (unit-tested; the tab needs a tap).
