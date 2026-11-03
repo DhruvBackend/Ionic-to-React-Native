@@ -5,9 +5,11 @@ import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
 import { MOCK_POSITION, resetMockNative, setMockNativeFailure } from '../../native';
+import { webAlert } from '../../ui/webAlert';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
 import PointLocationScreen from './index';
 
+jest.mock('../../ui/webAlert', () => ({ webAlert: jest.fn() }));
 jest.setTimeout(30000);
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
@@ -59,6 +61,7 @@ beforeEach(() => {
   resetMockNative();
   _resetOverlaysForTests();
   navigation.reset.mockClear();
+  (webAlert as jest.Mock).mockClear();
   calls = [];
   db.userStorageData = { id: '900001', type: 'Customer' };
 });
@@ -165,15 +168,14 @@ describe('add location (Customer)', () => {
     expect(navigation.reset).toHaveBeenCalledWith({ index: 0, routes: [{ name: 'Profile' }] });
   });
 
-  test("status 'failed': the plain alert, no navigation", async () => {
+  test("status 'failed': the native window.alert dialog, no navigation", async () => {
     setFixtureVariant('app_karigar/addGeoLocation', 'failed');
     installSpy();
     await mount();
     await act(async () => press('pl-add-location'));
     await settle();
-    expect(alerts()).toHaveLength(1);
-    expect(alerts()[0].message).toBe('Geo Location not found! Try Again');
-    expect(alerts()[0].title).toBeUndefined();
+    expect(alerts()).toHaveLength(0);
+    expect(webAlert).toHaveBeenCalledWith('Geo Location not found! Try Again');
     expect(navigation.reset).not.toHaveBeenCalled();
   });
 

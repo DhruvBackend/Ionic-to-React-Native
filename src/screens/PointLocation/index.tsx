@@ -10,6 +10,7 @@ import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { getPosition, reverseGeocode } from '../../native';
 import { buttonMd } from '../../theme/ionicMdContent';
 import { showAlert, showToast } from '../../ui/overlays';
+import { webAlert } from '../../ui/webAlert';
 import { styles } from './styles';
 
 interface Props {
@@ -96,9 +97,8 @@ export default function PointLocationScreen({ navigation, route }: Props) {
         try {
           if (result.status == 'failed') { // eslint-disable-line eqeqeq
             // :245 window.alert('Geo Location not found! Try Again')
-            // NOTE (parity): Ionic uses the browser alert (a native dialog with the text only, an OK button, no title); the kit has no
-            // native alert, so the Ionic-styled alert without a title stands in.
-            showAlert({ message: 'Geo Location not found! Try Again', buttons: ['OK'] });
+            // NOTE (parity): the browser alert is a NATIVE Android dialog in cordova-android (title 'Alert', the message, OK): webAlert.
+            webAlert('Geo Location not found! Try Again');
             return;
           }
           showSuccess('Geo Location updated Successfully!'); // :254
