@@ -36,7 +36,8 @@ export const styles = StyleSheet.create({
   hisListing: { borderBottomWidth: 1, borderBottomColor: P.rowBorder, paddingVertical: 10, paddingHorizontal: 16 },
   // [T] 12088-12090 `button.main-list { padding-left: 0 }`; `.item-inner { padding: 0 !important; border: 0 !important }` (12091-12093)
   mainList: { paddingLeft: 0 },
-  itemInner: { padding: 0 },
+  // NOTE (parity): explicit edges - the kit's `paddingRight: 8` (item-md inner) wins over a `padding: 0` shorthand (RN gives edge styles priority)
+  itemInner: { paddingLeft: 0, paddingRight: 0, paddingTop: 0, paddingBottom: 0 },
   // the auto-created <ion-label>: margin 0 !important ([T] 12094-12101), flex 1, overflow hidden, white-space nowrap
   label: { flex: 1, overflow: 'hidden', margin: 0 },
   // [T] 12103-12106 `.tr-content`

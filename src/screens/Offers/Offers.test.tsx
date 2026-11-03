@@ -79,6 +79,20 @@ describe('contract (card Endpoints)', () => {
 });
 
 describe('states (card States)', () => {
+  test('parity: Redeem Points line is drawn (absolute overflow, 70px padding box) and the type span sits in an 19px strut line', async () => {
+    installSpy();
+    await mount();
+    const { StyleSheet } = require('react-native');
+    const box = StyleSheet.flatten(find('gift-redeem-0-box').find(n => (n.type as any) === 'View')!.props.style);
+    expect(box.height).toBe(14);
+    expect(box.width).toBeGreaterThan(70);
+    expect(StyleSheet.flatten(find('gift-redeem-0').find(n => (n.type as any) === 'Text')!.props.style)).toMatchObject({ position: 'absolute', left: 0, width: 260 });
+    expect(text('gift-redeem-0')).toBe('Redeem Points');
+    const span = find('gift-type-0').find(n => (n.type as any) === 'Text')!;
+    expect(StyleSheet.flatten(span.props.style)).toMatchObject({ marginTop: 4, lineHeight: 14 });
+    expect(StyleSheet.flatten(find('gift-type-line-0').find(n => (n.type as any) === 'View')!.props.style)).toMatchObject({ height: 19 });
+  });
+
   test('Offers.default: titlecased title in the navbar, banner, one card per gift', async () => {
     installSpy();
     await mount();

@@ -76,7 +76,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }`
-  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%' },
+  // NOTE (parity): profile.html:40 / :211 `<div class="rating-area mt16">`; `.mt16{margin-top:16px!important}` (main.css)
+  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },
   // [T] 2954-2958 `.border-box`
   borderBox: { flexDirection: 'row', alignItems: 'center', width: '100%', borderBottomWidth: 1, borderBottomColor: P.line },
   // [T] 2959-2978 `.boxs`: padding 5 10, width 50%, border-right 1 #ccc (the last child has none)
@@ -89,6 +90,8 @@ export const styles = StyleSheet.create({
   // [T] 2998-3004 `.rating-area.new-cl .ratings` (the last one has no line)
   newClRatings: { borderBottomWidth: 1, borderBottomColor: P.newClLine },
   // [T] 3152-3180 `.document-section`
+  // NOTE (parity): profile.html:117 `.document-section.pb10.pt10` (`!important` 10px top/bottom padding)
+  documentSection: { paddingTop: 10, paddingBottom: 10 },
   documentImg: { borderWidth: 1, borderColor: P.docBg, borderRadius: 4, overflow: 'hidden' },
   documentImage: { height: 200, width: '100%', backgroundColor: P.docBg },
   documentGap: { height: strutDescent },
@@ -101,10 +104,13 @@ export const styles = StyleSheet.create({
   // [T] 4604-4620 `.point-loc .point-add`
   pointAdd: { padding: 9, paddingBottom: 0 },
   pointAddText: { textDecorationLine: 'underline' },
-  geoTextarea: { borderWidth: 0, width: '100%', padding: 2, textAlignVertical: 'top' },
+  // NOTE (parity): `<textarea>` default rows=2: 2 x 18px (`line-height: 18px`, variables.scss:4615-4620) + 2 x 2px default padding = 40px
+  geoTextarea: { borderWidth: 0, width: '100%', padding: 2, height: 40, textAlignVertical: 'top' },
   // [T] 3985-4001 `.header-icons { position: absolute; top: 10px; right: 0 }` (against the navbar box)
   headerIcons: { position: 'absolute', top: 10, right: 0, zIndex: 1 },
   // [T] 3993-4001 `.header-icons button.cs-hdr-icons`: transparent, no radius / shadow, padding 0
-  hdrIconButton: { borderRadius: 0, boxShadow: 'none', paddingHorizontal: 0 },
-  buttonLocation: { height: 45, borderRadius: 0 },
+  // NOTE (parity): profile.html:5 `cs-hdr-icons mr16` -> `.mr16{margin-right:16px!important}`
+  hdrIconButton: { borderRadius: 0, boxShadow: 'none', paddingHorizontal: 0, marginRight: 16 },
+  // NOTE (parity): profile.html:260 `class="green-color h35"`: `.h35{height:35px!important}` beats `.loction-btn button{height:45px}`
+  buttonLocation: { height: 35, borderRadius: 0 },
 });

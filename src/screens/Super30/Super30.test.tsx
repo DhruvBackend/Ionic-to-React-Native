@@ -94,6 +94,12 @@ describe('states', () => {
     expect(textOf('super30-name-1')).toBe('Suresh Yadav');
     expect(textOf('super30-place-0')).toBe('Lucknow Uttar Pradesh');
     expect(exists('super30-gradient')).toBe(true);
+    const { StyleSheet } = require('react-native');
+    const hostStyle = (id: string, type: string) => StyleSheet.flatten(find(id).find(n => (n.type as any) === type)!.props.style);
+    expect(hostStyle('super30-name-0', 'Text').lineHeight).toBe(16.8);
+    // dashed connector: a 2px clip box around a dashed box whose top/bottom edges are cut off
+    expect(hostStyle('super30-dash-top-1', 'View')).toMatchObject({ width: 2, overflow: 'hidden' });
+    expect(exists('super30-dash-top-0')).toBe(false);
     // the active row is index 2 (id 900001 == '900001', loose compare of a number with a string)
     expect(find('super30-detail-2')[0].props.style).toEqual(expect.arrayContaining([expect.objectContaining({ borderWidth: 0 })]));
     expect(openLoaders()).toHaveLength(0);

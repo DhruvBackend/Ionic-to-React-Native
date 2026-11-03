@@ -204,8 +204,8 @@ export default function Super30Screen(_props: Props) {
                   <View style={styles.label}>
                     <View style={styles.list}>
                       {/* `.list:first-child:before` / `:last-child:after` are removed on the first/last row ([T] 4986-5008) */}
-                      {i !== 0 ? <View testID={`super30-dash-top-${i}`} style={styles.dashTop} /> : null}
-                      {i !== list.length - 1 ? <View testID={`super30-dash-bottom-${i}`} style={styles.dashBottom} /> : null}
+                      {i !== 0 ? <View testID={`super30-dash-top-${i}`} style={styles.dashTop}><View style={styles.dashLine} /></View> : null}
+                      {i !== list.length - 1 ? <View testID={`super30-dash-bottom-${i}`} style={styles.dashBottom}><View style={styles.dashLine} /></View> : null}
                       <View testID={`super30-point-${i}`} style={[styles.point, active ? styles.pointActive : null]}>
                         <Text style={textStyle(14, 400, active ? colors.white : itemContentMd.textColor)}>{i + 1}</Text>
                       </View>
@@ -214,10 +214,13 @@ export default function Super30Screen(_props: Props) {
                         <View style={[styles.arrow, active ? styles.arrowActive : null]} />
                         <View style={styles.info}>
                           <Text
+                            // NOTE (parity): the Ionic build measures the h4 line box as 1.2 x 14 = 16.8 (global `h1..h6{line-height:1.2}`;
+                            // the card's height is 1.2dp taller than with `normal`). `.item-md h4{line-height:normal}` would give 16 - the shipped
+                            // reference screenshots show 16.8, so 16.8 is used.
                             testID={`super30-name-${i}`}
                             numberOfLines={1}
                             ellipsizeMode="clip"
-                            style={[textStyle(14, 400, active ? colors.white : S.ink), styles.name]}
+                            style={[textStyle(14, 400, active ? colors.white : S.ink, 16.8), styles.name]}
                           >
                             {interp(titlecase(row.first_name))}
                           </Text>

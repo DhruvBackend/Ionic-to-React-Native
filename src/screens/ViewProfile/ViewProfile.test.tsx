@@ -40,6 +40,12 @@ test("mode 'product_img': product_image_url + Image", async () => {
   expect(find('view-profile-image')[0].props.source).toEqual({ uri: db.product_image_url + 'p1.png' });
 });
 
+test('parity: the inline <img> leaves the strut descent (3px) below it', async () => {
+  await mount({ Image: 'profile/ramesh.jpg', mode: 'profile' });
+  const { StyleSheet } = require('react-native');
+  expect(StyleSheet.flatten(find('view-profile-image')[0].props.style).marginBottom).toBe(3);
+});
+
 test('no mode (most callers): empty page, no image, no close button', async () => {
   await mount({ Image: 'y.jpg' });
   expect(find('view-profile')).not.toHaveLength(0);

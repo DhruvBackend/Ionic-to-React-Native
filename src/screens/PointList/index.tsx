@@ -167,8 +167,10 @@ export default function PointListScreen({ navigation }: Props) {
           {val(value)}
         </Text>
         {flat ? null : (
-          <View style={styles.pointsAfter}>
-            <SvgXml xml={nextSvg} width={25} height={25} />
+          <View testID={`${key}-chevron`} style={styles.pointsAfter}>
+            <View style={styles.pointsAfterBox}>
+              <SvgXml xml={nextSvg} width={25} height={25} />
+            </View>
           </View>
         )}
       </View>

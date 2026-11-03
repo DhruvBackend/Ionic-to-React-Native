@@ -143,6 +143,22 @@ describe('states: Plumber (html:131-327)', () => {
     expect(find('home-banner-slides')).toHaveLength(0);
   });
 
+  test('parity: the POINTS unit is a direct child of the card (variables.scss:3195-3228 .pints span anchors to li)', async () => {
+    await mount('Plumber');
+    const { StyleSheet } = require('react-native');
+    for (const id of ['home-today', 'home-last', 'home-wallet']) {
+      const card = find(id).find(n => (n.type as any) === 'View' || typeof n.props.onPress === 'function')!;
+      const unit = card.findAll(n => n.props.testID === `${id}-unit` && (n.type as any) === 'View')[0];
+      expect(unit).toBeDefined();
+      const valueText = card.findAll(n => (n.type as any) === 'Text')[0];
+      let pints: any = valueText.parent;
+      while (pints && (pints.type as any) !== 'View') pints = pints.parent;
+      expect(pints.findAll((n: any) => n === unit)).toHaveLength(0);
+      const st = StyleSheet.flatten(unit.props.style);
+      expect(st).toMatchObject({ position: 'absolute', right: -16, bottom: 35 });
+    }
+  });
+
   test('no offers: the login banners in a pager+autoplay slider', async () => {
     setFixtureVariant('app_karigar/offerList', 'empty');
     await mount('Plumber');

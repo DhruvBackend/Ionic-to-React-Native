@@ -350,6 +350,15 @@ describe('redeem', () => {
     expect(exists('redeem-refund-2')).toBe(true);
     expect(exists('redeem-refund-0')).toBe(false);
     expect(find('redeem-refund-text-2')[0].props.style.fontSize).toBe(12);
+    // parity: both lines are 19px strut boxes (16px / normal) with the small span on the strut baseline (15 - ascent)
+    const { StyleSheet } = require('react-native');
+    const view = (id: string) => StyleSheet.flatten(find(id).find(n => (n.type as any) === 'View')!.props.style);
+    expect(view('redeem-reason-2').height).toBe(19);
+    expect(view('redeem-refund-2').height).toBe(19);
+    expect(find('redeem-refund-text-2')[0].props.style.marginTop).toBe(4);
+    expect(StyleSheet.flatten(find('redeem-reason-2')[0].findAll((n: any) => (n.type as any) === 'Text')[0].props.style).marginTop).toBe(5);
+    // parity: itemInner zeroes every edge (the kit's paddingRight: 8 must not survive)
+    expect(require('./styles').styles.itemInner).toEqual({ paddingLeft: 0, paddingRight: 0, paddingTop: 0, paddingBottom: 0 });
   });
 
   test('empty: no-data picture, loader dismissed', async () => {
