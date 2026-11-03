@@ -1,0 +1,17 @@
+{
+  "endpoint": "app_karigar/customerPaidAmount",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "success",
+      "msg": "Amount saved"
+    },
+    "failed": {
+      "status": "failed"
+    },
+    "empty": {},
+    "malformed": {
+      "status": null
+    }
+  }
+}

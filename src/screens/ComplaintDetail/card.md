@@ -116,5 +116,17 @@ Classes defined by the page SCSS and used in the template: `basic-table`
 
 ## Quirks
 
+1. **Entry.** Pushed with `{id}`; `ionViewDidLoad` (not the constructor) shows the loader, reads `id` and calls getComplaintDetail. Header title is `{{complaint_type}} Request Detail` (`.main-header.remove` capitalises it).
+2. **getComplaintDetail (:58-88).** Dismisses the loader first, then reads `response['complaintDetails']`; a null / missing `complaintDetails` or `image` throws (the view keeps what it showed). `star` is assigned before the throwing `complaint_media[0]` log. Videos get `video_url + file_name`, images `upload_url3 + file_name` (sanitised URLs in Ionic).
+3. **Table rows.** Complaint No. is `COM# id` (Service) / `IR# id` (Installation); the label is `Remark` instead of `Nature Problem` when `nature_problem == 'Installation'`; Closed adds Closed By / Close Date (`cancelled_by`, `cancel_date`), Cancel adds Cancel By / Cancel Date; `reason_cancel` truthy adds Remark; `amount != '0'` adds Amount Paid (`undefined != '0'`: shown for a blank detail). Status and Type are coloured by the status class (`.Closed` green, `.Pending` #ffc400, `.Cancel` danger).
+4. **Gallery.** Videos in `<iframe width=100% height=180 rameborder>` (typo: default inset border, WebEmbed), images 35% - 18px wide x 80px, stretched; an inline img / iframe leaves a 4px gap. Tapping an image opens the ViewProfile modal with `{Image}` (Ionic passes the sanitised URL object; ViewProfile ignores it without a `mode`: empty dark modal).
+5. **Rating** (`star > '0'`, `star >= 'n'`) is a JS comparison with strings. `plumberName ? plumberName : 'NA'` (also for the mobile number).
+6. **Amount form** (`Closed && amount == '0'`, loose): `[disabled]="amount.payment==0"` (undefined enabled; '' / '0' disabled); saveAmount posts `{complaints_id: complaint_id (nav id), amount}` and shows `Success!` (cssClass action-close) only for `status == 'success'` (lowercase), then reloads without a loader.
+7. **Rate a Plumber** (`plumberName && Closed`): rating(n) shows a loader, posts `{star: 'n', customer_id, plumber_id, complaint_id}`, then reloads (which dismisses the loader). No error callbacks: an HTTP error leaves the loader up.
+8. **Cancel Complaint** (Pending): opens the CancelComplaint modal `{id, label: 'cancel'}`; `onDidDismiss` reloads the detail (React Navigation 'focus' after that modal only).
+9. **Dead code.** `photoURL` (:29-31), `rating_star` (never read), the commented rupee header button, `label == 'amount'` path of the modal. `.mb20 / .mb40 / .w120` are defined nowhere.
+10. **No i18n**: hardcoded English.
+
 ## States
 
+default (Pending, images + video, plumber), installation, closed (amount form + Rate a Plumber), closedPaid (Amount Paid + Rating), cancel, empty, malformed. Unit-tested only: rating / paid-amount requests, a non-success amount status, the disabled rule, the modal reload.

@@ -1,0 +1,116 @@
+{
+  "endpoint": "app_karigar/getComplaintList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaint_count": 3,
+      "complaintList": [
+        {
+          "complaintId": 71,
+          "customerName": "Sunita Deshmukh",
+          "customerMobileNo": "9000000051",
+          "compalintDate": "2026-10-28 11:42:10",
+          "otp": 4821,
+          "status": "Pending",
+          "nature_problem": "Tap leakage",
+          "plumberName": "Ramesh Patil",
+          "plumberMobileNo": "9000000011"
+        },
+        {
+          "complaintId": 72,
+          "customerName": "Anil Kulkarni",
+          "customerMobileNo": "9000000052",
+          "compalintDate": "2026-10-21 16:05:33",
+          "otp": 1937,
+          "status": "Pending",
+          "nature_problem": "Installation",
+          "plumberName": null,
+          "plumberMobileNo": null
+        },
+        {
+          "complaintId": 73,
+          "customerName": "Meena Joshi",
+          "customerMobileNo": "9000000053",
+          "compalintDate": "2026-10-15 09:18:47",
+          "otp": 7305,
+          "status": "Pending",
+          "nature_problem": "Shower not working",
+          "plumberName": "Suresh More",
+          "plumberMobileNo": "9000000012"
+        }
+      ]
+    },
+    "closed": {
+      "status": "SUCCESS",
+      "complaint_count": 2,
+      "complaintList": [
+        {
+          "complaintId": 61,
+          "customerName": "Rahul Shinde",
+          "customerMobileNo": "9000000061",
+          "compalintDate": "2026-09-12 10:30:00",
+          "otp": 2210,
+          "status": "Closed",
+          "nature_problem": "Pipe burst",
+          "plumberName": "Ramesh Patil",
+          "plumberMobileNo": "9000000011"
+        },
+        {
+          "complaintId": 62,
+          "customerName": "Pooja Pawar",
+          "customerMobileNo": "9000000062",
+          "compalintDate": "2026-09-05 14:10:00",
+          "otp": 6402,
+          "status": "Closed",
+          "nature_problem": "Flush tank",
+          "plumberName": null,
+          "plumberMobileNo": null
+        }
+      ]
+    },
+    "cancel": {
+      "status": "SUCCESS",
+      "complaint_count": 1,
+      "complaintList": [
+        {
+          "complaintId": 51,
+          "customerName": "Vijay Patil",
+          "customerMobileNo": "9000000071",
+          "compalintDate": "2026-08-20 12:00:00",
+          "otp": 8120,
+          "status": "Cancel",
+          "nature_problem": "Water heater",
+          "plumberName": "Suresh More",
+          "plumberMobileNo": "9000000012"
+        }
+      ]
+    },
+    "more": {
+      "status": "SUCCESS",
+      "complaintList": [
+        {
+          "complaintId": 70,
+          "customerName": "Kiran Jadhav",
+          "customerMobileNo": "9000000081",
+          "compalintDate": "2026-10-10 08:00:00",
+          "otp": 3344,
+          "status": "Pending",
+          "nature_problem": "Basin blocked",
+          "plumberName": "Ramesh Patil",
+          "plumberMobileNo": "9000000011"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "complaint_count": 0,
+      "complaintList": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "complaint_count": null,
+      "complaintList": null
+    }
+  }
+}

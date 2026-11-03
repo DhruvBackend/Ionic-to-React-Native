@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ComplaintHistory.default",
+    "screen": "ComplaintHistory",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintList": "default"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('ComplaintHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pending tab, Service: COM# badges; row 2 has no plumber (Waiting For Plumber Assign)."
+  },
+  {
+    "id": "ComplaintHistory.installation",
+    "screen": "ComplaintHistory",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintList": "default"
+    },
+    "params": {
+      "type": "Installation"
+    },
+    "ionicNav": "nav.push(Page('ComplaintHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Installation: IR# badges."
+  },
+  {
+    "id": "ComplaintHistory.empty",
+    "screen": "ComplaintHistory",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintList": "empty"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('ComplaintHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintList: []: the no-data picture, loader dismissed."
+  },
+  {
+    "id": "ComplaintHistory.malformed",
+    "screen": "ComplaintHistory",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintList": "malformed"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('ComplaintHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintList: null: the template throws in Ionic, the view keeps the no-data picture; loader dismissed."
+  },
+  {
+    "id": "ComplaintHistory.hin",
+    "screen": "ComplaintHistory",
+    "role": "Customer",
+    "lang": "hin",
+    "variants": {
+      "app_karigar/getComplaintList": "default"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('ComplaintHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): title and labels come from hin.json."
+  }
+]

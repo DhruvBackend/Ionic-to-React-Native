@@ -1,0 +1,12 @@
+{
+  "endpoint": "app_karigar/customerPaidAmount",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "complaints_id": 71,
+    "amount": "500"
+  },
+  "ionicSource": "src/pages/complaints/complaint-detail/complaint-detail.ts:122 (saveAmount)"
+}

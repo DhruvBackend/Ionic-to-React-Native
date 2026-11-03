@@ -1,0 +1,17 @@
+[
+  {
+    "id": "CancelComplaint.default",
+    "screen": "CancelComplaint",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": 71,
+      "label": "cancel"
+    },
+    "ionicNav": "modalCtrl.create(Page('CancelComplaint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Modal opened from ComplaintDetail (modalCtrl.create)."
+  }
+]

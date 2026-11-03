@@ -1,0 +1,114 @@
+[
+  {
+    "id": "ComplaintDetail.default",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "default"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pending Service with two images and one video, plumber assigned, no rating: Cancel Complaint button."
+  },
+  {
+    "id": "ComplaintDetail.installation",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "installation"
+    },
+    "params": {
+      "id": 72
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Installation: IR#, Remark label, plumber NA."
+  },
+  {
+    "id": "ComplaintDetail.closed",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "closed"
+    },
+    "params": {
+      "id": 61
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Closed, amount 0: Closed By / Close Date rows, Enter Amount If Paid form and Rate a Plumber block."
+  },
+  {
+    "id": "ComplaintDetail.closedPaid",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "closedPaid"
+    },
+    "params": {
+      "id": 61
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Closed with amount 500 and a 4-star rating: Amount Paid row, Rating row, no amount form."
+  },
+  {
+    "id": "ComplaintDetail.cancel",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "cancel"
+    },
+    "params": {
+      "id": 51
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Cancel: Cancel By / Cancel Date and Remark rows."
+  },
+  {
+    "id": "ComplaintDetail.empty",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "empty"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintDetails: {}: every value blank."
+  },
+  {
+    "id": "ComplaintDetail.malformed",
+    "screen": "ComplaintDetail",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintbyId": "malformed"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintDetails: null: loader dismissed, the initial empty template stays."
+  }
+]
