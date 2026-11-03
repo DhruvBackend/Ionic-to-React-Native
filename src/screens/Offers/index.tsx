@@ -17,7 +17,6 @@ import { colors } from '../../theme';
 import { md } from '../../theme/ionicMd';
 import { offersMd } from '../../theme/ionicMdOffers';
 import { imageViewerMd } from '../../theme/ionicMdScroll';
-import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { useLoader } from '../../ui/useLoader';
 import { styles, stripeColor } from './styles';
 
@@ -37,6 +36,30 @@ interface Props {
     popToTop?: () => void;
   };
   route?: { params?: { id?: any; lang?: any } };
+}
+
+// NOTE (parity): `#redeem-points{padding-left:0;padding-right:70px;font-size:12px}` (variables.scss:3054-3058) + `.head p`
+// (display block, nowrap): the <p>'s max-content width is 70px + the text width (it sizes the flex-shrinking `.head`), but once
+// `.head` shrinks the content box is ~0 wide and the text overflows it, visibly. RN would measure a Text in that box at 0 width
+// and draw nothing, so the text is absolutely positioned with a fixed wide box and the wrapper takes 70 + the measured width.
+function RedeemLine({ testID, text }: { testID: string; text: string }) {
+  const [textWidth, setTextWidth] = useState(Math.ceil(text.length * 12 * 0.55));
+  return (
+    <View testID={`${testID}-box`} style={[styles.redeem, { width: 70 + textWidth }]}>
+      <Text
+        testID={testID}
+        style={[textStyle(12, 400, colors.textMuted), styles.redeemText]}
+        numberOfLines={1}
+        ellipsizeMode="clip"
+        onTextLayout={e => {
+          const w = e.nativeEvent.lines[0]?.width;
+          if (w) setTextWidth(Math.ceil(w));
+        }}
+      >
+        {text}
+      </Text>
+    </View>
+  );
 }
 
 export default function OffersScreen({ navigation, route }: Props) {
@@ -268,20 +291,21 @@ export default function OffersScreen({ navigation, route }: Props) {
                 <View style={styles.label}>
                   <View style={styles.headDetail}>
                     <View style={styles.head}>
-                      {/* html:77 <span>{{list.type}}</span> in the .head's anonymous line box (strut: the 14px label font) */}
+                      {/* html:77 <span>{{list.type}}</span> in the .head's anonymous line box. NOTE (parity): the strut is the
+                          auto-created ion-label's font = `.item-md{font-size:1.6rem}` = 16px (the `[text-wrap] .label-md` 14px/1.5 rule does
+                          not apply here), line-height normal -> a 19px line box with the baseline 15px down; the 12px span (ascent 11) sits
+                          4px below the line top. */}
                       {list.type == null || list.type === '' ? null : (
-                        <Text testID={`gift-type-${i}`} style={[textStyle(12, 400, muted, normalLineHeight(14)), styles.headSpan]}>
-                          {collapseWs(interp(list.type))}
-                        </Text>
+                        <View testID={`gift-type-line-${i}`} style={styles.headSpanLine}>
+                          <Text testID={`gift-type-${i}`} style={[textStyle(12, 400, muted), styles.headSpan]}>
+                            {collapseWs(interp(list.type))}
+                          </Text>
+                        </View>
                       )}
                       <Text testID={`gift-points-${i}`} style={[textStyle(20, 600, ink, 24), styles.headH1]}>
                         {interp(list.coupon_points)}
                       </Text>
-                      <View style={styles.redeem}>
-                        <Text testID={`gift-redeem-${i}`} style={[textStyle(12, 400, muted), styles.redeemText]} numberOfLines={1} ellipsizeMode="clip">
-                          {collapseWs(t('Redeem Points'))}
-                        </Text>
-                      </View>
+                      <RedeemLine testID={`gift-redeem-${i}`} text={collapseWs(t('Redeem Points'))} />
                       {toInt(list.coupon_points) <= totalBalance ? (
                         <View testID={`gift-verified-${i}`} style={styles.verified}>
                           <MaterialIcon name="verified_user" size={18} color={offersMd.verified} />

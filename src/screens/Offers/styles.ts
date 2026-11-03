@@ -2,6 +2,7 @@
 // Citations: [T] variables.scss line (Ionic source), [CSS] shipped main.css rule. `.listings` [T] 3275-3410, `.conatiner` [T] 12451-12490.
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { offersMd } from '../../theme/ionicMdOffers';
 
 export const styles = StyleSheet.create({
@@ -45,13 +46,15 @@ export const styles = StyleSheet.create({
   // [T] 3304-3309 `.head { padding: 12px 20px; text-align: center; position: relative; min-width: 100px }`
   head: { flexShrink: 1, minWidth: 100, paddingVertical: 12, paddingHorizontal: 20 },
   // offers.scss `.head span` (12px, #747474); the span sits in the .head's anonymous line box (strut of the 14px label font)
-  headSpan: { textAlign: 'center' },
+  headSpanLine: { height: normalLineHeight(16) },
+  headSpan: { textAlign: 'center', marginTop: 4 },
   // [T] 3310-3315 `.head h1` 20px / 600 / #1b1b1b (line-height 1.2 from Ionic's h1-h6)
   headH1: { textAlign: 'center' },
-  // `#redeem-points` ([T] 3054-3058, id beats `.head p`): padding 0 70px 0 0, 12px; display block, nowrap: the text overflows the (0 wide)
-  // content box. Row + flex-start + shrink 0 reproduces "text starts at the content box, may overflow it".
-  redeem: { flexDirection: 'row', justifyContent: 'flex-start', paddingLeft: 0, paddingRight: 70 },
-  redeemText: { flexShrink: 0 },
+  // `#redeem-points` ([T] 3054-3058, id beats `.head p`): padding 0 70px 0 0, 12px; display block, nowrap: the text overflows the
+  // (~0 wide) content box, visibly.
+  // wrapper: one 12px line box; the Text is absolute (fixed wide box) so it overflows visibly like CSS nowrap text
+  redeem: { height: normalLineHeight(12) },
+  redeemText: { position: 'absolute', top: 0, left: 0, width: 260 },
   // [T] 3322-3328 `.head a { position: absolute; top: 5px; left: 4px }`
   verified: { position: 'absolute', top: 5, left: 4 },
   // [T] 3316-3321 `.head:after`: absolute, top 50%, translateY(-50%), right 0, height 50, border 1px solid #DEDEDE (width 0)

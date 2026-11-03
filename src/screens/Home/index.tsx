@@ -443,9 +443,11 @@ export default function HomeScreen({ navigation }: Props) {
       <View style={styles.pints}>
         <Text style={styles.pintsValue}>{show(value)}</Text>
         <Text style={styles.pintsLabel}>{t(labelKey)}</Text>
-        <View style={styles.pintsUnit}>
-          <Text style={styles.pintsUnitText}>{t('POINTS')}</Text>
-        </View>
+      </View>
+      {/* NOTE (parity): `.pints` is not positioned, so `.pints span{position:absolute;right:-16px;bottom:35px}`
+          anchors to the `li` card (position:relative) -> the unit is a direct child of the card. */}
+      <View testID={`${testID}-unit`} style={styles.pintsUnit}>
+        <Text style={styles.pintsUnitText}>{t('POINTS')}</Text>
       </View>
       <View pointerEvents="none" style={[styles.pointsBar, { backgroundColor: homeMd.pointsRow.barColors[index] }]} />
     </Pressable>
