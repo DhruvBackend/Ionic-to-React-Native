@@ -170,7 +170,7 @@ describe('list', () => {
     await addOne('1', 0);
     expect(find('quotation-row-0').length).toBeGreaterThan(0);
     expect(find('quotation-row-1').length).toBeGreaterThan(0);
-    expect(find('quotation-img-0')[0].props.source.uri).toBe(db.product_image_url + 'tb101.jpg');
+    expect(find('quotation-img-0').find(n => n.props.source)!.props.source.uri).toBe(db.product_image_url + 'tb101.jpg');
   });
   test('delete removes the card and toasts', async () => {
     await mount();
