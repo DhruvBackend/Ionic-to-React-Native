@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_karigar/checkinComplaintList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaintList": [
+        { "complaintId": 71, "customerName": "Sunita Deshmukh", "complaint_type": "service" },
+        { "complaintId": 72, "customerName": "Anil Kulkarni", "complaint_type": "installation" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "complaintList": [] },
+    "malformed": { "status": "SUCCESS", "complaintList": null }
+  }
+}

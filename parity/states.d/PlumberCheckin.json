@@ -1,0 +1,53 @@
+[
+  {
+    "id": "PlumberCheckin.default",
+    "screen": "PlumberCheckin",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberCheckin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Complaint select with two complaints."
+  },
+  {
+    "id": "PlumberCheckin.empty",
+    "screen": "PlumberCheckin",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/checkinComplaintList": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberCheckin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "No complaints exists: the no_found image."
+  },
+  {
+    "id": "PlumberCheckin.malformed",
+    "screen": "PlumberCheckin",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/checkinComplaintList": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberCheckin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintList null: the template throws, blank content."
+  },
+  {
+    "id": "PlumberCheckin.hin",
+    "screen": "PlumberCheckin",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberCheckin'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
