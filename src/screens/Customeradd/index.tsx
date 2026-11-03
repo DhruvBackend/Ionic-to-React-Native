@@ -153,8 +153,9 @@ export default function CustomeraddScreen({ navigation, route }: Props) {
     try {
       r = await db.post_rqst({ login_data: dataRef.current }, 'app_karigar/karigarLoginOtp');
     } catch {
-      // NOTE (parity): onDismissLoadingHandler() is `this.loading.dismiss()` on the provider's last loading object: no loader is open here, so it is
-      // a no-op (it would throw only if the provider never created one). Then the "Error..!!!" alert.
+      // NOTE (parity): Ionic dismisses `this.loading` (dbservice.ts:214-216) before the alert (customeradd.ts:229-234). `loading` exists in practically
+      // every session (login mobile-login.ts:103, otp.ts:76/125 and dealer-home:177 create it), so the alert shows as here; only a cold start from a
+      // stored session that never created a loader would throw and show no alert.
       messageAlert('Error..!!!');
       return;
     }
@@ -423,7 +424,7 @@ export default function CustomeraddScreen({ navigation, route }: Props) {
                   Back
                 </IonButton>
               </View>
-              <View>
+              <View style={styles.otpForm}>
                 <Text style={bodyText}>
                   {t('Enter your 6 digit number that sent to')} {data.mobile_no}
                 </Text>

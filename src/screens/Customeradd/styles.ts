@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   erorText: { textAlign: 'right' },
   list: { marginTop: 0, marginBottom: 0 }, // .main-field .cs-form ion-list { margin: 0 }
   back: { alignSelf: 'flex-start' },
+  otpForm: { marginBottom: 10 }, // html:96 `.cs-form.mb10` (the .cs-btn below has margin 0 !important)
   otpItem: { marginTop: 16, marginBottom: 16 }, // .cs-input { margin: 16px 0 }
   // inline style of the Back link: `margin-top: 10px; padding: 0px`
   backButton: { marginTop: C.backMarginTop, paddingHorizontal: 0, paddingVertical: 0 },
