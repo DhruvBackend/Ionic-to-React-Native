@@ -9,6 +9,84 @@
         { "id": 72, "complaint_no": "CMP-0072", "customer_name": "Anil Kulkarni", "service_point": 200, "status": "Closed", "date_created": "2026-10-19 14:10:00" }
       ]
     },
+    "complaints": {
+      "status": "SUCCESS",
+      "complaint_count": 3,
+      "plumberComplaintList": [
+        {
+          "id": 71,
+          "customerName": "sunita deshmukh",
+          "customerMobileNo": "9000000051",
+          "address": "12 lake road",
+          "city": "pune",
+          "district": "pune",
+          "state": "maharashtra",
+          "pincode": "411001",
+          "nature_problem": "tap leakage",
+          "status": "Pending"
+        },
+        {
+          "id": 72,
+          "customerName": "anil kulkarni",
+          "customerMobileNo": "9000000052",
+          "address": "12 lake road",
+          "city": "pune",
+          "district": "pune",
+          "state": "maharashtra",
+          "pincode": "411001",
+          "nature_problem": "installation",
+          "status": "Closed"
+        },
+        {
+          "id": 73,
+          "customerName": "meena joshi",
+          "customerMobileNo": "9000000053",
+          "address": "12 lake road",
+          "city": "pune",
+          "district": "pune",
+          "state": "maharashtra",
+          "pincode": "411001",
+          "nature_problem": "pipe burst",
+          "status": "Cancel"
+        }
+      ]
+    },
+    "complaintsMore": {
+      "status": "SUCCESS",
+      "complaint_count": 4,
+      "plumberComplaintList": [
+        {
+          "id": 74,
+          "customerName": "rohit patil",
+          "customerMobileNo": "9000000054",
+          "address": "12 lake road",
+          "city": "pune",
+          "district": "pune",
+          "state": "maharashtra",
+          "pincode": "411001",
+          "nature_problem": "no water flow",
+          "status": "Pending"
+        }
+      ]
+    },
+    "complaintsClosed": {
+      "status": "SUCCESS",
+      "complaint_count": 1,
+      "plumberComplaintList": [
+        {
+          "id": 72,
+          "customerName": "anil kulkarni",
+          "customerMobileNo": "9000000052",
+          "address": "12 lake road",
+          "city": "pune",
+          "district": "pune",
+          "state": "maharashtra",
+          "pincode": "411001",
+          "nature_problem": "installation",
+          "status": "Closed"
+        }
+      ]
+    },
     "empty": { "status": "SUCCESS", "plumberComplaintList": [] },
     "malformed": { "status": "SUCCESS", "plumberComplaintList": null },
     "zeroPayment": {
