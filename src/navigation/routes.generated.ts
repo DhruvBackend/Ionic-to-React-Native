@@ -8,12 +8,14 @@ import r2 from '../screens/MobileLogin/route';
 import C2 from '../screens/MobileLogin';
 import r3 from '../screens/OfferList/route';
 import C3 from '../screens/OfferList';
-import r4 from '../screens/Otp/route';
-import C4 from '../screens/Otp';
-import r5 from '../screens/Registration/route';
-import C5 from '../screens/Registration';
-import r6 from '../screens/SelectRegistrationType/route';
-import C6 from '../screens/SelectRegistrationType';
+import r4 from '../screens/Offers/route';
+import C4 from '../screens/Offers';
+import r5 from '../screens/Otp/route';
+import C5 from '../screens/Otp';
+import r6 from '../screens/Registration/route';
+import C6 from '../screens/Registration';
+import r7 from '../screens/SelectRegistrationType/route';
+import C7 from '../screens/SelectRegistrationType';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -23,4 +25,5 @@ export const routes: RouteDef[] = [
   { ...r4, component: C4 },
   { ...r5, component: C5 },
   { ...r6, component: C6 },
+  { ...r7, component: C7 },
 ];

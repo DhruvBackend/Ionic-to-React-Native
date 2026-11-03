@@ -1,0 +1,37 @@
+[
+  {
+    "id": "Offers.default",
+    "screen": "Offers",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 11 },
+    "ionicNav": "nav.setRoot(Page('Offers'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Offers.hin",
+    "screen": "Offers",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": { "id": 11 },
+    "ionicNav": "nav.setRoot(Page('Offers'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): 'Redeem Points' comes from hin.json; the date block never shows."
+  },
+  {
+    "id": "Offers.noGifts",
+    "screen": "Offers",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/offerDetail": "empty" },
+    "params": { "id": 11 },
+    "ionicNav": "nav.setRoot(Page('Offers'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "gift: [] makes offers.ts:81 throw: title + banner show, no list, and the 'Please wait...' loader stays up."
+  }
+]
