@@ -27,6 +27,12 @@
         permission: {},
         permissionStatus: { GRANTED: 'GRANTED', DENIED_ALWAYS: 'DENIED_ALWAYS' },
       },
+      // cordova-plugin-request-location-accuracy (PointLocation): the request succeeds, as on a phone with GPS on.
+      locationAccuracy: {
+        REQUEST_PRIORITY_HIGH_ACCURACY: 3,
+        request: cbOk(1),
+        canRequest: cbOk(true),
+      },
     },
     exec: noop,
     require: noop,
@@ -80,4 +86,44 @@
     document.dispatchEvent(ev);
   }
   window.addEventListener('load', function () { setTimeout(fire, 200); setTimeout(fire, 1200); });
+})();
+
+/* Phase 2 phone pass (2026-11-03, PointLocation): the real app loads the Google Maps JS API (index.html script tag); the
+ * harness aborts it, so `google` was undefined and point-location.ts's class fields (`new google.maps.DirectionsService`) threw
+ * while the page was created. Minimal no-op maps classes keep the page alive; it draws nothing with them in the shipped app
+ * either (the map is the maps.google.com iframe). navigator.geolocation answers with the RN mock position
+ * (src/native/location.ts MOCK_POSITION) so both apps get the same coordinates. */
+(function () {
+  var Noop = function () {};
+  Noop.prototype.setMap = function () {};
+  Noop.prototype.setDirections = function () {};
+  Noop.prototype.route = function () {};
+  Noop.prototype.geocode = function () {};
+  window.google = window.google || {
+    maps: {
+      Map: Noop,
+      Marker: Noop,
+      LatLng: function (lat, lng) {
+        this.lat = function () { return lat; };
+        this.lng = function () { return lng; };
+      },
+      DirectionsService: Noop,
+      DirectionsRenderer: Noop,
+      Geocoder: Noop,
+      MapTypeId: { ROADMAP: 'roadmap' },
+      TravelMode: { DRIVING: 'DRIVING' },
+      event: { addListener: function () {} },
+    },
+  };
+  var pos = { coords: { latitude: 28.6692, longitude: 77.4538, accuracy: 10 }, timestamp: Date.now() };
+  try {
+    Object.defineProperty(navigator, 'geolocation', {
+      configurable: true,
+      value: {
+        getCurrentPosition: function (ok) { setTimeout(function () { ok(pos); }, 0); },
+        watchPosition: function (ok) { setTimeout(function () { ok(pos); }, 0); return 1; },
+        clearWatch: function () {},
+      },
+    });
+  } catch (e) {}
 })();
