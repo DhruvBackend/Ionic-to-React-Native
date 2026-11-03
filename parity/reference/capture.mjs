@@ -191,6 +191,9 @@ function installRoutes(context, port, state, log) {
         const body = fixtureResponse(api.endpoint, state.variants || {});
         if (body !== null) {
           log(`api ${req.method()} ${api.endpoint} -> fixture`);
+          // Same latency as the RN MOCK transport (src/api/mock MOCK_DELAY_MS = 300). Answering instantly made Ionic dismiss
+          // its loaders before their present() finished, which Ionic 3 leaves stuck on screen (Phase 2 phone pass, 2026-11-03).
+          await new Promise(r => setTimeout(r, 1000));
           return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(body) });
         }
         blocked.push(`${req.method()} ${req.url()} (no fixture)`);

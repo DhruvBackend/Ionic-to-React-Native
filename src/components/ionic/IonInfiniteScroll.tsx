@@ -46,6 +46,7 @@ export function IonInfiniteScroll({
   const stateRef = useRef<InfiniteState>(state);
   const height = useRef(0);
   const lastCheck = useRef(0);
+  const lastTop = useRef(0); // scrollTop at the last check (a browser fires scroll only when it changes)
   const cb = useRef(onInfinite);
   cb.current = onInfinite;
   const thr = useRef(threshold);
@@ -105,6 +106,12 @@ export function IonInfiniteScroll({
           return; // `if (!infiniteHeight) return 3`
         }
         const d = ctx.getMetrics();
+        // A browser fires `scroll` only when scrollTop changes; Android's ScrollView also fires onScroll on a content-size
+        // change without movement (phone pass 2026-11-03: Transaction loaded a 2nd page by itself). No movement, no check.
+        if (d.scrollTop === lastTop.current) {
+          return;
+        }
+        lastTop.current = d.scrollTop;
         const t = thr.current;
         const thresholdPx = t.includes('%') ? d.contentHeight * (parseFloat(t) / 100) : parseFloat(t);
         const distance = d.scrollHeight - height.current - d.scrollTop - d.contentHeight - thresholdPx;

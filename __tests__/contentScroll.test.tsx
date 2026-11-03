@@ -574,6 +574,17 @@ describe('ion-infinite-scroll', () => {
     expect(find('infinite-loading')[0].findAll(n => n.props.children === infiniteMd.loadingText).length).toBeGreaterThan(0);
   });
 
+  // Phase 2 phone pass (2026-11-03, Transaction): Android's ScrollView fires onScroll when the content size changes, without
+  // the position moving. A browser fires `scroll` only when scrollTop changes, so a list shorter than the screen never
+  // loads more in Ionic. RN loaded a second page by itself.
+  test('a scroll event without movement (Android content-size change) does not trigger: a browser fires no scroll then', () => {
+    mountList();
+    scroll(0, 600, 700); // shorter than the screen, position unchanged from 0
+    expect(onInfinite).not.toHaveBeenCalled();
+    scroll(0, 650, 700); // content grew, still at the top
+    expect(onInfinite).not.toHaveBeenCalled();
+  });
+
   test('does not re-trigger while loading; complete() re-arms it', () => {
     mountList();
     scroll(500);
