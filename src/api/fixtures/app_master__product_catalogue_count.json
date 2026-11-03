@@ -1,0 +1,43 @@
+{
+  "endpoint": "app_master/product_catalogue_count",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "master_product": 24,
+      "complaint": 2,
+      "installation": 1,
+      "complaint_exist": false,
+      "installation_exist": false,
+      "service_exist": false,
+      "open_complaint": {},
+      "plumber": 3,
+      "plumberInstallation": 1
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "master_product": 0,
+      "complaint": 0,
+      "installation": 0,
+      "complaint_exist": false,
+      "installation_exist": false,
+      "service_exist": false,
+      "open_complaint": {},
+      "plumber": 0,
+      "plumberInstallation": 0
+    },
+    "malformed": { "status": "SUCCESS" },
+    "requestsExist": {
+      "status": "SUCCESS",
+      "master_product": 24,
+      "complaint": 2,
+      "installation": 1,
+      "complaint_exist": true,
+      "installation_exist": true,
+      "service_exist": true,
+      "open_complaint": { "id": 55 },
+      "plumber": 3,
+      "plumberInstallation": 1
+    }
+  }
+}

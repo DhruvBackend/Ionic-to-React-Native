@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/update_token",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "registration_id": "fcm-token", "id": "900001" },
+  "note": "home.ts:1079 (post_rqst, the live path of initPushNotification -> registrationid, 5 s after the push 'registration' event). home.ts:824 is the same endpoint through onPostRequestDataFromApi({id, registration_id}) inside notification(), which is never called (dead). Push is off for Topbath (no push plugin), so neither runs.",
+  "ionicSource": "src/pages/home/home.ts:1079"
+}

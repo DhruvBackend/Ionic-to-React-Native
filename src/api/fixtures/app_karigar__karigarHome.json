@@ -1,0 +1,45 @@
+{
+  "endpoint": "app_karigar/karigarHome",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigar": {
+        "id": 900001,
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "status": "Verified",
+        "del": 0,
+        "profile": "",
+        "pincode": "201010",
+        "manual_permission": 0,
+        "referral_code": "TST001",
+        "balance_point": 1250,
+        "referal_point_balance": 0,
+        "service_wallet_balance_points": 0,
+        "total_balance": 1250
+      },
+      "last_point": 50,
+      "today_point": 10,
+      "notification": 3
+    },
+    "empty": { "status": "SUCCESS", "karigar": {}, "last_point": 0, "today_point": 0, "notification": 0 },
+    "malformed": { "status": "SUCCESS", "karigar": null },
+    "unverified": {
+      "status": "SUCCESS",
+      "karigar": { "id": 900001, "first_name": "Test Plumber", "type": "Plumber", "status": "Pending", "del": 0, "manual_permission": 0, "referral_code": "TST001", "total_balance": 0 },
+      "last_point": 0,
+      "today_point": 0,
+      "notification": 0
+    },
+    "manual": {
+      "status": "SUCCESS",
+      "karigar": { "id": 900001, "first_name": "Test Plumber", "type": "Plumber", "status": "Verified", "del": 0, "manual_permission": 1, "pincode": "201010", "referral_code": "TST001", "total_balance": 1250 },
+      "last_point": 50,
+      "today_point": 10,
+      "notification": 3
+    },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

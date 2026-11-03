@@ -23,7 +23,8 @@ test('Tabs for a Plumber show the Home tab root first', async () => {
   await ReactTestRenderer.act(async () => {
     tree = ReactTestRenderer.create(<RootNavigator initialRouteName="Tabs" />);
   });
-  expect(tree!.root.findAllByProps({ testID: 'placeholder-Home' }).length).toBeGreaterThan(0);
+  // the real Home screen replaced the placeholder (its banner block is the first thing a Plumber's Home draws)
+  expect(tree!.root.findAllByProps({ testID: 'home-banner' }).length).toBeGreaterThan(0);
   await ReactTestRenderer.act(async () => tree!.unmount());
 });
 

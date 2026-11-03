@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_karigar/loginBannersApp",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "banner": [
+        { "id": 1, "banner": "login_banner_1.jpg" },
+        { "id": 2, "banner": "login_banner_2.jpg" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "banner": [] },
+    "malformed": { "status": "SUCCESS", "banner": null }
+  }
+}
