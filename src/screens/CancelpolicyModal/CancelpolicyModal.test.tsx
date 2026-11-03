@@ -77,8 +77,7 @@ async function tapBox(id: string) {
 }
 async function enableYes(otp = '123456') {
   await typeOtp(otp);
-  await tapBox('check'); // off
-  await tapBox('check'); // on
+  await tapBox('check'); // data.check = true
 }
 
 beforeEach(async () => {
@@ -124,8 +123,7 @@ describe('contracts (card Endpoints)', () => {
   test('app_karigar/redeemRequest: full body (Gift type, address from the profile)', async () => {
     await mount();
     await enableYes();
-    await tapBox('check1'); // first tap: the box was drawn checked, so it clears (still empty)
-    await tapBox('check1'); // second tap: fills the address
+    await tapBox('check1'); // first tap fills the address
     await expectContract('app_karigar/redeemRequest', async () => {
       await press('yes');
       await settle();
@@ -222,27 +220,43 @@ describe('states (card States)', () => {
     expect(exists('otp-error')).toBe(false);
   });
 
-  test('Yes needs a matching OTP and data.check (the policy box is drawn checked but needs two taps)', async () => {
+  test('Yes needs a matching OTP and data.check (checked="true" has no effect: the box starts unchecked, one tap enables)', async () => {
     await mount();
     await typeOtp('123456');
     expect(yesDisabled()).toBe(true); // data.check undefined
-    await tapBox('check'); // unchecks, data.check = false
-    expect(yesDisabled()).toBe(true);
     await tapBox('check'); // data.check = true
     expect(yesDisabled()).toBe(false);
     await typeOtp('1234567');
     expect(yesDisabled()).toBe(true);
   });
 
-  test('"Same as Permanent Address": first tap clears (drawn checked, model undefined), second fills from the profile', async () => {
+  test('"Same as Permanent Address": first tap fills from the profile, second clears; label is one line with an ellipsis', async () => {
     await mount();
-    expect(host('shipping-address').props.value).toBe('');
-    await tapBox('check1');
     expect(host('shipping-address').props.value).toBe('');
     await tapBox('check1');
     expect(host('shipping-address').props.value).toBe('12 Rose Lane ,Sahibabad ,GHAZIABAD ,UTTAR PRADESH ,201010');
     await tapBox('check1');
     expect(host('shipping-address').props.value).toBe('');
+    const label = tree.root.findAll(n => (n.type as any) === 'Text' && flat(n.props.children) === 'Same as Permanent Address')[0];
+    expect(label.props.numberOfLines).toBe(1);
+    expect(label.props.ellipsizeMode).toBe('tail');
+  });
+
+  test('keyboard Enter in the OTP box submits only while Yes is enabled', async () => {
+    await mount();
+    await typeOtp('123456');
+    await act(async () => {
+      host('otp-input').props.onSubmitEditing();
+    });
+    await settle();
+    expect(callsTo('app_karigar/redeemRequest')).toHaveLength(0);
+    expect(alerts()).toHaveLength(0); // disabled: nothing, not even the address alert
+    await tapBox('check');
+    await act(async () => {
+      host('otp-input').props.onSubmitEditing();
+    });
+    await settle();
+    expect(alerts()[0]).toMatchObject({ subTitle: 'Please fill Address' }); // enabled: submit() ran
   });
 });
 
@@ -359,5 +373,45 @@ describe('submit and navigation', () => {
     await mount();
     expect(text('policy-link')).toBe(i18n.t('Cancellation Policy'));
     expect(host('otp-input').props.placeholder).toBe(i18n.t('Enter OTP'));
+  });
+});
+
+describe('blur -> reset through a real navigator', () => {
+  test('pushing a page over the modal removes only the modal route; no route is lost and nothing throws', async () => {
+    const { NavigationContainer } = require('@react-navigation/native');
+    const { createIonStackNavigator } = require('../../navigation/IonStack');
+    const Stack = createIonStackNavigator();
+    const Plain = () => null;
+    let nav: any;
+    function Gift(props: any) {
+      nav = props.navigation;
+      return null;
+    }
+    function Modal(props: any) {
+      return <CancelpolicyModalScreen {...props} />;
+    }
+    await act(async () => {
+      tree = ReactTestRenderer.create(
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="GiftDetail" component={Gift} />
+            <Stack.Screen name="CancelpolicyModal" component={Modal} options={{ presentation: 'modal' }} initialParams={PARAMS} />
+            <Stack.Screen name="CancelationPolicy" component={Plain} />
+          </Stack.Navigator>
+        </NavigationContainer>,
+      );
+    });
+    await act(async () => {
+      nav.push('CancelpolicyModal', PARAMS);
+    });
+    await settle();
+    await act(async () => {
+      nav.push('CancelationPolicy');
+    });
+    await settle();
+    const names = nav.getState().routes.map((r: any) => r.name);
+    expect(names[names.length - 1]).toBe('CancelationPolicy');
+    expect(names).not.toContain('CancelpolicyModal');
+    expect(names).toContain('GiftDetail');
   });
 });

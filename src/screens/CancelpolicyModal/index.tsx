@@ -56,7 +56,7 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
   const otp = useRef<any>('');
   const [kd, setKd] = useState<any>({});
   const [gift, setGift] = useState<any>('');
-  // :13 data (ngModel targets). `check` and `check1` start undefined although the boxes are drawn checked (see the NOTE at the checkboxes).
+  // :13 data (ngModel targets). `check` and `check1` start undefined and both boxes start unchecked (see the NOTE at the checkboxes).
   const [otpText, setOtpText] = useState('');
   const [touched, setTouched] = useState(false); // `otp?.touched`: set on blur
   const [check, setCheck] = useState<boolean | undefined>(undefined);
@@ -275,6 +275,13 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
                 value={otpText}
                 onChangeText={onOtpChange}
                 onBlur={() => setTouched(true)}
+                // NOTE (parity): the OTP input sits in <form (ngSubmit)> with a submit button (Yes): the keyboard Enter/Go key submits the form,
+                // but a disabled submit button blocks implicit submission, so only while Yes is enabled.
+                onSubmitEditing={() => {
+                  if (!disabled) {
+                    submit();
+                  }
+                }}
                 keyboardType="phone-pad"
                 placeholder={t('Enter OTP')}
                 placeholderTextColor={cancelpolicyModalMd.placeholder}
@@ -295,21 +302,23 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
               {giftType ? (
                 <View testID="gift-block">
                   <View style={styles.checkBx}>
-                    {/* NOTE (parity): `checked="true"` (attribute) with [(ngModel)]="data.check1" (undefined): the box is DRAWN checked while the
-                        model stays undefined until the first tap (which unchecks it and sets false). myNumber() then clears the address; a second
-                        tap checks it and fills the address from the profile. */}
+                    {/* NOTE (parity): `checked="true"` has NO effect: NgForm.addControl -> setUpControl -> writeValue(null) makes BaseInput normalise the value to
+                        false (measured on the Ionic reference: _value false, no checkbox-checked class). So the box starts UNCHECKED, data.check1 is
+                        undefined, and the first tap checks it (true) and fills the address from the profile at once. */}
                     <IonItem testID="check1-item" style={styles.checkItem} innerStyle={styles.checkItemInner}>
                       <IonCheckbox
                         testID="check1"
                         color="secondary"
-                        checked="true"
                         onChange={e => {
                           check1.current = e.checked;
                         }}
                         onPress={myNumber}
                       />
                     </IonItem>
-                    <Text style={styles.checkP}>{t('Same as Permanent Address')}</Text>
+                    {/* .check-bx p: white-space nowrap + overflow hidden + text-overflow ellipsis */}
+                    <Text style={styles.checkP} numberOfLines={1} ellipsizeMode="tail">
+                      {t('Same as Permanent Address')}
+                    </Text>
                   </View>
                   <TextInput
                     testID="shipping-address"
@@ -327,10 +336,10 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
             </View>
 
             <View style={styles.checkBx}>
-              {/* NOTE (parity): same `checked="true"` + undefined model: drawn checked, data.check undefined, so Yes stays disabled until the
-                  box is tapped twice (off, then on). */}
+              {/* NOTE (parity): same as the box above: `checked="true"` has no effect (writeValue(null) -> false), so the box starts unchecked with
+                  data.check undefined; one tap sets data.check = true and enables Yes (with a matching OTP). */}
               <IonItem testID="check-item" style={styles.checkItem} innerStyle={styles.checkItemInner}>
-                <IonCheckbox testID="check" color="secondary" checked="true" onChange={e => setCheck(e.checked)} />
+                <IonCheckbox testID="check" color="secondary" onChange={e => setCheck(e.checked)} />
               </IonItem>
               <Text style={styles.checkP} numberOfLines={1}>
                 {t('I have read')}{' '}

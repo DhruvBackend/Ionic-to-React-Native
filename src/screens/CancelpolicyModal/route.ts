@@ -7,7 +7,7 @@ import type { RouteMeta } from '../../navigation/types';
 // Live for every role (card Status LIVE, no feature flag).
 const route: RouteMeta = {
   name: 'CancelpolicyModal',
-  presentation:'modal', // NOTE: no space after the colon on purpose: scripts/gen-routes.mjs:47 regex is `presentation:s*` (missing backslash)
+  presentation: 'modal',
   links: ['CancelationPolicy', 'Tabs'],
 };
 
