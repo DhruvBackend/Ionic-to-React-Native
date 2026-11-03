@@ -235,6 +235,15 @@ describe('service', () => {
     expect(openLoaders()).toHaveLength(0);
   });
 
+  test("a truthy payment that is == 0 ('0.00') draws the row without the full_width class", async () => {
+    setFixtureVariant('app_karigar/getPlumberComplaintList', 'zeroPayment');
+    installSpy();
+    await mount({ service: 'service' });
+    expect(exists('service-type-0')).toBe(true);
+    expect(textOf('service-points-0')).toBe('0.00Points');
+    expect(find('service-row-0')[0].props.style).toBeUndefined();
+  });
+
   test('the no-data picture shows for an empty list', async () => {
     setFixtureVariant('app_karigar/getPlumberComplaintList', 'empty');
     installSpy();
@@ -277,6 +286,19 @@ describe('referal', () => {
     expect(textOf('referal-date-0')).toBe('30-Sep-2026');
     expect(textOf('referal-points-0')).toBe('50Points');
     expect(openLoaders()).toHaveLength(0);
+  });
+
+  test('infinite scroll appends the second page and never sets the flag (the check reads r.coupon)', async () => {
+    installSpy();
+    await mount({ referal: 'referal' });
+    const complete = await scrollMore();
+    expect(complete).toHaveBeenCalledTimes(1);
+    expect(exists('referal-row-3')).toBe(true);
+    expect(infinite()).toHaveLength(1);
+    setFixtureVariant('app_karigar/referal_logs', 'empty');
+    const complete2 = await scrollMore();
+    expect(complete2).toHaveBeenCalledTimes(1);
+    expect(infinite()).toHaveLength(1);
   });
 
   test('empty shows the no-data picture', async () => {
@@ -327,6 +349,7 @@ describe('redeem', () => {
     expect(textOf('redeem-reason-2')).toBe('Out Of Stock');
     expect(exists('redeem-refund-2')).toBe(true);
     expect(exists('redeem-refund-0')).toBe(false);
+    expect(find('redeem-refund-text-2')[0].props.style.fontSize).toBe(12);
   });
 
   test('empty: no-data picture, loader dismissed', async () => {

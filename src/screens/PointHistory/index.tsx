@@ -573,10 +573,10 @@ export default function PointHistoryScreen({ route }: Props) {
                               <Text {...nowrap} style={[textStyle(11, 400, P.inkMuted), styles.trPointsText]}>
                                 {collapseWs(t('Points'))}
                               </Text>
-                              {/* html:124 span.refund has no rule of its own: 16px black like the item text */}
+                              {/* html:124 span.refund has no rule of its own, but carries style="font-size: 12px!important": 12px black inside the item's 16px / line-height normal line box */}
                               {rejectExtras ? (
                                 <Text testID={`redeem-refund-${i}`} {...nowrap} style={[textStyle(16, 400, P.ink, normalLineHeight(16)), styles.trPointsText]}>
-                                  {collapseWs(t('Refunded'))}
+                                  <Text testID={`redeem-refund-text-${i}`} style={textStyle(12, 400, P.ink, normalLineHeight(12))}>{collapseWs(t('Refunded'))}</Text>
                                 </Text>
                               ) : null}
                             </View>
