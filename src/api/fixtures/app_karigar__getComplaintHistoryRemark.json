@@ -1,0 +1,27 @@
+{
+  "endpoint": "app_karigar/getComplaintHistoryRemark",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaintHistory": [
+        {
+          "date_created": "2026-10-30 15:22:10",
+          "remark": "Customer not available, visit again tomorrow"
+        },
+        {
+          "date_created": "2026-10-28 09:05:41",
+          "remark": "Part pending, will be replaced in two days"
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "complaintHistory": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "complaintHistory": null
+    }
+  }
+}

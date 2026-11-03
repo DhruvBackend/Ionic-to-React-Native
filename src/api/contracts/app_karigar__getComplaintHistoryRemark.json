@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/getComplaintHistoryRemark",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "complaints_id": 71 },
+  "ionicSource": "src/pages/complaint-remarks/complaint-remarks.ts:55 (getComplaintRemark)"
+}

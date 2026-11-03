@@ -73,5 +73,12 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** The constructor (not ionViewDidLoad) reads `id` and calls getComplaintRemark(); no loader is shown (`presentLoading` :37-44 is dead code).
+2. **List.** One `ion-list` per row, each with a `button ion-item`: date `d MMMM y` and time `h:mm a` of `date_created`, then `Remark:` + `remark`. `*ngFor` over a null `complaintHistory` draws nothing.
+3. **Refresh** calls getComplaintRemark() and `refresher.complete()` at once (no wait for the response). No error callback.
+4. **No i18n**: the module has no TranslateModule; title `Remark-history` is hardcoded.
+5. Global `.remark` rules (variables.scss 5014-5063) restyle the lists (shadow, border, 20px bottom margin, `.time-table`, `.remak-detail`).
+
 ## States
 
+`default` (two remarks), `empty` (`[]`), `malformed` (`complaintHistory: null`). Fixture `app_karigar/getComplaintHistoryRemark`; `parity/states.d/ComplaintRemarks.json`.

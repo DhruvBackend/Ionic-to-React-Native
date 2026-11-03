@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ComplaintRemarks.default",
+    "screen": "ComplaintRemarks",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintHistoryRemark": "default"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintRemarks'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Two remark cards, each with date, time and the grey remark box."
+  },
+  {
+    "id": "ComplaintRemarks.empty",
+    "screen": "ComplaintRemarks",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintHistoryRemark": "empty"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintRemarks'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "No remarks: header only, blank content."
+  },
+  {
+    "id": "ComplaintRemarks.malformed",
+    "screen": "ComplaintRemarks",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getComplaintHistoryRemark": "malformed"
+    },
+    "params": {
+      "id": 71
+    },
+    "ionicNav": "nav.push(Page('ComplaintRemarks'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "complaintHistory null: *ngFor draws nothing, header only."
+  }
+]
