@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/giftDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "gift_id": 21, "karigar_id": "900001" },
+  "note": "gift_id is navParams.get('id'); a push with no params (push notification of type 'gift') leaves it undefined, and JSON.stringify drops the key.",
+  "ionicSource": "src/pages/gift-gallery/gift-detail/gift-detail.ts:92"
+}
