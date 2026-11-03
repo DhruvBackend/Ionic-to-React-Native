@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/getComplaintList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "sales_boy_id": "", "limit": 0, "status": "=Pending", "search": "=" } },
+  "note": "PlumberList infinite scroll (loadData): the shared filter object with the next offset and the segment status.",
+  "ionicSource": "src/pages/plumber-list/plumber-list.ts:185"
+}

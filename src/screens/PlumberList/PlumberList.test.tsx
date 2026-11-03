@@ -2,7 +2,7 @@
 import React from 'react';
 import { Linking } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
-import { expectContract, loadContract } from '../../../__tests__/helpers/contract';
+import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
@@ -77,13 +77,7 @@ describe('contracts (card Endpoints)', () => {
     setFixtureVariant('app_karigar/getComplaintList', 'plumber_page');
     installSpy();
     await mount();
-    // The shared contract file records the ComplaintHistory call site; this one is plumber-list.ts:96.
-    const contract = {
-      ...loadContract('app_karigar/getComplaintList'),
-      body: { filter: { sales_boy_id: '', limit: 0, status: '=Pending', search: '=' } },
-      ionicSource: 'src/pages/plumber-list/plumber-list.ts:96',
-    };
-    await expectContract(contract as any, async () => {
+    await expectContract('app_karigar/getComplaintList.PlumberList', async () => {
       await act(async () => {
         infinite().props.onInfinite({ complete: jest.fn() });
       });

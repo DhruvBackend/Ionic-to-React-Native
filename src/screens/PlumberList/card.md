@@ -23,12 +23,12 @@ _none_
 | Helper | Endpoint | Server | Body source | Where |
 |---|---|---|---|---|
 | onPostRequestDataFromApi | `app_karigar/sales_boy_plumber_list` | root | `{'filter':this.filter}` | src/pages/plumber-list/plumber-list.ts:79 |
-| onPostRequestDataFromApi | `app_karigar/getComplaintList` | root | `{'filter' : this.filter}` | src/pages/plumber-list/plumber-list.ts:96 |
+| onPostRequestDataFromApi | `app_karigar/getComplaintList` | root | `{'filter' : this.filter}` | src/pages/plumber-list/plumber-list.ts:185 |
 
 ## Response fields read
 
 - `app_karigar/sales_boy_plumber_list` (src/pages/plumber-list/plumber-list.ts:79): `karigar_pending`, `karigar_reject`, `karigar_verified`, `karigars.data`
-- `app_karigar/getComplaintList` (src/pages/plumber-list/plumber-list.ts:96): `karigars`
+- `app_karigar/getComplaintList` (src/pages/plumber-list/plumber-list.ts:185): `karigars`
 
 ## Nav targets
 
