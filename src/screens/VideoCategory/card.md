@@ -76,5 +76,9 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- video-category.ts:40 `categories: null` throws before the loader is dismissed: loader stays, page empty (RN stops the same way).
+- `.mt0` on ion-content puts the list under the header; `.list-adjust` margin-top 44 compensates (styles.headerOffset).
+
 ## States
 
+`VideoCategory.default`, `.empty`, `.hin` (malformed: null categories, covered in the test)

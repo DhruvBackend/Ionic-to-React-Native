@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/VideoCatData",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "type": "Plumber" },
+  "ionicSource": "src/pages/video-category/video-category.ts:36"
+}
