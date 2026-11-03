@@ -68,7 +68,7 @@ export default function CancelationPolicyScreen({ navigation }: Props) {
   }
 
   // :59-61 closmodal(): this.viewCtrl.dismiss()
-  // NOTE (parity): the page lives in Ionic's OverlayPortal (see route.ts), so dismiss() removes it and reveals what is underneath.
+  // NOTE (parity): the page lives in Ionic's MODAL portal (see route.ts), so dismiss() removes it and reveals GiftDetail. The HARDWARE back button does not do this: with this page the only modal-portal view (canGoBack false) Ionic shows the exit alert (kit: modalPortalNav + ionicModalPortalPages.json).
   function closmodal() {
     navigation.goBack();
   }
@@ -76,7 +76,7 @@ export default function CancelationPolicyScreen({ navigation }: Props) {
   return (
     <View style={styles.screen}>
       {/* html:1-10. Plain <ion-header> + <ion-navbar> (no main-header, no colour: white bar). */}
-      {/* NOTE (parity): Ionic computes the back button when the page enters: the OverlayPortal still holds the modal view below it at
+      {/* NOTE (parity): Ionic computes the back button when the page enters: the modal portal still holds the modal view below it at
           that moment, so enableBack() is true and the arrow is shown (the md transition adds `show-back-button` and nothing removes it
           when the modal then dismisses itself). Its tap calls navCtrl.pop(), which removes the page from the portal, like the close icon. */}
       <Header

@@ -7,6 +7,8 @@ import { getTransport, HttpError, setTransport, type ApiRequest } from '../../ap
 import { resetMock, setFixtureVariant } from '../../api/mock';
 import i18n from '../../i18n';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
+import { handleBack } from '../../app/backButton';
+import { modalPortalNav } from '../../navigation/navigationRef';
 import CancelationPolicyScreen from './index';
 
 let tree: ReactTestRenderer.ReactTestRenderer;
@@ -35,7 +37,7 @@ async function settle() {
   }
 }
 
-// What the Ionic page has below it when it enters: the modal view (CancelpolicyModal) in the same OverlayPortal -> index 1
+// What the Ionic page has below it when it enters: the modal view (CancelpolicyModal) in the same modal portal -> index 1
 const fakeNav = { getState: () => ({ index: 1 }), goBack: jest.fn() };
 
 async function mount() {
@@ -163,5 +165,14 @@ describe('navigation', () => {
       press.props.onPress({ nativeEvent: { locationX: 1, locationY: 1 } });
     });
     expect(fakeNav.goBack).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('hardware back (Ionic: only view of the modal portal -> exit alert)', () => {
+  test('GiftDetail, CancelationPolicy: modalPortalNav + handleBack give confirmExit', () => {
+    const root = { index: 1, routes: [{ name: 'GiftDetail' }, { name: 'CancelationPolicy' }] };
+    const portal = modalPortalNav(root)!;
+    expect(portal).toEqual({ routeName: 'CancelationPolicy', canGoBack: false });
+    expect(handleBack({ overlayOpen: false, routeName: portal.routeName, canGoBack: portal.canGoBack })).toBe('confirmExit');
   });
 });
