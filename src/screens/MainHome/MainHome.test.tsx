@@ -3,6 +3,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import { db } from '../../api/client';
 import { resetMock } from '../../api/mock';
+import { client } from '../../config/client';
 import i18n from '../../i18n';
 import { mainHomeMd as M } from '../../theme/ionicMdMainHome';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
@@ -47,7 +48,7 @@ afterEach(() => {
 describe('states', () => {
   test('Plumber: five rows in template order, title Menu', async () => {
     await mount();
-    expect(allText()).toEqual(expect.arrayContaining(['Menu', 'Super 30 Plumber', M.aboutKey, 'Products', 'Videos', 'Contact Us']));
+    expect(allText()).toEqual(expect.arrayContaining(['Menu', 'Super 30 Plumber', `About ${client.appName}`, 'Products', 'Videos', 'Contact Us']));
     expect(rowIds()).toEqual(['mainhome-super30', 'mainhome-about', 'mainhome-products', 'mainhome-videos', 'mainhome-contact']);
   });
   test.each(['Dealer', 'Sales_Boy', 'Sales_Executive'])('%s: no Super 30 row', async type => {

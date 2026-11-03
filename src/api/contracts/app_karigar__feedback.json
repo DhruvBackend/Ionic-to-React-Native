@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/feedback",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "900001", "feedback": "Great app" },
+  "ionicSource": "src/pages/feedback/feedback.ts:32 (submitFeedback; `feedback` is data.feedback, undefined (dropped from the JSON) when nothing was typed)"
+}

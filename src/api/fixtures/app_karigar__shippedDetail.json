@@ -1,0 +1,16 @@
+{
+  "endpoint": "app_karigar/shippedDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "shipped": {
+        "shipped_type": "Courier",
+        "estimated_date": "2026-11-10",
+        "shipping_information": "Delivered by Blue Dart, tracking no. BD123456789"
+      }
+    },
+    "empty": { "status": "SUCCESS", "shipped": {} },
+    "malformed": { "status": "SUCCESS", "shipped": null }
+  }
+}

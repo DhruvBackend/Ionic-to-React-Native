@@ -9,6 +9,7 @@ import { Header } from '../../components/ionic/IonNavbar';
 import { Text } from '../../components/ionic/IonText';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { textStyle } from '../../components/ionic/text';
+import { client } from '../../config/client';
 import { colors } from '../../theme';
 import { itemContentMd } from '../../theme/ionicMdContent';
 import { mainHomeMd as M } from '../../theme/ionicMdMainHome';
@@ -40,7 +41,9 @@ export default function MainHomeScreen({ navigation }: Props) {
   if (isPlumber) {
     rows.push({ id: 'super30', label: 'Super 30 Plumber', target: 'Super30' }); // :71 goOnSuper30Page
   }
-  rows.push({ id: 'about', label: M.aboutKey, target: 'About' }); // :43 goOnAboutPage
+  // NOTE (parity): html:18 `{{ 'About Topsan' | translate }}`: the key is the client's brand name in a sentence; built from client.appName (same key for Topbath,
+  // other clients override the translation in clients/<id>/i18n).
+  rows.push({ id: 'about', label: `About ${client.appName}`, target: 'About' }); // :43 goOnAboutPage
   rows.push({ id: 'products', label: 'Products', target: 'Category' }); // :67 goOnProductsPage pushes CategoryPage
   rows.push({ id: 'videos', label: 'Videos', target: 'VideoCategory' }); // :55 goOnVideoPage
   rows.push({ id: 'contact', label: 'Contact Us', target: 'Contact' }); // :51 goOnContactPage

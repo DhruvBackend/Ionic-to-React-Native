@@ -1,0 +1,34 @@
+{
+  "endpoint": "app_karigar/getSuperPlumberList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigars": [
+        { "id": 900014, "first_name": "rakesh kumar", "city": "lucknow", "state": "UTTAR PRADESH", "rating": 5, "profile": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEUAmY0AAAAhYnmPAAAAEElEQVQI12NgYGD4z0AEAQAbGAH/yZ4yQQAAAABJRU5ErkJggg==" },
+        { "id": 900022, "first_name": "SURESH YADAV", "city": "kanpur", "state": "uttar pradesh", "rating": 4, "profile": "" },
+        { "id": 900001, "first_name": "Test Plumber", "city": "Noida", "state": "UTTAR PRADESH", "rating": 3, "profile": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEUAmY0AAAAhYnmPAAAAEElEQVQI12NgYGD4z0AEAQAbGAH/yZ4yQQAAAABJRU5ErkJggg==" },
+        { "id": 900031, "first_name": "imran khan", "city": "bhopal", "state": "madhya pradesh", "rating": 1, "profile": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEUAmY0AAAAhYnmPAAAAEElEQVQI12NgYGD4z0AEAQAbGAH/yZ4yQQAAAABJRU5ErkJggg==" },
+        { "id": 900047, "first_name": "amit sharma", "city": "jaipur", "state": "rajasthan", "rating": 0, "profile": "" }
+      ],
+      "karigarData": [
+        { "id": 900014 },
+        { "id": 900022 },
+        { "id": 900001 },
+        { "id": 900031 },
+        { "id": 900047 }
+      ]
+    },
+    "notRanked": {
+      "status": "SUCCESS",
+      "karigars": [
+        { "id": 900014, "first_name": "rakesh kumar", "city": "lucknow", "state": "UTTAR PRADESH", "rating": 5, "profile": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEUAmY0AAAAhYnmPAAAAEElEQVQI12NgYGD4z0AEAQAbGAH/yZ4yQQAAAABJRU5ErkJggg==" },
+        { "id": 900022, "first_name": "SURESH YADAV", "city": "kanpur", "state": "uttar pradesh", "rating": 4, "profile": "" }
+      ],
+      "karigarData": [{ "id": 900014 }, { "id": 900022 }]
+    },
+    "empty": { "status": "SUCCESS", "karigars": [], "karigarData": [] },
+    "malformed": { "status": "SUCCESS", "karigars": null, "karigarData": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

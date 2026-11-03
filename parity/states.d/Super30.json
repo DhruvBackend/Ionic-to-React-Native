@@ -1,0 +1,47 @@
+[
+  {
+    "id": "Super30.default",
+    "screen": "Super30",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Super30'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Super30.notRanked",
+    "screen": "Super30",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/getSuperPlumberList": "notRanked" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Super30'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Super30.empty",
+    "screen": "Super30",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/getSuperPlumberList": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Super30'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Super30.hin",
+    "screen": "Super30",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Super30'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pushed from MainHome (Menu tab) with no params; setRoot in the harness. The app language is global (state lang): the module has its own TranslateModule.forRoot but app.module.ts imports Super30PageModule eagerly, so the title comes from hin.json."
+  }
+]

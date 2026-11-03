@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_country",
+  "helper": "get_rqst",
+  "server": "root",
+  "method": "GET",
+  "headers": "tokenOnly",
+  "body": null,
+  "ionicSource": "src/pages/super30/super30.ts:60"
+}

@@ -2,9 +2,6 @@
 // screen cannot spell as hex (lint rule). Citations: [T] variables.scss line (Ionic source), [CSS] the shipped main.css.
 // NOTE: added for the MainHome screen.
 export const mainHomeMd = {
-  // main-home.html:18 `{{ 'About Topsan' | translate }}`: the ngx-translate KEY contains the client's brand name (lint keeps brand names out of screens);
-  // clients can override the translation in their own locale file (src/i18n), the key stays.
-  aboutKey: 'About Topsan',
   // [T] 5560-5602 `.listing button { box-shadow: 0px 3px 6px 0px #ccc; background: $white; border-radius: 6px }`
   shadow: '0px 3px 6px 0px #ccc',
   // [T] 5603-5620 `.listing button:nth-child(1n+1 | 2n+2 | 3n+3 | 4n+4) { border-left: 5px solid <colour> !important }`.

@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/getSuperPlumberList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0, "country": "India" } },
+  "ionicSource": "src/pages/super30/super30.ts:84 (getList; the second call at :116 in loadData is dead: no infinite scroll in super30.html)"
+}
