@@ -26,6 +26,9 @@ export interface IonButtonProps {
   as?: 'button' | 'a'; // `<a ion-button>` keeps the md margin and `line-height: normal`
   iconStart?: string; // <ion-icon name> before the text, [icon-start]/[icon-left]
   iconEnd?: string; // after the text, [icon-end]/[icon-right]
+  // a plain <ion-icon> after the text WITHOUT [icon-end] (pulmber-customer-detail.html:221-223): no 1.4em / .4em rule, so it takes
+  // the button font size; `marginLeft` comes from page classes (e.g. .ml10{margin-left:10px!important}). The text's trailing space collapses.
+  iconAfter?: { name: string; size?: number; marginLeft?: number };
   iconOnly?: string; // [icon-only] with a single <ion-icon>
   csBtn?: boolean; // class="cs-btn" (Topbath variables.scss:459)
   reBtn?: boolean; // class="cs-btn re-btn"
@@ -70,6 +73,7 @@ export function IonButton({
   as = 'button',
   iconStart,
   iconEnd,
+  iconAfter,
   iconOnly,
   csBtn,
   reBtn,
@@ -189,6 +193,9 @@ export function IonButton({
         {renderLabel(children, { ...ts, ...StyleSheet.flatten(labelStyle) })}
         {iconEnd ? (
           <IonIcon name={iconEnd} size={iconSize} color={fg} style={{ marginLeft: iconSize * buttonMd.iconEnd.gap }} />
+        ) : null}
+        {iconAfter ? (
+          <IonIcon name={iconAfter.name} size={iconAfter.size ?? ts.fontSize} color={fg} style={{ marginLeft: iconAfter.marginLeft ?? 0 }} />
         ) : null}
       </View>
     </RippleButton>
