@@ -1,0 +1,25 @@
+{
+  "endpoint": "app_karigar/karigarLoginOtp",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "login_data": {
+      "type": "",
+      "sales_boy_id": "",
+      "status": "",
+      "mobileNo": "",
+      "first_name": "",
+      "dob": "",
+      "address": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "mobile_no": ""
+    }
+  },
+  "note": "Customeradd variant: post_rqst (token-only headers), login_data is the page's whole `data` object when Next is pressed (a key appears once its field was typed).",
+  "ionicSource": "src/pages/customeradd/customeradd.ts:220"
+}
