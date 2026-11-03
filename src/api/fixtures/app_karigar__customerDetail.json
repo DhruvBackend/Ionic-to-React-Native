@@ -1,0 +1,12 @@
+{
+  "endpoint": "app_karigar/customerDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "customer": { "id": 301, "first_name": "rakesh verma", "mobile_no": "9000000301", "address": "12 gandhi road", "state": "UTTAR PRADESH", "district": "ghaziabad", "city": "sahibabad", "pincode": "201010" }
+    },
+    "empty": { "status": "SUCCESS", "customer": {} },
+    "malformed": { "status": "SUCCESS", "customer": null }
+  }
+}

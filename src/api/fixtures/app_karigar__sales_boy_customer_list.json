@@ -1,0 +1,16 @@
+{
+  "endpoint": "app_karigar/sales_boy_customer_list",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigars": [
+        { "id": 301, "first_name": "rakesh verma", "mobile_no": "9000000301", "date_created": "2026-09-14 11:20:00", "address": "12 gandhi road", "state": "UTTAR PRADESH", "district": "ghaziabad", "city": "sahibabad", "pincode": "201010" },
+        { "id": 302, "first_name": "SUNITA PAWAR", "mobile_no": "9000000302", "date_created": "2026-10-02 16:45:00", "address": "plot 7 shivaji nagar", "state": "maharashtra", "district": "pune", "city": "Hadapsar", "pincode": "411028" },
+        { "id": 303, "first_name": "imran sheikh", "mobile_no": "9000000303", "date_created": "2026-10-21 09:05:00", "address": "4 market lane", "state": "Gujarat", "district": "surat", "city": "surat", "pincode": "395003" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "karigars": [] },
+    "malformed": { "status": "SUCCESS", "karigars": null }
+  }
+}
