@@ -197,6 +197,9 @@ export interface IonFieldProps {
   focused?: boolean;
   underline?: { color: string; inset: boolean } | null; // item-input md underline states (ionic-selectable, plain only)
   itemStyle?: StyleProp<ViewStyle>;
+  // A page's own SCSS overrides of the label (e.g. scan-point.scss restyles the cs-input label: 13px at margin-top -17).
+  // Applied after the variant values, so only the given keys change.
+  labelStyle?: { fontSize?: number; marginTop?: number; paddingLeft?: number };
   // set by IonList (see IonList.tsx): `.list-md > .item-block:last-child .item-inner { border-bottom: 0 }` and [no-lines]
   isLast?: boolean;
   noLines?: boolean;
@@ -223,6 +226,7 @@ export function IonField({
   focused,
   underline,
   itemStyle,
+  labelStyle,
   isLast,
   noLines,
   prevMarginBottom,
@@ -422,6 +426,11 @@ export function IonField({
   }
   if (error && (mainCs || csInput || variant.startsWith('editCs'))) {
     color = csForm.errorBorderColor; // .cs-error / .error ion-label { color: red }
+  }
+  if (labelStyle) {
+    fontSize = labelStyle.fontSize ?? fontSize;
+    paddingLeft = labelStyle.paddingLeft ?? paddingLeft;
+    margins = { ...margins, top: labelStyle.marginTop ?? margins.top };
   }
   const labelHeight = lineHeight ?? normalLineHeight(fontSize);
   const labelFlow = label !== undefined && !absolute ? margins.top + labelHeight + margins.bottom : 0;

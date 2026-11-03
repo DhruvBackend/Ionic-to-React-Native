@@ -23,7 +23,7 @@ import Ajv from 'ajv';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CLIENTS = path.join(ROOT, 'clients');
 const DENSITIES = ['ldpi', 'mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'];
-const SCREEN_ASSETS = ['logo.png', 'banner.png'];
+const SCREEN_ASSETS = ['logo.png', 'banner.png', 'qrcode.png']; // qrcode.png: ScanPoint (scan-point.html:11 assets/imgs/qrcode.png)
 const LANGUAGES = ['en', 'hin', 'nep', 'es'];
 
 function fail(msg) {

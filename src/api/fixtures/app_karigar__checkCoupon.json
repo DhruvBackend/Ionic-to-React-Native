@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/checkCoupon",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "coupon_value": 50, "product_name": "Brass Bib Cock", "product_point_group": "Bib Cock" },
+    "empty": {},
+    "malformed": { "status": "SUCCESS" },
+    "INVALID": { "status": "INVALID" },
+    "USED": {
+      "status": "USED",
+      "scan_date": "2026-10-15 11:20:00",
+      "first_name": "Ramesh",
+      "mobile_no": "9812345670"
+    },
+    "POINTS NOT EXIST": { "status": "POINTS NOT EXIST" },
+    "UNASSIGNED OFFER": { "status": "UNASSIGNED OFFER" },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}
