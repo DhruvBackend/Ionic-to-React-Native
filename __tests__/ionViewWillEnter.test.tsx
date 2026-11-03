@@ -4,6 +4,8 @@
 // (Profile S8 review: ViewProfile modal, profile.ts:277). React Navigation's 'focus' fires in both cases.
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createIonStackNavigator } from '../src/navigation/IonStack';
 import { useIonViewWillEnter } from '../src/navigation/useIonViewWillEnter';
 
 type Listener = () => void;
@@ -75,4 +77,26 @@ test('always calls the latest callback and unsubscribes on unmount', () => {
   ReactTestRenderer.act(() => tree.unmount());
   nav.emit('focus');
   expect(cb).not.toHaveBeenCalled();
+});
+
+// Real navigator (lead check 2026-11-03): React Navigation's first 'focus' reaches the hook, so first entry runs.
+const calls: string[] = [];
+const Stack = createIonStackNavigator();
+function A() {
+  useIonViewWillEnter(() => calls.push('A'));
+  return null;
+}
+test('first focus reaches the hook in a real navigator', async () => {
+  let tree: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(async () => {
+    tree = ReactTestRenderer.create(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="A" component={A} />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+  });
+  expect(calls).toEqual(['A']);
+  await ReactTestRenderer.act(async () => tree!.unmount());
 });
