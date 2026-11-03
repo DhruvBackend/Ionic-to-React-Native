@@ -5,13 +5,9 @@ import { NavigationContext } from '@react-navigation/native';
 import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
+import { navigationRef } from '../../navigation/navigationRef';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
 import TransactionScreen from './index';
-
-jest.mock('../../navigation/navigationRef', () => ({
-  ...jest.requireActual('../../navigation/navigationRef'),
-  navigationRef: { isReady: () => true, getRootState: () => ({ routes: [{ name: 'Transaction' }] }) },
-}));
 
 jest.setTimeout(30000);
 let tree: ReactTestRenderer.ReactTestRenderer;
@@ -413,5 +409,51 @@ describe('navigation (card Nav targets)', () => {
     expect(navigation.push).toHaveBeenLastCalledWith('ShippingDetail', { id: 504 });
     await act(async () => press('transaction-row-0'));
     expect(navigation.push).toHaveBeenLastCalledWith('ShippingDetail', { id: 505 });
+  });
+});
+
+describe('ionViewDidLeave (transaction.ts:143-166)', () => {
+  const stackState = (names: string[]) => ({ type: 'stack', index: names.length - 1, routes: names.map(name => ({ name })) });
+  async function leave(stackRoutes: number, root: any) {
+    jest.spyOn(navigationRef, 'isReady').mockReturnValue(true);
+    jest.spyOn(navigationRef, 'getRootState').mockReturnValue(root);
+    installSpy();
+    const nav = {
+      push: jest.fn(),
+      popToTop: jest.fn(),
+      getState: () => ({ routes: new Array(stackRoutes).fill({}) }),
+      addListener: (type: string, cb: () => void) => {
+        (listeners[type] ||= []).push(cb);
+        return () => {};
+      },
+    };
+    await act(async () => {
+      tree = ReactTestRenderer.create(<TransactionScreen navigation={nav as any} />);
+    });
+    await settle();
+    await act(async () => emit('blur'));
+    return nav;
+  }
+  afterEach(() => jest.restoreAllMocks());
+
+  test('active page is a root page (Home), previous is not, stack has >1 page: popToTop', async () => {
+    const nav = await leave(2, stackState(['Home']));
+    expect(nav.popToTop).toHaveBeenCalledTimes(1);
+  });
+  test('previous page is a root page: nothing', async () => {
+    const nav = await leave(2, stackState(['Home', 'Profile']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
+  });
+  test('single-route stack: nothing to pop', async () => {
+    const nav = await leave(1, stackState(['Home']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
+  });
+  test('active page ShippingDetail (not a root page): nothing', async () => {
+    const nav = await leave(2, stackState(['Home', 'Transaction', 'ShippingDetail']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
+  });
+  test('MainHome is not a root page in this copy of the check', async () => {
+    const nav = await leave(2, stackState(['MainHome']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
   });
 });
