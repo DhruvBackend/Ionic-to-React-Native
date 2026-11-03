@@ -19,7 +19,8 @@ export const styles = StyleSheet.create({
   // [T] 2419-2423 `.enquiry-btn button { width: 100%; height: 46px }`; 2483-2490 `.enquiry-btn.my-btn button { border: 2px solid #fff; box-shadow; radius 6; bg #31A700 }`
   button: { height: 46, borderWidth: 2, borderColor: C.white, borderRadius: 6, boxShadow: C.buttonShadow },
   // [T] 2424-2430 `.enquiry-btn button span p { font-size: 14px; letter-spacing: 2px; color: $white; font-weight: normal }`
-  floatLabel: { fontSize: 15, paddingLeft: 14 },
+  inner: { paddingRight: 0 },
+  floatLabel: { fontSize: 15, paddingLeft: 14, color: C.floatLabel },
   buttonLabel: { fontSize: 14, letterSpacing: 2, color: C.white, fontWeight: '400' },
   // [T] 4311-4328 `.pop-imge a { position: absolute; top: 9px; right: 9px; 30 x 30; background: #d31010; radius 24; flex center }`
   close: {

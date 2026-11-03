@@ -150,6 +150,7 @@ export default function ComplaintHistoryScreen({ navigation, route }: Props) {
   const rows: any[] = Array.isArray(list) ? list : [];
   const smallText = textStyle(12, 400, C.ink, 18);
   const strong = textStyle(12, 700, C.ink, 18);
+  const badgeText = { ...textStyle(10, 600, C.white), letterSpacing: 0.5 }; // `span.cs-badge { letter-spacing: .5px }`
   const callBlock = (mobile: any, id: any, testID: string) => (
     <View style={styles.numberBlock}>
       <Text testID={`${testID}-mobile`} style={textStyle(12, 400, C.ink, 20)}>
@@ -230,12 +231,12 @@ export default function ComplaintHistoryScreen({ navigation, route }: Props) {
                         {`${interp(c.customerName)} `}
                         {type == 'Service' ? ( // eslint-disable-line eqeqeq
                           <View style={styles.badge}>
-                            <Text style={textStyle(10, 600, C.white)}>{`COM#${interp(c.complaintId)}`}</Text>
+                            <Text style={badgeText}>{`COM#${interp(c.complaintId)}`}</Text>
                           </View>
                         ) : null}
                         {type == 'Installation' ? ( // eslint-disable-line eqeqeq
                           <View style={styles.badge}>
-                            <Text style={textStyle(10, 600, C.white)}>{`IR#${interp(c.complaintId)}`}</Text>
+                            <Text style={badgeText}>{`IR#${interp(c.complaintId)}`}</Text>
                           </View>
                         ) : null}
                       </Text>

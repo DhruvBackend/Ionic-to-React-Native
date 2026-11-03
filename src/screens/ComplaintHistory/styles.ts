@@ -47,5 +47,6 @@ export const styles = StyleSheet.create({
   // `a.dialer` is a flex item (a block): the 32px inline-block icon + the line box's 3px strut descent
   dialer: { height: 35 },
   // [T] 12367-12373 `span.cs-badge { padding: 2px; border-radius: 6px }` (inline: the vertical padding only paints)
-  badge: { backgroundColor: C.badgeBg, paddingHorizontal: 2, paddingVertical: 2, marginVertical: -2, borderRadius: 6 },
+  // NOTE (parity): an inline View sits with its bottom on the baseline, Ionic's span background extends below by descent + 2px: shifted 4px down (check on device)
+  badge: { backgroundColor: C.badgeBg, paddingHorizontal: 2, paddingVertical: 2, marginVertical: -2, borderRadius: 6, transform: [{ translateY: 4 }] },
 });

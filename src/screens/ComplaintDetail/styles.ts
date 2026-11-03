@@ -49,7 +49,9 @@ export const styles = StyleSheet.create({
   // [T] 821-827 `.main-field`, 1107-1112 `.remove-padding { background: transparent; width: 100%; height: inherit; padding: 15px }`
   mainField: { backgroundColor: 'transparent', width: '100%', padding: 15, position: 'relative' },
   // `.remove-padding .cs-form ion-list ion-item { width: 74% }`
-  amountItem: { width: '74%' },
+  amountItem: { width: '100%' },
+  amountWrap: { width: '74%' },
+  rupeeIcon: { position: 'absolute', left: 13, top: 27 },
   // [T] 1151-1162 `.rupee-btn { position: absolute; right: 11px; top: 52%; translateY(-50%); height: 42px }` > `button { height: 43px; border-radius: 0; box-shadow: none }`
   rupeeBtn: { position: 'absolute', right: 11, top: '52%', height: 42, transform: [{ translateY: -21 }] },
   rupeeButton: { height: 43, borderRadius: 0, boxShadow: 'none' },

@@ -11,11 +11,13 @@ import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { Text } from '../../components/ionic/IonText';
 import { textStyle } from '../../components/ionic/text';
 import { WebEmbed } from '../../components/WebEmbed';
-import { buttonMd } from '../../theme/ionicMdContent';
+import { SvgXml } from 'react-native-svg';
+import { buttonColors, buttonMd } from '../../theme/ionicMdContent';
 import { complaintMd as C } from '../../theme/ionicMdComplaint';
 import { collapseWs, datePipe, interp } from '../../ui/angularPipes';
 import { showAlert } from '../../ui/overlays';
 import { useLoader } from '../../ui/useLoader';
+import { rupeeSize, rupeeXml } from './rupee';
 import { styles } from './styles';
 
 interface Props {
@@ -270,13 +272,13 @@ export default function ComplaintDetailScreen({ navigation, route }: Props) {
             <View style={styles.borderBox}>
               <View style={styles.boxs}>
                 <Text style={textStyle(12, 400, C.inkSoft)}>Name</Text>
-                <Text testID="plumber-name" style={[textStyle(13, 400, C.inkSoft, 20), styles.capitalize]}>
+                <Text testID="plumber-name" style={[textStyle(13, 500, C.inkSoft, 20), styles.capitalize]}>
                   {d.plumberName ? interp(d.plumberName) : 'NA'}
                 </Text>
               </View>
               <View style={[styles.boxs, styles.boxsLast]}>
                 <Text style={textStyle(12, 400, C.inkSoft)}>Mobile No.</Text>
-                <Text testID="plumber-mobile" style={[textStyle(13, 400, C.inkSoft, 20), styles.capitalize]}>
+                <Text testID="plumber-mobile" style={[textStyle(13, 500, C.inkSoft, 20), styles.capitalize]}>
                   {d.plumberMobileNo ? interp(d.plumberMobileNo) : 'NA'}
                 </Text>
               </View>
@@ -307,6 +309,7 @@ export default function ComplaintDetailScreen({ navigation, route }: Props) {
           <View testID="amount-form" style={styles.mainField}>
             <Text style={[textStyle(16, 500, C.ink, 19), styles.amountHeading]}>Enter Amount If Paid</Text>
             <IonList style={styles.list}>
+              <View style={styles.amountWrap}>
               <IonInputItem
                 testID="amount-payment"
                 variant="csInput"
@@ -318,13 +321,18 @@ export default function ComplaintDetailScreen({ navigation, route }: Props) {
                 // `.remove-padding ... .input-wrapper { padding-left: 32px !important }` + `input { padding-top: 0 !important }`
                 inputStyle={styles.amountInput}
               />
+              {/* `.input-wrapper:after`: rupee.svg 20 x 20 at left 12, vertically centred */}
+              <View style={styles.rupeeIcon} pointerEvents="none">
+                <SvgXml xml={rupeeXml} width={20} height={(20 * rupeeSize) / rupeeSize} />
+              </View>
+              </View>
             </IonList>
-            {/* NOTE (parity, not 1:1): the 20 x 20 rupee.svg drawn at left 12 (`.input-wrapper:after`) is a client picture not in clients/<id>/assets (STOP item) */}
             <View style={styles.rupeeBtn}>
               {/* `[disabled]="amount.payment==0"`: loose, so '' / '0' / '00' disable it and an untouched (undefined) model does not */}
               <IonButton
                 testID="amount-submit"
                 background={C.green}
+                activatedBackground={buttonColors('primary').solid.activated} // `.button-md-primary.activated` beats the non-!important `.rupee-btn button`
                 style={styles.rupeeButton}
                 disabled={(payment as any) == 0} // eslint-disable-line eqeqeq
                 onPress={saveAmount}

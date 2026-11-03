@@ -70,8 +70,9 @@ export default function CancelComplaintScreen({ navigation, route }: Props) {
               value={remark ?? ''}
               onChangeText={setRemark}
               itemStyle={styles.item}
-              // NOTE (parity): global `.cs-textarea` floating label is 15px / #949494 / padding-left 14 / weight 400
+              // global `.cs-textarea` floating label: 15px / #949494 !important / padding-left 14
               labelStyle={styles.floatLabel}
+              innerStyle={styles.inner} // `.cs-textarea .item-inner { padding-right: 0 }`
             />
           </IonList>
           {/* html:23-28 .enquiry-btn.my-btn > button[color=danger] > p */}
