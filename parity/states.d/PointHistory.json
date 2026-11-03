@@ -1,0 +1,130 @@
+[
+  {
+    "id": "PointHistory.scan",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/couponHistory": "history"
+    },
+    "params": {
+      "scan": "scan"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Entered from PointList (Earn By Scan Points). Plumber sees the Seller line (when sales_boy_name != '') and coupon_value."
+  },
+  {
+    "id": "PointHistory.scanDealer",
+    "screen": "PointHistory",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/couponHistory": "history"
+    },
+    "params": {
+      "scan": "scan"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Dealer / Sales_Boy: Plumber Detail line (when plumber_name != '') and sales_boy_coupon_value."
+  },
+  {
+    "id": "PointHistory.service",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getPlumberComplaintList": "history"
+    },
+    "params": {
+      "service": "service"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Earn By Service History (Plumber only). Row 2 has plumber_payment 0: an empty div; row 3 has no payment date."
+  },
+  {
+    "id": "PointHistory.referal",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/referal_logs": "history"
+    },
+    "params": {
+      "referal": "referal"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Earn By Referal History."
+  },
+  {
+    "id": "PointHistory.redeem",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/transaction": "redeem"
+    },
+    "params": {
+      "redeem": "redeem"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Redeem History: Pending, Approved, Reject (reason + Refunded), Shipped, Received, Transfered rows."
+  },
+  {
+    "id": "PointHistory.scanEmpty",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/couponHistory": "empty"
+    },
+    "params": {
+      "scan": "scan"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "coupon: []: the no-data picture shows but the 'Please wait...' loader is never dismissed (getCoupanHistory, point-history.ts:104-110)."
+  },
+  {
+    "id": "PointHistory.redeemEmpty",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/transaction": "empty"
+    },
+    "params": {
+      "redeem": "redeem"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "transaction: []: the no-data picture (it also shows before the response); the loader is dismissed."
+  },
+  {
+    "id": "PointHistory.hin",
+    "screen": "PointHistory",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {
+      "app_karigar/couponHistory": "history"
+    },
+    "params": {
+      "scan": "scan"
+    },
+    "ionicNav": "nav.setRoot(Page('PointHistory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): title and labels come from hin.json."
+  }
+]
