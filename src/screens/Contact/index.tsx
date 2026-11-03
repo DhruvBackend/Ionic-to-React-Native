@@ -72,7 +72,6 @@ export default function ContactScreen({ navigation }: Props) {
       <IonContent onLayout={e => setViewport(e.nativeEvent.layout.height)}>
         <View testID="contact-body" style={{ height: viewport }}>
           {/* html:12 `<iframe src=... width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy">` */}
-          {/* NOTE (parity): the inline iframe leaves the ~4px descender gap below it in Ionic (the page scrolls by that much); not drawn here. */}
           <WebEmbed testID="contact-map" uri={client.contact.mapEmbedUrl} height="100%" border="none" iframe />
           {/* html:13-37 */}
           <View style={styles.mapAdd}>
@@ -100,6 +99,8 @@ export default function ContactScreen({ navigation }: Props) {
             </View>
           </View>
         </View>
+        {/* NOTE (parity): descender gap below the inline iframe, outside the body so .map-add stays bottom-aligned */}
+        <View testID="contact-gap" style={{ height: 4 }} />
       </IonContent>
     </View>
   );

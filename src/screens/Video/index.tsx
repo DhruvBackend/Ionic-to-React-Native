@@ -15,10 +15,23 @@ import { collapseWs, interp, titlecase } from '../../ui/angularPipes';
 import { md } from '../../theme/ionicMd';
 import { useLoader } from '../../ui/useLoader';
 import { imgSize, nothingXml } from './nothing';
-import { descColor, styles } from './styles';
+import { descColor, iframeGap, styles } from './styles';
 
 // app.getActiveNav() page names that video.ts:101-111 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
+
+// NOTE (parity, unverified on device; check with the Ionic DOM probe): video.html:20 binds [src]="list.url" and loadData (video.ts:84-86)
+// runs bypassSecurityTrustResourceUrl over the WHOLE list again, so an already-wrapped url becomes SafeValue(SafeValue(url)); Angular 5 then
+// sets src to the SafeValue's toString(): "SafeValue must use [property]=binding: <url> (see http://g.co/ng/security#xss)" (nested once more per
+// extra load). `__wraps` counts the wraps of an item (1 = plain url).
+const unsafe = (inner: string) => `SafeValue must use [property]=binding: ${inner} (see http://g.co/ng/security#xss)`;
+function shownUrl(item: any): string {
+  let s = interp(item.url);
+  for (let k = 1; k < (item.__wraps ?? 1); k++) {
+    s = unsafe(s);
+  }
+  return s;
+}
 
 interface Props {
   navigation: {
@@ -91,8 +104,8 @@ export default function VideoScreen({ navigation, route }: Props) {
           return;
         }
         if (alive.current) {
-          listRef.current = next;
-          setVideoList(next);
+          listRef.current = next.map((x: any) => (x && typeof x === 'object' ? { ...x, __wraps: 1 } : x));
+          setVideoList(listRef.current);
           setLoadData0(1); // :54
         }
         // :56-58 each url goes through bypassSecurityTrustResourceUrl: RN loads the string as is.
@@ -122,10 +135,10 @@ export default function VideoScreen({ navigation, route }: Props) {
             setFlag(1);
           }
         } else if (Array.isArray(r.video)) {
-          // NOTE (parity): Ionic re-wraps every url of the whole list with bypassSecurityTrustResourceUrl here, including the ones that are
-          // already wrapped from the first page (:84-86); RN keeps plain strings (see the report).
           setTimeout(() => {
-            listRef.current = listRef.current.concat(r.video); // :82
+            listRef.current = listRef.current
+              .map((x: any) => ({ ...x, __wraps: (x.__wraps ?? 1) + 1 })) // :84-86 re-wrapped
+              .concat(r.video.map((x: any) => ({ ...x, __wraps: 1 }))); // :82
             if (alive.current) {
               setVideoList(listRef.current);
             }
@@ -170,7 +183,8 @@ export default function VideoScreen({ navigation, route }: Props) {
           <View key={i} testID={`video-item-${i}`}>
             {/* html:20 `<iframe [src]="list.url" width="100%" height="180" rameborder="0" ...>`: the misspelt attribute keeps the default
                 inset border (see WebEmbed) */}
-            <WebEmbed testID={`video-embed-${i}`} uri={interp(list.url)} height={180} border="inset" iframe />
+            <WebEmbed testID={`video-embed-${i}`} uri={shownUrl(list)} height={180} border="inset" iframe />
+            <View testID={`video-gap-${i}`} style={{ height: iframeGap }} />
             <View style={styles.vidText}>
               <Text testID={`video-desc-${i}`} style={textStyle(13, 400, descColor, 20)}>
                 {interp(list.desc)}

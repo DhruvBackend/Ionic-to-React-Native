@@ -2,6 +2,13 @@
 // Citations: [T] variables.scss line (Ionic source).
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
+import { videoMd } from '../../theme/ionicMdVideo';
+
+// [T] 3976-3979 `.video .vid-text p { font-size: 13px; color; line-height: 20px }`
+export const descColor = videoMd.descColor;
+
+// the inline <iframe> (html:20) leaves the descender gap (~4px at 14px Roboto) below it, before `.vid-text`
+export const iframeGap = 4;
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
@@ -17,7 +24,3 @@ export const styles = StyleSheet.create({
   vidText: { marginTop: 10, marginRight: 16, marginBottom: 20, marginLeft: 16 },
 });
 
-// [T] 3976-3979 `.video .vid-text p { font-size: 13px; color: #305E6B; line-height: 20px; white-space: normal }`
-// NOTE (parity): the colour is hardcoded in the Ionic template (same for every client) and has no token in src/theme yet.
-// eslint-disable-next-line no-restricted-syntax -- template colour from variables.scss:3977, not a client colour
-export const descColor = '#305E6B';

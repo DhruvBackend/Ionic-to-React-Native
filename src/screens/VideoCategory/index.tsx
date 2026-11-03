@@ -15,7 +15,7 @@ import { collapseWs } from '../../ui/angularPipes';
 import { colors } from '../../theme';
 import { md } from '../../theme/ionicMd';
 import { imgSize as noFoundSize, noFoundXml } from './noFound';
-import { headerOffset, styles } from './styles';
+import { styles } from './styles';
 
 interface Props {
   navigation: { push: (name: string, params?: object) => void };
@@ -84,10 +84,10 @@ export default function VideoCategoryScreen({ navigation }: Props) {
 
       {/* html:11-23 `<ion-content padding class="listing mt0">` */}
       <IonContent padding onLayout={e => setViewport(e.nativeEvent.layout.height)}>
-        {/* html:12-14. NOTE (parity): `.mt0` puts the content under the header, so `calc(100% - 50px)` is of the page height minus the 32px
-            padding, and the block starts at the page top + 16 (see styles.headerOffset). */}
+        {/* html:12-14. NOTE (parity): `.mt0` on the host only cancels `.listing`'s margin; the scroll-content keeps the header margin. `.data-not` is
+            `calc(100% - 50px)` of the scroll-content's content box (viewport - 32 padding). */}
         {noRec ? (
-          <View testID="videocat-empty" style={[styles.dataNot, { height: Math.max(viewport + headerOffset - 32 - 50, 0) }]}>
+          <View testID="videocat-empty" style={[styles.dataNot, { height: Math.max(viewport - 32 - 50, 0) }]}>
             <SvgXml xml={noFoundXml} width={(imgH * noFoundSize.width) / noFoundSize.height} height={imgH} />
           </View>
         ) : null}

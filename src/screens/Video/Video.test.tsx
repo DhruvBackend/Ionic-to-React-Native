@@ -211,3 +211,18 @@ describe('ionViewDidLeave (video.ts:98-120)', () => {
     expect(nav.popToTop).not.toHaveBeenCalled();
   });
 });
+
+describe('load more re-wrap (video.ts:84-86, unverified on device)', () => {
+  test('first-page urls become the SafeValue string after a load more, new ones stay plain', async () => {
+    installSpy();
+    await mount();
+    const first = find('video-embed-0')[0].props.uri;
+    await act(async () => {
+      infinite().props.onInfinite({ complete: jest.fn() });
+    });
+    await settle();
+    expect(find('video-embed-0')[0].props.uri).toBe(`SafeValue must use [property]=binding: ${first} (see http://g.co/ng/security#xss)`);
+    expect(find('video-embed-2')[0].props.uri).toBe(first);
+    expect(exists('video-gap-0')).toBe(true);
+  });
+});
