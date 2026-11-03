@@ -31,10 +31,10 @@ export default function PointtranferScreen({ navigation, route }: Props) {
   const [istrue, setIstrue] = useState(false); // :22 `istrue` (button [disabled]); set only after SUCCESS
 
   // :35-45 showSuccess(text): translate.get('Alert') -> alertCtrl.create({title: resp+'!', subTitle: text, buttons: ['ok']})
-  // NOTE (parity): the button text is the lowercase 'ok' (the md alert upper-cases it); the message is not translated. HTML collapses the
-  // double spaces of "Please  Enter Transfer Amount" / "You Can  Transfer Only ..." when the subTitle is rendered.
+  // NOTE (parity): the button text is the lowercase 'ok' (the md alert upper-cases it); the message is not translated. The kit alert collapses the
+  // double spaces of "Please  Enter Transfer Amount" / "You Can  Transfer Only ..." like innerHTML.
   function showSuccess(text: string) {
-    showAlert({ title: t('Alert') + '!', subTitle: collapseWs(text), buttons: ['ok'] });
+    showAlert({ title: t('Alert') + '!', subTitle: text, buttons: ['ok'] });
   }
 
   // :46-53 PointList() from ionViewDidLoad (:29-32), no loader, no error callback

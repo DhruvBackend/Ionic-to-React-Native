@@ -127,18 +127,18 @@ describe('submit validation (no request, alert "Alert!")', () => {
     expect(lastAlert().options).toMatchObject({ title: 'Alert!', subTitle: 'Please Enter a Mobile Number', buttons: ['ok'] });
     expect(callsTo('app_karigar/plumber_transfer_points')).toHaveLength(0);
   });
-  test('empty amount: the double space of the Ionic text collapses when rendered', async () => {
+  test('empty amount: exact Ionic text, double space kept', async () => {
     await mount();
     await type('mobile-input', '9812345670');
     await submit();
-    expect(lastAlert().options.subTitle).toBe('Please Enter Transfer Amount');
+    expect(lastAlert().options.subTitle).toBe('Please  Enter Transfer Amount');
   });
   test('amount above the limit (500): "You Can Transfer Only 500 Point"', async () => {
     await mount();
     await type('mobile-input', '9812345670');
     await type('points-input', '600');
     await submit();
-    expect(lastAlert().options.subTitle).toBe('You Can Transfer Only 500 Point ');
+    expect(lastAlert().options.subTitle).toBe('You Can  Transfer Only 500 Point ');
     expect(callsTo('app_karigar/plumber_transfer_points')).toHaveLength(0);
   });
   test('limit string from the server: compared as strings ("500" < "60")', async () => {
@@ -147,7 +147,7 @@ describe('submit validation (no request, alert "Alert!")', () => {
     await type('mobile-input', '9812345670');
     await type('points-input', '60');
     await submit();
-    expect(lastAlert().options.subTitle).toBe('You Can Transfer Only 500 Point ');
+    expect(lastAlert().options.subTitle).toBe('You Can  Transfer Only 500 Point ');
   });
   test('limit answer missing (empty): limit is undefined, the compare is false and the transfer goes on', async () => {
     setFixtureVariant('app_karigar/plumber_limit', 'empty');
@@ -164,7 +164,7 @@ describe('submit validation (no request, alert "Alert!")', () => {
     await type('mobile-input', '9812345670');
     await type('points-input', '5');
     await submit();
-    expect(lastAlert().options.subTitle).toBe('You Can Transfer Only 0 Point ');
+    expect(lastAlert().options.subTitle).toBe('You Can  Transfer Only 0 Point ');
   });
   test('amount above the balance (but within the limit): "You Have Insufficient Balence"', async () => {
     await mount({ totalPoint: 50 });

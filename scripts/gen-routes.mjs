@@ -44,7 +44,7 @@ for (const name of screens) {
   const m = fs.readFileSync(routeFile, 'utf8').match(/name:\s*['"]([^'"]+)['"]/);
   if (!m) errors.push(`${name}: route.ts has no name`);
   else if (m[1] !== name) errors.push(`${name}: route.ts name "${m[1]}" must equal the folder name`);
-  const modal = /presentation:s*['"]modal['"]/.test(fs.readFileSync(routeFile, 'utf8'));
+  const modal = /presentation:\s*['"]modal['"]/.test(fs.readFileSync(routeFile, 'utf8'));
   if (modal !== MODAL_PAGES.has(name))
     errors.push(`${name}: presentation must be ${MODAL_PAGES.has(name) ? "'modal'" : "'card'"} (src/navigation/ionicModalPages.json)`);
 }

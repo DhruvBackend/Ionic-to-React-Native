@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/saveCoupon",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "empty": {},
+    "malformed": { "status": null },
+    "FAILURE": { "status": "FAILURE" },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

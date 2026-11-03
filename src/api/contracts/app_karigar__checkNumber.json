@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/checkNumber",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "mobile_no": "9810000011", "karigar_id": "900002" },
+  "ionicSource": "src/pages/scan-point/scan-point.ts:319"
+}
