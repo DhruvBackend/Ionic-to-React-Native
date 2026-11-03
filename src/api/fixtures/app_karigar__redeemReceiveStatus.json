@@ -1,0 +1,8 @@
+{
+  "endpoint": "app_karigar/redeemReceiveStatus",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "malformed": null
+  }
+}

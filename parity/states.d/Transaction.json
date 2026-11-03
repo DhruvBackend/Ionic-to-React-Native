@@ -1,0 +1,27 @@
+[
+  {
+    "id": "Transaction.default",
+    "screen": "Transaction",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Transaction'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "PUSH-ONLY (push notification type 'redeem'; push is off for Topbath, so this is the template/push-enabled clients' view). Five rows: Pending, Approved, Reject (reason + Refunded), Shipped (Receive button), Received."
+  },
+  {
+    "id": "Transaction.empty",
+    "screen": "Transaction",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/transaction": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Transaction'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

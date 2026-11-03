@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/redeemReceiveStatus",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "id": 501, "karigar_id": "900001" },
+  "ionicSource": "src/pages/transaction/transaction.ts:96"
+}
