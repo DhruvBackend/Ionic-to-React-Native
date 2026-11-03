@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   itemFlex: {},
   // [P] 52-61 `.product-img { width: 90px; height: 90px; display: flex; align-items: center; justify-content: center } img { width: 100% }`
   productImg: { width: 90, height: 90, alignItems: 'center', justifyContent: 'center' },
-  productImgImg: { width: '100%' },
+  productImgImg: { width: 90 },
   // [P] 38 `.data-action { min-width: 30px }` with `.fab[mini] { width: 30px; height: 30px; margin: 0 }`
   dataAction: { minWidth: 30 },
 });

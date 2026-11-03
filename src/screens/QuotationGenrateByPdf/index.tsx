@@ -34,6 +34,25 @@ function Line({ label, value, testID }: { label: string; value: any; testID?: st
   );
 }
 
+// html:174-176 `.product-img img { width: 100% }` in a 90x90 flex box: the natural aspect ratio, centred (Image.getSize, as GiftDetail does).
+// NOTE (parity): a failed / not yet loaded picture draws nothing (Chrome's broken-image box is not reproduced).
+function RowImage({ uri, testID }: { uri: string; testID: string }) {
+  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
+  useEffect(() => {
+    let live = true;
+    setNatural(null);
+    Image.getSize?.(
+      uri,
+      (w, h) => live && setNatural({ w, h }),
+      () => {},
+    );
+    return () => {
+      live = false;
+    };
+  }, [uri]);
+  return <Image testID={testID} source={{ uri }} style={[styles.productImgImg, { height: natural ? (90 * natural.h) / natural.w : 0 }]} />;
+}
+
 // NOTE (parity): the module has no TranslateModule and the page has no `| translate`: every text is literal.
 export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
   // :34-40 constructor: data / filter are plain objects mutated in place (ngModel targets); keys appear in typing order
@@ -320,11 +339,10 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
                 </View>
               </View>
               <View style={styles.productImg}>
-                <Image testID={`quotation-img-${i}`} source={{ uri: interp(db.product_image_url + row.actual_image_name) }} resizeMode="stretch" style={styles.productImgImg} />
+                <RowImage testID={`quotation-img-${i}`} uri={interp(db.product_image_url + row.actual_image_name)} />
               </View>
               <View style={styles.dataAction}>
-                {/* NOTE (parity): `.fab[mini]` is 30x30 with a 2rem icon on this page; the kit's mini fab is 40 (see report) */}
-                <IonFabButton testID={`delete-${i}`} color={'red' as any} mini icon="trash" onPress={() => deleteItem(i)} />
+                                <IonFabButton testID={`delete-${i}`} color={'red' as any} mini size={30} iconSize={20} icon="trash" onPress={() => deleteItem(i)} />
               </View>
             </View>
           ))}
