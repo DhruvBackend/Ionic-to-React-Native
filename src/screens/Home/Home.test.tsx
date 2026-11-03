@@ -10,9 +10,24 @@ import { resetMockNative, setMockScan, setMockNativeFailure } from '../../native
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
 import HomeScreen from './index';
 
+jest.mock('../../native', () => ({ ...jest.requireActual('../../native'), shareText: jest.fn() }));
+
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
-const navigation = { push: jest.fn() };
+let navHandlers: Record<string, () => void> = {};
+const navigation = {
+  push: jest.fn(),
+  addListener: (e: string, cb: () => void) => {
+    navHandlers[e] = cb;
+    return () => {};
+  },
+};
+// the navigator's first 'focus' event (useIonViewWillEnter runs ionViewWillEnter on it)
+async function fireFocus() {
+  await act(async () => {
+    navHandlers.focus?.();
+  });
+}
 let calls: ApiRequest[] = [];
 let restoreTransport: () => void = () => {};
 
@@ -36,6 +51,7 @@ async function mount(role: string | null = 'Plumber', overrides: object = {}) {
   await act(async () => {
     tree = ReactTestRenderer.create(<HomeScreen navigation={navigation as any} />);
   });
+  await fireFocus();
   await settle();
 }
 const find = (id: string) => tree.root.findAll(n => n.props.testID === id);
@@ -64,6 +80,7 @@ beforeEach(async () => {
   resetMockNative();
   _resetOverlaysForTests();
   navigation.push.mockClear();
+  navHandlers = {};
   calls = [];
   await act(async () => {
     await i18n.changeLanguage('en');
@@ -238,6 +255,7 @@ describe('loader', () => {
     await act(async () => {
       tree = ReactTestRenderer.create(<HomeScreen navigation={navigation as any} />);
     });
+    await fireFocus();
     const l = overlays().find(o => o.kind === 'loading')!;
     expect(l.options).toMatchObject({ content: 'Please wait...', dismissOnPageChange: true });
   });
@@ -424,11 +442,22 @@ describe('handlers and alerts', () => {
       expect(lastAlert().options).toMatchObject({ title: 'Success!', cssClass: 'action-close', subTitle: '50 points has been added into your wallet' });
       expect(fnsCalled().filter(f => f === 'app_karigar/karigarHome')).toHaveLength(2);
     });
-    test('USED with no karigar_data: nothing shown (Ionic throws inside the subscribe callback)', async () => {
-      setFixtureVariant('app_karigar/karigarCoupon', 'malformed');
+    test('malformed coupon answer (SUCCESS without coupon_value): success alert with "undefined"', async () => {
       await scanWith('malformed');
-      expect(lastAlert().options.title).toBe('Success!'); // malformed = SUCCESS without coupon_value
+      expect(lastAlert().options.title).toBe('Success!');
       expect(lastAlert().options.subTitle).toBe('undefined points has been added into your wallet');
+    });
+    test('USED without karigar_data: no alert (Ionic throws inside the subscribe callback)', async () => {
+      const prev = getTransport();
+      setTransport(req => (req.fn === 'app_karigar/karigarCoupon' ? Promise.resolve({ status: 'USED', scan_date: '2026-10-15 11:20:00' }) : prev(req)));
+      setMockScan('QR-1');
+      await mount('Plumber');
+      await press('home-scan');
+      await act(async () => {
+        alertOf().options.buttons[1].handler('scan');
+      });
+      await settle();
+      expect(overlays().filter(o => o.kind === 'alert' && !o.leaving)).toHaveLength(1); // only the radio alert
     });
     test('scanner cancelled / denied: no request', async () => {
       setMockScan('');
@@ -469,31 +498,52 @@ describe('quirks', () => {
   });
 
   test('ionViewWillEnter again on a later focus (navigation focus event after a blur)', async () => {
-    const handlers: Record<string, () => void> = {};
-    const nav = {
-      push: jest.fn(),
-      isFocused: () => true,
-      addListener: (e: string, cb: () => void) => {
-        handlers[e] = cb;
-        return () => {};
-      },
-    };
-    db.userStorageData = { ...(sessions as any).Plumber };
-    await act(async () => {
-      tree = ReactTestRenderer.create(<HomeScreen navigation={nav as any} />);
-    });
-    await settle();
-    await act(async () => {
-      handlers.focus(); // the first appearance: no second getData
-    });
-    await settle();
+    await mount('Plumber');
     expect(fnsCalled().filter(f => f === 'app_karigar/karigarHome')).toHaveLength(1);
     await act(async () => {
-      handlers.blur();
-      handlers.focus();
+      navHandlers.blur();
     });
+    await fireFocus();
     await settle();
     expect(fnsCalled().filter(f => f === 'app_karigar/karigarHome')).toHaveLength(2);
     expect(fnsCalled().filter(f => f === 'app_karigar/offerList')).toHaveLength(2);
+    expect(fnsCalled().filter(f => f === 'app_karigar/loginBannersApp')).toHaveLength(1); // constructor only
+  });
+
+  test('null karigarHome body keeps karigar_detail {}: handlers say "not verified" (home.ts:210 throws before assigning)', async () => {
+    const prev = getTransport();
+    setTransport(req => (req.fn === 'app_karigar/karigarHome' ? Promise.resolve(null) : prev(req)));
+    await mount('Plumber');
+    await press('home-scan');
+    expect(alertOf().options.subTitle).toBe('You are account  not verified');
+  });
+
+  test('ShareApp: text with the app name, store id and referral code', async () => {
+    const share = require('../../native').shareText as jest.Mock;
+    share.mockClear();
+    const { client } = require('../../config/client');
+    await mount('Plumber');
+    await press('home-share');
+    expect(share).toHaveBeenCalledWith(
+      'Hey There ! here is an awesome app from ' + client.appName + '  ..Give it a try https://play.google.com/store/apps/details?id=' + client.playStoreId +
+        ' and use my Code *TST001* to get points back in your wallet',
+    );
+  });
+
+  test('Customer: New Arrivals, Customer Care tel: link', async () => {
+    const open = jest.spyOn(require('react-native').Linking, 'openURL').mockResolvedValue(true);
+    const { client } = require('../../config/client');
+    await mount('Customer');
+    await press('home-new-arrivals');
+    expect(navigation.push).toHaveBeenCalledWith('Newarrivals');
+    await press('home-customer-care');
+    expect(open).toHaveBeenCalledWith('tel:' + client.contact.phone);
+    open.mockRestore();
+  });
+
+  test('Sales_Boy: Our Products box opens Category', async () => {
+    await mount('Sales_Boy');
+    await press('home-box-products');
+    expect(navigation.push).toHaveBeenCalledWith('Category', { mode: 'home' });
   });
 });

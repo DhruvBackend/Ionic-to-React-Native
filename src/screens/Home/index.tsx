@@ -10,12 +10,15 @@ import { IonBarButton, IonButtons, IonHeader, IonToolbar } from '../../component
 import { IonRefresher, IonRefresherContent } from '../../components/ionic/IonRefresher';
 import { IonSlide, IonSlides } from '../../components/ionic/IonSlides';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
+import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { client } from '../../config/client';
 import { scanQr, shareText, initPushNotification } from '../../native';
 import { colors } from '../../theme';
 import { homeMd } from '../../theme/ionicMdHome';
+import { toolbarMd } from '../../theme/ionicMdPage';
 import { showAlert, showToast } from '../../ui/overlays';
 import { useLoader } from '../../ui/useLoader';
+import { formatScanDate } from './scanDate';
 import { AutoImage, GroupButton, SvgImg } from './parts';
 import { styles } from './styles';
 
@@ -27,23 +30,11 @@ const bannerPng = require('../../assets/client/banner.png');
 const receiptPng = require('../../assets/client/receipt.png');
 
 interface Props {
-  navigation: { push: (name: string, params?: object) => void; addListener?: (e: string, cb: () => void) => () => void; isFocused?: () => boolean };
+  navigation: { push: (name: string, params?: object) => void; addListener?: (e: string, cb: () => void) => () => void };
 }
 
 // Angular `{{value}}`: null / undefined print nothing.
 const show = (v: any) => (v === null || v === undefined ? '' : String(v));
-
-// home.ts:390 `moment(scan_date).format("D-M-Y")`: day and month without a leading zero, then the year. moment is not a dependency of
-// the RN app, so the ISO-like 'YYYY-MM-DD[ HH:mm:ss]' the server sends is read directly; anything else goes through Date, and
-// an unreadable value prints moment's "Invalid date".
-function formatScanDate(v: any): string {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v));
-  if (m) {
-    return `${Number(m[3])}-${Number(m[2])}-${m[1]}`;
-  }
-  const d = new Date(v);
-  return isNaN(d.getTime()) ? 'Invalid date' : `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
-}
 
 // Ionic `*ngIf="x.length"` on a null from the server throws inside the template (blank page); RN shows the empty branch instead.
 const list = (v: any): any[] => (Array.isArray(v) ? v : []);
@@ -87,7 +78,12 @@ export default function HomeScreen({ navigation }: Props) {
         if (!mounted.current) {
           return;
         }
-        karigarDetail.current = r?.karigar;
+        // NOTE (parity): a null body makes `r['karigar']` throw BEFORE the assignment, so karigar_detail stays {} (handlers then
+        // answer 'not verified'); a body without karigar assigns undefined first.
+        if (r === null || r === undefined) {
+          return;
+        }
+        karigarDetail.current = r.karigar;
         // NOTE (parity): `r['karigar'].total_balance` throws a TypeError when karigar is null/missing; Ionic's subscribe callback
         // dies there, so the points, total and notification count keep their old values and every handler that reads
         // karigar_detail later throws too (swallowed by safe()).
@@ -154,7 +150,9 @@ export default function HomeScreen({ navigation }: Props) {
     }
   }, [getData, getofferBannerList]);
 
-  const entered = useRef(false);
+  // :152 ionViewWillEnter: first entry and every re-entry (not after a dismissed modal). NOTE: loader/overlapping-request race
+  // (a refresh while the entry request is pending: the first answer closes the only loader) is not reproduced.
+  useIonViewWillEnter(willEnter, { navigation: navigation.addListener ? (navigation as any) : undefined });
   useEffect(() => {
     mounted.current = true;
     // constructor, :95-120 (in this order)
@@ -163,25 +161,9 @@ export default function HomeScreen({ navigation }: Props) {
     getCountWithLiveServer(); // :104
     // NOTE (parity): :111-114 events.subscribe('getCountProducts', ...) is not ported: nothing publishes that event (its only
     // publish, offline-db.ts:147, is commented out) and its handler would call get_count(), which is commented out too.
-    entered.current = navigation.isFocused ? navigation.isFocused() : true;
-    if (entered.current) {
-      willEnter();
-    }
-    const unsubFocus = navigation.addListener?.('focus', () => {
-      if (entered.current) {
-        entered.current = false; // the focus event of the first appearance: willEnter already ran
-        return;
-      }
-      willEnter();
-    });
-    const unsubBlur = navigation.addListener?.('blur', () => {
-      entered.current = false;
-    });
     return () => {
       mounted.current = false;
       clearTimeout(refreshTimer.current);
-      unsubFocus?.();
-      unsubBlur?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -488,11 +470,11 @@ export default function HomeScreen({ navigation }: Props) {
       {offers.length ? (
         <IonSlides testID="home-offer-slides">
           {offers.map((o: any, i: number) => (
-            <IonSlide key={i}>
-              <Pressable onPress={safe(() => goOnOffersPage(o.id))}>
+            <Pressable key={i} onPress={safe(() => goOnOffersPage(o.id))}>
+              <IonSlide>
                 <AutoImage uri={imageUrl + o.offer_banner} />
-              </Pressable>
-            </IonSlide>
+              </IonSlide>
+            </Pressable>
           ))}
         </IonSlides>
       ) : banners.length ? (
@@ -528,7 +510,7 @@ export default function HomeScreen({ navigation }: Props) {
               <IonButtons>
                 <IonBarButton testID="home-notifications" onPress={safe(goOnnotification)}>
                   <View style={styles.barIcon}>
-                    <IonIcon name="notifications" size={25.2} color={colors.primary} />
+                    <IonIcon name="notifications" size={toolbarMd.iconOnlyButton.iconSize} color={colors.primary} />
                   </View>
                   <View style={styles.badge}>
                     <Text testID="home-badge" style={styles.badgeText}>{show(notificationCount)}</Text>

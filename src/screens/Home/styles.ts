@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  badgeText: textStyle(homeMd.badge.fontSize, 400, toolbarColors.white.text),
+  badgeText: textStyle(homeMd.badge.fontSize, 500, toolbarColors.white.text),
 
   // `.banner { overflow: hidden }`
   banner: { overflow: 'hidden' },

@@ -45,7 +45,7 @@ export function AutoImage({ source, uri, testID }: { source?: ImageSourcePropTyp
   const width = natural && box ? Math.min(natural.w, box) : 0;
   const height = natural && width ? (width * natural.h) / natural.w : 0;
   return (
-    <View testID={testID} style={{ width: '100%' }} onLayout={e => setBox(e.nativeEvent.layout.width)}>
+    <View testID={testID} style={{ width: '100%', alignItems: 'center' }} onLayout={e => setBox(e.nativeEvent.layout.width)}>
       {width > 0 ? (
         <Image source={uri ? { uri } : source!} style={{ width, height }} resizeMode="stretch" />
       ) : null}
@@ -116,6 +116,7 @@ export function GroupButton({
         <MaterialIcon name={icon} color={fg} />
         <Text
           numberOfLines={1}
+          ellipsizeMode="clip" // `.button { white-space: nowrap }` clips, the inner row has no text-overflow
           style={{
             ...textStyle(fontSize, buttonMd.textWeight, fg, box.lineHeight),
             marginVertical: box.marginVertical,
