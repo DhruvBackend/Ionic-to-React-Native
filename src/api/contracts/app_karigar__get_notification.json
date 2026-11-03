@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_notification",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "900001", "limit": 0 },
+  "ionicSource": "src/pages/notification/notification.ts:62 (constructor, limit = data.length = 0). The infinite scroll at :86 sends the same body through post_rqst (tokenOnly headers), which one contract file cannot record: the test checks that call by hand."
+}

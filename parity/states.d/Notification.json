@@ -1,0 +1,25 @@
+[
+  {
+    "id": "Notification.default",
+    "screen": "Notification",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Notification'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pushed from Home's header bell (no params). Five rows, the unread-looking ones (read 1) with the light blue background; the infinite scroll element sits below the list."
+  },
+  {
+    "id": "Notification.empty",
+    "screen": "Notification",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/get_notification": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Notification'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
