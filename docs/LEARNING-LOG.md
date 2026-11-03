@@ -567,3 +567,15 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Copy framework bugs too.** Ionic's video list wraps every URL again on "load more", and Angular 5 then turns the old iframes' address into an error string. The port reproduces it, and it is flagged for a device check.
 
 **Interview angle:** "How do you scale code review with AI agents without losing quality?" → give every change an independent reviewer that sees only the diff and the original, cap the fix loops, batch similar work so one reviewer can compare like with like, and verify the fixes yourself instead of re-reviewing everything.
+
+## 2026-11-04 — Phase 4: when the kit is the bottleneck
+
+**What:** Ported the 15 complaint and service screens in 7 batches. Seven screens needed a kit piece the screen could not build itself: a star with no space before it, a label colour, a pressed colour, an icon after the text, a select inside a search row. Each became a small, default-preserving kit prop with a test, added by the lead on master and then picked up by the screen.
+
+**Learned:**
+- **"STOP and report" protects the shared code.** Agents could have copied kit code into screens. Stopping meant one tested change in one place, which every later screen can use.
+- **Settle CSS arguments with the shipped file, not memory.** Two reviewers disagreed with an implementer about an icon's size and margin. One grep in the app's real compiled `main.css` showed that `.ml10` exists and that the 1.4em icon rule needs an attribute the button didn't have.
+- **Order your batches by shared endpoints.** Screens sharing an endpoint ran in the same batch or a later wave, so no two branches created the same fixture file.
+- **Faithful sometimes means unusable.** In Ionic, the search box on My Complaints can't be typed into, because the status dropdown's invisible cover sits over the whole row. The copy reproduces it, and it is flagged for the phone check.
+
+**Interview angle:** "How do you keep a shared UI library clean when many people (or agents) need small variations?" → variations go into the library as small optional props with defaults that change nothing, each with a test and a source citation; screens never fork library code; and disputes are decided by measuring the real target (here, the shipped CSS).

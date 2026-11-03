@@ -2,6 +2,14 @@
 
 *Written 2026-11-03 (~19:00) at the end of session 3, to start **Phase 3** in a fresh session. Read this file first, then the plan sections it points to.*
 
+## Update 2026-11-04 (session 4, day): Phase 4 merged
+
+- **All 15 Phase 4 screens ported, independently reviewed (S8) and merged** (master `9832c2c` + this docs commit), plus `__tests__/flows/complaint.test.tsx`. Gates: jest 1636/1636 (107 suites), tsc clean, eslint 0 errors (77 warnings), parity:test 14/14. No worktrees left. **55 of 117 screens ported** (Phase 1 signed off; Phases 2-4 ported + reviewed, phone pass pending).
+- Kit grew 9 small default-preserving props (list in the plan, Phase 4 status). Settle CSS disputes with the shipped `main.css` (`.reference/aab/base/assets/www/build/main.css`, grep only).
+- Agent tokens for Phase 4: about 2.3-4M by the agents' usage reports (resumed fix loops re-count their cached context, so the upper figure overstates).
+- **NEXT (Dhruv connects the phone first thing 2026-11-05): phone pass for Phase 2 + Phase 3** (then Phase 4 separately), using `npm run parity:triage`. Then speed build for the TL demo, then Phase 5 (Sales Executive, 6 screens).
+- **master is 177 commits ahead of origin.** Ask Dhruv before pushing.
+
 ## Update 2026-11-04 (session 4, overnight): Phase 3 merged
 
 - **All 11 Phase 3 screens ported, independently reviewed (S8) and merged** into `master` (`56cf1e3`, + this docs commit). Flow tests `__tests__/flows/catalogue.test.tsx` (catalogue → infinite scroll offset → share text; quotation → `quotation_pdf` → `openExternal`). Gates: jest 1408/1408 (88 suites), tsc clean, eslint 0 errors (74 warnings), parity:test 14/14. No worktrees left. Details and phone-pass items: plan, "Phase 3" status.
