@@ -30,7 +30,12 @@ export const styles = StyleSheet.create({
   points: { width: 100, paddingRight: 22 },
   pointsFlat: { paddingRight: 0 }, // [P] 102-108 `.points.flat { padding-right: 0; &:after { display: none } }`
   // [P] 111-121 `.points:after`: 20x25 box at right 0, top 50%, translateY(-50%), the svg `cover`d (25x25, left aligned, clipped to 20 wide)
-  pointsAfter: { position: 'absolute', top: '50%', right: 0, width: 20, height: 25, marginTop: -12.5, overflow: 'hidden' },
+  // NOTE (parity): `top:50% + translateY(-50%)` of a 25px box == centred on the `.points` box (point-list.scss:111-121, verified: the CSS
+  // geometry equals the old top '50%' + marginTop -12.5). The phone capture still showed the chevron ~2.2dp (6.5px) below the card centre
+  // (measured on parity/out/rn/PointList.Plumber.png vs ref: ref chevron centre = icon centre +0.3dp), so the box is centred with a
+  // full-height flex overlay instead of percent + margin.
+  pointsAfter: { position: 'absolute', top: 0, bottom: 0, right: 0, width: 20, justifyContent: 'center', overflow: 'hidden' },
+  pointsAfterBox: { width: 20, height: 25, overflow: 'hidden' },
   // [P] 3-12 `.point-table { margin: 0 -16px; padding: 0 16px; background: #f7f7f7; margin-bottom: 16px; border-top/bottom: 1px #b3b3b3 dashed }`
   pointTable: {
     marginHorizontal: -16,

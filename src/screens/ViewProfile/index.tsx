@@ -61,7 +61,9 @@ export default function ViewProfileScreen({ navigation, route }: Props) {
   return (
     <View testID="view-profile" style={styles.page}>
       <View testID="pop-imge" style={styles.pop}>
-        <Image testID="view-profile-image" source={{ uri }} style={{ width: boxW, height: h, borderRadius: v.imageRadius }} />
+        {/* NOTE (parity): view-profile.html:5 the <img> is inline, so `.pop-imge` gets the line box's strut descent below it
+            (body font 14px, line-height normal: descent round(14 * 500/2048) = 3px). */}
+        <Image testID="view-profile-image" source={{ uri }} style={{ width: boxW, height: h, borderRadius: v.imageRadius, marginBottom: 3 }} />
         <Pressable testID="view-profile-close" onPress={closeModal} style={styles.close}>
           <MaterialIcon name="clear" size={v.closeIconSize} color={v.closeIconColor} />
         </Pressable>

@@ -92,6 +92,14 @@ describe('contracts (card Endpoints)', () => {
 });
 
 describe('states (card States)', () => {
+  test('parity: the chevron box is centred by a full-height overlay (point-list.scss:111-121 top 50% + translateY(-50%))', async () => {
+    await mount();
+    const { StyleSheet } = require('react-native');
+    const hosts = tree.root.findAll(n => typeof n.props.testID === 'string' && n.props.testID.endsWith('-chevron') && (n.type as any) === 'View');
+    expect(hosts.length).toBeGreaterThanOrEqual(3);
+    hosts.forEach(h => expect(StyleSheet.flatten(h.props.style)).toMatchObject({ position: 'absolute', top: 0, bottom: 0, right: 0, width: 20, justifyContent: 'center' }));
+  });
+
   test('PointList.default (Plumber): header, three cards, table, balance card, server numbers printed as is', async () => {
     installSpy();
     await mount();
