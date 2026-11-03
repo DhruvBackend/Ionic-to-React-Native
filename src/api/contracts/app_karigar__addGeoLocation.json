@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/addGeoLocation",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "customer_id": "900001", "cust_lat": 28.6692, "cust_long": 77.4538, "cust_geo_address": "" },
+  "ionicSource": "src/pages/point-location/point-location.ts:238 (add_loc; cust_lat/cust_long are undefined, so dropped from the JSON, when no fix arrived yet; cust_geo_address is always '')"
+}

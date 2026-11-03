@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/addGeoLocation",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "failed": { "status": "failed" },
+    "empty": {},
+    "malformed": null,
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

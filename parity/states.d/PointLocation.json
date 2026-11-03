@@ -1,0 +1,18 @@
+[
+  {
+    "id": "PointLocation.customer",
+    "screen": "PointLocation",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lat": "28.6692",
+      "log": "77.4538",
+      "old_loc": ""
+    },
+    "ionicNav": "nav.setRoot(Page('PointLocation'), params)",
+    "waitMs": 3500,
+    "deviceVersion": "15",
+    "ionicNavNote": "Pushed by Profile (Customer footer button) with {lat: cust_lat, log: cust_long, old_loc: cust_geo_address}. The page calls no endpoint on load (no fixture needed); it asks for the device location (accuracy dialog + permission) and shows an embedded maps.google.com page (the harness aborts maps requests), the my_location box and the Add location button."
+  }
+]
