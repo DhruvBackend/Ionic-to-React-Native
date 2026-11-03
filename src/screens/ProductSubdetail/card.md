@@ -98,5 +98,13 @@ Classes defined by the page SCSS and used in the template: `adhar`
 
 ## Quirks
 
+- product-subdetail.ts:58/116: loader has no content; dismissed only on success. HTTP error (:117) and a product with images but none with profile == 1 (changeImage :173 throws) leave it up.
+- product-subdetail.ts:92-108: share image = url + the LAST image's actual_image_name.
+- product-subdetail.ts:127-158: two share texts (with/without desc); the no-desc one has "Product Name :  " and a blank line.
+- product-subdetail.html: goToEnquiryPage, add_to_fav, remove_from_fav, checkForExistInFavourite are never called (dead code, not ported; Enquiry/favourites endpoints unreachable).
+- product-subdetail.html:35-57: Description row only with product_name; shows 'NA' when desc is empty.
+- product-subdetail.ts:181-209: ionViewDidLeave popToRoot rule (root pages), via the blur listener.
+
 ## States
 
+- default, hin, noName (title from desc, no Description row), noDesc ('NA'), empty (no images: perm_media placeholder), malformed (no product).

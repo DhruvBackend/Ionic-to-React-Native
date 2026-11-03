@@ -1,0 +1,85 @@
+{
+  "endpoint": "app_master/productDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "product": {
+        "id": 31,
+        "product_name": "Rain Shower",
+        "desc": "chrome finish 8 inch",
+        "price": 2499,
+        "main_category": "BATH FITTINGS",
+        "sub_category": "showers",
+        "category_name": "Showers",
+        "material_code": "tb-1001",
+        "pcs": 1,
+        "image": [
+          { "id": 1, "actual_image_name": "shower_a.png", "image": "shower_a.png", "profile": 1 },
+          { "id": 2, "actual_image_name": "shower_b.png", "image": "shower_b.png", "profile": 0 }
+        ]
+      }
+    },
+    "noName": {
+      "status": "SUCCESS",
+      "product": {
+        "id": 32,
+        "product_name": "",
+        "desc": "wall mixer",
+        "price": 1250,
+        "main_category": "BATH FITTINGS",
+        "sub_category": "mixers",
+        "category_name": "Mixers",
+        "material_code": "tb-2002",
+        "pcs": 2,
+        "image": [{ "id": 3, "actual_image_name": "mixer.png", "image": "mixer.png", "profile": 1 }]
+      }
+    },
+    "noDesc": {
+      "status": "SUCCESS",
+      "product": {
+        "id": 33,
+        "product_name": "Health Faucet",
+        "desc": "",
+        "price": 799,
+        "main_category": "BATH FITTINGS",
+        "sub_category": "faucets",
+        "category_name": "Faucets",
+        "material_code": "tb-3003",
+        "pcs": 1,
+        "image": [{ "id": 4, "actual_image_name": "faucet.png", "image": "faucet.png", "profile": 1 }]
+      }
+    },
+    "noProfileImage": {
+      "status": "SUCCESS",
+      "product": {
+        "id": 34,
+        "product_name": "Soap Dish",
+        "desc": "ceramic",
+        "price": 399,
+        "main_category": "ACCESSORIES",
+        "sub_category": "dishes",
+        "category_name": "Dishes",
+        "material_code": "tb-4004",
+        "pcs": 1,
+        "image": [{ "id": 5, "actual_image_name": "dish.png", "image": "dish.png", "profile": 0 }]
+      }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "product": {
+        "id": 35,
+        "product_name": "Towel Rod",
+        "desc": "",
+        "price": 599,
+        "main_category": "ACCESSORIES",
+        "sub_category": "rods",
+        "category_name": "Rods",
+        "material_code": "tb-5005",
+        "pcs": 1,
+        "image": []
+      }
+    },
+    "malformed": { "status": "SUCCESS" }
+  }
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ProductSubdetail.default",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 31 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductSubdetail.hin",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": { "id": 31 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductSubdetail.noName",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/productDetail": "noName" },
+    "params": { "id": 32 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductSubdetail.noDesc",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/productDetail": "noDesc" },
+    "params": { "id": 33 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductSubdetail.empty",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/productDetail": "empty" },
+    "params": { "id": 35 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "ProductSubdetail.malformed",
+    "screen": "ProductSubdetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/productDetail": "malformed" },
+    "params": { "id": 31 },
+    "ionicNav": "nav.setRoot(Page('ProductSubdetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
