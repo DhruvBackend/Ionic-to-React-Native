@@ -11,6 +11,7 @@
 // (e.g. home.ts reads resp.karigar.balance_point).
 import { fixtureFiles } from '../fixtures.generated';
 import { HttpError } from '../client';
+import { loyaltyHandlers } from './handlers/loyalty';
 import { store } from './store';
 
 export { store };
@@ -91,3 +92,4 @@ export function hasMock(fn: string) {
 }
 
 fixtureFiles.forEach(registerFixture);
+Object.entries(loyaltyHandlers).forEach(([fn, handler]) => registerMock(fn, handler)); // stateful loyalty writes, see handlers/loyalty.ts
