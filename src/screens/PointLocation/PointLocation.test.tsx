@@ -50,7 +50,11 @@ const alerts = () => overlayStore.getEntries().filter(e => e.kind === 'alert').m
 const toasts = () => overlayStore.getEntries().filter(e => e.kind === 'toast').map(e => e.options as any);
 const loaders = () => overlayStore.getEntries().filter(e => e.kind === 'loading' && !e.leaving);
 const press = (id: string) => find(id).find(n => typeof n.props.onPress === 'function')!.props.onPress({ nativeEvent: { locationX: 1, locationY: 1 } });
-const mapUri = () => find('pl-map-webview').find(n => n.props.source)!.props.source.uri;
+// html:19 `<iframe [src]=url>`: the WebView document is a page holding the iframe, whose src is the embed url
+const mapUri = () => {
+  const html: string = find('pl-map-webview').find(n => n.props.source)!.props.source.html;
+  return /<iframe src="([^"]*)"/.exec(html)![1].replace(/&amp;/g, '&');
+};
 const geoCalls = () => calls.filter(c => c.fn === 'app_karigar/addGeoLocation');
 // eslint-disable-next-line no-restricted-syntax
 const embed = (lat: any, lng: any) => `https://maps.google.com/maps?q=${lat},${lng}&output=embed`;

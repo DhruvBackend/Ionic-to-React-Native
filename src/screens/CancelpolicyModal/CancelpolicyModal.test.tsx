@@ -415,3 +415,31 @@ describe('blur -> reset through a real navigator', () => {
     expect(names).toContain('GiftDetail');
   });
 });
+
+describe('modal layers (parity)', () => {
+  const { StyleSheet } = require('react-native');
+  test('the 50% black layer is the ion-content itself; the screen root and the card behind it are transparent', async () => {
+    await mount();
+    expect(StyleSheet.flatten(host('cancelpolicy-modal').props.style).backgroundColor).toBeUndefined();
+    expect(StyleSheet.flatten(host('ion-content').props.style).backgroundColor).toBe('rgba(0, 0, 0, 0.5)');
+  });
+  test('.resend.mb10 collapses into .check-bx margin-top 10: only 10 between them', async () => {
+    const { styles } = require('./styles');
+    expect(styles.resend.marginBottom).toBe(0);
+    expect(styles.checkBx.marginTop).toBe(10);
+  });
+  test('the shipping textarea placeholder is 2 further right than typed text and has no font padding', async () => {
+    await mount();
+    await press('check1-item-cover');
+    const ta = () => StyleSheet.flatten(find('shipping-address').find((n: any) => typeof n.props.onChangeText === 'function')!.props.style);
+    await act(async () => {
+      host('shipping-address').props.onChangeText('');
+    });
+    expect(ta().paddingLeft).toBe(18);
+    expect(ta().includeFontPadding).toBe(false);
+    await act(async () => {
+      host('shipping-address').props.onChangeText('x');
+    });
+    expect(ta().paddingLeft).toBe(16);
+  });
+});

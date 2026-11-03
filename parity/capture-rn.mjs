@@ -35,7 +35,10 @@ export const ANDROID_15_API = 35; // src/app/frame.ts
 /** topbathrn://open?screen=&role=&lang=&variant=<endpoint:variant,...>&params=<json> (src/navigation/debugLinks.ts) */
 export function buildLink(state) {
   // mock=1: the RN debug session answers every request from the same fixtures the Ionic reference uses (no network).
-  const q = [`screen=${encodeURIComponent(state.screen)}`, 'mock=1'];
+  // rnScreen / rnParams: the RN side opens another screen first (e.g. GiftDetail under the CancelpolicyModal) and `rnAction` taps into the state.
+  const screen = state.rnScreen || state.screen;
+  const params = state.rnScreen ? state.rnParams : state.params;
+  const q = [`screen=${encodeURIComponent(screen)}`, 'mock=1'];
   if (state.role) {
     q.push(`role=${encodeURIComponent(state.role)}`);
   }
@@ -46,8 +49,8 @@ export function buildLink(state) {
   if (v.length) {
     q.push(`variant=${encodeURIComponent(v.join(','))}`);
   }
-  if (state.params && Object.keys(state.params).length) {
-    q.push(`params=${encodeURIComponent(JSON.stringify(state.params))}`);
+  if (params && Object.keys(params).length) {
+    q.push(`params=${encodeURIComponent(JSON.stringify(params))}`);
   }
   return `topbathrn://open?${q.join('&')}`;
 }

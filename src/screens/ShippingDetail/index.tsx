@@ -419,10 +419,11 @@ export default function ShippingDetailScreen({ navigation, route }: Props) {
           </View>
         ) : null}
 
-        {/* html:70-72 NOTE (parity): text typo 'Recieve'; `button.ion-button { text-transform: capitalize !important }` (scss:4) */}
+        {/* html:70-72 NOTE (parity): text typo 'Recieve'. scss:4 `button.ion-button { text-transform: capitalize !important }` never matches: `ion-button` is an
+            attribute here, Ionic 3 gives the element class `button`, not `ion-button`, so the md default (uppercase) applies */}
         {v.btn ? (
           <View style={styles.padding16}>
-            <IonButton testID="shipping-receive" color="success" full round textTransform="capitalize" onPress={onReceivePress}>
+            <IonButton testID="shipping-receive" color="success" full round onPress={onReceivePress}>
               Click Here if you Recieve
             </IonButton>
           </View>

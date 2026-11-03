@@ -8,6 +8,7 @@ import { PNG } from 'pngjs';
 import { loadStates, shotName } from './lib/common.mjs';
 import { buildReport } from './report.mjs';
 import { setSignoff, readSignoff } from './signoff.mjs';
+import { readyIdFor } from './lib/ready.mjs';
 import { buildLink, cropFor, findNodeCenter, parseRnAction } from './capture-rn.mjs';
 
 const png = (w, h, rgba) => {
@@ -55,6 +56,15 @@ test('capture-rn builds the debug deep link and crop', () => {
   assert.equal(link, 'topbathrn://open?screen=Otp&mock=1&role=Karigar&lang=hin&variant=a%2Fb%3Aempty&params=%7B%22m%22%3A%229%22%7D');
   assert.deepEqual(cropFor({ api: 36, density: 420, insets: { top: 63 } }), { top: 0, bottom: 0 });
   assert.deepEqual(cropFor({ api: 33, density: 420, insets: { top: 63, bottom: 0 } }), { top: 63, bottom: 0 });
+});
+
+test('capture-rn rnScreen / rnParams: the RN side opens another screen first; ready node follows it', () => {
+  const s = { screen: 'CancelpolicyModal', role: 'Plumber', lang: 'en', params: { gift_id: 21 }, rnScreen: 'GiftDetail', rnParams: { id: 21 }, rnAction: 'tap:gift-redeem' };
+  assert.equal(buildLink(s), 'topbathrn://open?screen=GiftDetail&mock=1&role=Plumber&lang=en&params=%7B%22id%22%3A21%7D');
+  assert.equal(readyIdFor(s), 'ion-card-GiftDetail');
+  assert.equal(readyIdFor({ ...s, readyId: 'cancelpolicy-modal' }), 'cancelpolicy-modal');
+  assert.equal(readyIdFor({ screen: 'Otp' }), 'ion-card-Otp');
+  assert.equal(buildLink({ screen: 'Otp', params: { a: 1 } }), 'topbathrn://open?screen=Otp&mock=1&params=%7B%22a%22%3A1%7D');
 });
 
 test('capture-rn rnAction: parses tap:<testID> and rejects unknown actions', () => {

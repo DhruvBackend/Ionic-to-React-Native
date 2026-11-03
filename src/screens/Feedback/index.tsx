@@ -108,7 +108,7 @@ export default function FeedbackScreen({ navigation }: Props) {
             placeholder="Write something"
             placeholderTextColor={F.placeholder}
             underlineColorAndroid="transparent"
-            style={[styles.textarea, { color: scssColors.black }]}
+            style={[styles.textarea, !feedback && styles.textareaPlaceholder, { color: scssColors.black }]}
           />
         </View>
       </IonContent>

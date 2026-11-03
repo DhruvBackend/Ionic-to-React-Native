@@ -98,7 +98,8 @@ export default function CancelationPolicyScreen({ navigation }: Props) {
           {/* NOTE (parity): innerHTML text goes through the kit's stripHtml (only <br> and entities are interpreted, other tags are dropped);
               the server HTML may contain more (cancelation-policy.scss hides list bullets: `ul li { list-style: none }`). The global
               `p { margin: 0 !important; font-family: Roboto }` leaves a 14px Roboto black paragraph. */}
-          <Text testID="policy-p" style={textStyle(14, 400, md.textColor)}>
+          <Text testID="policy-p" // NOTE (parity): measured on the Ionic capture, the 14px Roboto paragraph (`line-height: normal`) has a 17.0 dp line pitch (normalLineHeight(14) = 16)
+          style={textStyle(14, 400, md.textColor, 17)}>
             {policy == null ? '' : stripHtml(String(policy))}
           </Text>
         </View>

@@ -26,6 +26,7 @@ Compares the Ionic reference (built from `b33d82f`, run in Chrome) with the RN d
 ## State actions
 - Ionic side: `ionicNav` (JS expression, see above). Note Ionic's TapClick cancels a bare `element.click()` until a pointer press
   has happened, so to tap a control dispatch `mousedown`, `mouseup` and `click` MouseEvents (bubbles, cancelable) on it.
+- RN side: optional `rnScreen` / `rnParams` (open that screen first, with those params, instead of `screen` / `params`; the ready-wait follows `rnScreen`) so an overlay state can be reached by `rnAction` from the page it covers (CancelpolicyModal: GiftDetail `{id:21}`, `tap:gift-redeem`).
 - RN side: optional `rnAction: "tap:<testID>"` (plus `rnActionWaitMs`, default 1000). After the deep link and `rnWaitMs`,
   `capture-rn.mjs` runs `adb shell uiautomator dump`, finds the node whose `resource-id` is the testID (RN sets the Android
   resource-id from `testID`, a package prefix `...:id/` is accepted), taps its centre with `adb shell input tap`, waits,

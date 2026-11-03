@@ -273,9 +273,12 @@ export default function TransactionScreen({ navigation }: Props) {
                           </Text>
                           {/* html:36 an inline <span> in a line box whose strut is the item's 16px / line-height normal */}
                           {rejectExtras && interp(titlecase(list.reject_reason)) !== '' ? (
-                            <Text testID={`transaction-reason-${i}`} {...nowrap} style={textStyle(16, 400, T.ink, normalLineHeight(16))}>
-                              <Text style={textStyle(11, 400, T.danger, normalLineHeight(11))}>{interp(titlecase(list.reject_reason))}</Text>
-                            </Text>
+                            // NOTE (parity): a nested Text's lineHeight replaces the outer strut's, so the strut is a real View
+                            <View style={styles.reasonStrut}>
+                              <Text testID={`transaction-reason-${i}`} {...nowrap} style={[textStyle(11, 400, T.danger, normalLineHeight(11)), styles.reasonSpan]}>
+                                {interp(titlecase(list.reject_reason))}
+                              </Text>
+                            </View>
                           ) : null}
                         </View>
                       </View>

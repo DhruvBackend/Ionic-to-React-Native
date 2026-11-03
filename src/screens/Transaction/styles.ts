@@ -2,6 +2,7 @@
 // transaction.html. Citations: [T] variables.scss line (Ionic source); [CSS] the compiled main.css that Ionic shipped.
 // Text styles (font size, weight, line height) are built in index.tsx with textStyle(); only boxes live here.
 import { StyleSheet } from 'react-native';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { transactionMd as T } from '../../theme/ionicMdTransaction';
 
 export const styles = StyleSheet.create({
@@ -19,7 +20,12 @@ export const styles = StyleSheet.create({
   hisListing: { borderBottomWidth: 5, borderBottomColor: T.listBorder, paddingVertical: 10, paddingHorizontal: 16 },
   // [T] 12088-12090 `button.main-list { padding-left: 0 }`; `.item-inner { padding: 0 !important; border: 0 !important }` (12091-12093)
   mainList: { paddingLeft: 0 },
-  itemInner: { padding: 0 },
+  // NOTE (parity): explicit edges: the kit's `.item-inner` paddingRight 8 is an edge style and beats a `padding: 0` shorthand
+  itemInner: { paddingLeft: 0, paddingRight: 0, paddingTop: 0, paddingBottom: 0 },
+  // html:36 the reject reason: a line box whose strut is the item's 16px text (normalLineHeight(16) tall, baseline at its ascent)
+  // holding an 11px span on that baseline: the span's line box is placed so both baselines coincide
+  reasonStrut: { height: normalLineHeight(16) },
+  reasonSpan: { marginTop: Math.round((16 * 1900) / 2048) - Math.round((11 * 1900) / 2048) },
   // the auto-created <ion-label>: margin 0 !important ([T] 12094-12101), flex 1, overflow hidden, white-space nowrap
   label: { flex: 1, overflow: 'hidden', margin: 0 },
   // [T] 12103-12106 `.tr-content`

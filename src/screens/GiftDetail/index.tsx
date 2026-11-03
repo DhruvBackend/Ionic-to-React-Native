@@ -24,6 +24,8 @@ import { surpriseSize, surpriseXml } from './surprise';
 
 // app.getActiveNav() page names that gift-detail.ts:152 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
+// 5px gap drawn as a 12px space (Roboto space 0.2476 em = 2.97px) + letter spacing (see the gift-address box)
+export const GAP_LETTER_SPACING = 5 - 12 * 0.2476;
 
 interface Props {
   navigation: {
@@ -352,8 +354,9 @@ export default function GiftDetailScreen({ navigation, route }: Props) {
               {condChecked ? (
                 <Text testID="gift-address-text" style={textStyle(12, 400, md.textColor, 20)}>
                   {collapseWs(t('Your Address Is Not Updated. Please Update Address'))}
-                  {/* `.kyc-reject-text { margin-left: 5px }`: a 5px gap, drawn as a space of a 20px font (Roboto space = 0.2476 em) */}
-                  <Text style={{ fontSize: 20.2 }}> </Text>
+                  {/* `.kyc-reject-text { margin-left: 5px }`: a 5px gap. NOTE (parity): drawn as a 12px space (Roboto space = 0.2476 em = 2.97px) plus
+                      letterSpacing 2.03 = 5px; a bigger font for the space would inflate the line box (the old 20.2px space moved line 2 down 2.5 dp) */}
+                  <Text style={{ fontSize: 12, letterSpacing: GAP_LETTER_SPACING, includeFontPadding: false }}> </Text>
                   <Text testID="gift-update-now" onPress={updateAddress} style={styles.kycRejectText}>
                     {collapseWs(t('Update Now'))}
                   </Text>

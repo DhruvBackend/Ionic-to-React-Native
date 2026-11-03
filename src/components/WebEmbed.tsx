@@ -16,9 +16,18 @@ export interface WebEmbedProps {
   height: number | `${number}%`; // the iframe height attribute (180, or '100%')
   border?: 'inset' | 'none';
   testID?: string;
+  // Load `uri` inside an <iframe> of a tiny HTML page (Ionic's `<iframe [src]=url>`), not as the WebView's own document.
+  // Needed by embeds that refuse top-level loading (Google Maps: "The Google Maps Embed API must be used in an iframe.").
+  iframe?: boolean;
 }
 
-export function WebEmbed({ uri, height, border = 'inset', testID = 'web-embed' }: WebEmbedProps) {
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// the page Ionic's <iframe width="100%" height="100%" frameborder="0" style="border:0"> lives in (cordova-android serves it from https://localhost)
+export function iframeHtml(uri: string): string {
+  return `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="margin:0;padding:0;overflow:hidden"><iframe src="${esc(uri)}" width="100%" height="100%" frameborder="0" style="border:0;display:block;width:100%;height:100%"></iframe></body></html>`;
+}
+
+export function WebEmbed({ uri, height, border = 'inset', testID = 'web-embed', iframe = false }: WebEmbedProps) {
   const d = iframeDefaults;
   return (
     <View
@@ -37,7 +46,8 @@ export function WebEmbed({ uri, height, border = 'inset', testID = 'web-embed' }
     >
       <WebView
         testID={`${testID}-webview`}
-        source={{ uri }}
+        // eslint-disable-next-line no-restricted-syntax -- cordova-android's own page origin, not a client URL
+        source={iframe ? { html: iframeHtml(uri), baseUrl: 'https://localhost' } : { uri }}
         style={styles.web}
         javaScriptEnabled // an iframe runs scripts
         domStorageEnabled

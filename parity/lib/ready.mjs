@@ -3,7 +3,8 @@
 
 /** Default ready node: the IonStack card of the screen (testID `ion-card-<screen>`), unless the state sets `readyId`. */
 export function readyIdFor(state) {
-  return state.readyId || `ion-card-${state.screen}`;
+  // the ready-wait runs BEFORE rnAction, so with rnScreen it is the page opened first that must be there
+  return state.readyId || `ion-card-${state.rnScreen || state.screen}`;
 }
 
 /** True when the uiautomator XML has a node of `pkg` whose resource-id is `id` (or ends with `:id/<id>`). */

@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
   input: {
     width: '100%',
     height: 45,
-    paddingHorizontal: 16,
+    // NOTE (parity): the UA `border: 2px inset` is 2px in layout but drawn as 1px, so the text starts at 2 + 16 = 18; the drawn border here is 1px: 17
+    paddingHorizontal: 17,
     paddingVertical: 0,
     borderWidth: 1,
     borderColor: coupanCodeMd.inputBorder,

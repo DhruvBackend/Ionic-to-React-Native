@@ -25,7 +25,7 @@ import {
   type ParamListBase,
   type StackNavigationState,
 } from '@react-navigation/native';
-import { modalTransition, pageTransition } from '../theme/ionicMdPage';
+import { pageTransition } from '../theme/ionicMdPage';
 import { enterSpec, leaveSpec, planTransition, PresentationContext, type Presentation, type TransitionPlan } from './pageTransition';
 
 type Route = StackNavigationState<ParamListBase>['routes'][number];
@@ -96,8 +96,9 @@ function Card({
   return (
     <Animated.View
       testID={testID}
-      // a modal page is the white .modal-wrapper; an ion-nav page draws its own background
-      style={[StyleSheet.absoluteFill, styles.clip, presentation === 'modal' && { backgroundColor: modalTransition.backgroundColor }, animated, !visible && styles.hidden]}
+      // NOTE (parity): no background here. Ionic's .modal-wrapper has no background in main.css (the page inside paints its own:
+      // cancelpolicy-modal ion-content.popup-modal rgba(0,0,0,.5), ViewProfile .module 90% black), so the page below shows through.
+      style={[StyleSheet.absoluteFill, styles.clip, animated, !visible && styles.hidden]}
       accessibilityElementsHidden={!visible}
       importantForAccessibility={visible ? 'auto' : 'no-hide-descendants'}
     >

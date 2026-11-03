@@ -42,6 +42,9 @@ export const styles = StyleSheet.create({
   formList: { marginTop: 0, marginBottom: 0 },
   // [S] 142-146 `ion-item { margin-bottom: 10px }` + `.cs-input { min-height: inherit; height: 40px }`
   csItem: { marginTop: 0, marginBottom: 10, minHeight: 0, height: 40 },
+  // NOTE (parity): the item (mb 10) is followed by `<a ion-button full>` (display block, md margin 4 0): adjacent vertical margins collapse to 10, so the item
+  // keeps 10 - 4 (the button's own margin in RN, which does not collapse) = 6
+  csItemBeforeButton: { marginTop: 0, marginBottom: 6, minHeight: 0, height: 40 },
   // [S] 306-312 `p.error-msg { text-align: right; margin-top: -8px !important; margin-bottom: 10px !important }`
   errorMsg: { textAlign: 'right', marginTop: -8, marginBottom: 10 },
   // `.mt16 { margin-top: 16px !important }`

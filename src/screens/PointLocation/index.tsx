@@ -122,7 +122,7 @@ export default function PointLocationScreen({ navigation, route }: Props) {
     <View style={styles.screen}>
       {/* html:8-12 */}
       <IonHeader mainHeader remove>
-        <IonNavbar title="Point Location" />
+        <IonNavbar color="primary" title="Point Location" />
       </IonHeader>
 
       {/* html:15-21 <ion-content class="location-map"> */}
@@ -131,7 +131,8 @@ export default function PointLocationScreen({ navigation, route }: Props) {
             area. NOTE (parity): an inline iframe leaves the line box's descender gap (about 4px) below it, so the page can scroll by that
             much (verify in the parity harness). */}
         <View style={styles.mapArea}>
-          <WebEmbed testID="pl-map" uri={url} height={viewport} border="none" />
+          {/* NOTE (parity): html:19 is an <iframe [src]=url>: the embed is loaded inside an iframe (a top-level load is refused by Google) */}
+          <WebEmbed testID="pl-map" uri={url} height={viewport} border="none" iframe />
           <View style={styles.gap} />
           {/* html:20 <div (click)="loadMap()" class="map-location"><i class="material-icons">my_location</i></div> */}
           <Pressable testID="pl-my-location" style={styles.mapLocation} onPress={() => loadMap()}>
