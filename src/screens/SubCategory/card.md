@@ -79,5 +79,13 @@ Classes defined by the page SCSS and used in the template: `content`
 
 ## Quirks
 
+1. **Entry.** Pushed by Category with `{id: categories[0].id}`; `ionViewDidLoad` reads `navParams.get('id')` and calls `get_subcategory('')`. No `ionViewWillEnter`/`ionViewDidLeave`. No `TranslateModule`: 'Sub Category' and 'Search' are hardcoded English. `userStorageData.state` is read into an unused field.
+2. **Request.** `{filter: {limit, search, [category_name]}, category_id}` through `post_rqst`, on entry, search, refresh and infinite scroll (same key tree; the filter object is shared).
+3. **Loader.** `loadingCtrl.create({content: "", dismissOnPageChange: false})`. No error callback in `get_subcategory`: an HTTP error leaves it up. A null `category` throws at `.length` before the dismiss: it stays up.
+4. **List.** `*ngIf="prod_cat_list.length"` rows (`.product-data`, same as Category, `page-sub-category .content` adds `text-align: center`); tap pushes ProductDetail `{id}`. An answer with length 0 only sets `no_data = true` for good and keeps the old list; the no-found image shows only while the list is empty and `no_data` is set.
+5. **Infinite scroll.** `threshold=100px`, `*ngIf="flag!=1"`. `category == ''` ('' or []) sets `flag = 1`. Otherwise after 500 ms: `list = r.category` then `list = list.concat(r.category)` (the new page twice, the old rows dropped), `complete()`, then the list is padded with numbers (0, 1, ...) up to 7 rows: those rows render the perm_media icon, an empty title and push `{id: undefined}`. HTTP error: `loading.dismiss()` on the old loader, the scroll stays loading.
+6. **Search.** Typing sets `filter.category_name`; emptying reloads with search ''; Enter reloads with search = the text. `class="primary-bg"` has no CSS rule.
+
 ## States
 
+`default` (3 rows), `empty` (no-found image), `malformed` (`category: null`: no rows, loader stays).

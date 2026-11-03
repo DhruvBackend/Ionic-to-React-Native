@@ -1,0 +1,5 @@
+[
+  { "id": "SubCategory.default", "screen": "SubCategory", "role": "Plumber", "lang": "en", "variants": {}, "params": { "id": 7 }, "ionicNav": "nav.setRoot(Page('SubCategory'), params)", "waitMs": 2800, "deviceVersion": "15", "ionicNavNote": "Three rows (the second without a picture shows the perm_media icon), titles centred." },
+  { "id": "SubCategory.empty", "screen": "SubCategory", "role": "Plumber", "lang": "en", "variants": { "app_master/childCategoryList": "empty" }, "params": { "id": 7 }, "ionicNav": "nav.setRoot(Page('SubCategory'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "SubCategory.malformed", "screen": "SubCategory", "role": "Plumber", "lang": "en", "variants": { "app_master/childCategoryList": "malformed" }, "params": { "id": 7 }, "ionicNav": "nav.setRoot(Page('SubCategory'), params)", "waitMs": 2800, "deviceVersion": "15" }
+]
