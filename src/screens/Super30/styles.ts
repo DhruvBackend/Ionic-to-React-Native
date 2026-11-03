@@ -18,8 +18,12 @@ export const styles = StyleSheet.create({
   // [T] 4844-4850 `.list { display: flex; align-items: center; justify-content: space-between; position: relative; padding-top: 16px }`
   list: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', position: 'relative', paddingTop: 16 },
   // [T] 4951-4968 `.list:before / :after { position: absolute; height: 50%; border: dashed 1px #ccc; z-index: 1; left: 14px }`
-  dashTop: { position: 'absolute', top: 0, left: 14, width: 2, height: '50%', borderWidth: 1, borderStyle: 'dashed', borderColor: S.line, zIndex: 1 },
-  dashBottom: { position: 'absolute', bottom: 0, left: 14, width: 2, height: '50%', borderWidth: 1, borderStyle: 'dashed', borderColor: S.line, zIndex: 1 },
+  // NOTE (parity): the pseudo-element is 0 wide + `border: dashed 1px` = two adjacent 1px dashed vertical lines (2px total). Android draws
+  // dashes only for a uniform border, so the box clips (overflow hidden) a uniform dashed 2px-wide box that sticks out 2px above and
+  // below: the top/bottom edges are cut off and only the left and right 1px dashed edges remain.
+  dashTop: { position: 'absolute', top: 0, left: 14, width: 2, height: '50%', overflow: 'hidden', zIndex: 1 },
+  dashBottom: { position: 'absolute', bottom: 0, left: 14, width: 2, height: '50%', overflow: 'hidden', zIndex: 1 },
+  dashLine: { position: 'absolute', top: -2, bottom: -2, left: 0, width: 2, borderWidth: 1, borderStyle: 'dashed', borderColor: S.line },
   // [T] 4851-4856 `.point { position: relative; width/height: 30px; border-radius: 100px; border: solid 1px #ccc; z-index: 9; background: white }`
   point: { width: 30, height: 30, borderRadius: 100, borderWidth: 1, borderColor: S.line, backgroundColor: colors.white, zIndex: 9, alignItems: 'center', justifyContent: 'center' },
   pointActive: { borderColor: S.activePointBorder, backgroundColor: S.activePointBg }, // [T] 4940-4943
