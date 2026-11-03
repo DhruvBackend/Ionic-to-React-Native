@@ -1,0 +1,37 @@
+[
+  {
+    "id": "CancelationPolicy.default",
+    "screen": "CancelationPolicy",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('CancelationPolicy'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Production: pushed from inside the CancelpolicyModal (cancelpolicy-modal.ts:58) into the overlay portal, the modal then dismisses itself. The harness sets it as root, so the back arrow Ionic shows in production is absent in both captures."
+  },
+  {
+    "id": "CancelationPolicy.empty",
+    "screen": "CancelationPolicy",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/cancellations_policy": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('CancelationPolicy'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "CancelationPolicy.hin",
+    "screen": "CancelationPolicy",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('CancelationPolicy'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "The module has its own forRoot but is imported eagerly and the page never calls use(): the title follows the global language."
+  }
+]
