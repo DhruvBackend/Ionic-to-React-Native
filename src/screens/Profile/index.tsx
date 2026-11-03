@@ -13,6 +13,7 @@ import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { clipSafeLineBox, textStyle } from '../../components/ionic/text';
 import { shareText, takePhoto } from '../../native';
 import { resetTo } from '../../navigation/navigationRef';
+import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { storage } from '../../storage';
 import { colors, scssColors } from '../../theme';
 import { profileMd as P } from '../../theme/ionicMdProfile';
@@ -24,7 +25,7 @@ import { styles } from './styles';
 const defaultPhoto = require('./assets/profile.jpg');
 
 interface Props {
-  navigation: { push: (name: string, params?: object) => void; addListener?: (event: string, cb: () => void) => () => void };
+  navigation: { push: (name: string, params?: object) => void };
   route?: { params?: any };
 }
 
@@ -79,7 +80,6 @@ export default function ProfileScreen({ navigation }: Props) {
   const rerender = () => setTick(n => n + 1);
   const alive = useRef(true);
   const started = useRef(false);
-  const lastEnter = useRef(0);
 
   // profile.ts:30-35 fields
   const detail = useRef<any>({}); // karigar_detail
@@ -118,7 +118,7 @@ export default function ProfileScreen({ navigation }: Props) {
     );
   }
 
-  // profile.ts:62-66 (constructor), :135-141 ionViewDidLoad, :143-149 ionViewWillEnter
+  // profile.ts:62-66 (constructor), :135-141 ionViewDidLoad
   useEffect(() => {
     alive.current = true;
     if (!started.current) {
@@ -128,26 +128,21 @@ export default function ProfileScreen({ navigation }: Props) {
         resetTo('Home');
       } else {
         loader.show(); // presentLoading(): "Please wait...", dismissOnPageChange
-        lastEnter.current = Date.now();
-        getKarigarDetail();
       }
     }
-    // ionViewWillEnter again when the page comes back into view (after Registration, PointLocation ...)
-    const unsubscribe = navigation.addListener?.('focus', () => {
-      if (Date.now() - lastEnter.current < 150) {
-        return; // the focus event of the first appearance: ionViewWillEnter already ran above
-      }
-      lastEnter.current = Date.now();
-      if (!offline()) {
-        getKarigarDetail();
-      }
-    });
     return () => {
       alive.current = false;
-      unsubscribe?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // profile.ts:143-149 ionViewWillEnter: first entry and every return from a pushed card page.
+  // NOTE (parity): not after the ViewProfile modal is dismissed (Ionic modals do not re-enter the page below).
+  useIonViewWillEnter(() => {
+    if (!offline()) {
+      getKarigarDetail();
+    }
+  });
 
   // profile.ts:73-131
   function logout() {

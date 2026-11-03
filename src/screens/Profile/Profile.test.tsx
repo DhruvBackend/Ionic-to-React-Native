@@ -1,6 +1,7 @@
 // Profile screen (Ionic ProfilePage): contract, role branches, response branches, navigation and quirks. See card.md.
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+import { NavigationContext } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, setTransport, type ApiRequest } from '../../api/client';
@@ -16,6 +17,7 @@ import ProfileScreen from './index';
 jest.mock('../../navigation/navigationRef', () => ({
   ...jest.requireActual('../../navigation/navigationRef'),
   resetTo: jest.fn(),
+  navigationRef: { isReady: () => true, getRootState: () => ({ routes: [{ name: mockTopRoute }] }) },
 }));
 jest.mock('../../native', () => ({
   ...jest.requireActual('../../native'),
@@ -23,9 +25,22 @@ jest.mock('../../native', () => ({
 }));
 
 jest.setTimeout(30000);
+let mockTopRoute = 'Profile'; // read by the mocked navigationRef (jest.mock factories may use `mock`-prefixed names only)
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
 const navigation = { push: jest.fn() };
+// fake React Navigation listeners (useIonViewWillEnter reads them from NavigationContext)
+let listeners: Record<string, (() => void)[]> = {};
+const fakeNav = {
+  getState: () => ({ index: 0 }),
+  addListener: (ev: string, fn: () => void) => {
+    (listeners[ev] ||= []).push(fn);
+    return () => {
+      listeners[ev] = (listeners[ev] || []).filter(f => f !== fn);
+    };
+  },
+};
+const emit = (ev: string) => (listeners[ev] || []).forEach(f => f());
 let calls: ApiRequest[] = [];
 let restoreTransport: () => void = () => {};
 
@@ -52,8 +67,13 @@ async function mount(role: string | null = 'Plumber', variant?: string) {
     setFixtureVariant('app_karigar/profile', variant);
   }
   await act(async () => {
-    tree = ReactTestRenderer.create(<ProfileScreen navigation={navigation as any} />);
+    tree = ReactTestRenderer.create(
+      <NavigationContext.Provider value={fakeNav as any}>
+        <ProfileScreen navigation={navigation as any} />
+      </NavigationContext.Provider>,
+    );
   });
+  await act(async () => emit('focus')); // first entry: ionViewWillEnter
   await settle();
 }
 
@@ -87,6 +107,8 @@ beforeEach(async () => {
   (resetTo as jest.Mock).mockClear();
   (shareText as jest.Mock).mockClear();
   calls = [];
+  listeners = {};
+  mockTopRoute = 'Profile';
   installSpy();
   await act(async () => {
     await i18n.changeLanguage('en');
@@ -227,8 +249,13 @@ describe('loader and errors', () => {
   test('"Please wait..." loader is shown on mount and closed by the response', async () => {
     db.userStorageData = { ...(sessions as any).Plumber };
     await act(async () => {
-      tree = ReactTestRenderer.create(<ProfileScreen navigation={navigation as any} />);
+      tree = ReactTestRenderer.create(
+        <NavigationContext.Provider value={fakeNav as any}>
+          <ProfileScreen navigation={navigation as any} />
+        </NavigationContext.Provider>,
+      );
     });
+    await act(async () => emit('focus'));
     expect(openLoaders()).toHaveLength(1);
     expect(openLoaders()[0].options.content).toBe('Please wait...');
     expect(openLoaders()[0].options.dismissOnPageChange).toBe(true);
@@ -298,7 +325,36 @@ describe('navigation (card Nav targets)', () => {
   });
 });
 
+describe('ionViewWillEnter', () => {
+  test('returning from a pushed card page (Registration) reads the profile again', async () => {
+    await mount();
+    expect(callsTo('app_karigar/profile')).toHaveLength(1);
+    mockTopRoute = 'Registration';
+    await act(async () => emit('blur'));
+    mockTopRoute = 'Profile';
+    await act(async () => emit('focus'));
+    await settle();
+    expect(callsTo('app_karigar/profile')).toHaveLength(2);
+  });
+  test('dismissing the ViewProfile modal does NOT read the profile again', async () => {
+    await mount();
+    mockTopRoute = 'ViewProfile';
+    await act(async () => emit('blur'));
+    mockTopRoute = 'Profile';
+    await act(async () => emit('focus'));
+    await settle();
+    expect(callsTo('app_karigar/profile')).toHaveLength(1);
+  });
+});
+
 describe('natives', () => {
+  test('a failing share is swallowed (Ionic catch only logs)', async () => {
+    (shareText as jest.Mock).mockResolvedValueOnce({ ok: false, reason: 'error' });
+    await mount();
+    await press('profile-share');
+    expect(shareText).toHaveBeenCalledTimes(1);
+    expect(alerts()).toHaveLength(0);
+  });
   test('camera icon opens the "Profile photo" action sheet with Camera / Gallery / Cancel', async () => {
     await mount();
     await press('profile-photo-edit');
