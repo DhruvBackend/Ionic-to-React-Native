@@ -191,6 +191,7 @@ export interface IonFieldProps {
   floating?: boolean; // <ion-label floating>
   label?: string;
   requiredMark?: boolean; // the red <span>*</span> / <strong>*</strong> drawn after the label text
+  requiredGap?: boolean; // default true: `Label <span>*</span>`; false when the template has `Label<span>*</span>` (add-new-complaint.html:20/29/66)
   error?: boolean; // [ngClass]="{'error': f.submitted && x?.invalid}"
   labelDisabled?: boolean; // .item-select-disabled ion-label / .item-datetime-disabled ion-label (opacity .4)
   hasValue?: boolean; // item-has-value / input-has-value (generic md floating label)
@@ -220,6 +221,7 @@ export function IonField({
   floating = false,
   label,
   requiredMark,
+  requiredGap = true,
   error,
   labelDisabled,
   hasValue,
@@ -469,7 +471,7 @@ export function IonField({
                     {label}
                     {requiredMark ? (
                       // registration.html: `{{ 'Name' | translate }} <span>*</span>` keeps the space before the star
-                      <Text style={{ color: floating && edit ? editForm.floatingLabel.strongColor : csForm.requiredStarColor }}>{floating && edit ? '' : ' '}*</Text>
+                      <Text style={{ color: floating && edit ? editForm.floatingLabel.strongColor : csForm.requiredStarColor }}>{(floating && edit) || !requiredGap ? '' : ' '}*</Text>
                     ) : null}
                   </Text>
                 </View>
