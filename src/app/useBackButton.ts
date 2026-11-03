@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { BackHandler } from 'react-native';
 import { db } from '../api/client';
-import { activeNavCanGoBack, navigationRef } from '../navigation/navigationRef';
+import { activeNavCanGoBack, modalPortalNav, navigationRef } from '../navigation/navigationRef';
 import { tabsFor } from '../navigation/tabs';
 import { dismissTopOverlay, isModalOpen, isOverlayOpen } from '../ui/overlays';
 import { confirmExit, handleBack } from './backButton';
@@ -16,10 +16,19 @@ export function useBackButton() {
       // (enableBack() false). The Topbath handler (app.component.ts:165-243) therefore skips the page rules and
       // ends in the "App termination" alert shown over the modal.
       const modal = isModalOpen();
+      // Ionic modal pages (and pages a modal pushes into its portal) are the active nav too: see modalPortalNav.
+      const root = navigationRef.isReady() ? (navigationRef.getRootState() as any) : undefined;
+      const portal = modal ? null : modalPortalNav(root);
       const action = handleBack({
         overlayOpen: isOverlayOpen(),
-        routeName: modal ? 'IonicSelectableModalComponent' : navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name ?? '' : '',
-        canGoBack: modal ? false : navigationRef.isReady() && activeNavCanGoBack(navigationRef.getRootState() as any),
+        routeName: modal
+          ? 'IonicSelectableModalComponent'
+          : portal
+            ? portal.routeName
+            : navigationRef.isReady()
+              ? navigationRef.getCurrentRoute()?.name ?? ''
+              : '',
+        canGoBack: modal ? false : portal ? portal.canGoBack : navigationRef.isReady() && activeNavCanGoBack(root),
       });
       switch (action) {
         case 'dismissOverlay':

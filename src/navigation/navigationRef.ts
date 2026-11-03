@@ -1,5 +1,7 @@
 // Navigation from outside screens (start-up logic, push notifications, debug links).
 import { createNavigationContainerRef } from '@react-navigation/native';
+import modalPages from './ionicModalPages.json';
+import portalPushedPages from './ionicModalPortalPages.json';
 
 export const navigationRef = createNavigationContainerRef<any>();
 
@@ -46,4 +48,23 @@ export function activeNavNames(): { active: string; previous: string } | null {
   }
   const index = deepest.index ?? deepest.routes.length - 1;
   return { active: deepest.routes[index]?.name ?? '', previous: deepest.routes[index - 1]?.name ?? '' };
+}
+
+// Ionic presents modals in the MODAL portal (modal-impl.js:68 PORTAL_MODAL), and App.getActiveNavs() returns that portal's
+// nav first (app.js:172-175). In RN the modal routes sit on the root stack, so the portal is the run of modal-portal pages at
+// the top of the root stack: modal pages (ionicModalPages.json) and pages a modal pushes into its own portal
+// (ionicModalPortalPages.json, e.g. cancelpolicy-modal.ts:58 CancelationPolicy). Returns the portal nav's active page and
+// whether it can go back (more than one portal view), or null when the top page is not in the modal portal.
+const PORTAL_PAGES = new Set<string>([...modalPages, ...portalPushedPages]);
+
+export function modalPortalNav(root: { routes: { name: string }[]; index?: number } | undefined): { routeName: string; canGoBack: boolean } | null {
+  if (!root || !root.routes?.length) {
+    return null;
+  }
+  const top = root.index ?? root.routes.length - 1;
+  let count = 0;
+  for (let i = top; i >= 0 && PORTAL_PAGES.has(root.routes[i].name); i--) {
+    count++;
+  }
+  return count ? { routeName: root.routes[top].name, canGoBack: count > 1 } : null;
 }
