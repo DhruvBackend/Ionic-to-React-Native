@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/videoList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0, "category": "Installation" }, "karigar_id": "900001" },
+  "ionicSource": "src/pages/video/video.ts:48 (getVideoList; the load-more call at :76 sends {filter: {limit, category}} without karigar_id)"
+}

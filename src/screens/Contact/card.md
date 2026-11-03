@@ -79,5 +79,9 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- contact.ts:28 offline guard dead (`connection` never assigned); go_to_map() dead.
+- address gets a literal `.` after the interpolation (html:19).
+
 ## States
 
+`Contact.default`, `.customer`, `.hin`

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "VideoCategory.default",
+    "screen": "VideoCategory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('VideoCategory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "VideoCategory.empty",
+    "screen": "VideoCategory",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/VideoCatData": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('VideoCategory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "VideoCategory.hin",
+    "screen": "VideoCategory",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('VideoCategory'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

@@ -76,5 +76,11 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- video.ts:57 `video: null` throws: nothing drawn, loader already dismissed.
+- No error callback: HTTP error leaves the loader up.
+- video.ts:80 `r.video == ''` ends paging for good (flag never reset).
+- video.ts:84-86 re-wraps all urls on load more (Ionic double-wrap; RN keeps strings, not verified on a device).
+
 ## States
 
+`Video.default`, `.empty`, `.nocategory`, `.hin` (malformed: null video, covered in the test)

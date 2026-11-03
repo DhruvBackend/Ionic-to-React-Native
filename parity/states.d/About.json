@@ -1,0 +1,35 @@
+[
+  {
+    "id": "About.default",
+    "screen": "About",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('About'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "About.customer",
+    "screen": "About",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('About'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "About.hin",
+    "screen": "About",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('About'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
