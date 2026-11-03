@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/getCategory",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {},
+  "ionicSource": "src/pages/complaints/add-new-complaint/add-new-complaint.ts:149"
+}

@@ -34,6 +34,8 @@ export interface IonButtonProps {
   // `.green-color` / `.red-color` / `.reen-color` (buttonMd.*Background). Their `background: ... !important` also beats the
   // `.button-md-<c>.activated` shade, so the pressed button keeps this colour (only the shadow changes).
   background?: string;
+  // pressed colour when `background` is set without !important (e.g. `.rupee-btn button{background:green}` loses to `.button-md-primary.activated`): pass the shaded primary
+  activatedBackground?: string;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>; // utility classes (mb16, h40 ...) and inline styles on the <button>
   labelStyle?: StyleProp<TextStyle>; // rules on the inner span
@@ -74,6 +76,7 @@ export function IonButton({
   pdfBtn,
   textTransform,
   background,
+  activatedBackground,
   onPress,
   style,
   labelStyle,
@@ -101,7 +104,7 @@ export function IonButton({
   }
   if (background) {
     bg = background; // `.green-color { background: ... !important }`: also wins over `.activated`
-    activatedBg = bg;
+    activatedBg = activatedBackground ?? bg;
   }
 
   const iconSize = iconOnly

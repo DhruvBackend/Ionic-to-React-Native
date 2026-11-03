@@ -1,0 +1,18 @@
+{
+  "endpoint": "app_karigar/getCategory",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "categoryData": [
+        { "main_category": "Faucets" },
+        { "main_category": "Showers" }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "categoryData": []
+    },
+    "malformed": null
+  }
+}

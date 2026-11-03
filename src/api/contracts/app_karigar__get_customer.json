@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_customer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "mobile_no": "9000000001" },
+  "ionicSource": "src/pages/complaints/add-new-complaint/add-new-complaint.ts:91"
+}

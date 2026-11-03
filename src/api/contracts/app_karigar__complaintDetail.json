@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/complaintDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0, "status": "Pending" }, "karigar_id": "" },
+  "ionicSource": "src/pages/customerdetail/customerdetail.ts:92"
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "AddNewComplaint.service",
+    "screen": "AddNewComplaint",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": { "type": "Service" },
+    "ionicNav": "nav.push(Page('AddNewComplaint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "AddNewComplaint.installation",
+    "screen": "AddNewComplaint",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": { "type": "Installation" },
+    "ionicNav": "nav.push(Page('AddNewComplaint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "AddNewComplaint.malformed",
+    "screen": "AddNewComplaint",
+    "role": "Customer",
+    "lang": "en",
+    "variants": { "app_master/getStates": "malformed", "app_karigar/getCategory": "malformed" },
+    "params": { "type": "Service" },
+    "ionicNav": "nav.push(Page('AddNewComplaint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
