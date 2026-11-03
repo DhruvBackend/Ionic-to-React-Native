@@ -256,7 +256,7 @@ export default function OfferListScreen({ navigation, route }: Props) {
                           {collapse(t(titlecase(list.title) ?? ''))}
                         </Text>
                         {/* html:34 {{ 'Valid Upto' | translate}} : {{list.end_date | date:'d MMMM y'}} */}
-                        <Text testID={`offer-valid-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(12, 400, colors.white, 18), styles.p]}>
+                        <Text testID={`offer-valid-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(12, 400, colors.white), styles.p]}>
                           {`${collapse(t('Valid Upto'))} : ${datePipe(list.end_date)}`}
                         </Text>
                       </View>

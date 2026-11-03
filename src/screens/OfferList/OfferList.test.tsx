@@ -5,6 +5,7 @@ import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
 import i18n from '../../i18n';
+import { navigationRef } from '../../navigation/navigationRef';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
 import OfferListScreen from './index';
 
@@ -204,5 +205,70 @@ describe('navigation (card Nav targets)', () => {
     });
     await mount();
     expect(i18n.language).toBe('hin');
+  });
+});
+
+describe('pipes', () => {
+  test('titlecase splits on word boundaries (it-s becomes It-S style), date pipe formats d MMMM y', async () => {
+    installSpy();
+    setFixtureVariant('app_karigar/offerList', 'default');
+    const fx = require('../../api/fixtures/app_karigar__offerList.json');
+    const saved = fx.variants.default.offer[0];
+    fx.variants.default.offer[0] = { ...saved, title: "it's a DEAL", end_date: '2026-03-05' };
+    try {
+      await mount();
+      expect(allText()).toEqual(expect.arrayContaining(["It'S A Deal", 'Valid Upto : 5 March 2026']));
+    } finally {
+      fx.variants.default.offer[0] = saved;
+    }
+  });
+});
+
+describe('ionViewDidLeave (offer-list.ts:118-143)', () => {
+  const stackState = (names: string[]) => ({ type: 'stack', index: names.length - 1, routes: names.map(name => ({ name })) });
+  function mountWithNav(stackRoutes: number) {
+    const listeners: Record<string, () => void> = {};
+    const nav = {
+      push: jest.fn(),
+      popToTop: jest.fn(),
+      getState: () => ({ routes: new Array(stackRoutes).fill({}) }),
+      addListener: (type: string, cb: () => void) => {
+        listeners[type] = cb;
+        return () => {};
+      },
+    };
+    return { nav, listeners };
+  }
+  async function leave(stackRoutes: number, rootState: any) {
+    jest.spyOn(navigationRef, 'isReady').mockReturnValue(true);
+    jest.spyOn(navigationRef, 'getRootState').mockReturnValue(rootState);
+    installSpy();
+    const { nav, listeners } = mountWithNav(stackRoutes);
+    await act(async () => {
+      tree = ReactTestRenderer.create(<OfferListScreen navigation={nav as any} route={{ params: {} } as any} />);
+    });
+    await settle();
+    await act(async () => {
+      listeners.blur();
+    });
+    return nav;
+  }
+  afterEach(() => jest.restoreAllMocks());
+
+  test('active nav shows Home with no root page before it and this stack has >1 page: popToTop', async () => {
+    const nav = await leave(2, stackState(['Home']));
+    expect(nav.popToTop).toHaveBeenCalledTimes(1);
+  });
+  test('stack with a single route: nothing to pop', async () => {
+    const nav = await leave(1, stackState(['Home']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
+  });
+  test('active page is Offers (not a root page): nothing', async () => {
+    const nav = await leave(2, stackState(['Home', 'OfferList', 'Offers']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
+  });
+  test('previous page is a root page: nothing', async () => {
+    const nav = await leave(2, stackState(['Home', 'Profile']));
+    expect(nav.popToTop).not.toHaveBeenCalled();
   });
 });
