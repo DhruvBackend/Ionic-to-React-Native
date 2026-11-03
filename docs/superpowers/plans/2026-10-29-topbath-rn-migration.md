@@ -945,10 +945,10 @@ Home (Plumber and Seller/Dealer variants are two state sets on one screen), Main
 - Kit additions during Phase 2: kit `Text` (browser line breaking), `useIonViewWillEnter`, placeholder routes for unported pages, `src/ui/angularPipes.ts`, `IonField labelStyle`, alert/loading white-space like innerHTML, Ionic modal-portal hardware back (`modalPortalNav`), `webAlert` (Cordova native window.alert), client pictures via `use-client.mjs` (home images, qrcode.png).
 - Not reachable in Topbath (ported for the template, states marked): Transaction, ShippingDetail, Feedback (push-only; no push plugin shipped), Terms (only dead callers).
 - Open for the phone pass (Dhruv: one phone session after all 22 screens): all Phase 2 captures + Tabs.Retailer re-capture + tap checks; real server HTML in CancelationPolicy/Terms (lists?); Chrome broken-image glyph for missing Ionic images; per-screen client pictures (PointList icons, Profile avatar) into use-client; noFound.svg shared.
-- [ ] **Flow test** `flows/scan-redeem.test.ts`:
+- [x] **Flow test** `flows/scan-redeem.test.tsx` (done 2026-11-03, 4c3eb1e; stateful MOCK handlers `src/api/mock/handlers/loyalty.ts` return the fixture variant unchanged until a write):
   - Plumber: scan (`setMockScan`) → `karigarCoupon` → balance increases on PointList → GiftDetail → CancelpolicyModal (`sendOtp`, then the client OTP match) → `redeemRequest` → Transaction lists it
   - Seller: ScanPoint multi-scan → `saveCoupon`
-- [ ] **Flow test** `flows/transfer.test.ts`: Pointtranfer `karigar_not_exist` alert and SUCCESS; SalesPointTransfer `bonus_points`.
+- [x] **Flow test** `flows/transfer.test.tsx` (done 2026-11-03): Pointtranfer `karigar_not_exist` alert and SUCCESS; SalesPointTransfer `bonus_points`.
 - [ ] **Maestro:** one flow per role covering every tab.
 - [ ] **Gate.**
 

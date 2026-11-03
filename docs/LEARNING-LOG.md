@@ -517,3 +517,17 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Implementers should follow the source over the brief.** Twice an implementer found my instructions contradicted the Ionic code (when Transaction pops to root; which CancelpolicyModal entry is live) and correctly followed the code.
 
 **Interview angle:** "How do you resolve a disagreement between two reviewers about legacy behaviour?" → build a cheap way to run and inspect the original (here a headless browser on the old build with a DOM probe), and let the measurement decide.
+
+## 2026-11-03 — Phase 2 done: 22 screens and two end-to-end flows
+
+**What:** Finished porting all 22 Phase 2 screens (each reviewed independently against the Ionic source) and added the plan's two flow tests. Scan-and-redeem drives the real navigator: scan → balance up → gift → OTP pop-up → redeem → Transaction lists it. Transfer covers the Plumber and Seller transfers. The last kit pieces were:
+- Ionic's modal-portal back button;
+- Cordova's native `window.alert`;
+- the shared Angular pipes.
+
+**Learned:**
+- **A mock with memory, but no surprises.** The flow test needs "the balance goes up after a scan", so the mock now keeps a small store. Its rule is that with an empty store every answer equals the fixture exactly, and a unit test checks this for every variant. That way, screenshots and screen tests built on fixed data can't drift.
+- **Framework internals hide in plain sight.** "Back on a pop-up shows the exit alert" sounds like a bug, but it is what Ionic really does. Modals live in their own portal, and the app's back handler asks that portal "can you go back?". The answer came from reading `modal-impl.js` and `app.js`, not from guessing.
+- **Not everything ported is reachable.** Four screens (three push-only, plus Terms) can't be opened in Topbath. They are still ported for the white-label template, with their reachability written down so nobody mistakes them for live features.
+
+**Interview angle:** "How do you test a multi-screen flow in a mobile app without a backend?" → render the real navigator, press real controls, and use a deterministic mock whose state changes only on writes and is proven to match the static fixtures otherwise.
