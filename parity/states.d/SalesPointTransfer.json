@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SalesPointTransfer.default",
+    "screen": "SalesPointTransfer",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": { "totalPoint": 1250 },
+    "ionicNav": "nav.setRoot(Page('SalesPointTransfer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Reached from Home (Seller/Dealer) 'Point Transfer' with {totalPoint: total_balence}. list_of_plumber is called from the constructor."
+  },
+  {
+    "id": "SalesPointTransfer.hin",
+    "screen": "SalesPointTransfer",
+    "role": "Sales_Boy",
+    "lang": "hin",
+    "variants": {},
+    "params": { "totalPoint": 1250 },
+    "ionicNav": "nav.setRoot(Page('SalesPointTransfer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Module has its own forRoot but is imported eagerly, so the root TranslateService (Hindi) applies."
+  }
+]

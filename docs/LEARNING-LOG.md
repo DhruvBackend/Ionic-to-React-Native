@@ -503,3 +503,17 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Generated files always conflict when merging parallel branches; that's fine.** The fix is to regenerate after each merge (`gen-routes`, `gen-fixtures`), not to hand-merge.
 
 **Interview angle:** "How do you keep quality up when several AI agents write code in parallel?" → isolated worktrees, an independent reviewer that sees the source but not the author's reasoning, at most two fix loops, and every repeated finding promoted into a shared, tested component plus a written rule.
+
+## 2026-11-03 — Phase 2 middle stretch: measure, don't argue
+
+**What:** Merged ViewProfile, Pointtranfer, CancelpolicyModal, ScanPoint, CoupanCode, PointHistory, GiftDetail and Transaction (13 of 22 Phase 2 screens). Two kit fixes came from reviews:
+- alert and loading text now collapses white space like the browser does with Ionic's `innerHTML`;
+- `IonField` gained `labelStyle` for page-level label overrides.
+
+**Learned:**
+- **When two careful readers disagree, run the original.** The implementer said CancelpolicyModal's checkboxes start ticked (`checked="true"` in the template). The reviewer argued from Angular's form internals that `ngModel` overrides it. A ten-line probe in the Ionic reference build printed `_value=false` and showed both boxes empty. The probe took two minutes; arguing would have taken longer and could still have been wrong.
+- **Ionic renders some text as HTML, and that changes what users see.** Alert and loader text goes through `innerHTML`, so "You are account  not verified" shows one space. The rule is now: screens pass Ionic's exact strings, and the kit does the HTML-style rendering once.
+- **Shell escaping can quietly corrupt code.** A regex written through a shell heredoc lost its backslash (`\s` became `s`). It was found by an implementer whose valid code was rejected. Multi-line code goes through the file-edit tool, not the shell.
+- **Implementers should follow the source over the brief.** Twice an implementer found my instructions contradicted the Ionic code (when Transaction pops to root; which CancelpolicyModal entry is live) and correctly followed the code.
+
+**Interview angle:** "How do you resolve a disagreement between two reviewers about legacy behaviour?" → build a cheap way to run and inspect the original (here a headless browser on the old build with a DOM probe), and let the measurement decide.

@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/bonus_points",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "failed": { "status": "FAILED" },
+    "empty": {},
+    "malformed": null
+  }
+}

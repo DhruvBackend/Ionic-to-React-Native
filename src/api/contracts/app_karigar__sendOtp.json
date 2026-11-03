@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/sendOtp",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "900001", "mobile_no": "9000000001", "gift_id": 21 },
+  "note": "Two call sites. This is the load call (getOtpDetail). The Resend link (resendOtp, cancelpolicy-modal.ts:81) sends {karigar_id, gift_id} only (no mobile_no); the screen test checks that shape inline. gift_id is navParams.get('gift_id') (GiftDetail passes its own navParam id, a number from the dev server, undefined after a push notification).",
+  "ionicSource": "src/pages/cancelpolicy-modal/cancelpolicy-modal.ts:64"
+}
