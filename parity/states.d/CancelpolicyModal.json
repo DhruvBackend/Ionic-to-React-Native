@@ -1,0 +1,38 @@
+[
+  {
+    "id": "CancelpolicyModal.default",
+    "screen": "CancelpolicyModal",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "karigar_id": "900001", "gift_id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), { id: 21 }).then(() => new Promise(r => setTimeout(r, 1500))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.presentCancelPolicyModal(); }); })",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "A real Ionic modal: GiftDetail.presentCancelPolicyModal() (gift-detail.ts:52-56) is driven inside NgZone (TapClick swallows synthetic events). The modal page has no header (ion-header display:none) and a 50% black ion-content over the white modal wrapper. Yes is greyed (data.check undefined although the box is drawn checked)."
+  },
+  {
+    "id": "CancelpolicyModal.hin",
+    "screen": "CancelpolicyModal",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": { "karigar_id": "900001", "gift_id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), { id: 21 }).then(() => new Promise(r => setTimeout(r, 1500))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.presentCancelPolicyModal(); }); })",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): the labels come from hin.json; 'points?' and the textarea placeholder are hard-coded English."
+  },
+  {
+    "id": "CancelpolicyModal.cash",
+    "screen": "CancelpolicyModal",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/sendOtp": "cash" },
+    "params": { "karigar_id": "900001", "gift_id": 22 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), { id: 21 }).then(() => new Promise(r => setTimeout(r, 1500))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.presentCancelPolicyModal(); }); })",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "gift.type 'Cash': no 'Same as Permanent Address' box and no address field (the Cash block of the template is commented out)."
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/redeemRequest",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "msg": "Redeem request sent" },
+    "EXIST": { "status": "EXIST", "msg": "Already redeemed" },
+    "monthly_redeem_limit_exceed": { "status": "monthly_redeem_limit_exceed", "msg": "Monthly redeem limit exceeded" },
+    "empty": {},
+    "malformed": null
+  }
+}

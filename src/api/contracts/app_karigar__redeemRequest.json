@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/redeemRequest",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar_id": "900001",
+    "mobile": "9000000001",
+    "bank_detail_type": "=",
+    "paytm_mobile": "=",
+    "gift_id": 21,
+    "offer_id": 11,
+    "bankDetails": "=",
+    "shipping_address": "12 Rose Lane ,Sahibabad ,GHAZIABAD ,UTTAR PRADESH ,201010"
+  },
+  "note": "bank_detail_type, paytm_mobile and bankDetails are always the empty string (set in ionViewDidLoad / literal ''). shipping_address is absent when the gift type is not 'Gift' and the box was never filled (JSON drops undefined); mobile and offer_id are absent when the sendOtp response lacked them.",
+  "ionicSource": "src/pages/cancelpolicy-modal/cancelpolicy-modal.ts:122"
+}
