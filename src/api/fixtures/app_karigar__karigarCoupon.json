@@ -12,6 +12,8 @@
       "karigar_data": { "first_name": "Ramesh", "mobile_no": "9812345670" }
     },
     "POINTS NOT EXIST": { "status": "POINTS NOT EXIST" },
-    "UNASSIGNED OFFER": { "status": "UNASSIGNED OFFER" }
+    "UNASSIGNED OFFER": { "status": "UNASSIGNED OFFER" },
+    "BLANK": { "status": "BLANK" },
+    "REQUIRED": { "status": "REQUIRED" }
   }
 }

@@ -39,6 +39,82 @@
       "transaction": [
         { "id": 502, "gift_title": "hand tool kit", "coupon_points": 800, "gift_status": "Approved", "receive_status": "Received", "reject_reason": "", "date_created": "2026-09-30", "received_date": "2026-11-03" }
       ]
+    },
+    "redeem": {
+      "status": "SUCCESS",
+      "karigar": {
+        "id": 900001,
+        "balance_point": 1250,
+        "reg_points": 100
+      },
+      "transaction": [
+        {
+          "id": 505,
+          "gift_title": "steel water bottle",
+          "coupon_points": 400,
+          "gift_status": "Pending",
+          "receive_status": "",
+          "reject_reason": "",
+          "date_created": "2026-10-28",
+          "received_date": "",
+          "type": "Gift"
+        },
+        {
+          "id": 504,
+          "gift_title": "wall clock",
+          "coupon_points": 300,
+          "gift_status": "Approved",
+          "receive_status": "",
+          "reject_reason": "",
+          "date_created": "2026-10-20",
+          "received_date": "",
+          "type": "Gift"
+        },
+        {
+          "id": 503,
+          "gift_title": "bluetooth speaker",
+          "coupon_points": 1500,
+          "gift_status": "Reject",
+          "receive_status": "",
+          "reject_reason": "out of stock",
+          "date_created": "2026-10-12",
+          "received_date": "",
+          "type": "Gift"
+        },
+        {
+          "id": 502,
+          "gift_title": "hand tool kit",
+          "coupon_points": 800,
+          "gift_status": "Approved",
+          "receive_status": "Shipped",
+          "reject_reason": "",
+          "date_created": "2026-09-30",
+          "received_date": "2026-10-03",
+          "type": "Gift"
+        },
+        {
+          "id": 501,
+          "gift_title": "travel bag",
+          "coupon_points": 600,
+          "gift_status": "Approved",
+          "receive_status": "Received",
+          "reject_reason": "",
+          "date_created": "2026-09-15",
+          "received_date": "2026-09-22",
+          "type": "Gift"
+        },
+        {
+          "id": 500,
+          "gift_title": "cash transfer",
+          "coupon_points": 200,
+          "gift_status": "Approved",
+          "receive_status": "Transfered",
+          "reject_reason": "",
+          "date_created": "2026-09-01",
+          "received_date": "2026-09-05",
+          "type": "Wallet"
+        }
+      ]
     }
   }
 }
