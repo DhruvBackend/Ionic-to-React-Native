@@ -1,0 +1,38 @@
+[
+  {
+    "id": "QuotationGenrateByPdf.default",
+    "screen": "QuotationGenrateByPdf",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('QuotationGenrateByPdf'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Reached from Home (Sales_Boy / Dealer). parentCategory_List_quotation and quotation_List are called from the constructor."
+  },
+  {
+    "id": "QuotationGenrateByPdf.empty",
+    "screen": "QuotationGenrateByPdf",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": { "app_master/quotation_List": "empty", "app_master/parentCategory_List_quotation": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('QuotationGenrateByPdf'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "No products: the picker has no items."
+  },
+  {
+    "id": "QuotationGenrateByPdf.malformed",
+    "screen": "QuotationGenrateByPdf",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": { "app_master/quotation_List": "malformed", "app_master/parentCategory_List_quotation": "malformed" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('QuotationGenrateByPdf'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Null bodies: the subscribe callbacks throw (only logged); the form still renders."
+  }
+]

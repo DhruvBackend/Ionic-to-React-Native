@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/quotation_pdf",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "mobile_no": "9812345670", "address": "Delhi", "full_name": "Ravi", "main_category": "", "sub_category": "", "product_name": "", "qty": "", "total_amount": "", "price": "", "product_id": "", "material_code": "", "actual_image_name": "", "product_list": [{ "mobile_no": "9812345670", "address": "Delhi", "full_name": "Ravi", "product_name": "Basin Mixer", "price": 1500, "sub_category": "Mixers", "main_category": "Taps", "qty": "2", "total_amount": 3000, "product_id": 11, "material_code": "TB-101", "actual_image_name": "tb101.jpg" }], "karigar_id": "900001" },
+  "ionicSource": "src/pages/quotation-genrate-by-pdf/quotation-genrate-by-pdf.ts:244"
+}
