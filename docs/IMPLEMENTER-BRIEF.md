@@ -32,6 +32,17 @@ You port Ionic 3 page(s) to React Native as an **exact 1:1 copy** in your worktr
 - i18n: `t('<same key>')` where Ionic used `| translate`; literal where Ionic hardcoded. Check the page's `.module.ts`: own `TranslateModule.forRoot` + `use()` → copy the resulting language.
 - Client pictures: `clients/<id>/assets/...` through `scripts/use-client.mjs` (adding one = STOP item).
 
+## Lessons from earlier S8 reviews (check these before reporting)
+- **Global SCSS applies too:** grep `src/theme/variables.scss` / `src/app/app.scss` (Ionic repo) for every class in the template (`.listing`, `.mt0`, `.list-adjust`, `.data-not`, `.product-data`…). Typical misses: `.listing{margin:16px 0}` on ion-content, `.listing button` white bg + radius 6 + shadow, `!important` utility classes overriding page rules. Check specificity when two rules compete.
+- **Statement order on error paths:** if Ionic dismisses the loader and THEN reads a field that throws on a null body, RN hides first and then stops. Do not reorder.
+- **Inline `<iframe>`/`<img>` leave a ~4px baseline gap** below them in Ionic: add a 4px spacer.
+- **Remote images with `width:100%`** keep their natural aspect ratio: use `Image.getSize` → height (see GiftDetail); never `resizeMode="stretch"` unless Ionic stretches.
+- **Page SCSS overrides kit sizes** (fab 30px, icon 2rem): use the kit's override props (`IonFabButton size/iconSize`); a missing prop is a STOP item, not a not-1:1.
+- **Colours not in the theme:** a per-screen theme file `src/theme/ionicMd<Name>.ts` (pattern: `ionicMdCatalogue.ts`), never an eslint-disable for hex.
+- **Dead code:** a method nothing in the template or a reachable lifecycle calls is not ported; list it under Quirks with its file:line.
+- **Brand text inside translate keys** (company names, addresses) belongs in client config: STOP and report.
+- **Known worktree artefact:** the parity test "Language.default capture produces a non-blank PNG" fails in worktrees (no Ionic build): ignore it. The repo has no `.maestro` dir: skip maestro.
+
 ## Report (at most 150 words, no file contents, no logs)
 - Files added/changed (paths only).
 - Gates: the 4 lines from `npm run gates`.
