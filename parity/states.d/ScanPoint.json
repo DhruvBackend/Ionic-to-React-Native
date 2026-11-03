@@ -1,0 +1,49 @@
+[
+  {
+    "id": "ScanPoint.scan",
+    "screen": "ScanPoint",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": { "mode": "home", "type": "scan" },
+    "ionicNav": "nav.setRoot(Page('ScanPoint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Home (Sales_Boy / Dealer) goOnScanePage radio alert: 'Coupon Scan' -> push(ScanPointPage, {mode:'home', type:'scan'}) (home.ts:469). Nothing scanned yet: the QR picture and prompt. The list, form and alerts need the barcode scanner, which the reference harness cannot drive: unit-tested only."
+  },
+  {
+    "id": "ScanPoint.enterCoupon",
+    "screen": "ScanPoint",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": { "mode": "home", "type": "enter_coupon" },
+    "ionicNav": "nav.setRoot(Page('ScanPoint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Home goOnScanePage radio alert: 'Enter Coupon Code' -> push(ScanPointPage, {mode:'home', type:'enter_coupon'}) (home.ts:472). Empty Coupon Code input and 'Add To list'."
+  },
+  {
+    "id": "ScanPoint.scan.hin",
+    "screen": "ScanPoint",
+    "role": "Sales_Boy",
+    "lang": "hin",
+    "variants": {},
+    "params": { "mode": "home", "type": "scan" },
+    "ionicNav": "nav.setRoot(Page('ScanPoint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global: the module has its own TranslateModule.forRoot but is imported by AppModule, so the root service's language applies."
+  },
+  {
+    "id": "ScanPoint.enterCoupon.hin",
+    "screen": "ScanPoint",
+    "role": "Dealer",
+    "lang": "hin",
+    "variants": {},
+    "params": { "mode": "home", "type": "enter_coupon" },
+    "ionicNav": "nav.setRoot(Page('ScanPoint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

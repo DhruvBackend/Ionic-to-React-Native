@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/checkCoupon",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "karigar_id": "900002", "qr_code": "QR-1" },
+  "ionicSource": "src/pages/scan-point/scan-point.ts:186 (scan) and :253 (couponAddList, qr_code = data.code)"
+}

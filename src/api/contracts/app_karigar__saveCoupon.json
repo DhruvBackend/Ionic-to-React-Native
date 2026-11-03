@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/saveCoupon",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "data": {
+      "plumber_mobile_no": "9810000011",
+      "plumber_name": "Test Plumber",
+      "plumber_id": 900011,
+      "sales_boy_id": "900002",
+      "scanner_id": "900002",
+      "scanner_type": "Sales_Boy"
+    },
+    "qr_code": [{ "qr_code": "QR-1", "coupon_value": 50, "product_name": "Brass Bib Cock" }]
+  },
+  "ionicSource": "src/pages/scan-point/scan-point.ts:441 (data also has `code` when the enter_coupon page was used)"
+}
