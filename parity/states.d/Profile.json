@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Profile.plumber",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.plumberPending",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "pending"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.plumberSuspect",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "suspect"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.plumberReject",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "reject"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.plumberNoPhoto",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "noPhoto"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.plumberHin",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "lang": "hin"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.seller",
+    "screen": "Profile",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "seller"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.dealer",
+    "screen": "Profile",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "dealer"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.executive",
+    "screen": "Profile",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "executive"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.customer",
+    "screen": "Profile",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "customer"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.customerNoLocation",
+    "screen": "Profile",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/profile": "customerNoLocation"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.retailer",
+    "screen": "Profile",
+    "role": "Retailer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params)",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Profile.photoSheet",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params).then(() => new Promise(r => setTimeout(r, 1200))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.openeditprofile(); }); })",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15",
+    "rnAction": "tap:profile-photo-edit",
+    "rnActionWaitMs": 1500,
+    "ionicNavNote": "The Ionic side calls openeditprofile() inside NgZone (TapClick swallows synthetic events); RN taps the camera badge."
+  },
+  {
+    "id": "Profile.logoutAlert",
+    "screen": "Profile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Profile'), params).then(() => new Promise(r => setTimeout(r, 1200))).then(() => { const inj = window.ng.probe(document.querySelector('ion-app')).injector; inj.get(window.ng.coreTokens.NgZone).run(() => { nav.getActive().instance.logout(); }); })",
+    "waitMs": 3500,
+    "rnWaitMs": 6500,
+    "deviceVersion": "15",
+    "rnAction": "tap:profile-logout",
+    "rnActionWaitMs": 1500,
+    "ionicNavNote": "The Ionic side calls logout() inside NgZone; RN taps the power icon."
+  }
+]
