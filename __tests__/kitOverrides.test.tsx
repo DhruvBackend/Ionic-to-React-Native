@@ -31,3 +31,11 @@ test('IonField labelStyle.color and innerStyle.paddingRight override the variant
   const inners = r.root.findAll(n => n.props.style && StyleSheet.flatten(n.props.style)?.paddingRight === 0 && StyleSheet.flatten(n.props.style)?.flexDirection === 'row');
   expect(inners.length).toBeGreaterThan(0);
 });
+
+test('IonButton iconAfter: plain <ion-icon> after the text takes the button font size and the given margin', () => {
+  const { IonIcon } = require('../src/components/ionic/IonIcon');
+  const r = render(<IonButton iconAfter={{ name: 'arrow-forward', marginLeft: 10 }} testID="b">Start Checkin</IonButton>);
+  const icon = r.root.findByType(IonIcon);
+  expect(icon.props.size).toBe(14);
+  expect(StyleSheet.flatten(icon.props.style).marginLeft).toBe(10);
+});

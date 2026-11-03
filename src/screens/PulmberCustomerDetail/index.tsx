@@ -10,7 +10,7 @@ import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { Text } from '../../components/ionic/IonText';
 import { textStyle } from '../../components/ionic/text';
 import { WebEmbed } from '../../components/WebEmbed';
-import { getPosition } from '../../native';
+import { getNetworkState, getPosition } from '../../native';
 import { ionicColors } from '../../theme';
 import { buttonMd } from '../../theme/ionicMdContent';
 import { pulmberDetailMd as C } from '../../theme/ionicMdPulmberCustomerDetail';
@@ -41,6 +41,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
   const [lowerDetail, setLowerDetail] = useState<any>({});
   const [media, setMedia] = useState<any[]>([]); // complaint_media:any=[]
   const [remarkCount, setRemarkCount] = useState<any>(undefined); // remark_count:any
+  const [upperOnly, setUpperOnly] = useState<any>(null); // complaintStatus of a response without `image` (null: normal)
   const [mode, setMode] = useState(1); // mode=1
   const detailRef = useRef<any>({});
   const newLat = useRef<any>(undefined); // new_lat:any
@@ -52,7 +53,6 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
     alive.current = true;
     presentLoading();
     const id = route?.params?.id;
-    setComplaintId(id);
     getPlumberDetail(id);
     return () => {
       alive.current = false;
@@ -79,11 +79,20 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
         if (details == null) {
           return;
         }
-        detailRef.current = details;
-        if (alive.current) {
-          setDetail(details);
-        }
         const image = details.image;
+        detailRef.current = details;
+        // NOTE (parity): reasoned from ViewEngine order, verify on device: a missing `image` makes `*ngIf="complaint_media.length"` (html:132) throw in
+        // updateDirectives, before the text interpolations update: names / address / nature / COM# keep their old values, the status blocks before
+        // html:132 are created with static text only, and nothing after it is created.
+        if (alive.current) {
+          if (image == null) {
+            setUpperOnly(details.complaintStatus);
+          } else {
+            setUpperOnly(null);
+            setDetail(details);
+            setComplaintId(route?.params?.id); // `COM#{{complaint_id}}` is a root interpolation too
+          }
+        }
         // :151 remark_count is assigned before the loop below can throw
         if (alive.current) {
           setRemarkCount(response.complaintHistoryCount);
@@ -151,6 +160,12 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
     }
     newLat.current = r.value.lat; // :233
     newLong.current = r.value.lng; // :234
+    // NOTE (parity): approximates "the Google Maps script did not load" (index.html:36 loads it remotely): offline at launch `google` is undefined,
+    // `new google.maps.LatLng` (:224) throws before checkinPass() and nothing is posted.
+    const net = await getNetworkState();
+    if (net.ok && !net.value.online) {
+      return;
+    }
     checkinPass();
   }
 
@@ -191,7 +206,10 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
   // ---- template ----
   const d = detail ?? {};
-  const low = lowerDetail ?? {};
+  const low = upperOnly != null ? {} : lowerDetail ?? {};
+  const cut = upperOnly != null; // html:132 threw: nothing after it exists
+  // the status-driven blocks before html:132: created from the new status, their bindings not updated
+  const b: any = cut ? { complaintStatus: upperOnly } : d;
   const ink = C.inkSoft;
   const mediaList: any[] = Array.isArray(media) ? media : [];
   const ulWidth = win.width - 32; // gallery: the screen minus its 2 x 16 padding
@@ -256,9 +274,9 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
   const checkinButton = (
     <View testID="checkin-block" style={styles.checkinBlock}>
-      {/* `class="mb16"` / `ml10` are defined nowhere: no margins */}
-      <IonButton testID="checkin-button" color="primary" block round textTransform="capitalize" iconEnd="arrow-forward" onPress={() => { checkin(); setMode(0); }}>
-        {`${collapseWs(t('Start Checkin'))} `}
+      {/* `class="mb16"` is defined nowhere; `ml10` = margin-left 10 on the icon */}
+      <IonButton testID="checkin-button" color="primary" block round textTransform="capitalize" iconAfter={{ name: 'arrow-forward', marginLeft: 10 }} onPress={() => { checkin(); setMode(0); }}>
+        {collapseWs(t('Start Checkin'))}
       </IonButton>
     </View>
   );
@@ -293,53 +311,53 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
                 <Text style={liLabel}>{collapseWs(t('Status'))}</Text>
               </View>
               <View style={styles.liP}>
-                {d.complaintStatus == 'Pending' || d.complaintStatus == 'Cancel' || d.complaintStatus == 'Closed' ? ( // eslint-disable-line eqeqeq
+                {b.complaintStatus == 'Pending' || b.complaintStatus == 'Cancel' || b.complaintStatus == 'Closed' ? ( // eslint-disable-line eqeqeq
                   <>
                     <Text style={[liBold, styles.colon]}>:</Text>
                     <Text testID="value-status" style={[liText, styles.colon, styles.grow]}>
-                      {d.complaintStatus}
+                      {b.complaintStatus}
                     </Text>
                   </>
                 ) : null}
               </View>
             </View>
-            {d.complaintStatus == 'Part_Pending' ? ( // eslint-disable-line eqeqeq
+            {b.complaintStatus == 'Part_Pending' ? ( // eslint-disable-line eqeqeq
               <View testID="row-part-image" style={styles.li}>
                 <View style={styles.liH4}>
                   <Text style={liLabel}>{collapseWs(t('Image'))}</Text>
                 </View>
                 <Text style={textStyle(14, 400, C.ink)}>:</Text>
-                <Pressable testID="part-image" onPress={() => openimage(d.part_pending_image)} style={styles.partImg}>
-                  <Image testID="part-image-src" source={{ uri: db.upload_url3 + d.part_pending_image }} style={styles.partImgInner} resizeMode="stretch" />
+                <Pressable testID="part-image" onPress={() => openimage(b.part_pending_image)} style={styles.partImg}>
+                  <Image testID="part-image-src" source={{ uri: db.upload_url3 + b.part_pending_image }} style={styles.partImgInner} resizeMode="stretch" />
                 </Pressable>
               </View>
             ) : null}
-            {d.complaintStatus == 'Unit_Replacement' ? ( // eslint-disable-line eqeqeq
+            {b.complaintStatus == 'Unit_Replacement' ? ( // eslint-disable-line eqeqeq
               <View testID="row-unit-image" style={styles.li}>
                 <View style={styles.liH4}>
                   <Text style={liLabel}>{collapseWs(t('Image'))}</Text>
                 </View>
                 <Text style={textStyle(14, 400, C.ink)}>:</Text>
-                <Pressable testID="unit-image" onPress={() => openimage(d.unit_pending_image)} style={styles.partImg}>
-                  <Image testID="unit-image-src" source={{ uri: db.upload_url3 + d.unit_pending_image }} style={styles.partImgInner} resizeMode="stretch" />
+                <Pressable testID="unit-image" onPress={() => openimage(b.unit_pending_image)} style={styles.partImg}>
+                  <Image testID="unit-image-src" source={{ uri: db.upload_url3 + b.unit_pending_image }} style={styles.partImgInner} resizeMode="stretch" />
                 </Pressable>
               </View>
             ) : null}
-            {d.complaintStatus == 'Closed' ? ( // eslint-disable-line eqeqeq
+            {b.complaintStatus == 'Closed' ? ( // eslint-disable-line eqeqeq
               <>
-                {row('closedBy', collapseWs(t('Closed By')), interp(d.cancelled_by))}
-                {row('closeDate', collapseWs(t('Closing Date')), interp(datePipe(d.cancel_date, 'd MMMM y')))}
-                {row('closeRemark', collapseWs(t('Closing Remark')), interp(d.reason_cancel))}
+                {row('closedBy', collapseWs(t('Closed By')), interp(b.cancelled_by))}
+                {row('closeDate', collapseWs(t('Closing Date')), interp(datePipe(b.cancel_date, 'd MMMM y')))}
+                {row('closeRemark', collapseWs(t('Closing Remark')), interp(b.reason_cancel))}
               </>
             ) : null}
-            {d.complaintStatus == 'Cancel' ? ( // eslint-disable-line eqeqeq
+            {b.complaintStatus == 'Cancel' ? ( // eslint-disable-line eqeqeq
               <>
-                {row('cancelBy', collapseWs(t('Cancel By')), interp(d.cancelled_by))}
-                {row('cancelDate', collapseWs(t('Cancel Date')), interp(datePipe(d.cancel_date, 'd MMMM y')))}
+                {row('cancelBy', collapseWs(t('Cancel By')), interp(b.cancelled_by))}
+                {row('cancelDate', collapseWs(t('Cancel Date')), interp(datePipe(b.cancel_date, 'd MMMM y')))}
                 {row(
                   'cancelRemark',
                   collapseWs(t('Cancel Remark')),
-                  interp(d.reason_cancel),
+                  interp(b.reason_cancel),
                   remarkCount > 0 ? (
                     <Pressable testID="cancel-view-all" onPress={goToRemarkHistory} style={styles.liLink}>
                       <Text style={linkStyle}>View all</Text>
@@ -352,12 +370,12 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
         </View>
 
         {/* html:124-137 `plumber_detail.reason_cancel!==''` is strict: an undefined reason shows the block */}
-        {d.complaintStatus == 'Pending' && d.reason_cancel !== '' ? ( // eslint-disable-line eqeqeq
+        {b.complaintStatus == 'Pending' && b.reason_cancel !== '' ? ( // eslint-disable-line eqeqeq
           <View testID="new-remark" style={styles.newRemark}>
             <View style={styles.timing}>
               <View style={styles.date}>
                 <Text testID="new-remark-date" style={[textStyle(14, 600, C.ink), styles.dateH4]}>
-                  {interp(datePipe(d.cancel_date, 'd MMMM y'))}
+                  {interp(datePipe(b.cancel_date, 'd MMMM y'))}
                 </Text>
               </View>
               <Pressable testID="new-remark-view-all" onPress={goToRemarkHistory}>
@@ -367,7 +385,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
             <View style={styles.content}>
               <Text testID="new-remark-text" style={textStyle(14, 400, C.ink, 19)}>
                 <Text style={textStyle(14, 600, C.ink, 19)}>Remark : </Text>
-                {interp(d.reason_cancel)}
+                {interp(b.reason_cancel)}
               </Text>
             </View>
           </View>
@@ -375,7 +393,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
         {/* html:150-... `.gallery` holds the media, the rating and the task buttons */}
         <View style={styles.gallery}>
-          {mediaList.length ? (
+          {!cut && mediaList.length ? (
             <View testID="select-img">
               <Text style={[textStyle(18, 600, C.ink, 22), styles.pb10]}>{collapseWs(t('Product Gallery'))}</Text>
               <View>
@@ -409,7 +427,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
             </View>
           ) : null}
 
-          {starPositive ? (
+          {!cut && starPositive ? (
             <View testID="customer-ratings" style={styles.customerRatings}>
               <Text style={[textStyle(13, 400, ink), styles.pb10]}>{collapseWs(t('Rating'))}</Text>
               <View style={styles.stars}>
@@ -427,7 +445,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
             </View>
           ) : null}
 
-          {mode === 0 ? (
+          {!cut && mode === 0 ? (
             <View testID="task-btn" style={styles.taskBtn}>
               <IonButton
                 testID="close-complaint-button"
@@ -455,7 +473,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
         </View>
 
         {/* html:213-239 */}
-        {showCheckin ? checkinButton : null}
+        {!cut && showCheckin ? checkinButton : null}
       </IonContent>
     </View>
   );

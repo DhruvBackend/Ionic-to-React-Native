@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PlumberAdd.default",
+    "screen": "PlumberAdd",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberAdd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "PlumberAdd.hin",
+    "screen": "PlumberAdd",
+    "role": "Dealer",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberAdd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "PlumberAdd.malformed",
+    "screen": "PlumberAdd",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('PlumberAdd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

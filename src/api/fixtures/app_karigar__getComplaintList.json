@@ -111,6 +111,17 @@
       "status": "SUCCESS",
       "complaint_count": null,
       "complaintList": null
+    },
+    "plumber_page": {
+      "status": "SUCCESS",
+      "karigars": [
+        { "id": 431, "first_name": "deepak rane", "mobile_no": "9000000431", "date_created": "2026-06-11 12:00:00", "status": "Pending", "last_login_at": "2026-10-01 10:00:00", "last_scan_at": "2026-09-30 11:00:00", "balance_point": 75 },
+        { "id": 432, "first_name": "meena joshi", "mobile_no": "9000000432", "date_created": "2026-06-12 12:00:00", "status": "Pending", "last_login_at": null, "last_scan_at": null, "balance_point": 0 }
+      ]
+    },
+    "plumber_end": {
+      "status": "SUCCESS",
+      "karigars": []
     }
   }
 }

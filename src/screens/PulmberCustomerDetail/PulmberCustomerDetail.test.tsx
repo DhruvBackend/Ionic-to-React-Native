@@ -172,14 +172,23 @@ describe('render', () => {
     expect(allText()).toContain(i18n.t('Customer Detail'));
   });
 
-  test('empty (complaintDetails {} without image): upper part drawn, gallery and buttons keep their first state', async () => {
+  test('empty (no image): root text stays blank, status blocks before the gallery exist, nothing after', async () => {
     setFixtureVariant('app_karigar/getComplaintbyId', 'empty');
     await mount();
     expect(allText()).toContain('Customer Detail');
-    expect(textOf('value-id')).toBe('COM#71');
+    expect(textOf('value-id')).toBe('COM#');
     expect(exists('select-img')).toBe(false);
     expect(exists('checkin-block')).toBe(false);
     expect(openLoaders()).toHaveLength(0);
+  });
+
+  test('offline: no plumberCheckIn call', async () => {
+    installSpy();
+    const spy = jest.spyOn(require('../../native/network'), 'getNetworkState').mockResolvedValue({ ok: true, value: { online: false, type: 'none' } });
+    await mount();
+    await press('checkin-button');
+    expect(callsTo('app_karigar/plumberCheckIn')).toHaveLength(0);
+    spy.mockRestore();
   });
 
   test('malformed (complaintDetails null) renders without throwing and keeps the blank page', async () => {
