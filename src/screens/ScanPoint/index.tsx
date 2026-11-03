@@ -356,9 +356,10 @@ export default function ScanPointScreen({ navigation, route }: Props) {
 
   const ink = contentMd.textColor;
   const line = csInputLine();
-  // NOTE (parity): the kit's csInput variant is the registration form's (min-height 45, margin 16px 0, label 14px at -15, input padding-top 15);
-  // scan-point.scss:142-163 differs (height 40, margin-bottom 10, label 13px at -17, input padding-top 12). Item box and input are overridden here,
-  // the label size / offset is the kit's (reported to the lead).
+  // NOTE (parity): the kit csInput variant is the registration form's; scan-point.scss:142-163 differs (height 40, margin-bottom 10, label 13px at -17,
+  // input padding-top 12). Item box and input are overridden through itemStyle / inputStyle, the label through the kit labelStyle (paddingLeft 16 and
+  // the 0 80px transform-origin / #949494 colour are the kit csInput's, same as scan-point.scss:165-168).
+  const labelStyle = { fontSize: 13, marginTop: -17 };
   const inputStyle = { paddingTop: 12, height: line + 12 };
 
   // html:42-82 and :129-170: the form shared by both page types
@@ -390,6 +391,7 @@ export default function ScanPointScreen({ navigation, route }: Props) {
               }}
               itemStyle={styles.csItem}
               inputStyle={inputStyle}
+              labelStyle={labelStyle}
             />
             {errMobile ? (
               // NOTE (parity): one message "required" for every invalid state (empty or not 10 characters)
@@ -413,6 +415,7 @@ export default function ScanPointScreen({ navigation, route }: Props) {
               }}
               itemStyle={styles.csItem}
               inputStyle={inputStyle}
+              labelStyle={labelStyle}
             />
             {errName ? (
               <Text testID="plumber_name-error" style={[textStyle(14, 400, S.errorMsg), styles.errorMsg]}>
@@ -530,6 +533,7 @@ export default function ScanPointScreen({ navigation, route }: Props) {
                 }}
                 itemStyle={styles.csItem}
                 inputStyle={inputStyle}
+              labelStyle={labelStyle}
               />
             </IonList>
             {/* html:111 `<a ion-button full color="primary" (click)="couponAddList()" round> Add To list</a>` */}

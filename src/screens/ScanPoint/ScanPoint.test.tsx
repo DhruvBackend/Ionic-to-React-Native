@@ -149,6 +149,33 @@ describe('contracts (card Endpoints)', () => {
   });
 });
 
+describe('multi-scan flow', () => {
+  test('two different coupons scanned, plumber entered, Save: saveCoupon carries both rows', async () => {
+    installSpy();
+    await mount();
+    await press('scanpoint-scan');
+    setMockScan('QR-2');
+    await runAlertButton(0); // Scan More
+    await type('plumber_mobile_no', '9810000011');
+    await press('scanpoint-save');
+    expect(sent('app_karigar/saveCoupon')).toEqual({
+      data: {
+        plumber_mobile_no: '9810000011',
+        plumber_name: 'Test Plumber',
+        plumber_id: 900011,
+        sales_boy_id: '900002',
+        scanner_id: '900002',
+        scanner_type: 'Sales_Boy',
+      },
+      qr_code: [
+        { qr_code: 'TB-MOCK-0001', coupon_value: 50, product_name: 'Brass Bib Cock' },
+        { qr_code: 'QR-2', coupon_value: 50, product_name: 'Brass Bib Cock' },
+      ],
+    });
+    expect(navigation.push).toHaveBeenCalledWith('Home');
+  });
+});
+
 describe('render states', () => {
   test('scan, nothing scanned yet: title, prompt, QR picture and the Scan QR Code button', async () => {
     await mount();
