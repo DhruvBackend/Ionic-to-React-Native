@@ -555,3 +555,15 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Write the rules once.** The plan is 1,000 lines; the brief is about 60. Agents read the brief, and a missing rule gets fixed in one place.
 
 **Interview angle:** "Your LLM pipeline is too expensive; what do you do?" → measure where the tokens go (images, logs, repeated context), pre-filter with deterministic code, shrink the inputs (crops, quiet logs, short briefs), cap the outputs, and use smaller models only where a miss is cheap. Keep the quality gate the same.
+
+## 2026-11-04 — Phase 3 overnight: 11 screens with half the agents
+
+**What:** Ported the 11 catalogue and content screens in 6 batches (similar screens shared one implementer and one reviewer), with diff-only reviews and quiet gates. Every batch got an independent review. 5 screens passed first time, 6 needed one fix loop, and none needed a second.
+
+**Learned:**
+- **Batch by shape, not by count.** Category, SubCategory and Products share one row layout, so one agent ported them and reused one component, and the reviewer proved that the templates were identical before allowing the sharing.
+- **"Unreachable" code is a parity decision.** Favourites, the Enquiry push and two quotation selects exist in Ionic's code but nothing calls them. Porting them would add behaviour Ionic never shows, so they were left out and documented.
+- **White-label text can hide inside translation keys.** The About page's four paragraphs are translate keys that contain the company's name and history, so they belong in client config, not in the screen.
+- **Copy framework bugs too.** Ionic's video list wraps every URL again on "load more", and Angular 5 then turns the old iframes' address into an error string. The port reproduces it, and it is flagged for a device check.
+
+**Interview angle:** "How do you scale code review with AI agents without losing quality?" → give every change an independent reviewer that sees only the diff and the original, cap the fix loops, batch similar work so one reviewer can compare like with like, and verify the fixes yourself instead of re-reviewing everything.

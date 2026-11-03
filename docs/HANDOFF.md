@@ -2,6 +2,15 @@
 
 *Written 2026-11-03 (~19:00) at the end of session 3, to start **Phase 3** in a fresh session. Read this file first, then the plan sections it points to.*
 
+## Update 2026-11-04 (session 4, overnight): Phase 3 merged
+
+- **All 11 Phase 3 screens ported, independently reviewed (S8) and merged** into `master` (`56cf1e3`, + this docs commit). Flow tests `__tests__/flows/catalogue.test.tsx` (catalogue → infinite scroll offset → share text; quotation → `quotation_pdf` → `openExternal`). Gates: jest 1408/1408 (88 suites), tsc clean, eslint 0 errors (74 warnings), parity:test 14/14. No worktrees left. Details and phone-pass items: plan, "Phase 3" status.
+- Ran under the new token rules (`docs/TOKEN-POLICY.md`): 6 batches, diff-only Sonnet reviews, quiet gates. Subagent tokens about 2.1M in total (implementers 145-200k each, reviewers 60-85k each).
+- **Not done yet: phone pass for Phase 2 + Phase 3** (needs Dhruv's phone, in the office 2026-11-04). Use `npm run parity:triage`. Phase 3 is not "signed off" until that pass and Dhruv's sign-off.
+- **master is 131+ commits ahead of origin.** Ask Dhruv before pushing.
+- Worktrees lack `parity/reference/work`, so the parity test "Language.default capture produces a non-blank PNG" always fails there; it passes on master. Tell implementers to ignore it.
+- TL work summary for Phase 3: given to Dhruv in chat on 2026-11-04 (true statements only: ported + reviewed + merged; phone testing pending).
+
 ## Who and what
 
 - **User:** Dhruv, an AI developer at Basiq360/Abacusdesk. His job is only the migration; a colleague owns security fixes. He reports daily to his TL ("Manu sir").

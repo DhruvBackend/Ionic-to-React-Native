@@ -954,7 +954,11 @@ Home (Plumber and Seller/Dealer variants are two state sets on one screen), Main
 
 ### Phase 3: Catalogue & content (11)
 Category, SubCategory, Products, ProductDetail, ProductSubdetail, Newarrivals, VideoCategory, Video, About, Contact, QuotationGenrateByPdf.
-- [ ] **Flow test:** Category → SubCategory → ProductDetail (infinite scroll fetches the next `filter.limit` offset) → ProductSubdetail → share is called with the Ionic text. Quotation: build a list → `quotation_pdf` → `openExternal(upload_url3 + file_name)`.
+**Status** (2026-11-04, session 4, overnight): all 11 screens ported and merged into `master` with an independent S8 review each (token rules of `docs/TOKEN-POLICY.md`: 6 batches, diff-only reviews). S8 results: ProductSubdetail, SubCategory, ProductDetail, Newarrivals, About PASS first time; QuotationGenrateByPdf (2 misses), Category (1), Products (2), VideoCategory (2), Video (3), Contact (1) fixed in one loop each. Gates on master (56cf1e3): jest 1408/1408 (88 suites), tsc clean, eslint 0 errors (74 warnings), parity:test 14/14.
+- Shared additions: kit `IonFabButton size/iconSize` (6112df2); client config `aboutParagraphs` (0babceb: about.html's <li> translate keys contain the company profile).
+- Dead in Ionic, not ported: ProductSubdetail favourites + Enquiry push (only a commented-out constructor call); Category goToNewArrivals (no caller); Quotation category/sub-category selects (commented out; contracts + fixtures added); Contact offline guard + go_to_map (`connection` never assigned).
+- Phone-pass items: Video load-more re-wrap reproduces Angular 5's "SafeValue must use [property]=binding" src for old iframes (reasoned from the code, verify with an Ionic DOM probe); Newarrivals grid wrapper shrink-wraps in CSS with short names (RN fills the row); Products skeleton shimmer; Products/MainHome `.listing` margin (S8 says MainHome likely has the same miss); missing pictures draw nothing (no broken-image glyph); About svg and other per-screen pictures to move into `use-client`.
+- [x] **Flow test** `__tests__/flows/catalogue.test.tsx` (done 2026-11-04): Category → SubCategory → ProductDetail (infinite scroll fetches the next `filter.limit` offset) → ProductSubdetail → share is called with the Ionic text. Quotation: build a list → `quotation_pdf` → `openExternal(upload_url3 + file_name)`.
 - [ ] **Gate.**
 
 ### Phase 4: Complaints & service (15)
