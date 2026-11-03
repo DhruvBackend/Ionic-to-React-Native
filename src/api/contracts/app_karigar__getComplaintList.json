@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/getComplaintList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "filter": {
+      "limit": 0,
+      "status": "Pending"
+    },
+    "type": {
+      "type": "Service"
+    },
+    "retailer_id": "900001"
+  },
+  "note": "The entry / refresh / search / segment call. The infinite scroll (loadData, :99) sends { filter, type: { type } } without retailer_id. filter.search is present only once the search box was used (undefined is dropped by JSON).",
+  "ionicSource": "src/pages/complaints/complaint-history/complaint-history.ts:76 (getComplaintHistory); :99 (loadData)"
+}

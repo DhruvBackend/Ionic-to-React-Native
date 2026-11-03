@@ -88,5 +88,17 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry.** Pushed with `navParams.data = {type: 'Service' | 'Installation'}`; the constructor (not ionViewDidLoad) shows the loader and calls getComplaintHistory(type, 'Pending', undefined). Only the first call has a loader.
+2. **Shared `filter`** (`{search, status, limit}`), mutated by every call; `ionViewDidLoad` (complaint-history.ts:42-45) sets `filter.status = ''` AFTER the first request, so infinite-scroll requests (loadData, :99, no `retailer_id`) send `status: ''` until a segment / search / refresh sets it again.
+3. **Search.** `ngModelChange` calls getComplaintHistory on every keystroke; `(keyup.enter)="onCancel($event)"` calls a method the page does not have (html:18): nothing happens.
+4. **Segment** (Pending / Closed / Cancel, `.ion-tab-btn`): each button's `(click)` reloads with the new status and the current search; a click on the active tab reloads too.
+5. **Loader / errors.** The loader is dismissed first, then `response['complaintList']` is read (null body: stops after the dismiss). No error callback: an HTTP error leaves the loader up.
+6. **Null list (malformed).** `complaint_list.length` throws in the template: the view keeps what it showed; loadData dies at `.length`. A null row from `concat(null)` renders an empty row.
+7. **Paging.** `r['complaintList'] == ''` sets `flag = 1` (no complete()); getComplaintHistory resets `flag = 0`. Else concat after 1 s + complete().
+8. **Rows.** Badge `COM#id` for Service, `IR#id` for Installation (by the nav param); `Waiting For Plumber Assign . . .` only for `plumberName == null && status == 'Pending'`; plumber block when `plumberName != null`. The `tel:` anchor dials and the click also bubbles to the card (push ComplaintDetail).
+9. **Dead code.** `complaint_count` (:82) is read only by a commented-out toolbar; `showSuccess` (:124-132) is never called; `.filter-select ion-list` (scss) matches nothing.
+10. **i18n.** Own `TranslateModule.forRoot` but no `use()`: the language is the app's. Keys: Request History, Date, OTP, Satus (sic), Nature Problem, Plumber Name; Search / Pending / Closed / Cancel / COM# / IR# are hardcoded.
+
 ## States
 
+default (Service, Pending list with one row waiting for a plumber), installation (IR#), empty, malformed, hin. Unit-tested only: segment / search requests, paging, flag, null body, HTTP error.
