@@ -111,7 +111,6 @@ Classes defined by the page SCSS and used in the template: _none_
 - add-new-complaint.ts:88-134 getCustomer: NOTEXIST + Sales_Boy replaces the number with `r.customer` (not cleared); Plumber clears it; any other type does nothing; no error callback.
 - :395-428 genrateCompliant: `customer_id` is overwritten by the logged-in user's id; the response is never read; an HTTP error leaves the loader up.
 - html:60 `(keypress)="MobileNumber($event)"`: the method does not exist, typing is not filtered.
-- html:19,29,98 the required star follows Mobile / Customer Name / Remark with no space in Ionic (not 1:1: the kit adds a space).
 - Dead code, not ported: getSubcategoryData :158-169, getProductData :171-182, getGeo :183-200 (the PointLocation push), isCameraAvailable :202-212 (sets an unused flag), getVideo :373-380, the video path (videoId is never set: html:79-86, onGetCaptureVideoPermissionHandler, capturevideo, uploadVideo, formData). Pictures go in the addComplaint body as data URLs (no upload).
 - Installation shows no upload block (html:71 ngIf type == Service) but still sends `image: []`.
 

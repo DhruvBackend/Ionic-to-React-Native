@@ -271,6 +271,7 @@ export default function AddNewComplaintScreen({ navigation, route }: Props) {
       textarea?: boolean;
       error?: boolean;
       validated?: boolean;
+      noGap?: boolean;
       last?: boolean;
       value: string;
       onChange: (s: string) => void;
@@ -284,6 +285,7 @@ export default function AddNewComplaintScreen({ navigation, route }: Props) {
         floating
         label={o.label}
         requiredMark={o.validated}
+        requiredGap={!o.noGap}
         type={o.type}
         maxLength={o.maxLength}
         textarea={o.textarea}
@@ -299,9 +301,10 @@ export default function AddNewComplaintScreen({ navigation, route }: Props) {
 
   // html:13 <h3>Customer Details</h3>
   add('h3-customer', ({ marginTop }) => <H3 key="h3-customer" label="Customer Details" marginTop={marginTop} />);
-  // html:19-23. NOTE (parity): the `<span>*</span>` follows the label text with no space in Ionic; the kit's required star adds one.
+  // html:20 `Mobile<span>*</span>`: no space before the star.
   csInput('mobile_no', {
     label: 'Mobile',
+    noGap: true,
     name: 'mobile_no',
     type: 'tel',
     maxLength: 10,
@@ -317,6 +320,7 @@ export default function AddNewComplaintScreen({ navigation, route }: Props) {
   // html:28-31
   csInput('first_name', {
     label: 'Customer Name',
+    noGap: true,
     name: 'first_name',
     validated: true,
     error: err('first_name'),
@@ -371,6 +375,7 @@ export default function AddNewComplaintScreen({ navigation, route }: Props) {
   csInput('nature_problem', {
     label: type == 'Service' ? 'Nature Problem' : 'Remark', // eslint-disable-line eqeqeq
     name: 'nature_problem',
+    noGap: true,
     textarea: true,
     validated: true,
     last: true,
