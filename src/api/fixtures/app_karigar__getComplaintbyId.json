@@ -1,0 +1,167 @@
+{
+  "endpoint": "app_karigar/getComplaintbyId",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaintDetails": {
+        "complaintId": 71,
+        "complaint_type": "Service",
+        "compalintDate": "2026-10-28 11:42:10",
+        "customerName": "Sunita Deshmukh",
+        "otp": 4821,
+        "nature_problem": "Tap leakage",
+        "complaintStatus": "Pending",
+        "address": "12 Lake Road",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "cancelled_by": "",
+        "cancel_date": "0000-00-00 00:00:00",
+        "reason_cancel": "",
+        "amount": "0",
+        "plumberId": 31,
+        "plumberName": "ramesh patil",
+        "plumberMobileNo": "9000000011",
+        "total_votes": 0,
+        "rating": 0,
+        "star": 0,
+        "image": [
+          {
+            "type": "image",
+            "file_name": "complaint_71_a.jpg"
+          },
+          {
+            "type": "image",
+            "file_name": "complaint_71_b.jpg"
+          },
+          {
+            "type": "video",
+            "file_name": "complaint_71.mp4"
+          }
+        ]
+      }
+    },
+    "installation": {
+      "status": "SUCCESS",
+      "complaintDetails": {
+        "complaintId": 72,
+        "complaint_type": "Installation",
+        "compalintDate": "2026-10-28 11:42:10",
+        "customerName": "Sunita Deshmukh",
+        "otp": 4821,
+        "nature_problem": "Installation",
+        "complaintStatus": "Pending",
+        "address": "12 Lake Road",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "cancelled_by": "",
+        "cancel_date": "0000-00-00 00:00:00",
+        "reason_cancel": "",
+        "amount": "0",
+        "plumberId": null,
+        "plumberName": null,
+        "plumberMobileNo": null,
+        "total_votes": 0,
+        "rating": 0,
+        "star": 0,
+        "image": []
+      }
+    },
+    "closed": {
+      "status": "SUCCESS",
+      "complaintDetails": {
+        "complaintId": 61,
+        "complaint_type": "Service",
+        "compalintDate": "2026-10-28 11:42:10",
+        "customerName": "Sunita Deshmukh",
+        "otp": 4821,
+        "nature_problem": "Tap leakage",
+        "complaintStatus": "Closed",
+        "address": "12 Lake Road",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "cancelled_by": "Ramesh Patil",
+        "cancel_date": "2026-09-14 18:00:00",
+        "reason_cancel": "",
+        "amount": "0",
+        "plumberId": 31,
+        "plumberName": "ramesh patil",
+        "plumberMobileNo": "9000000011",
+        "total_votes": 0,
+        "rating": 0,
+        "star": 0,
+        "image": []
+      }
+    },
+    "closedPaid": {
+      "status": "SUCCESS",
+      "complaintDetails": {
+        "complaintId": 61,
+        "complaint_type": "Service",
+        "compalintDate": "2026-10-28 11:42:10",
+        "customerName": "Sunita Deshmukh",
+        "otp": 4821,
+        "nature_problem": "Tap leakage",
+        "complaintStatus": "Closed",
+        "address": "12 Lake Road",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "cancelled_by": "Ramesh Patil",
+        "cancel_date": "2026-09-14 18:00:00",
+        "reason_cancel": "",
+        "amount": "500",
+        "plumberId": 31,
+        "plumberName": "ramesh patil",
+        "plumberMobileNo": "9000000011",
+        "total_votes": 12,
+        "rating": 4,
+        "star": 4,
+        "image": []
+      }
+    },
+    "cancel": {
+      "status": "SUCCESS",
+      "complaintDetails": {
+        "complaintId": 51,
+        "complaint_type": "Service",
+        "compalintDate": "2026-10-28 11:42:10",
+        "customerName": "Sunita Deshmukh",
+        "otp": 4821,
+        "nature_problem": "Tap leakage",
+        "complaintStatus": "Cancel",
+        "address": "12 Lake Road",
+        "city": "Pune",
+        "district": "Pune",
+        "state": "Maharashtra",
+        "pincode": "411001",
+        "cancelled_by": "Vijay Patil",
+        "cancel_date": "2026-08-21 09:30:00",
+        "reason_cancel": "No longer needed",
+        "amount": "0",
+        "plumberId": 31,
+        "plumberName": "ramesh patil",
+        "plumberMobileNo": "9000000011",
+        "total_votes": 0,
+        "rating": 0,
+        "star": 0,
+        "image": []
+      }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "complaintDetails": {}
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "complaintDetails": null
+    }
+  }
+}

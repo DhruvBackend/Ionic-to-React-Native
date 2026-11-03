@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/getComplaintbyId",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "complaints_id": 71
+  },
+  "ionicSource": "src/pages/complaints/complaint-detail/complaint-detail.ts:61 (getComplaintDetail)"
+}

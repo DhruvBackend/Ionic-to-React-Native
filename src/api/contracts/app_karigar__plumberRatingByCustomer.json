@@ -1,0 +1,14 @@
+{
+  "endpoint": "app_karigar/plumberRatingByCustomer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "star": "4",
+    "customer_id": "900001",
+    "plumber_id": 31,
+    "complaint_id": 71
+  },
+  "ionicSource": "src/pages/complaints/complaint-detail/complaint-detail.ts:94 (rating)"
+}
