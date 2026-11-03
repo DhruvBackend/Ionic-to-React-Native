@@ -1,0 +1,24 @@
+{
+  "endpoint": "app_karigar/checkinComplaintDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaintDetail": {
+        "complaintId": 71,
+        "customerName": "Sunita Deshmukh",
+        "customerMobileNo": "9000000051",
+        "compalintDate": "2026-10-12 10:30:00",
+        "status": "Pending",
+        "nature_problem": "Tap leakage",
+        "customerAddress": "12 Lake Road",
+        "customerCity": "Pune",
+        "customerDistrict": "Pune",
+        "customerPincode": "411001",
+        "customerState": "Maharashtra"
+      }
+    },
+    "empty": { "status": "SUCCESS", "complaintDetail": {} },
+    "malformed": { "status": "SUCCESS", "complaintDetail": null }
+  }
+}

@@ -90,5 +90,13 @@ Classes defined by the page SCSS and used in the template: `enquiry-btn`, `form-
 
 ## Quirks
 
+1. **Entry.** `ionViewDidLoad` runs `loadMap()`: accuracy request, then position (the `options` at :137-139 are never passed). Accuracy rejected: toast `Allow Location Permissions` (3000, bottom); position failure swallowed; offline `new google.maps.LatLng` throws before `new_lat/new_long` are stored (getNetworkState). The map code is commented out. `today_date`, `complaint_id`, `comType` are never read; the `FileTransfer` import is unused (no upload on this page).
+2. **Photo.** Upload tile -> action sheet ` Upload File` (leading space, `cs-actionsheet`; Camera `camera`, Gallery `image`, Cancel with no icon). Camera: quality 70, 500 x 400; Gallery: quality 70. The data URL replaces the prompt (`img` height 100 contain). A failure does nothing.
+3. **Form.** Remark (`required` textarea, floating label 14px); OTP only for `lable == 'Closed'`: `required minlength=6 maxlength=6`, `(keypress)` drops characters outside `[0-9+\- ]`, `ion-input` min-height 35. The `error` class on both items has no style here (the `&.error` rules sit under `.cs-input`): an invalid form submits nothing and shows nothing.
+4. **Submit.** Loader `Please wait...` (dismissOnPageChange), body `{status: {complaints_id, name, image, remark, otp, closed_by, status: lable}}`. The loader is dismissed first, then `r['status']` is read. `success`: alert `ThankYou!` (`Complaint Closed Successfully ` / `Remark Added Successfully `, trailing space), setRoot Tabs `{index: '0'}`, then `plumberCheckOut` (response never acted on: `else(...) { return; }`). `Otp not matched.`: alert `Alert!` (`action-close`) `Wrong Otp`. Any other status: only the loader closes. No error callback (the loader stays on an HTTP error).
+5. **Task button.** `class="green-color"`, `color="danger"`, `icon-start` with no icon, `<p>Submit</p>` (14px, letter-spacing 2, capitalised), `.task-btn button` border 2 white, shadow, radius 6, margin 0 (page), inline padding 16 on the block.
+
 ## States
+
+`default` (Closed: Remark, Upload Image, OTP), `pending` (lable `Pending`: no OTP). Hardcoded text only: no `hin`. Fixtures: `app_karigar/complaintTaskCloseByPlumber` (default, otpWrong, empty, malformed), `app_karigar/plumberCheckOut` (default, failed, empty, malformed); `parity/states.d/TaskClose.json`.
 

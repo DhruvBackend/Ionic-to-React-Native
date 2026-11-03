@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/plumberCheckOut",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "msg": "CheckoutSuccess" },
+    "failed": { "status": "SUCCESS", "msg": "failed" },
+    "empty": { "status": "SUCCESS" },
+    "malformed": { "status": "SUCCESS", "msg": null }
+  }
+}

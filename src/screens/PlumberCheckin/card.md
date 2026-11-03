@@ -84,5 +84,13 @@ Classes defined by the page SCSS and used in the template: `bodr-botm`
 
 ## Quirks
 
+1. **Entry.** `ionViewDidLoad` (once) posts `checkinComplaintList` (`type: ''`), `checkinComplaintDetail` (`complaint_id: ''`: `comType` is set by the list call just before) and runs `loadMap()` (accuracy request, then position without options). Accuracy rejected: toast `Allow Location Permissions` (3000, bottom); position failure swallowed. The map code after the fix (`google.maps.Map` on a `#map` that does not exist) throws into the `.catch`; offline `new google.maps.LatLng` throws before `new_lat/new_long` are stored (getNetworkState). `getGeoencoder`/`addMarker`/`addInfoWindow`/`generateAddress` only feed that map (not ported); `showAlert()` :54 is dead (its call is commented out :178-181).
+2. **List.** `complaintList != ''` (loose): `[]` keeps the old list, null replaces it and the template's `complaint_list.length` throws (RN: blank content). Select options are `{{customerName}}  COM# {{id}} ({{type}})` with string values.
+3. **Select -> check-in.** `(ngModelChange)="getComplaintList(); goDetailPage()"`: the list is posted again with `type` = the id, then the page pushes PulmberCustomerDetail `{type: 'service' | 'installation', id, close_com: true}` (anything but `service` is installation) and POSTs `plumberCheckIn` straight away with the coordinates stored at entry (dropped from the JSON if none). `CheckinSuccess` -> alert `Success!` / `Geo Location updated Successfully!`; any other msg -> native alert `Geo Location not found! Try Again`. No error callbacks.
+4. **Template.** The detail block (html:23-58) is commented out: `complaint_detail` and `checkin_time` are never shown. The select uses IonSelect `fontSize={14}` and `isLast`.
+5. **i18n:** own TranslateModule.forRoot, never `use()`: global language.
+
 ## States
+
+`default` (two complaints), `empty` (no_found + `No complaints exists`), `malformed` (`null`: blank content), `hin`. Fixtures: `app_karigar/checkinComplaintList`, `app_karigar/checkinComplaintDetail` (default, empty, malformed); `app_karigar/plumberCheckIn` (existing); `parity/states.d/PlumberCheckin.json`.
 

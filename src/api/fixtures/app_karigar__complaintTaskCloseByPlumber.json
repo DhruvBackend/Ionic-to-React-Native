@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/complaintTaskCloseByPlumber",
+  "server": "root",
+  "variants": {
+    "default": { "status": "success" },
+    "otpWrong": { "status": "Otp not matched." },
+    "empty": {},
+    "malformed": { "status": null }
+  }
+}

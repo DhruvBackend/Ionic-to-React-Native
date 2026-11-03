@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/plumberCheckOut",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "plumber_id": "900011", "status": "=Closed", "remark": "Work done", "complaint_id": 71, "cust_lat": 28.6692, "cust_long": 77.4538 },
+  "ionicSource": "src/pages/task-close/task-close.ts:258 (checkOut, called from submit() on success)"
+}

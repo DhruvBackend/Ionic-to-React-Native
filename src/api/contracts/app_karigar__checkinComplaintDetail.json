@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/checkinComplaintDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0 }, "plumber_id": "900011", "complaint_id": "=" },
+  "ionicSource": "src/pages/plumber-checkin/plumber-checkin.ts:211 (getComplaintDetail; `complaint_id` is this.comType, '' on entry)"
+}
