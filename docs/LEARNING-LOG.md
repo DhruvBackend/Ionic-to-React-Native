@@ -531,3 +531,15 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Not everything ported is reachable.** Four screens (three push-only, plus Terms) can't be opened in Topbath. They are still ported for the white-label template, with their reachability written down so nobody mistakes them for live features.
 
 **Interview angle:** "How do you test a multi-screen flow in a mobile app without a backend?" → render the real navigator, press real controls, and use a deterministic mock whose state changes only on writes and is proven to match the static fixtures otherwise.
+
+## 2026-11-03 — First phone pass of Phase 2: the tools lie too
+
+**What:** Captured 88 Ionic-vs-RN screenshot pairs on Dhruv's phone, reviewed them with three agents, and fixed about 30 differences. Half the big "differences" turned out to be the comparison tools, not the app.
+
+**Learned:**
+- **Check the measuring tape before the thing you measure.** Instant fake server answers left Ionic's loader stuck in every reference screenshot. Resizing the 2378 px phone shot to 2400 px stretched every RN screenshot by 1%. Both looked like app bugs until the tools were fixed.
+- **Random bugs are timing bugs.** The white gap at the top of pages appeared on some screens and not others. A one-shot scroll was clamped when the content wasn't tall enough yet, and never retried. The fix was to re-apply it on every layout change.
+- **Ask the real app.** Whether Ionic shows "Last 7 Days" or "LAST 7 DAYS" after a restart was settled in ten seconds by Dhruv opening the Play Store app. The answer revealed a production quirk: Hindi users see English after a restart.
+- **Some "visual" bugs are functional.** The location screen's Google map would never have loaded on a phone. Only the side-by-side picture exposed it.
+
+**Interview angle:** "Your screenshot tests show big differences; what do you do first?" → verify the harness (timing, scaling, stubs) with a known-good pair, then diagnose app differences by root cause, and fix shared causes once in the shared component.
