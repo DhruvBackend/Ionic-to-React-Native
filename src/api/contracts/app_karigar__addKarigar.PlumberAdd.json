@@ -1,0 +1,43 @@
+{
+  "endpoint": "app_karigar/addKarigar",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar": {
+      "mobile_no": "",
+      "type": "",
+      "sales_boy_id": "",
+      "profile": "",
+      "document_image": "",
+      "certificate_image": "",
+      "status": "",
+      "karigar_edit_id": "",
+      "flag": "",
+      "first_name": "",
+      "dob": "",
+      "dealer_contact_person": "",
+      "dealer_mobile": "",
+      "address": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "permanent_address": "",
+      "permanent_state": "",
+      "parmanent_district": "",
+      "permanent_city": "",
+      "permanent_pincode": "",
+      "document_type": "",
+      "document_no": "",
+      "bank_name": "",
+      "account_number": "",
+      "ifsc_code": "",
+      "account_holder_name": "",
+      "referral_by_code": ""
+    }
+  },
+  "note": "PlumberAdd variant of the addKarigar contract (same helper/headers; the Registration contract has a shorter key tree). Body is the page's `data`: new-registration fields + flag:1 + every field of a fully filled Plumber form.",
+  "ionicSource": "src/pages/plumber-add/plumber-add.ts:417"
+}

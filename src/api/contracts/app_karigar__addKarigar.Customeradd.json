@@ -1,0 +1,27 @@
+{
+  "endpoint": "app_karigar/addKarigar",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar": {
+      "type": "",
+      "sales_boy_id": "",
+      "status": "",
+      "mobileNo": "",
+      "first_name": "",
+      "dob": "",
+      "address": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "mobile_no": "",
+      "otp": "",
+      "karigar_edit_id": ""
+    }
+  },
+  "note": "Customeradd variant: `data.mobileNo` (typo, from navParams) and `data.mobile_no` (typed) are both sent; `otp` is the typed code.",
+  "ionicSource": "src/pages/customeradd/customeradd.ts:590"
+}

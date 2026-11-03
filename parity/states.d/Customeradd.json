@@ -1,0 +1,37 @@
+[
+  {
+    "id": "Customeradd.default",
+    "screen": "Customeradd",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('Customeradd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Customeradd.hin",
+    "screen": "Customeradd",
+    "role": "Dealer",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('Customeradd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Customeradd.malformed",
+    "screen": "Customeradd",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('Customeradd'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
