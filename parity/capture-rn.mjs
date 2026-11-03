@@ -14,6 +14,21 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const REF_W = 1080;
 export const REF_H = 2400;
+
+// Phase 2 phone pass (2026-11-03): the phone is 1080x2378, and resizing it to 2400 stretched every RN shot ~1% vertically, so
+// all content drifted 1-5 dp lower than the reference. When the width already matches, keep 1:1 pixels and pad (or cut) the
+// bottom with white: content lines up from the top; bottom-anchored bars sit (2400-h)/3 dp higher (a real device-height
+// difference). Other widths are still scaled.
+export function fitToRef(png) {
+  if (png.width !== REF_W) {
+    return resize(png, REF_W, REF_H);
+  }
+  const out = new PNG({ width: REF_W, height: REF_H });
+  out.data.fill(255);
+  const rows = Math.min(png.height, REF_H);
+  png.data.copy(out.data, 0, 0, rows * REF_W * 4);
+  return out;
+}
 export const DEBUG_PACKAGE = 'com.topsan.app.rn';
 export const ANDROID_15_API = 35; // src/app/frame.ts
 
@@ -213,7 +228,7 @@ async function main() {
         throw new Error('screencap failed');
       }
       let png = PNG.sync.read(shot.stdout);
-      png = resize(crop(png, cut.top, cut.bottom), REF_W, REF_H);
+      png = fitToRef(crop(png, cut.top, cut.bottom));
       const out = path.join(OUT, 'rn', shotName(s.id));
       fs.mkdirSync(path.dirname(out), { recursive: true });
       fs.writeFileSync(out, PNG.sync.write(png));
