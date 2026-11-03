@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/giftRating",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "star": "5", "gift_id": 21, "karigar_id": "900001", "offer_id": 11 },
+  "note": "rating() is dead code: the only template that calls it (the 'Rate a Gift' block of gift-detail.html) is commented out, so this request is never sent. Contract kept for traceability.",
+  "ionicSource": "src/pages/gift-gallery/gift-detail/gift-detail.ts:139"
+}

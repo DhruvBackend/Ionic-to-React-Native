@@ -1,0 +1,73 @@
+[
+  {
+    "id": "GiftDetail.default",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "GiftDetail.hin",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "App language is global (state lang): the labels come from hin.json; gift and offer texts are server data and stay English."
+  },
+  {
+    "id": "GiftDetail.noAddress",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/giftDetail": "noAddress" },
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "type Gift + empty address: red error block with the 'Update Now' link and a disabled redeem button."
+  },
+  {
+    "id": "GiftDetail.noState",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/giftDetail": "noStateOnly" },
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "state empty, address/city/district filled: html:58 [ngClass] reads influencer_point.state and throws. Empty black-bordered error box, button with no label, root texts stay at the initial values (card quirk 6c)."
+  },
+  {
+    "id": "GiftDetail.lowBalance",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/giftDetail": "lowBalance" },
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "total_balance < coupon_points: no redeem button."
+  },
+  {
+    "id": "GiftDetail.flag1",
+    "screen": "GiftDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/giftDetail": "flag1" },
+    "params": { "id": 21 },
+    "ionicNav": "nav.setRoot(Page('GiftDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "flag 1: 'Alert!' alert with the server msg over the page; the redeem button is disabled."
+  }
+]
