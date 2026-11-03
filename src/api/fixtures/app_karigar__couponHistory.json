@@ -36,6 +36,59 @@
       "coupon": []
     },
     "empty": { "status": "SUCCESS", "karigar": {}, "coupon": [] },
-    "malformed": { "status": "SUCCESS", "karigar": null, "coupon": null }
+    "malformed": { "status": "SUCCESS", "karigar": null, "coupon": null },
+    "history": {
+      "status": "SUCCESS",
+      "karigar": {
+        "id": 900001,
+        "earn_by_scan": 1250,
+        "earn_by_referal": 150,
+        "earn_by_service": 300,
+        "total_earn": 1700,
+        "total_redeem": 500,
+        "total_balance": 1200
+      },
+      "coupon": [
+        {
+          "id": 301,
+          "coupon_code": "TB-A1B2C3",
+          "product_point_group": "Taps",
+          "coupon_value": 50,
+          "sales_boy_coupon_value": 20,
+          "sales_boy_name": "rakesh shinde",
+          "sales_boy_mobile_no": "9000000041",
+          "plumber_name": "ramesh patil",
+          "plumber_mobile_no": "9000000011",
+          "scan_date": "2026-10-28 11:42:10",
+          "karigar_id": 900001
+        },
+        {
+          "id": 302,
+          "coupon_code": "TB-D4E5F6",
+          "product_point_group": "Showers",
+          "coupon_value": 100,
+          "sales_boy_coupon_value": 40,
+          "sales_boy_name": "",
+          "sales_boy_mobile_no": "",
+          "plumber_name": "",
+          "plumber_mobile_no": "",
+          "scan_date": "2026-10-21 16:05:33",
+          "karigar_id": 900001
+        },
+        {
+          "id": 303,
+          "coupon_code": "TB-G7H8J9",
+          "product_point_group": "Faucets",
+          "coupon_value": 25,
+          "sales_boy_coupon_value": 10,
+          "sales_boy_name": "anil more",
+          "sales_boy_mobile_no": "9000000042",
+          "plumber_name": "suresh jadhav",
+          "plumber_mobile_no": "9000000012",
+          "scan_date": "2026-10-15 09:18:47",
+          "karigar_id": 900001
+        }
+      ]
+    }
   }
 }

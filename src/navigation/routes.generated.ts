@@ -18,16 +18,18 @@ import r7 from '../screens/Offers/route';
 import C7 from '../screens/Offers';
 import r8 from '../screens/Otp/route';
 import C8 from '../screens/Otp';
-import r9 from '../screens/PointList/route';
-import C9 from '../screens/PointList';
-import r10 from '../screens/Profile/route';
-import C10 from '../screens/Profile';
-import r11 from '../screens/Registration/route';
-import C11 from '../screens/Registration';
-import r12 from '../screens/SelectRegistrationType/route';
-import C12 from '../screens/SelectRegistrationType';
-import r13 from '../screens/Transaction/route';
-import C13 from '../screens/Transaction';
+import r9 from '../screens/PointHistory/route';
+import C9 from '../screens/PointHistory';
+import r10 from '../screens/PointList/route';
+import C10 from '../screens/PointList';
+import r11 from '../screens/Profile/route';
+import C11 from '../screens/Profile';
+import r12 from '../screens/Registration/route';
+import C12 from '../screens/Registration';
+import r13 from '../screens/SelectRegistrationType/route';
+import C13 from '../screens/SelectRegistrationType';
+import r14 from '../screens/Transaction/route';
+import C14 from '../screens/Transaction';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -44,7 +46,8 @@ export const routes: RouteDef[] = [
   { ...r11, component: C11 },
   { ...r12, component: C12 },
   { ...r13, component: C13 },
+  { ...r14, component: C14 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
-export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"About","presentation":"card"},{"name":"AddNewComplaint","presentation":"card"},{"name":"CancelComplaint","presentation":"modal"},{"name":"CancelationPolicy","presentation":"card"},{"name":"CancelpolicyModal","presentation":"modal"},{"name":"Category","presentation":"card"},{"name":"ComplaintDetail","presentation":"card"},{"name":"ComplaintHistory","presentation":"card"},{"name":"ComplaintRemarks","presentation":"card"},{"name":"Contact","presentation":"card"},{"name":"Customeradd","presentation":"card"},{"name":"Customerdetail","presentation":"card"},{"name":"Customerlist","presentation":"card"},{"name":"Feedback","presentation":"card"},{"name":"MainHome","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"Newarrivals","presentation":"card"},{"name":"Notification","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"PointHistory","presentation":"card"},{"name":"PointLocation","presentation":"card"},{"name":"Pointtranfer","presentation":"card"},{"name":"ProductDetail","presentation":"card"},{"name":"ProductSubdetail","presentation":"card"},{"name":"Products","presentation":"card"},{"name":"PulmberCustomerDetail","presentation":"card"},{"name":"QuotationGenrateByPdf","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"SalesPointTransfer","presentation":"card"},{"name":"ScanPoint","presentation":"card"},{"name":"ShippingDetail","presentation":"card"},{"name":"SubCategory","presentation":"card"},{"name":"Super30","presentation":"card"},{"name":"TaskClose","presentation":"card"},{"name":"Terms","presentation":"card"},{"name":"Video","presentation":"card"},{"name":"VideoCategory","presentation":"card"},{"name":"ViewProfile","presentation":"modal"}];
+export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"About","presentation":"card"},{"name":"AddNewComplaint","presentation":"card"},{"name":"CancelComplaint","presentation":"modal"},{"name":"CancelationPolicy","presentation":"card"},{"name":"CancelpolicyModal","presentation":"modal"},{"name":"Category","presentation":"card"},{"name":"ComplaintDetail","presentation":"card"},{"name":"ComplaintHistory","presentation":"card"},{"name":"ComplaintRemarks","presentation":"card"},{"name":"Contact","presentation":"card"},{"name":"Customeradd","presentation":"card"},{"name":"Customerdetail","presentation":"card"},{"name":"Customerlist","presentation":"card"},{"name":"Feedback","presentation":"card"},{"name":"MainHome","presentation":"card"},{"name":"MyCamplaints","presentation":"card"},{"name":"Newarrivals","presentation":"card"},{"name":"Notification","presentation":"card"},{"name":"PlumberAdd","presentation":"card"},{"name":"PlumberCheckin","presentation":"card"},{"name":"PlumberDetail","presentation":"card"},{"name":"PlumberList","presentation":"card"},{"name":"PointLocation","presentation":"card"},{"name":"Pointtranfer","presentation":"card"},{"name":"ProductDetail","presentation":"card"},{"name":"ProductSubdetail","presentation":"card"},{"name":"Products","presentation":"card"},{"name":"PulmberCustomerDetail","presentation":"card"},{"name":"QuotationGenrateByPdf","presentation":"card"},{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecHome","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"},{"name":"SalesPointTransfer","presentation":"card"},{"name":"ScanPoint","presentation":"card"},{"name":"ShippingDetail","presentation":"card"},{"name":"SubCategory","presentation":"card"},{"name":"Super30","presentation":"card"},{"name":"TaskClose","presentation":"card"},{"name":"Terms","presentation":"card"},{"name":"Video","presentation":"card"},{"name":"VideoCategory","presentation":"card"},{"name":"ViewProfile","presentation":"modal"}];

@@ -10,6 +10,41 @@
       ]
     },
     "empty": { "status": "SUCCESS", "plumberComplaintList": [] },
-    "malformed": { "status": "SUCCESS", "plumberComplaintList": null }
+    "malformed": { "status": "SUCCESS", "plumberComplaintList": null },
+    "zeroPayment": {
+      "status": "SUCCESS",
+      "plumberComplaintList": [
+        { "id": 74, "complaint_type": "repair", "customerName": "Meena Joshi", "customerMobileNo": "9000000053", "plumber_payment": "0.00", "plumber_payment_date": "0000-00-00 00:00:00" }
+      ]
+    },
+    "history": {
+      "status": "SUCCESS",
+      "plumberComplaintList": [
+        {
+          "id": 71,
+          "complaint_type": "installation",
+          "customerName": "Sunita Deshmukh",
+          "customerMobileNo": "9000000051",
+          "plumber_payment": 100,
+          "plumber_payment_date": "2026-10-12 10:30:00"
+        },
+        {
+          "id": 72,
+          "complaint_type": "repair",
+          "customerName": "Anil Kulkarni",
+          "customerMobileNo": "9000000052",
+          "plumber_payment": 0,
+          "plumber_payment_date": "0000-00-00 00:00:00"
+        },
+        {
+          "id": 73,
+          "complaint_type": "maintenance",
+          "customerName": "Meena Joshi",
+          "customerMobileNo": "9000000053",
+          "plumber_payment": 250,
+          "plumber_payment_date": "0000-00-00 00:00:00"
+        }
+      ]
+    }
   }
 }
