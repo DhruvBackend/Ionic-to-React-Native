@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/get_plumber",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "plumber": { "id": 900011, "first_name": "Test Plumber" } },
+    "empty": {},
+    "malformed": { "status": "SUCCESS", "plumber": [] },
+    "no plumber": { "status": "SUCCESS", "plumber": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

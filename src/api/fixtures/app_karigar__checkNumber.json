@@ -1,0 +1,13 @@
+{
+  "endpoint": "app_karigar/checkNumber",
+  "server": "root",
+  "variants": {
+    "default": { "status": "EXIST", "type": "Plumber" },
+    "empty": {},
+    "malformed": { "status": null, "type": null },
+    "OWNEXIST": { "status": "OWNEXIST" },
+    "EXIST not plumber": { "status": "EXIST", "type": "Sales_Boy" },
+    "NOTEXIST": { "status": "NOTEXIST" },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

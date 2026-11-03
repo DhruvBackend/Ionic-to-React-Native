@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/couponScanOtp",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "empty": {},
+    "malformed": { "status": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

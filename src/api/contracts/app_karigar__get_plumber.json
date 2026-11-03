@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/get_plumber",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": { "search": "9810000011" },
+  "ionicSource": "src/pages/scan-point/scan-point.ts:382"
+}
