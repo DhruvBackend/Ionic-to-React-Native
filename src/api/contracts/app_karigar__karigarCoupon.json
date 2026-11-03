@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/karigarCoupon",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "900001", "qr_code": "QR-1" },
+  "ionicSource": "src/pages/home/home.ts:379 (also src/pages/scane-pages/coupan-code/coupan-code.ts, other screens)"
+}

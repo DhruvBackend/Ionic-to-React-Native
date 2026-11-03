@@ -1,0 +1,182 @@
+[
+  {
+    "id": "Home.Plumber",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "Home is the first tab of Tabs: production reaches it through Otp push(Tabs,{lang}); the harness uses setRoot like the Tabs states. The page is the tab root, so the tab bar is part of the capture."
+  },
+  {
+    "id": "Home.Plumber.noOffers",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/offerList": "empty"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "offerList empty: the login banners slider (pager + autoplay) replaces the offer slider."
+  },
+  {
+    "id": "Home.Plumber.noBanners",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/offerList": "empty",
+      "app_karigar/loginBannersApp": "empty"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "offers and login banners both empty: the bundled banner image inside a pager slider."
+  },
+  {
+    "id": "Home.Plumber.zeros",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/product_catalogue_count": "empty",
+      "app_karigar/karigarHome": "empty"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "karigar {} and all counts 0: zero product count, blank wallet total."
+  },
+  {
+    "id": "Home.Plumber.hin",
+    "screen": "Tabs",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "lang": "hin"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Sales_Boy",
+    "screen": "Tabs",
+    "role": "Sales_Boy",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Dealer",
+    "screen": "Tabs",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Customer",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Customer.noBanners",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {
+      "app_karigar/loginBannersApp": "empty"
+    },
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Customer.hin",
+    "screen": "Tabs",
+    "role": "Customer",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "lang": "hin"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Home.Retailer",
+    "screen": "Tabs",
+    "role": "Retailer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "lang": "en"
+    },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "home.html has no block for Retailer: an empty page above the tab bar. Replaces the deferred Tabs.Retailer comparison (its endpoints now have fixtures)."
+  }
+]

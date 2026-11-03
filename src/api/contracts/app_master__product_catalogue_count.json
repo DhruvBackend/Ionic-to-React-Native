@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/product_catalogue_count",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "customer_id": "900001" },
+  "ionicSource": "src/pages/home/home.ts:256"
+}

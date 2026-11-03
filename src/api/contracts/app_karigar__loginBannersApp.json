@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/loginBannersApp",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": "=",
+  "ionicSource": "src/pages/home/home.ts:886"
+}

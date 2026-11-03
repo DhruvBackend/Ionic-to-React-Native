@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/update_token",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS" },
+    "empty": {},
+    "malformed": { "status": "SUCCESS" }
+  }
+}
