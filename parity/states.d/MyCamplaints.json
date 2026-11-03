@@ -1,0 +1,66 @@
+[
+  {
+    "id": "MyCamplaints.default",
+    "screen": "MyCamplaints",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getPlumberComplaintList": "complaints"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('MyCamplaints'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Three complaints: Pending, Closed, Cancel (coloured status words)."
+  },
+  {
+    "id": "MyCamplaints.empty",
+    "screen": "MyCamplaints",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getPlumberComplaintList": "empty"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('MyCamplaints'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Empty list: blank content (an empty array is truthy, no image)."
+  },
+  {
+    "id": "MyCamplaints.malformed",
+    "screen": "MyCamplaints",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/getPlumberComplaintList": "malformed"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('MyCamplaints'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "plumberComplaintList null: the no-found image."
+  },
+  {
+    "id": "MyCamplaints.hin",
+    "screen": "MyCamplaints",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {
+      "app_karigar/getPlumberComplaintList": "complaints"
+    },
+    "params": {
+      "type": "Service"
+    },
+    "ionicNav": "nav.push(Page('MyCamplaints'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Hindi labels."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/getPlumberComplaintList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "plumber_id": "900011", "filter": { "limit": 0 }, "type": "Service" },
+  "note": "MyCamplaints: the shared filter object (limit, search, status) and the nav type. A search keystroke sends no type (getComplaintlist() without an argument).",
+  "ionicSource": "src/pages/plumber-camplaints/my-camplaints/my-camplaints.ts:69 (getComplaintlist), :89 (loadData)"
+}
