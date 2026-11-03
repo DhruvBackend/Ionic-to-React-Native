@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/cancellations_policy",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {},
+  "ionicSource": "src/pages/cancelation-policy/cancelation-policy.ts:48"
+}

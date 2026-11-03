@@ -1,0 +1,22 @@
+{
+  "endpoint": "app_master/cancellations_policy",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "getData": {
+        "tnc": "1. A redeem request can be cancelled only before it is approved by the company.<br>2. Once a gift is shipped or the cash transfer is processed, the request cannot be cancelled.<br>3. Points of a cancelled request are credited back to your account within 7 working days.<br>4. The company reserves the right to cancel any request found to be fraudulent.&nbsp;Points of such a request will not be returned."
+      }
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "getData": {
+        "tnc": ""
+      }
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "getData": null
+    }
+  }
+}
