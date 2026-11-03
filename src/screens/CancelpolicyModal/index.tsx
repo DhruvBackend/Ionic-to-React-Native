@@ -250,7 +250,9 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
   return (
     <View testID="cancelpolicy-modal" style={styles.screen}>
       {/* html:1-5 ion-header: `page-cancelpolicy-modal ion-header { display: none }` (scss:4-7), so no header is drawn */}
-      <IonContent padding contentStyle={styles.contentFill}>
+      {/* NOTE (parity): scss:13-18 `ion-content.popup-modal { background: rgba(0,0,0,.5) !important }` is on the ion-content itself, and Ionic's
+          .modal-wrapper has no background, so the page below (GiftDetail) shows through the 50% black layer. */}
+      <IonContent padding style={styles.popupModal} contentStyle={styles.contentFill}>
         <View style={styles.dflex1}>
           <View testID="modal-content" style={styles.modalContent}>
             <Text testID="modal-title" style={styles.h1}>
@@ -322,7 +324,8 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
                   </View>
                   <TextInput
                     testID="shipping-address"
-                    style={styles.textarea}
+                    // NOTE (parity): main.css `textarea::placeholder{padding-left:2px}` indents only the placeholder (not typed text) by 2px
+                    style={[styles.textarea, !shipping && styles.textareaPlaceholder]}
                     value={shipping ?? ''}
                     onChangeText={setShippingAddress}
                     multiline

@@ -531,7 +531,7 @@ export default function ScanPointScreen({ navigation, route }: Props) {
                   d.code = s;
                   rerender();
                 }}
-                itemStyle={styles.csItem}
+                itemStyle={styles.csItemBeforeButton}
                 inputStyle={inputStyle}
               labelStyle={labelStyle}
               />

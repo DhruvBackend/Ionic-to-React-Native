@@ -9,7 +9,8 @@ import { fontFor } from '../../theme/typography';
 
 export const styles = StyleSheet.create({
   // [S] 13-18 `ion-content.popup-modal { background: rgba(0,0,0,.5) !important; display: flex; ... }`
-  screen: { flex: 1, backgroundColor: M.contentBackground },
+  screen: { flex: 1 },
+  popupModal: { backgroundColor: M.contentBackground },
   // `<ion-content padding>`; its .scroll-content holds `.dflex1.hp100` (height 100% !important)
   contentFill: { flexGrow: 1 },
   // [T] 9991-9994 `.dflex1 { display: flex; align-items: center }` + [S] 76-78 `.dflex1 { justify-content: center }` + [T] 12556 `.hp100`
@@ -51,7 +52,8 @@ export const styles = StyleSheet.create({
   // [T] 631-637 `.input-adjust .otp-error p { color: red; padding: 4px !important; font-size: 14px }`; line-height 28 from `.modal-content p`
   otpErrorP: { includeFontPadding: false, padding: 4, fontSize: 14, lineHeight: 28, color: colors.danger, ...fontFor(400) },
   // [T] 656-674 `.input-adjust .resend.flat` (relative, width 100%, text-align right) + `.mt10 .mb10` (10px !important)
-  resend: { alignItems: 'flex-end', marginTop: 10, marginBottom: 10 },
+  // NOTE (parity): `.mb10` (10) is followed by `.check-bx { margin-top: 10 }`: adjacent vertical margins collapse to 10, so the 10 lives on checkBx only
+  resend: { alignItems: 'flex-end', marginTop: 10, marginBottom: 0 },
   // `.resend a`: [T] 677-689 inline-block, background #002d25, radius 5; [T] 662-668 beats font-size 10, white, weight 600, padding 4, margin-top 0
   resendA: { padding: 4, backgroundColor: colors.primary, borderRadius: 5 },
   resendText: { includeFontPadding: false, fontSize: 10, lineHeight: 10 * 1.172, color: colors.white, ...fontFor(600) },
@@ -66,10 +68,13 @@ export const styles = StyleSheet.create({
     paddingBottom: 7,
     paddingLeft: 16,
     fontSize: 12,
+    includeFontPadding: false,
     textAlignVertical: 'top',
     color: M.ink,
     ...fontFor(400),
   },
+  // main.css `textarea::placeholder { padding-left: 2px }` (the reviewer's "Chrome textarea padding" is this rule: `.pl16`/padding 7 replace the UA 2px)
+  textareaPlaceholder: { paddingLeft: 18 },
 
   // [T] 3908-3914 `.check-bx { display: flex; align-items: center; margin-top: 10px }`
   checkBx: { flexDirection: 'row', alignItems: 'center', marginTop: 10 },

@@ -1,5 +1,6 @@
 // Feedback screen (Ionic FeedbackPage): contract, submit flow, alert, navigation and quirks. See card.md.
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
 import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
@@ -127,5 +128,18 @@ describe('states (card States)', () => {
     expect(fbCalls()).toHaveLength(1);
     expect(alerts()).toHaveLength(0);
     expect(navigation.reset).not.toHaveBeenCalled();
+  });
+});
+
+describe('textarea placeholder inset (parity)', () => {
+  const style = () => StyleSheet.flatten(find('feedback-textarea').find(n => typeof n.props.onChangeText === 'function')!.props.style);
+  test('main.css textarea::placeholder{padding-left:2px}: the placeholder sits 4 from the edge (UA 2 + 2), typed text 2', async () => {
+    await mount();
+    expect(style().paddingLeft).toBe(4);
+    expect(style().padding).toBe(2);
+    await act(async () => {
+      type('hello');
+    });
+    expect(style().paddingLeft).toBeUndefined(); // falls back to padding 2
   });
 });

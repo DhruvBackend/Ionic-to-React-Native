@@ -18,11 +18,13 @@ export const styles = StyleSheet.create({
   textarea: {
     width: '100%',
     height: 500,
-    padding: 2,
+    padding: 2, // Chrome's default textarea padding
     borderWidth: 0,
     fontSize: 24,
     ...fontFor(300),
     includeFontPadding: false,
     textAlignVertical: 'top',
   },
+  // main.css `textarea::placeholder { padding-left: 2px }`: the placeholder (only) sits 2px further right than typed text
+  textareaPlaceholder: { paddingLeft: 4 },
 });

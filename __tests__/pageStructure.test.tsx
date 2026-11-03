@@ -291,7 +291,9 @@ describe('IonStack', () => {
     advance(400);
     expect(visible('A')).toBe(true);
     expect(visible('C')).toBe(true);
-    expect(StyleSheet.flatten(host('ion-card-C').props.style).backgroundColor).toBe(modalMd.backgroundColor);
+    // NOTE (parity): Ionic's .modal-wrapper has no background: the card is transparent so the page below shows through (the page paints its own)
+    expect(StyleSheet.flatten(host('ion-card-C').props.style).backgroundColor).toBeUndefined();
+    expect(exists('ion-card-A')).toBe(true);
   });
 
   test('reset (Ionic setRoot) is instant: the old pages unmount at once, nothing animates', () => {

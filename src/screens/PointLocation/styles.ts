@@ -22,8 +22,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // [T] 2493-2502 `.enquiry-btn.loction-btn button { width: 100%; height: 45px; border-radius: 0 }` (`.h35` is defined nowhere)
-  locationButton: { height: 45 },
+  // [T] 2493-2502 `.enquiry-btn.loction-btn button { width: 100%; height: 45px; border-radius: 0 }`, beaten by the template's `class="green-color h35"`:
+  // NOTE (parity): main.css `.h35 { height: 35px !important }` (the old note that .h35 is defined nowhere was wrong)
+  locationButton: { height: 35 },
   // [T] 2419-2431 `.enquiry-btn button span p { font-size: 14px; letter-spacing: 2px; color: $white; font-weight: normal }`
   locationLabel: { fontSize: 14, letterSpacing: 2 },
   gap: { height: 4 },
