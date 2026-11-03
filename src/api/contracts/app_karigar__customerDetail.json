@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/customerDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "karigar_id": "", "filter": { "status": "" } },
+  "ionicSource": "src/pages/customerdetail/customerdetail.ts:74"
+}

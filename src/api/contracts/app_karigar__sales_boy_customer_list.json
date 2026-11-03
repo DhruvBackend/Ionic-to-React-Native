@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/sales_boy_customer_list",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "sales_boy_id": "", "limit": 0, "search": "" } },
+  "ionicSource": "src/pages/customerlist/customerlist.ts:65"
+}

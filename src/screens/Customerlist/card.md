@@ -78,5 +78,13 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- customerlist.html:51: the no_found image (ngIf customer.length == 0) is inside the *ngFor row, so it never shows: an empty list is a blank page.
+- customerlist.html:15-16: (ngModelChange) searches on every keystroke; (keyup.enter) onCancel only logs (customerlist.ts:53-56). Placeholder 'Search' is hardcoded (not translated).
+- customerlist.ts:67/68: loader dismissed, then response.karigars read (null body: nothing after the dismiss). No error callbacks: an HTTP error leaves the loader up.
+- customerlist.ts:78/84: infinite scroll offset = customer.length; resData == "" is loose, so [] ends paging until a search/refresh resets flag (:60).
+- customerlist.html:46: the tel: anchor's click also bubbles to the card's goToDetail.
+- customerlist.ts:34: ionViewDidLoad only logs (not ported). No role branches in the template (Sales_Boy and Dealer see the same page).
+
 ## States
 
+- default (3 customers), empty (blank page), malformed (karigars null: blank, loader gone), hin (title and Date Created translated), dealer (same page).

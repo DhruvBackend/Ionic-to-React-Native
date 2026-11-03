@@ -1,0 +1,6 @@
+[
+  { "id": "Customerlist.default", "screen": "Customerlist", "role": "Sales_Boy", "lang": "en", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('Customerlist'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Customerlist.dealer", "screen": "Customerlist", "role": "Dealer", "lang": "en", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('Customerlist'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Customerlist.empty", "screen": "Customerlist", "role": "Sales_Boy", "lang": "en", "variants": { "app_karigar/sales_boy_customer_list": "empty" }, "params": {}, "ionicNav": "nav.setRoot(Page('Customerlist'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Customerlist.hin", "screen": "Customerlist", "role": "Sales_Boy", "lang": "hin", "variants": {}, "params": {}, "ionicNav": "nav.setRoot(Page('Customerlist'), params)", "waitMs": 2800, "deviceVersion": "15" }
+]

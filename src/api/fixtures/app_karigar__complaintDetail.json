@@ -1,0 +1,16 @@
+{
+  "endpoint": "app_karigar/complaintDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "complaint": [
+        { "id": 501, "date_created": "2026-10-05 10:00:00", "nature_problem": "tap leakage", "status": "Pending" },
+        { "id": 502, "date_created": "2026-10-11 15:30:00", "nature_problem": "low water pressure", "status": "Closed" },
+        { "id": 503, "date_created": "2026-10-18 12:10:00", "nature_problem": "broken flush", "status": "Cancel" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "complaint": [] },
+    "malformed": { "status": "SUCCESS", "complaint": null }
+  }
+}

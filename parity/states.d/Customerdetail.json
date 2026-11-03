@@ -1,0 +1,5 @@
+[
+  { "id": "Customerdetail.default", "screen": "Customerdetail", "role": "Sales_Boy", "lang": "en", "variants": {}, "params": { "id": 301 }, "ionicNav": "nav.setRoot(Page('Customerdetail'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Customerdetail.dealer", "screen": "Customerdetail", "role": "Dealer", "lang": "en", "variants": {}, "params": { "id": 301 }, "ionicNav": "nav.setRoot(Page('Customerdetail'), params)", "waitMs": 2800, "deviceVersion": "15" },
+  { "id": "Customerdetail.hin", "screen": "Customerdetail", "role": "Sales_Boy", "lang": "hin", "variants": {}, "params": { "id": 301 }, "ionicNav": "nav.setRoot(Page('Customerdetail'), params)", "waitMs": 2800, "deviceVersion": "15" }
+]
