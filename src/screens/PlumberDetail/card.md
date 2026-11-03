@@ -88,5 +88,13 @@ Classes defined by the page SCSS and used in the template: `adhar`
 
 ## Quirks
 
+- plumber-detail.ts:33 ionViewDidLoad only logs (not ported). :55 `totalpoints` is computed but never read by the template (dead, not ported).
+- plumber-detail.html:20 `(click)="viewProfiePic()"`: the method does not exist in plumber-detail.ts, so a tap on the picture does nothing.
+- plumber-detail.ts:53-55: loader dismissed before the response is read; `karigar: null` throws and the view keeps the blank page.
+- plumber-detail.html:37-43: the status line (with icons) shows only when the VIEWER is a Plumber; Sales_Boy / Dealer see just the karigar's type. `{{reason}}&nbsp;({{type}})` uses a no-break space. Dealer Information (:63) is also viewer-Plumber only, so Sales_Boy / Dealer never see it.
+- plumber-detail.html:45 '+91' hard-coded; `.heading` / `.line` have no CSS rule; `.mt16 / .mt18 / .mb10 / .pt10 / .pb10 / .pt16` come from the shipped main.css.
+- Language: the module's own TranslateModule.forRoot never calls use(): the global language applies.
+
 ## States
 
+- default (Sales_Boy views a Plumber: type line, address, permanent address, bank table, document), plumber (viewer Plumber: status line, dealer info), bare (default picture, dashes, N/A, no document), hin, malformed (karigar null: blank), dealer (same page as Sales_Boy).
