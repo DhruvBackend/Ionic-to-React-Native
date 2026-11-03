@@ -1,0 +1,15 @@
+{
+  "endpoint": "app_master/checkCategoryLength",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "filter": {
+      "limit": 0,
+      "search": "",
+      "name": "Pipes"
+    }
+  },
+  "ionicSource": "src/pages/category/category.ts:60 (goOnCategoryListPage: filter = {limit: 0, name} plus the keys the shared filter already holds: search from the entry call, category_name once the search box was typed in)"
+}

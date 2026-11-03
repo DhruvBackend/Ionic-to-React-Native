@@ -1,0 +1,14 @@
+{
+  "endpoint": "app_master/parentCategory_List",
+  "helper": "post_rqst",
+  "server": "root",
+  "method": "POST",
+  "headers": "tokenOnly",
+  "body": {
+    "filter": {
+      "limit": 0,
+      "search": ""
+    }
+  },
+  "ionicSource": "src/pages/category/category.ts:207 (getProductCategoryList: filter.limit = 0, filter.search); :89 (loadData: filter.limit = prod_cat_list.length, same key tree)"
+}

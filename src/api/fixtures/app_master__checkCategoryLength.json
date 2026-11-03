@@ -1,0 +1,37 @@
+{
+  "endpoint": "app_master/checkCategoryLength",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "categories": [
+        {
+          "id": 7
+        }
+      ]
+    },
+    "many": {
+      "status": "SUCCESS",
+      "categories": [
+        {
+          "id": 7
+        },
+        {
+          "id": 8
+        }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "categories": []
+    },
+    "malformed": {
+      "status": "SUCCESS",
+      "categories": null
+    },
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}
