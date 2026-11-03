@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Feedback.default",
+    "screen": "Feedback",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Feedback'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "PUSH-ONLY (push notification type 'message'; push is off for Topbath, so this is the template/push-enabled clients' view). Empty textarea with the placeholder; no request on load. The send icon (assets/icons/sent.svg) is a 404 in Ionic."
+  }
+]
