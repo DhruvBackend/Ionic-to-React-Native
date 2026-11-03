@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/offerTermCondition",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "offer": {
+        "id": 11,
+        "title": "diwali dhamaka offer",
+        "offer_banner": "offer_banner_11.jpg",
+        "terms": "Points are valid only until the end date of the offer. Gifts cannot be exchanged for cash. The company may change or withdraw the offer without notice.",
+        "description": "Scan the coupons on our products and collect points. Redeem the points for gifts during the Diwali offer period."
+      }
+    },
+    "empty": { "status": "SUCCESS", "offer": {} },
+    "malformed": { "status": "SUCCESS", "offer": null },
+    "NOT FOUND": { "status": "NOT FOUND" }
+  }
+}
