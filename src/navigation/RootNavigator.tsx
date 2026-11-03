@@ -20,6 +20,7 @@ import { placeholderFor } from './PlaceholderScreen';
 import { createIonStackNavigator } from './IonStack';
 import { RoleTabs } from './RoleTabs';
 import { enabledRoutes } from './routes';
+import { placeholderRoutes } from './routes.generated';
 import { SideMenuProvider } from './SideMenu';
 import { notifyPageChange } from '../ui/overlays';
 
@@ -75,7 +76,11 @@ export function applyDebugLink(link: DebugLink, sessions: Record<string, unknown
 export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteName?: string }) {
   const routes = enabledRoutes();
   const names = new Set(routes.map(r => r.name));
-  const placeholders = REQUIRED_ROOT_ROUTES.filter(n => !names.has(n));
+  // Reachable Ionic pages not ported yet get a placeholder (Phase 2 kit), so ported screens can push their real targets.
+  const placeholders = [
+    ...REQUIRED_ROOT_ROUTES.filter(n => !names.has(n)).map(name => ({ name, presentation: 'card' as const })),
+    ...placeholderRoutes.filter(p => !names.has(p.name) && !REQUIRED_ROOT_ROUTES.includes(p.name)),
+  ];
 
   useEffect(() => {
     if (!debugToolsEnabled) {
@@ -110,8 +115,13 @@ export function RootNavigator({ initialRouteName = 'Language' }: { initialRouteN
               options={r.presentation === 'modal' ? { presentation: 'modal' } : undefined}
             />
           ))}
-          {placeholders.map(n => (
-            <Root.Screen key={n} name={n} component={placeholderFor(n)} />
+          {placeholders.map(p => (
+            <Root.Screen
+              key={p.name}
+              name={p.name}
+              component={placeholderFor(p.name)}
+              options={p.presentation === 'modal' ? { presentation: 'modal' } : undefined}
+            />
           ))}
         </Root.Navigator>
       </NavigationContainer>
