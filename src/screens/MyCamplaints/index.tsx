@@ -10,7 +10,7 @@ import { IonInfiniteScroll, IonInfiniteScrollContent, type InfiniteScrollHandle 
 import { IonList } from '../../components/ionic/IonList';
 import { IonHeader, IonNavbar, IonToolbar } from '../../components/ionic/IonNavbar';
 import { IonRefresher, IonRefresherContent } from '../../components/ionic/IonRefresher';
-import { IonSelectInline } from '../../components/ionic/IonSelect';
+import { IonSelectBox, useIonSelect } from '../../components/ionic/IonSelect';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
 import { Text } from '../../components/ionic/IonText';
 import { textStyle } from '../../components/ionic/text';
@@ -155,6 +155,17 @@ export default function MyCamplaintsScreen({ navigation, route }: Props) {
     { value: 'Cancel', label: collapseWs(t('Cancel')) },
   ];
 
+  const sel = useIonSelect({
+    options,
+    value: status,
+    onChange: (v: any) => {
+      // [(ngModel)]="filter.status" then (ngModelChange)="getComplaintlist(data.type)"
+      filter.current.status = v;
+      setStatus(v);
+      getComplaintlist(dataType.current);
+    },
+  });
+
   return (
     <View style={styles.screen}>
       {/* html:1-30 */}
@@ -163,8 +174,8 @@ export default function MyCamplaintsScreen({ navigation, route }: Props) {
         <IonToolbar color="primary">
           <View style={styles.serachFilter}>
             <IonList style={styles.list}>
-              {/* NOTE (parity): the item has an `ion-input` and an `ion-select`; Ionic's button.item-cover covers the whole item, here only the select
-                  box is tappable so the input stays editable (check on device). */}
+              {/* NOTE (parity): the item has an `ion-input` and an `ion-select`; the select's `button.item-cover` (absolute, 100% x 100%) paints over
+                  the whole item, so a tap anywhere opens the select and the search input cannot be focused. */}
               <IonInputItem
                 testID="search"
                 type="text"
@@ -178,19 +189,8 @@ export default function MyCamplaintsScreen({ navigation, route }: Props) {
                   setSearch(v);
                   getComplaintlist(undefined);
                 }}
-                trailing={
-                  <IonSelectInline
-                    testID="status"
-                    options={options}
-                    value={status}
-                    onChange={v => {
-                      // [(ngModel)]="filter.status" then (ngModelChange)="getComplaintlist(data.type)"
-                      filter.current.status = v;
-                      setStatus(v);
-                      getComplaintlist(dataType.current);
-                    }}
-                  />
-                }
+                cover={{ onPress: sel.open }}
+                trailing={<IonSelectBox text={sel.text} />}
               />
             </IonList>
           </View>

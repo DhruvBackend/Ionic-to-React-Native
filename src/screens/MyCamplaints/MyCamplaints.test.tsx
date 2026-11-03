@@ -71,10 +71,16 @@ const search = async (v: string) => {
   });
   await settle();
 };
+// the select opens through the item cover; OK on the alert with the chosen value
 const pickStatus = async (v: string) => {
-  const node = tree.root.findAll(n => typeof n.props.onChange === 'function' && Array.isArray(n.props.options))[0];
+  const cover = tree.root.findAll(n => n.props.cover && typeof n.props.cover.onPress === 'function')[0];
   await act(async () => {
-    node.props.onChange(v);
+    cover.props.cover.onPress();
+  });
+  const alert = overlayStore.getEntries().filter(e => e.kind === 'alert').pop()!;
+  const ok = (alert.options as any).buttons.find((b: any) => b.text === 'OK');
+  await act(async () => {
+    ok.handler(v);
   });
   await settle();
 };
@@ -106,6 +112,7 @@ describe('contract (card Endpoints)', () => {
     expect(body(callsTo()[1])).toEqual({ plumber_id: '900011', filter: { limit: 3, status: '' }, type: 'Service' });
   });
 
+  // NOTE (parity): the search input cannot be focused on a device (item-cover over the item); the handler is still called directly here.
   test('status select sends the status with the nav type; a search keystroke sends no type', async () => {
     installSpy();
     await mount();
