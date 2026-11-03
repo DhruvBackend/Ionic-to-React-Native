@@ -1,0 +1,27 @@
+{
+  "endpoint": "app_karigar/get_notification",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "notification": [
+        { "id": 71, "notification": "Your gift request for steel water bottle has been approved.", "date_created": "2026-10-28 11:42:10", "read": 1 },
+        { "id": 70, "notification": "You have received 150 points for scanning a coupon.", "date_created": "2026-10-26 18:05:37", "read": 1 },
+        { "id": 69, "notification": "New offer: Double points on all pipes this Diwali. Scan now and earn more.", "date_created": "2026-10-20 09:15:02", "read": 0 },
+        { "id": 68, "notification": "Your KYC has been verified.", "date_created": "2026-10-12 16:30:45", "read": 0 },
+        { "id": 67, "notification": "Welcome to the loyalty program! Start scanning coupons to earn points.", "date_created": "2026-09-30 10:00:00", "read": 0 }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "notification": [] },
+    "malformed": { "status": "SUCCESS", "notification": null },
+    "endOfList": "",
+    "readAsText": {
+      "status": "SUCCESS",
+      "notification": [
+        { "id": 72, "notification": "Read flag sent as the text 0: Angular still highlights it.", "date_created": "2026-10-29", "read": "0" },
+        { "id": 73, "notification": "Read flag sent as an empty text: not highlighted.", "date_created": "2026-10-28", "read": "" }
+      ]
+    },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}
