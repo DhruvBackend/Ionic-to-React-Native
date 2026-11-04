@@ -1,0 +1,16 @@
+[
+  {
+    "id": "Enquiry.default",
+    "screen": "Enquiry",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": 77
+    },
+    "ionicNav": "nav.push(Page('Enquiry'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature 'enquiry' off): only product-subdetail.ts:160 goToEnquiryPage() navigates here and nothing calls it. Hardcoded English, no translate keys, so no hin state."
+  }
+]

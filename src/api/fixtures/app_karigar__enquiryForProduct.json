@@ -1,0 +1,11 @@
+{
+  "endpoint": "app_karigar/enquiryForProduct",
+  "server": "root",
+  "variants": {
+    "default": { "status": "Product Enquiry successfully." },
+    "other": { "status": "FAILED" },
+    "empty": {},
+    "malformed": null,
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

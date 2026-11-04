@@ -1,0 +1,118 @@
+[
+  {
+    "id": "EditProfile.default",
+    "screen": "EditProfile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "detail": {
+        "id": "900001",
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "country": "India",
+        "dob": "1990-05-14",
+        "sales_boy_name": "Test Seller",
+        "sales_boy_mobile_no": "9810000012",
+        "dealer_contact_person": "Test Dealer",
+        "dealer_mobile": "9810000013",
+        "address": "12 Rajnagar Extension",
+        "state": "DELHI",
+        "district": "NEW DELHI",
+        "city": "Delhi",
+        "pincode": "110001",
+        "permanent_address": "Old Street",
+        "permanent_state": "HARYANA",
+        "parmanent_district": "GURGAON",
+        "permanent_city": "Gurgaon",
+        "permanent_pincode": "122001",
+        "document_type": "PanCard",
+        "document_no": "ABCDE1234F",
+        "document_image": ""
+      }
+    },
+    "ionicNav": "nav.push(Page('EditProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature 'editProfile' off): profile.ts:301 editProfilePage() and dealer-profile.ts:144 are never called from a template. The page reads the `detail` nav param (the profile record)."
+  },
+  {
+    "id": "EditProfile.customer",
+    "screen": "EditProfile",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "detail": {
+        "id": "900002",
+        "first_name": "Test Customer",
+        "mobile_no": "9000000002",
+        "type": "Customer",
+        "country": "India",
+        "address": "12 Rajnagar Extension",
+        "state": "DELHI",
+        "district": "NEW DELHI",
+        "city": "Delhi",
+        "pincode": "110001",
+        "document_image": ""
+      }
+    },
+    "ionicNav": "nav.push(Page('EditProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Customer branch: Address information heading, no Plumber-only sections."
+  },
+  {
+    "id": "EditProfile.hin",
+    "screen": "EditProfile",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {
+      "detail": {
+        "id": "900001",
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "country": "India",
+        "address": "12 Rajnagar Extension",
+        "state": "DELHI",
+        "district": "NEW DELHI",
+        "city": "Delhi",
+        "pincode": "110001",
+        "document_image": ""
+      }
+    },
+    "ionicNav": "nav.push(Page('EditProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "EditProfile.malformed",
+    "screen": "EditProfile",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "malformed"
+    },
+    "params": {
+      "detail": {
+        "id": "900001",
+        "first_name": "Test Plumber",
+        "mobile_no": "9000000001",
+        "type": "Plumber",
+        "country": "India",
+        "address": "12 Rajnagar Extension",
+        "state": "DELHI",
+        "district": "NEW DELHI",
+        "city": "Delhi",
+        "pincode": "110001",
+        "document_image": ""
+      }
+    },
+    "ionicNav": "nav.push(Page('EditProfile'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

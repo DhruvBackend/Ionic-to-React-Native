@@ -114,5 +114,19 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- edit-profile.ts:49 `bypassSecurityTrustResourceUrl(document_image)` replaces the value with a wrapper object: the "Upload Document" prompt (html:83) never shows, and the body sends `{changingThisBreaksApplicationSecurity: <value>}` until a picture is taken (contract note).
+- html:28 mobile is `[disabled]` for Plumber (not validated); html:39-56 four `readonly disabled` inputs (opacity .4).
+- html:139 / :187 the District item error class reads `state?.invalid` / `permanent_state?.invalid`, not its own control.
+- edit-profile.ts:174-197 submit(): no status check, no loader; success AND error show "Success!" (error opens Tabs index 4).
+- edit-profile.ts:41-48 Sales_Executive: "Profile Locked" alert (OK pops), constructor returns (no requests, document_image stays a string).
+- edit-profile.ts:62-64 ionViewDidLoad is console.log only (not ported); `this.flag` (:155, :140) feeds an `.error` class with no rule.
+- edit-profile.ts:67-75 getstatelist `karigar_id` is never read; html:28 `falses` is an undefined property (falsy).
+- `document_image` `==`/`!=` compare an object; no `detail` param: Ionic throws in the constructor (blank page).
+
 ## States
 
+- `default` (Plumber, India, PanCard)
+- `customer` (Address information heading, no Plumber sections)
+- `hin`
+- `malformed` (getStates null)
+- Not captured: Dealer/Retailer/Sales_Boy (same as Customer minus heading), Nepal (Citizenship Card), Sales_Executive lock alert (covered in jest).

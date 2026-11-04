@@ -1,0 +1,17 @@
+{
+  "endpoint": "app_karigar/enquiryForProduct",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "contactDetails": {
+      "customerName": "",
+      "customerMobileNo": "",
+      "customerEmail": "",
+      "customerInformation": "",
+      "product_id": ""
+    }
+  },
+  "ionicSource": "src/pages/enquiry/enquiry.ts:43"
+}

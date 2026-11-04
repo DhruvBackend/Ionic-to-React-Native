@@ -1,0 +1,37 @@
+{
+  "endpoint": "app_karigar/addKarigar",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "karigar": {
+      "id": "",
+      "first_name": "",
+      "mobile_no": "",
+      "type": "",
+      "country": "",
+      "dob": "",
+      "sales_boy_name": "",
+      "sales_boy_mobile_no": "",
+      "dealer_contact_person": "",
+      "dealer_mobile": "",
+      "document_type": "",
+      "document_no": "",
+      "document_image": { "changingThisBreaksApplicationSecurity": "" },
+      "address": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "permanent_address": "",
+      "permanent_state": "",
+      "parmanent_district": "",
+      "permanent_city": "",
+      "permanent_pincode": "",
+      "karigar_edit_id": ""
+    }
+  },
+  "note": "EditProfile variant of the addKarigar contract: the body is the `detail` nav param (the Plumber record) edited in place + karigar_edit_id. `document_image` is the SafeResourceUrl wrapper Angular's bypassSecurityTrustResourceUrl returns (the constructor replaces the value), which JSON.stringify serialises as {changingThisBreaksApplicationSecurity: <original value>} until a new picture is taken (then it is the data: string).",
+  "ionicSource": "src/pages/edit-profile/edit-profile.ts:178"
+}
