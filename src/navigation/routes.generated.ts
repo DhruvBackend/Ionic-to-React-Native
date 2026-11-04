@@ -110,30 +110,32 @@ import r53 from '../screens/Scan/route';
 import C53 from '../screens/Scan';
 import r54 from '../screens/ScanPoint/route';
 import C54 from '../screens/ScanPoint';
-import r55 from '../screens/SelectRegistrationType/route';
-import C55 from '../screens/SelectRegistrationType';
-import r56 from '../screens/ShippingDetail/route';
-import C56 from '../screens/ShippingDetail';
-import r57 from '../screens/SubCategory/route';
-import C57 from '../screens/SubCategory';
-import r58 from '../screens/Super30/route';
-import C58 from '../screens/Super30';
-import r59 from '../screens/SurveyDetail/route';
-import C59 from '../screens/SurveyDetail';
-import r60 from '../screens/SurveyList/route';
-import C60 from '../screens/SurveyList';
-import r61 from '../screens/TaskClose/route';
-import C61 from '../screens/TaskClose';
-import r62 from '../screens/Terms/route';
-import C62 from '../screens/Terms';
-import r63 from '../screens/Transaction/route';
-import C63 from '../screens/Transaction';
-import r64 from '../screens/Video/route';
-import C64 from '../screens/Video';
-import r65 from '../screens/VideoCategory/route';
-import C65 from '../screens/VideoCategory';
-import r66 from '../screens/ViewProfile/route';
-import C66 from '../screens/ViewProfile';
+import r55 from '../screens/Search/route';
+import C55 from '../screens/Search';
+import r56 from '../screens/SelectRegistrationType/route';
+import C56 from '../screens/SelectRegistrationType';
+import r57 from '../screens/ShippingDetail/route';
+import C57 from '../screens/ShippingDetail';
+import r58 from '../screens/SubCategory/route';
+import C58 from '../screens/SubCategory';
+import r59 from '../screens/Super30/route';
+import C59 from '../screens/Super30';
+import r60 from '../screens/SurveyDetail/route';
+import C60 from '../screens/SurveyDetail';
+import r61 from '../screens/SurveyList/route';
+import C61 from '../screens/SurveyList';
+import r62 from '../screens/TaskClose/route';
+import C62 from '../screens/TaskClose';
+import r63 from '../screens/Terms/route';
+import C63 from '../screens/Terms';
+import r64 from '../screens/Transaction/route';
+import C64 from '../screens/Transaction';
+import r65 from '../screens/Video/route';
+import C65 from '../screens/Video';
+import r66 from '../screens/VideoCategory/route';
+import C66 from '../screens/VideoCategory';
+import r67 from '../screens/ViewProfile/route';
+import C67 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -203,6 +205,7 @@ export const routes: RouteDef[] = [
   { ...r64, component: C64 },
   { ...r65, component: C65 },
   { ...r66, component: C66 },
+  { ...r67, component: C67 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
