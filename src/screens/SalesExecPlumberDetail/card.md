@@ -84,5 +84,11 @@ Classes defined by the page SCSS and used in the template: `active`, `dot`, `ina
 
 ## Quirks
 
+- sales-exec-plumber-detail.ts:15,38 `recent_scans` is stored but nothing in the template reads it (the `.scan-list` and `.empty` SCSS are unused): not shown.
+- .html:54 the address block tests `city || state` (the list also tests district); the global `span { margin: 0 !important }` beats `.dot { margin-left: 6px }`.
+- .scss:22 `.profile-pic img` (0,2,2) loses to the global (0,3,1): the picture stays 50x50. '+91' hard-coded; formatDate uses the device locale.
+- .ts:25 ionViewDidLoad: loads once (no reload on re-entry); no request without user id or plumber_id; `status !== 'SUCCESS'` keeps the page blank; no loader overlay, an HTTP error only ends the in-page 'Loading…'.
+
 ## States
 
+- default (Verified, active, address, seller + dealer with phones), pending (inactive, dashes, seller without phone, state only), suspect (dealer only), reject (city only, unparsable date), bare (unknown status, null last name/points, no sections), failed (status FAILED), empty ({}), malformed (null). No hin (no translation).
