@@ -5,6 +5,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 import { cancelpolicyModalMd as M } from '../../theme/ionicMdCancelpolicyModal';
+import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { fontFor } from '../../theme/typography';
 
 export const styles = StyleSheet.create({
@@ -74,6 +75,8 @@ export const styles = StyleSheet.create({
     ...fontFor(400),
   },
   // main.css `textarea::placeholder { padding-left: 2px }` (the reviewer's "Chrome textarea padding" is this rule: `.pl16`/padding 7 replace the UA 2px)
+  // the inline-block textarea sits on the baseline of a 14px strut line: its descent (3dp) stays below it
+  textareaGap: { height: normalLineHeight(14) - Math.round((14 * 1900) / 2048) },
   textareaPlaceholder: { paddingLeft: 18 },
 
   // [T] 3908-3914 `.check-bx { display: flex; align-items: center; margin-top: 10px }`

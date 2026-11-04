@@ -334,6 +334,7 @@ export default function CancelpolicyModalScreen({ navigation, route }: Props) {
                     autoCorrect={false}
                     underlineColorAndroid="transparent"
                   />
+                  <View style={styles.textareaGap} />
                 </View>
               ) : null}
             </View>

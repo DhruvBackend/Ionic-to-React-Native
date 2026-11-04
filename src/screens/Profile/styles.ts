@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
   },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }`
   // NOTE (parity): profile.html:40 / :211 `<div class="rating-area mt16">`; `.mt16{margin-top:16px!important}` (main.css)
-  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },
+  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16, alignSelf: 'flex-start' },
   // [T] 2954-2958 `.border-box`
   borderBox: { flexDirection: 'row', alignItems: 'center', width: '100%', borderBottomWidth: 1, borderBottomColor: P.line },
   // [T] 2959-2978 `.boxs`: padding 5 10, width 50%, border-right 1 #ccc (the last child has none)
@@ -105,6 +105,8 @@ export const styles = StyleSheet.create({
   pointAdd: { padding: 9, paddingBottom: 0 },
   pointAddText: { textDecorationLine: 'underline' },
   // NOTE (parity): `<textarea>` default rows=2: 2 x 18px (`line-height: 18px`, variables.scss:4615-4620) + 2 x 2px default padding = 40px
+  // NOTE (parity): the inline-block textarea leaves the strut's descent below it in its line box
+  geoGap: { height: strutDescent },
   geoTextarea: { borderWidth: 0, width: '100%', padding: 2, height: 40, textAlignVertical: 'top' },
   // [T] 3985-4001 `.header-icons { position: absolute; top: 10px; right: 0 }` (against the navbar box)
   headerIcons: { position: 'absolute', top: 10, right: 0, zIndex: 1 },

@@ -479,6 +479,7 @@ export default function ProfileScreen({ navigation }: Props) {
                   editable={false}
                   value={d.cust_geo_address}
                 />
+                <View style={styles.geoGap} />
               </View>
             ) : null}
             <IonButton
