@@ -1,0 +1,14 @@
+{
+  "endpoint": "master/saveSurveyAnswer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "question": [{ "id": 1, "question": "", "answers": [{ "id": 11, "answer": "" }], "selected_answer": "11" }],
+    "survey_id": 1,
+    "user_id": "900001"
+  },
+  "note": "question is the whole detail array: every question keeps its server keys and gains selected_answer (the radio value, a string) once answered. Only sent when every question is answered.",
+  "ionicSource": "src/pages/survey/survey-detail/survey-detail.ts:109 (surveySubmit)"
+}

@@ -1,0 +1,10 @@
+{
+  "endpoint": "search/search_alldata",
+  "helper": "onPostRequestDataFromApi",
+  "server": "server_url",
+  "method": "POST",
+  "headers": "user",
+  "body": "=a",
+  "note": "NEVER SENT by Ionic: dataChanged() calls onPostRequestDataFromApi(...).then(...) but that helper returns an RxJS Observable (HttpClient.post), which has no .then: the TypeError is thrown inside the 500 ms setTimeout, the cold observable is never subscribed, so no request leaves the app. This file records what the call site WOULD send (body = the typed text, JSON-quoted) for reference; the Search screen test asserts that no request is made.",
+  "ionicSource": "src/pages/search/search.ts:44 (dataChanged)"
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "SurveyList.default",
+    "screen": "SurveyList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('SurveyList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature survey off): needs the _all-features client for a RN capture. SurveyListPage has @IonicPage() but is pushed by class (home.ts:946) and listed in app.module.ts: not a lazy string-name push. Three cards with a right arrow."
+  },
+  {
+    "id": "SurveyList.empty",
+    "screen": "SurveyList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "master/surveyList": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SurveyList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SurveyList.malformed",
+    "screen": "SurveyList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "master/surveyList": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SurveyList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

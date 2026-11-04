@@ -1,0 +1,16 @@
+{
+  "endpoint": "app_karigar/nearestDealer",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "dealerData": [
+        { "id": 301, "company_name": "sharma sanitary store", "mobile": "9000000101", "address": "12 main market", "city": "ghaziabad", "pincode": "201010", "state": "uttar pradesh", "lat": "28.6692", "lng": "77.4538", "first_name": "ramesh", "mobile_no": "9000000101" },
+        { "id": 302, "company_name": "gupta bath and tiles", "mobile": "9000000102", "address": "plot 7 sector 4", "city": "noida", "pincode": "201301", "state": "uttar pradesh", "lat": "", "lng": "", "first_name": "suresh", "mobile_no": "9000000102" },
+        { "id": 303, "company_name": "verma hardware", "mobile": "9000000103", "address": "shop 3 station road", "city": "meerut", "pincode": "250001", "state": "uttar pradesh", "lat": "28.9845", "lng": "77.7064", "first_name": "mahesh", "mobile_no": "9000000103" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "dealerData": [] },
+    "malformed": { "status": "SUCCESS", "dealerData": null }
+  }
+}
