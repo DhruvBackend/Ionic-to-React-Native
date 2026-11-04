@@ -64,6 +64,8 @@ export interface IonContentProps extends Omit<ScrollViewProps, 'style' | 'conten
   style?: StyleProp<ViewStyle>; // `<ion-content style="background: #f8f8f8">` and page classes: the ion-content element
   contentStyle?: StyleProp<ViewStyle>; // the `.scroll-content` element
   fixedContent?: React.ReactNode; // Ionic's fixed-content layer (<ion-fab>): absolutely positioned over the scroll
+  // `position: sticky` children (e.g. GiftList `.fix`): indices into the screen's own children; the refresher spacer is skipped
+  stickyChildIndices?: number[];
   testID?: string;
 }
 
@@ -92,6 +94,7 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
     style,
     contentStyle,
     fixedContent,
+    stickyChildIndices,
     children,
     testID = 'ion-content',
     onScroll,
@@ -285,6 +288,8 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
           keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           scrollEventThrottle={16}
           {...rest}
+          // the spacer fragment is one extra ScrollView child before the screen's children
+          stickyHeaderIndices={stickyChildIndices ? stickyChildIndices.map(i => i + (spacer > 0 ? 1 : 0)) : rest.stickyHeaderIndices}
           onScroll={handleScroll}
           onScrollBeginDrag={handleBeginDrag}
           onScrollEndDrag={handleEndDrag}
