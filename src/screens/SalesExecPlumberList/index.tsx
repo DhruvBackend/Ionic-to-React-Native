@@ -186,16 +186,16 @@ export default function SalesExecPlumberListScreen({ navigation, route }: Props)
                     </View>
 
                     <View style={styles.name}>
-                      <Text testID={`saeplist-name-${i}`} style={textStyle(15, 600, P.nameInk)}>{ws(`${tc(p.first_name)} ${tc(p.last_name)}`)}</Text>
+                      <Text testID={`saeplist-name-${i}`} style={textStyle(14, 500, P.nameInk)}>{ws(`${tc(p.first_name)} ${tc(p.last_name)}`)}</Text>
                       <View style={styles.nameLink}>
                         {icon ? (
                           <View style={styles.statusIcon}>
-                            <MaterialIcon name={icon} size={13} color={color} style={styles.statusIconGlyph} />
+                            <MaterialIcon name={icon} size={18} color={color} style={styles.statusIconGlyph} />
                           </View>
                         ) : null}
-                        <Text testID={`saeplist-status-${i}`} style={textStyle(11, 400, color)}>{ws(interp(p.status))}</Text>
+                        <Text testID={`saeplist-status-${i}`} style={textStyle(12, 400, color)}>{ws(interp(p.status))}</Text>
                         {/* NOTE (parity): the global `span { margin: 0 !important }` beats `.dot { margin-left: 6px }`: no gap before the dot */}
-                        <Text testID={`saeplist-dot-${i}`} style={textStyle(11, 500, dotColor)}>{p.is_active ? '· Active' : '· Inactive'}</Text>
+                        <Text testID={`saeplist-dot-${i}`} style={textStyle(12, 500, dotColor)}>{p.is_active ? '· Active' : '· Inactive'}</Text>
                       </View>
                     </View>
                   </View>

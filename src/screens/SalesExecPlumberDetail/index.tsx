@@ -138,11 +138,11 @@ export default function SalesExecPlumberDetailScreen({ route }: Props) {
                 </View>
 
                 <View style={styles.name}>
-                  <Text testID="saepdetail-name" style={textStyle(16, 600, P.nameInk)}>{ws(`${tc(d.first_name)} ${tc(d.last_name)}`)}</Text>
+                  <Text testID="saepdetail-name" style={textStyle(14, 500, P.nameInk)}>{ws(`${tc(d.first_name)} ${tc(d.last_name)}`)}</Text>
                   <View style={styles.nameLink}>
                     {icon ? (
                       <View style={styles.statusIcon}>
-                        <MaterialIcon name={icon} size={14} color={color} style={styles.statusIconGlyph} />
+                        <MaterialIcon name={icon} size={18} color={color} style={styles.statusIconGlyph} />
                       </View>
                     ) : null}
                     <Text testID="saepdetail-status" style={textStyle(12, 400, color)}>{ws(interp(d.status))}</Text>
