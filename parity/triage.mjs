@@ -29,7 +29,14 @@ const maskTop = parseInt(opt('mask-top', '96'), 10);
 const maskBottom = parseInt(opt('mask-bottom', '84'), 10);
 const root = path.resolve('parity/out');
 const outDir = path.join(root, 'triage');
-fs.rmSync(outDir, { recursive: true, force: true });
+// A run with --only replaces only its own crops (and the contact sheets), so an earlier full run's crops stay usable.
+if (!only.length) {
+  fs.rmSync(outDir, { recursive: true, force: true });
+} else if (fs.existsSync(outDir)) {
+  for (const f of fs.readdirSync(outDir)) {
+    if (f.startsWith('_ok-') || only.some(o => f.startsWith(o))) fs.rmSync(path.join(outDir, f));
+  }
+}
 fs.mkdirSync(outDir, { recursive: true });
 
 const read = p => PNG.sync.read(fs.readFileSync(p));
