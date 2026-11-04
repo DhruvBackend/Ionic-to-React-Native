@@ -1,0 +1,19 @@
+{
+  "endpoint": "app_karigar/sales_exec/add_dealer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "dealer": {
+      "first_name": "",
+      "mobile_no": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "sales_executive_id": ""
+    }
+  },
+  "ionicSource": "src/pages/sales-exec-add-dealer/sales-exec-add-dealer.ts:57"
+}
