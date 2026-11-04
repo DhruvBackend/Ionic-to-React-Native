@@ -71,5 +71,11 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry / reachability.** DEAD: no navigation to Scan exists. Feature flag scanPage (off for Topbath). No navParams, endpoints, storage, loaders or overlays.
+2. **Click target.** `(click)="goOnCoupanCodePage()"` is on the `<ion-content class="scan-bg">`: a tap anywhere on the empty content pushes CoupanCode with no params. `.scan-bg` has no CSS rule in any stylesheet (plain white page). RN: a Pressable around the IonContent.
+3. **Title.** 'scan' as typed; `.main-header.remove` capitalises it ('Scan') and shows the back button.
+4. **i18n.** None (hardcoded title). No hin state.
+
 ## States
 
+Parity state: default (empty page, title). Unit-tested: the tap pushes CoupanCode with no params. Unreachable in Topbath: a RN capture needs the _all-features client.

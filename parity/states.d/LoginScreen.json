@@ -1,0 +1,14 @@
+[
+  {
+    "id": "LoginScreen.default",
+    "screen": "LoginScreen",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('LoginScreen'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature loginScreen off): needs the _all-features client for a RN capture. An empty page with the title 'login-screen'."
+  }
+]

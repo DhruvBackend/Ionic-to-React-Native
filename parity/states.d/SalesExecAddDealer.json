@@ -6,9 +6,10 @@
     "lang": "en",
     "variants": {},
     "params": {},
-    "ionicNav": "nav.push(Page('SalesExecAddDealer'), params)",
+    "ionicNav": "nav.push('SalesExecAddDealerPage', params)",
     "waitMs": 2800,
-    "deviceVersion": "15"
+    "deviceVersion": "15",
+    "ionicNavNote": "Lazy IonicPage: opened by its string name, as sales-exec-home.ts pushes it."
   },
   {
     "id": "SalesExecAddDealer.empty",
@@ -19,9 +20,10 @@
       "app_master/getStates": "empty"
     },
     "params": {},
-    "ionicNav": "nav.push(Page('SalesExecAddDealer'), params)",
+    "ionicNav": "nav.push('SalesExecAddDealerPage', params)",
     "waitMs": 2800,
-    "deviceVersion": "15"
+    "deviceVersion": "15",
+    "ionicNavNote": "Lazy IonicPage: opened by its string name, as sales-exec-home.ts pushes it."
   },
   {
     "id": "SalesExecAddDealer.malformed",
@@ -32,8 +34,9 @@
       "app_master/getStates": "malformed"
     },
     "params": {},
-    "ionicNav": "nav.push(Page('SalesExecAddDealer'), params)",
+    "ionicNav": "nav.push('SalesExecAddDealerPage', params)",
     "waitMs": 2800,
-    "deviceVersion": "15"
+    "deviceVersion": "15",
+    "ionicNavNote": "Lazy IonicPage: opened by its string name, as sales-exec-home.ts pushes it."
   }
 ]

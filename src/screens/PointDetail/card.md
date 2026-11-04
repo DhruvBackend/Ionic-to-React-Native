@@ -78,5 +78,13 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry / reachability.** DEAD: point-list.ts:65 goOnPointDetailPage() is never bound. Feature flag pointDetail (off for Topbath). navParams `id` is the coupon id; a push without it drops `coupon_id` from the body.
+2. **i18n.** No `| translate`: 'Points Detail', 'Get Point', 'Point' are hardcoded. No hin state.
+3. **Order in ionViewDidLoad:** the request is sent BEFORE `presentLoading()` (point-detail.ts:26-27); the answer is async so the loader is open first. No error callback: after an HTTP error the loader stays up.
+4. **coupon_detail starts as ''** (:12): the first render shows no date (an empty <p> has no height), the image and ' Point' (leading space collapses). `coupon: null` (or a missing key) makes `coupon_detail.scan_date` throw in change detection: the DOM of the last good render stays (empty date, 'Point'). A null body throws at `r['coupon']` after the loader was dismissed.
+5. **Styles.** `.detail-content` has no rule. Bare h1 (26px/500, line-height 1.2), p (14px), h2 (24px/500, line-height 1.2), margins 0 (global reset). The inline `gift-1.svg` (55x50) leaves a 3dp strut gap below it.
+6. **ionViewDidLeave** (:47-70): popToRoot rule as in GiftList (blur event in RN).
+
 ## States
 
+Parity states: default (id 12: date 28 October 2026, '150 Point') and malformed (coupon null: last good render, empty date and 'Point'). Unit-tested only: empty coupon, HTTP error (loader stays), no-param push, ionViewDidLeave. No hin state. Unreachable in Topbath: a RN capture needs the _all-features client.
