@@ -1,0 +1,12 @@
+{
+  "endpoint": "app_karigar/couponDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "coupon": { "id": 12, "scan_date": "2026-10-28", "actual_coupon_point": 150 }
+    },
+    "empty": { "status": "SUCCESS", "coupon": {} },
+    "malformed": { "status": "SUCCESS", "coupon": null }
+  }
+}
