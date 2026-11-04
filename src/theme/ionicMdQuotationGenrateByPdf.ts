@@ -3,6 +3,7 @@
 export const quotationMd = {
   cardBackground: '#fff', // [S] 7 `.card-item { background }`
   cardBorder: '#000000', // [S] 8 `border: 1px dashed #000000`
+  titleColor: '#424242', // `.toolbar-title-md` colour inherited by the ion-title h1 (h1 weight 500)
   text: '#000', // [S] 25 `.data-content p { color }`
   strong: '#002d25', // [S] 28 `p strong { color }`
   blockBorder: '#2e5ea2', // [S] 150 `.sprate-block { border: 1px dashed #2e5ea2 }`

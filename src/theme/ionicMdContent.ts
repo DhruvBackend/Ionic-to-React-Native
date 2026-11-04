@@ -285,7 +285,10 @@ export const inputMd = {
   // `.edit ion-list ion-item` pages ([T] 8815-9010, [CSS] 7957-7982): `ion-input, parea { color: #000; font-size: 13px;
   // .text-input { padding-left: 8px } }`, `ion-input input { height: 35px }`
   // `.edit ion-list ion-item .item-inner ion-input { border: 1px solid #b5b5b5; height: 35px }` ([CSS] main.css, the ion-input ELEMENT carries the border; border-box)
-  edit: { fontSize: 13, color: '#000', paddingLeft: 8, height: 35, borderWidth: 1, borderColor: '#b5b5b5' },
+  edit: { fontSize: 13, color: '#000', paddingLeft: 8, height: 35, borderWidth: 1, borderColor: '#b5b5b5',
+    // Floating items: ion-input is `flex: 1` (basis 0) in the column .input-wrapper, so its height:35 is not used as the flex size;
+    // the item grows to the content size = inner `input { height: 35px }` + the 2 border px = 37 (measured on the Ionic QuotationGenrateByPdf: 37).
+    floatingHeight: 37 },
   // `.edit ion-list ion-item.cs-textarea1 ion-textarea textarea` ([T] 8857-8873): border 1px #ccc, margin 0 !important,
   // width 100%, height 70px, padding 10px, font-size 13px
   editTextarea: { borderColor: '#ccc', height: 70, padding: 10, fontSize: 13 },

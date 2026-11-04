@@ -208,7 +208,7 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
     <View style={styles.screen}>
       {/* html:1-7 plain ion-navbar (no main-header); the title is an h1 (2.6rem) */}
       <IonHeader>
-        <IonNavbar title={<Text style={textStyle(26, 400, quotationMd.text, 31)}>Add Quotation</Text>} />
+        <IonNavbar title={<Text style={textStyle(26, 500, quotationMd.titleColor, 31)}>Add Quotation</Text>} />
       </IonHeader>
 
       <IonContent>

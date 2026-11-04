@@ -67,9 +67,9 @@ export function IonInput({
     <View
       style={[
         styles.box,
-        field.floating && [styles.boxColumn, { minHeight: height }],
+        field.floating && [styles.boxColumn, { minHeight: edit ? inputMd.edit.floatingHeight : height }],
         // `.edit ... ion-input { border: 1px solid #b5b5b5 (red when .cs-error); height: 35px }` on the element (border-box)
-        edit && { borderWidth: inputMd.edit.borderWidth, borderColor: error ? inputMd.editErrorColor : inputMd.edit.borderColor, height: inputMd.edit.height },
+        edit && { borderWidth: inputMd.edit.borderWidth, borderColor: error ? inputMd.editErrorColor : inputMd.edit.borderColor, height: field.floating ? inputMd.edit.floatingHeight : inputMd.edit.height },
         // `.edit ion-input` (the bordered element) spans the item; only the inner <input> is `width: calc(100% - 8px)`
         { marginRight: edit ? 0 : f.widthInset },
         disabled && { opacity: inputMd.disabledOpacity }]}>
@@ -121,6 +121,7 @@ export function inputContentHeight(variant: FieldVariant | undefined, floating: 
     return textareaMinHeight({ ...spec.textarea, containerPad: spec.textarea.containerPad });
   }
   const i = spec.input;
+  if (floating && variant === 'edit') return inputMd.edit.floatingHeight; // 35 input + 2 border
   return i.height ?? normalLineHeight(i.fontSize) + i.pad.top + i.pad.bottom;
 }
 

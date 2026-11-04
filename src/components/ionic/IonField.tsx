@@ -471,15 +471,29 @@ export function IonField({
                   labelDisabled && { opacity: itemMd.disabledOpacity },
                 ]}
               >
-                <View style={spanBox ? styles.spanBox : null}>
+                {spanBox ? (
+                  // `.edit … .label[floating] span { background: #fff; padding: 0 5px }` boxes ONLY the red <span>*</span>; the
+                  // label text sits on the outline border unmasked. The source space before the span stays as text.
+                  <View style={styles.spanRow}>
+                    <Text testID={`${testID}-label-text`} numberOfLines={1} style={textStyle(fontSize, 400, color, lineHeight)}>
+                      {label}
+                      {requiredMark && requiredGap ? ' ' : ''}
+                    </Text>
+                    {requiredMark ? (
+                      <View testID={`${testID}-label-star`} style={styles.spanBox}>
+                        <Text style={textStyle(fontSize, 400, editForm.floatingLabel.strongColor, lineHeight)}>*</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                ) : (
                   <Text testID={`${testID}-label-text`} numberOfLines={1} style={textStyle(fontSize, 400, color, lineHeight)}>
                     {label}
                     {requiredMark ? (
                       // registration.html: `{{ 'Name' | translate }} <span>*</span>` keeps the space before the star
-                      <Text style={{ color: floating && edit ? editForm.floatingLabel.strongColor : csForm.requiredStarColor }}>{(floating && edit) || !requiredGap ? '' : ' '}*</Text>
+                      <Text style={{ color: csForm.requiredStarColor }}>{!requiredGap ? '' : ' '}*</Text>
                     ) : null}
                   </Text>
-                </View>
+                )}
               </View>
             ) : null}
             {children}
@@ -515,8 +529,8 @@ const styles = StyleSheet.create({
   // .item-label-floating ion-label { align-self: stretch; width: auto; max-width: 100% } ([CSS] 14750); the transformed label paints over its sibling
   labelFloating: { alignSelf: 'stretch', zIndex: 1, flexShrink: 0 },
   labelCentered: { justifyContent: 'center' }, // display: flex; align-items: center
+  spanRow: { flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center' },
   spanBox: {
-    alignSelf: 'flex-start',
     backgroundColor: editForm.floatingLabel.spanBackground,
     paddingHorizontal: editForm.floatingLabel.spanPaddingHorizontal,
   },
