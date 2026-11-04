@@ -1,0 +1,27 @@
+[
+  {
+    "id": "GiftList.default",
+    "screen": "GiftList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('GiftList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature giftList off): needs the _all-features client for a RN capture. Five rows: the left stripe cycles yellow, red, pink, indigo, yellow."
+  },
+  {
+    "id": "GiftList.empty",
+    "screen": "GiftList",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/giftList": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('GiftList'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

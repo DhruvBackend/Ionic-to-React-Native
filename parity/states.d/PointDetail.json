@@ -1,0 +1,28 @@
+[
+  {
+    "id": "PointDetail.default",
+    "screen": "PointDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 12 },
+    "ionicNav": "nav.setRoot(Page('PointDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature pointDetail off): needs the _all-features client for a RN capture."
+  },
+  {
+    "id": "PointDetail.malformed",
+    "screen": "PointDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/couponDetail": "malformed"
+    },
+    "params": { "id": 12 },
+    "ionicNav": "nav.setRoot(Page('PointDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "coupon: null makes every template binding throw: the DOM of the last good render stays (empty date, ' Point')."
+  }
+]

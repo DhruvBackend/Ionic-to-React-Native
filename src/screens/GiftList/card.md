@@ -83,5 +83,17 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry / reachability.** DEAD: nothing calls home.ts:551 goOnGiftListPage() or sales-exec-home.ts:107 goGiftGallery(); the other references are commented out. Feature flag giftList (off for Topbath). navParams `mode` (gift-list.ts:29) is never passed: `filter.redeemable` is always ''.
+2. **i18n.** No module language code, no `| translate`: every string is hardcoded English ('Gift Gallery', 'Balance Points', 'Points', 'Offer Points:'). No hin state.
+3. **Loader.** `presentLoading()` in ionViewDidLoad ('Please wait...', dismissOnPageChange true); the answer of every `getGiftList` dismisses it first (no-op after the first). No error callback: after an HTTP error the loader stays up.
+4. **Callback has no guards** (gift-list.ts:73-85): `gift_list = r.gift`, then `r.karigar.total_balance`, then the parseInt loop. `karigar: null` throws after the list was assigned (list shows, balance keeps its value, parseInt loop skipped); `gift: null` throws at the loop (empty list). RN: try/catch + rerender.
+5. **Row text.** `<span>Offer Points:</span>{{offer_balance || 0}}` has no space: 'Offer Points:1200'. Second line is `{{title | titlecase}} | {{end_date | date}}`. Rows added by paging keep the server's raw types (no parseInt).
+6. **Paging** (gift-list.ts:96-117): `loadData` sets `filter.limit = gift_list.length`; loose `r==''` compares the WHOLE answer, so only an empty-string/array answer sets `flag=1`; a normal answer (even `gift: []`) waits 1000 ms, concatenates and completes. Null gift_list: `.length` throws, the scroll stays loading.
+7. **Search / refresh.** `(ngModelChange)` posts on every keystroke; refresh and ionViewWillEnter call `getGiftList('')`, which also clears the search box (same `filter.search` model). `complete()` is called right away.
+8. **Styles.** Global `.listing button` (white card, radius 6, shadow, 5px left stripe by `:nth-child`: 4n purple, 3n pink, 2n red, else yellow), `.head-detail`/`.head` (min-width 80, 2px divider), `.detail h1` ellipsis, `.detail p` nowrap clipped without ellipsis (p has no overflow), `.product-img` 50x50 with `img{width:100%}`. `.fix` is `position: sticky` in Ionic: NOT sticky in RN (IonContent has no sticky children) - not 1:1.
+9. **Dead / no effect.** `[ngClass]=verify` (no rule defines .verify); `balance_point`, `id` fields and the commented-out balance line are unused.
+10. **ionViewDidLeave** (:118-142): popToRoot when the active page is Home/GiftList/Transaction/Profile/MainHome and the previous is not: RN uses the screen's `blur`, like Transaction.
+
 ## States
 
+Parity states: default (five rows: stripes yellow, red, pink, indigo, yellow; balance 1200) and empty (balance only). Unit-tested only: malformed, noKarigar, HTTP error (loader stays), paging (append after 1000 ms, empty page), search, refresh, ionViewWillEnter refetch, navigation to GiftDetail {id}, ionViewDidLeave. No hin state. Unreachable in Topbath: a RN capture needs the _all-features client.

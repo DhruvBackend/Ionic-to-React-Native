@@ -1,0 +1,30 @@
+{
+  "endpoint": "app_karigar/giftList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "karigar": { "id": 900001, "total_balance": 1200 },
+      "gift": [
+        { "id": 21, "gift_title": "steel water bottle", "coupon_points": 500, "offer_balance": 1200, "title": "diwali dhamaka offer", "end_date": "2026-12-31", "image": "gift_21.jpg" },
+        { "id": 22, "gift_title": "wall clock", "coupon_points": 300, "offer_balance": 0, "title": "winter bonanza", "end_date": "2026-11-30", "image": "gift_22.jpg" },
+        { "id": 23, "gift_title": "bluetooth speaker", "coupon_points": 1500, "offer_balance": 400, "title": "diwali dhamaka offer", "end_date": "2026-12-31", "image": "gift_23.jpg" },
+        { "id": 24, "gift_title": "hand tool kit", "coupon_points": 800, "offer_balance": 150, "title": "winter bonanza", "end_date": "2027-01-15", "image": "gift_24.jpg" },
+        { "id": 25, "gift_title": "travel bag", "coupon_points": 600, "offer_balance": 0, "title": "new year offer", "end_date": "2027-01-31", "image": "gift_25.jpg" }
+      ]
+    },
+    "empty": {
+      "status": "SUCCESS",
+      "karigar": { "id": 900001, "total_balance": 1200 },
+      "gift": []
+    },
+    "malformed": { "status": "SUCCESS", "karigar": null, "gift": null },
+    "noKarigar": {
+      "status": "SUCCESS",
+      "karigar": null,
+      "gift": [
+        { "id": 21, "gift_title": "steel water bottle", "coupon_points": 500, "offer_balance": 1200, "title": "diwali dhamaka offer", "end_date": "2026-12-31", "image": "gift_21.jpg" }
+      ]
+    }
+  }
+}
