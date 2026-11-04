@@ -45,7 +45,9 @@ export const styles = StyleSheet.create({
   // [T] 3119-3150 `.name a { display: flex; align-items: center }`
   nameLink: { flexDirection: 'row', alignItems: 'center' },
   // [T] 3131-3146 `.name a i`: 15x15 border-box, padding 6, flex-centred, margin-right 6; page [S] font-size 14 loses to the global (0,3,2) 18px
-  statusIcon: { width: 15, height: 15, alignItems: 'center', justifyContent: 'center', marginRight: 6 },
+  // RN: the 18dp glyph box overflowed the 15dp view and the glyph's bottom ~2dp was cut on the phone. The view is the glyph's own 18dp box instead, with
+  // -1.5dp vertical margins so it still takes 15dp of row height (same layout as Ionic's 15px box whose 18px glyph overflows it).
+  statusIcon: { width: 18, height: 18, marginVertical: -1.5, alignItems: 'center', justifyContent: 'center', marginRight: 3 },
   statusIconGlyph: { width: 18, flexShrink: 0, textAlign: 'center' },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }` + `.mt16 { margin-top: 16px !important }`
   ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },

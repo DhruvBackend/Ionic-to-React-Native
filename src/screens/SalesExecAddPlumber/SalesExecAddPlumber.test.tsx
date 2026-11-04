@@ -176,7 +176,7 @@ describe('states (card States)', () => {
       'Test Seller (9000000002)',
       'Anil Sharma (9810000012)',
     ]);
-    expect(find('dealer_id').find(n => Array.isArray(n.props.options))!.props.options[0]).toEqual({ value: null, label: '\u2014 Not selected \u2014' });
+    expect(find('dealer_id').find(n => Array.isArray(n.props.options))!.props.options[0]).toEqual({ value: '— Not selected —', label: '\u2014 Not selected \u2014' });
   });
   test('submit with no data: required errors, no request', async () => {
     await mount();

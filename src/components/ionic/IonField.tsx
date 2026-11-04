@@ -323,6 +323,10 @@ export function IonField({
   }
   if (lastInput) {
     item.borderBottomWidth = listMd.borderWidth;
+    if (csInput) {
+      // `.cs-input { min-height: 45px }` is the CONTENT height (Ionic's border sits outside it): in RN's border-box the item needs 45 + 1
+      item.minHeight = inputMd.csInput.minHeight + listMd.borderWidth;
+    }
     // cs-input too: `.main-field ... ion-item.cs-input` sets no border, so `.list-md .item-input.ng-valid.input-has-value:last-child
     // { border-bottom-color: #32db64 }` shows (only the inset box-shadow is switched off by Topbath's `box-shadow: none !important`)
     item.borderBottomColor = underline && !mainCs && !edit ? underline.color : listMd.borderColor;
