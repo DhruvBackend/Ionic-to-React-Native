@@ -69,5 +69,10 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+1. **Entry / reachability.** DEAD: no navigation to LoginScreen exists. Feature flag loginScreen (off for Topbath). Empty Ionic page template: no navParams, endpoints, storage, loaders, overlays or nav calls.
+2. **Title.** 'login-screen' as typed in the template (a plain `<ion-header>`, not `.main-header`: no capitalisation); empty padded content.
+3. **i18n.** None. No hin state.
+
 ## States
 
+Parity state: default (title over an empty page). Unreachable in Topbath: a RN capture needs the _all-features client.
