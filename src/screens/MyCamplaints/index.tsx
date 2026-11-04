@@ -239,8 +239,8 @@ export default function MyCamplaintsScreen({ navigation, route }: Props) {
                         <MaterialIcon name="call" size={22} color={C.callGreen} />
                       </Pressable>
                     </View>
-                    {/* `class="add mt15"`: mt15 is defined nowhere */}
-                    <Pressable testID={`complaint-${i}-add`} onPress={() => plumberDetail(v.id)}>
+                    {/* `class="add mt15"`: `.mt15` = margin-top 15 (!important, main.css) */}
+                    <Pressable testID={`complaint-${i}-add`} onPress={() => plumberDetail(v.id)} style={styles.add}>
                       <View style={styles.com}>
                         <Text style={[textStyle(14, 500, ink), styles.h3]}>{collapseWs(t('Address'))}</Text>
                         <Text testID={`complaint-${i}-com`} style={[textStyle(13, 400, ink, 18), styles.addP]}>

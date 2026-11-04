@@ -7,8 +7,9 @@ import { pulmberDetailMd as C } from '../../theme/ionicMdPulmberCustomerDetail';
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
-  // [T] 2729-2734 `.lists { background: #fff; padding: 16px; box-shadow; margin-bottom: 32px }` (`mb10` / `mb16` / `pl16` / `pl30` / `pr16` / `ml10` / `mt15` are defined nowhere)
+  // [T] 2729-2734 `.lists { background: #fff; padding: 16px; box-shadow; margin-bottom: 32px }` (`.mb10 { margin-bottom: 10px !important }` beats it on the first card: see `listsFirst`)
   lists: { backgroundColor: C.white, padding: 16, boxShadow: C.listShadow, marginBottom: 32 },
+  listsFirst: { marginBottom: 10 }, // html:14 `.lists mb10` (`.mb10 !important`, main.css)
   // [T] 2735-2738 `.pumber-name { display: flex; align-items: center; padding-bottom: 16px }` (`.pb0 { padding-bottom: 0 !important }`)
   pumberName: { flexDirection: 'row', alignItems: 'center', paddingBottom: 16 },
   pb0: { paddingBottom: 0 },
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 22,
   },
   // [T] 2758-2771 `.name { width: 100%; position: relative }` > `h4 { padding-bottom: 3px }`
-  name: { width: '100%', position: 'relative' },
+  name: { width: '100%', position: 'relative', paddingLeft: 30 }, // html:17/27 `.name pl30` (`.pl30 !important`)
   nameH4: { paddingBottom: 3 },
   // [T] 4129-4144 `a.phone-call { position: absolute; top: 0; right: 0; display: flex }` > `i { font-size: 22px }`
   phoneCall: { position: 'absolute', top: 0, right: 0 },
@@ -78,6 +79,6 @@ export const styles = StyleSheet.create({
   taskBtn: { flexDirection: 'row', width: '100%', padding: 0 },
   taskButton: { flex: 1, margin: 3, height: 46, borderWidth: 2, borderColor: C.white, borderRadius: 6, boxShadow: C.buttonShadow },
   taskLabel: { fontSize: 14, letterSpacing: 2, color: C.white, fontWeight: '400' },
-  // `<div class="pr16 pl16">`: both classes are defined nowhere, so the block has no padding
-  checkinBlock: {},
+  // `<div class="pr16 pl16">`: `.pr16` / `.pl16` (!important) = 16 each side
+  checkinBlock: { paddingHorizontal: 16 },
 });
