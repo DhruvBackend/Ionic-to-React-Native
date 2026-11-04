@@ -202,14 +202,15 @@ export default function GiftListScreen({ navigation, route }: Props) {
       </IonHeader>
 
       {/* html:8-51 <ion-content padding> */}
-      <IonContent padding>
+      {/* `.fix { position: sticky; top: 0 }`: child 1 (after the refresher) sticks to the top while the list scrolls */}
+      <IonContent padding stickyChildIndices={[1]}>
         {/* html:9-15 */}
         <IonRefresher onRefresh={doRefresh}>
           <IonRefresherContent pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing..." />
         </IonRefresher>
 
-        {/* html:18-26 NOTE (parity): `.fix { position: sticky; top: 0 }` keeps the balance and the search box at the top while the list scrolls
-            under them in Ionic; IonContent has no sticky children, so here they scroll away with the list (STOP item for the lead). */}
+        {/* html:18-26 `.fix { position: sticky; top: 0 }` keeps the balance and the search box at the top while the list scrolls
+            under them (IonContent stickyChildIndices above). */}
         <View testID="giftlist-fix" style={styles.fix}>
           <View testID="giftlist-top-nav" style={styles.topNav}>
             <Text style={[textStyle(14, 400, md.textColor), styles.topNavP]}>Balance Points</Text>
