@@ -9,6 +9,7 @@ import { IonHeader, IonNavbar, IonToolbar } from '../../components/ionic/IonNavb
 import { IonSearchbar } from '../../components/ionic/IonSearchbar';
 import { Text } from '../../components/ionic/IonText';
 import { textStyle } from '../../components/ionic/text';
+import { URLS } from '../../config/env';
 import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { catalogueMd as C } from '../../theme/ionicMdCatalogue';
 import { favoriteProductMd as F } from '../../theme/ionicMdFavoriteProduct';
@@ -179,9 +180,8 @@ export default function FavoriteProductScreen({ navigation }: Props) {
                     <IonItem button noLines testID={`favorite-item-${i}`} style={styles.item} innerStyle={styles.itemInner} onPress={() => goOnProductSubDetailPage(l.id)}>
                       <View style={styles.label}>
                         <View style={styles.imageManage}>
-                          {/* NOTE (not 1:1): Ionic hardcodes the picture host (html:14 `http://app.gravitybath.com/dd_api/...productImage/`);
-                              a client URL cannot live in a screen, so the client's product_image_url (the same folder on the configured host) is used. */}
-                          <Image testID={`favorite-image-${i}`} source={{ uri: `${db.product_image_url}${interp(l.actual_image_name)}` }} resizeMode="stretch" style={styles.image} />
+                          {/* NOTE (parity): html:30 hardcodes `http://app.gravitybath.com/dd_api/.../productImage/` (a different host from product_image_url); the host comes from the client's gravityImageHost. */}
+                          <Image testID={`favorite-image-${i}`} source={{ uri: `${URLS.gravityImageHost}dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/productImage/${interp(l.actual_image_name)}` }} resizeMode="stretch" style={styles.image} />
                         </View>
                         <View style={styles.detail}>
                           <Text testID={`favorite-name-${i}`} style={[textStyle(12, 600, F.text, 14.4), styles.h4]}>

@@ -17,7 +17,6 @@ import { styles } from './styles';
 // app.getActiveNav() page names that news-detail.ts:56 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
 const IMG_H = 277; // `.pr-img { height: 277px }`
-const PADDING = 16; // ion-content padding
 
 interface Props {
   navigation: {
@@ -34,8 +33,6 @@ export default function NewsDetailScreen({ navigation, route }: Props) {
   const [detail, setDetail] = useState<any>({}); // :11 news_detail:any={}
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
   const [boxW, setBoxW] = useState(0); // .pr-img width, for `img { max-width: 100% }`
-  const [scrollTop, setScrollTop] = useState(0);
-  const [contentH, setContentH] = useState(0);
 
   // :24-29 ionViewDidLoad: news_id = navParams.get('id'); getNewsDetail(news_id); presentLoading()
   useEffect(() => {
@@ -112,23 +109,15 @@ export default function NewsDetailScreen({ navigation, route }: Props) {
   // NOTE (parity): `max-width: 100%` squeezes a very wide picture horizontally (its height stays 100%).
   const imgW = natural ? Math.min((natural.w * IMG_H) / natural.h, boxW || Infinity) : 0;
 
-  // html:9 `.fix { position: sticky; top: 0 }`: inside the scroll content (padding 16) it pins the picture to the top edge once the
-  // content scrolls past its natural place, down to the bottom of the content box (content height minus the 16 padding).
-  const maxShift = Math.max(contentH - PADDING - (PADDING + IMG_H), 0);
-  const shift = Math.min(Math.max(scrollTop - PADDING, 0), maxShift);
-
   return (
     <View style={styles.screen}>
       {/* html:2-6 plain <ion-header> + <ion-navbar> (no colour) */}
       <Header title="News Detail" />
       {/* html:8 <ion-content padding> */}
-      <IonContent
-        padding
-        onScroll={e => setScrollTop(e.nativeEvent.contentOffset.y)}
-        onContentSizeChange={(_w, h) => setContentH(h)}
-      >
+      {/* html:9 `.fix { position: sticky; top: 0 }`: child 0 of the content */}
+      <IonContent padding stickyChildIndices={[0]}>
         {/* html:9-13 .fix > .pr-img > img */}
-        <View testID="news-fix" style={[styles.fix, { transform: [{ translateY: shift }] }]}>
+        <View testID="news-fix" style={styles.fix}>
           <View style={styles.prImg} onLayout={e => setBoxW(e.nativeEvent.layout.width)}>
             {natural ? <Image testID="news-image" source={{ uri: imageUri }} resizeMode="stretch" style={{ width: imgW, height: IMG_H }} /> : null}
           </View>

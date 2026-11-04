@@ -4,6 +4,7 @@ import ReactTestRenderer from 'react-test-renderer';
 import { expectContract } from '../../../__tests__/helpers/contract';
 import { db, getTransport, HttpError, setTransport, type ApiRequest } from '../../api/client';
 import { resetMock, setFixtureVariant } from '../../api/mock';
+import { URLS } from '../../config/env';
 import i18n from '../../i18n';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
 import FavoriteProductScreen from './index';
@@ -127,7 +128,7 @@ describe('states (card States)', () => {
     expect(exists('favorite-item-2')).toBe(true);
     expect(exists('favorite-item-3')).toBe(false);
     expect(exists('favorite-empty')).toBe(false);
-    expect(find('favorite-image-0')[0].props.source).toEqual({ uri: db.product_image_url + 'shower_a.png' });
+    expect(find('favorite-image-0')[0].props.source).toEqual({ uri: URLS.gravityImageHost + 'dd_api/app/Http/Controllers/Admin/Master/appOfflineUploads/productImage/shower_a.png' });
     expect(find('ion-searchbar-input')[0].props.placeholder).toBe('Search');
   });
 

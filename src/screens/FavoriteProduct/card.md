@@ -85,7 +85,7 @@ Classes defined by the page SCSS and used in the template: _none_
 - favorite-product.ts:71-95: userType = 'CMS' when userStorageData.login_type == 'CMS', 'Employee' when loggedInUserType == 'Employee', else 'drLogin'; user_id is always userStorageData.id; the SFA server (rootUrlSfa) is used. `user_data` is assigned but never read (not ported).
 - favorite-product.ts:127: `prod_list = resp['product_list']`; a null list makes the template throw (`prod_list.length`), so the last completed render stays (load_data/list unchanged on screen); a null body throws after load_data='1' and the dismiss timer.
 - favorite-product.html:10: (ngModelChange) searches on every keystroke (a new 1000 ms timer each), no debounce, no Enter handler, placeholder = Ionic's default 'Search' (no translate).
-- favorite-product.html:14: the picture host is hardcoded in the template (`http://app.gravitybath.com/...productImage/`) and `style="width: 60%"`; RN uses the client's product_image_url (same folder). NOT 1:1 (client URL).
+- favorite-product.html:14: the picture host is hardcoded in the template (`http://app.gravitybath.com/...productImage/`) and `style="width: 60%"`; RN builds the same URL from the client's gravityImageHost.
 - favorite-product.html:17-18: `<span>₹​</span>` holds a zero-width space after the rupee sign; `.m0` on the h3 loses to `.listing.sub-category .sub-listing .detail h3 { margin: 10px 0 !important }`.
 - favorite-product.html:30: `(click)` is on the `<ion-list>` (the whole bordered cell), not on the button; cells are 50% wide with 1px #C9C9C9 borders overlapping by `margin-bottom: -1px`.
 - favorite-product.ts:140-163 loadData() and the infinite scroll / skeleton blocks (html:38-53) are dead (commented out): not ported.

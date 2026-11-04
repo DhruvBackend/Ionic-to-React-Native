@@ -6,7 +6,7 @@ import { colors } from '../../theme';
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
-  // [T] 3594-3599 / 5661-5666 `.fix { position: sticky; top: 0; left: 0; z-index: 1 }`: RN follows the scroll offset (see index.tsx)
+  // [T] 3594-3599 / 5661-5666 `.fix { position: sticky; top: 0; left: 0; z-index: 1 }`: IonContent stickyChildIndices
   fix: { zIndex: 1 },
   // [T] 3507-3514 `.pr-img { line-height: 0 !important; height: 277px; display: flex; align-items: baseline }`, `img { height: 100% }`
   prImg: { height: 277, flexDirection: 'row', alignItems: 'flex-start' },
