@@ -71,5 +71,12 @@ Classes defined by the page SCSS and used in the template: `main`, `part1`
 
 ## Quirks
 
+- digitalcatalog.ts:42-52: presentLoading() (dismissOnPageChange false) then the request; `this.pdf = r['pdf']` runs BEFORE `loading.dismiss()` (:49-50), so a null body throws before the dismiss and the loader stays; no error callback either (HTTP error: loader stays).
+- digitalcatalog.html:7: `pdf` starts as [], so the no_found.svg shows from the first render, under the loader, until the answer arrives; a null `pdf` makes the template throw (RN: empty state).
+- digitalcatalog.html:12-20: each row is `<a href="{{uploadUrl + list.pdf}}">` (uploadUrl = dbService.upload_url3): RN opens the same URL with Linking. `a { color: link colour }` colours the name (14px); `.part1` is a grid `1fr 289px` with the 36px pdf.png in column 1.
+- digitalcatalog.html:24 / .ts: `(ionInfinite)="loadDataBill($event)"` but the page has no loadDataBill() and no `flag`: the infinite scroll is always present, the handler throws, complete() never runs, so "Loading more data..." stays after the first scroll to the bottom and no request is sent.
+- digitalcatalog.module.ts: own TranslateModule.forRoot, but the page never calls use(): the title follows the global language.
+
 ## States
 
+- default (3 PDFs), empty (no_found image), malformed (pdf null: empty state, no loader), hin (title translated) and HTTP error (unit-tested: loader stays).

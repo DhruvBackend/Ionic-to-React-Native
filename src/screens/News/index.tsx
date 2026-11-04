@@ -13,7 +13,7 @@ import { interp, titlecase } from '../../ui/angularPipes';
 import { useLoader } from '../../ui/useLoader';
 import { styles } from './styles';
 
-// app.getActiveNav() page names that news.ts:78 looks for, without the 'Page' suffix.
+// app.getActiveNav() page names that news.ts:75-98 looks for, without the 'Page' suffix.
 const ROOT_PAGES = ['Home', 'GiftList', 'Transaction', 'Profile', 'MainHome'];
 const INLINE_GAP = 4; // an inline <img> sits on the text baseline: ~4px descender gap below it
 const STRUT = 17; // an empty line box of 14px Roboto (`line-height: normal`)
