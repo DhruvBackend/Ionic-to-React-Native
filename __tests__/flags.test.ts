@@ -26,7 +26,10 @@ const UNREACHABLE_WITH_ALL_FEATURES: Record<string, string> = {
   RetailerAddComplaint: 'home.ts:940 add(): no template binds it',
   RetailerListComplaint: 'home.ts:943 list(): no template binds it',
   Scan: 'no navigation to Scan anywhere in src/pages or src/app',
-  // not feature-flagged: opened only by the push-notification tap routing, which is off for Topbath and not a route link
+  Search: 'search.ts is pushed by nothing in src/pages or src/app',
+  EditProfile: 'profile.ts:301 editProfilePage() and dealer-profile.ts:144: no template binds them (profile.html edit buttons call updateProfile() -> Registration)',
+  // not feature-flagged, live in Topbath but reachable ONLY via native push-notification tap routing (app.component.ts:940/945,
+  // home.ts:796/801/1004/1009; main-home.html:30 is commented out). features.push is off for Topbath, and push is not a route link.
   Feedback: 'push-notification target (home.ts notification())',
   ShippingDetail: 'push-notification target (home.ts notification())',
   Transaction: 'push-notification target (home.ts notification())',
@@ -50,7 +53,9 @@ function reachable(client: ClientConfig): Set<string> {
 }
 
 describe('feature flags', () => {
-  test('topbath: the walk from Language and the tab roots reaches no route whose feature is off', () => {
+  // Sanity check of the walk itself (it skips disabled routes by construction); the real proof is the next test plus the Home tests
+  // that keep the restored entry buttons hidden for Topbath.
+  test('topbath: sanity — the walk is non-trivial and contains only enabled routes', () => {
     const seen = reachable(topbath as ClientConfig);
     const off = routes.filter(r => r.feature && seen.has(r.name) && (topbath as ClientConfig).features[r.feature] !== true).map(r => r.name);
     expect(off).toEqual([]);

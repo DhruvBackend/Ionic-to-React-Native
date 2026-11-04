@@ -6,7 +6,8 @@ import type { RouteMeta } from '../../navigation/types';
 const route: RouteMeta = {
   name: 'Profile',
   presentation: 'card',
-  links: ['Home', 'Language', 'PointLocation', 'ViewProfile', 'EditProfile', 'Registration'],
+  // EditProfile is NOT a link: profile.ts:301 editProfilePage() is bound by no template (the edit buttons call updateProfile())
+  links: ['Home', 'Language', 'PointLocation', 'ViewProfile', 'Registration'],
 };
 
 export default route;
