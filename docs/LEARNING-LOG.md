@@ -586,3 +586,11 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Recurring RN traps found:** `margin: 0` does not override a component's own `marginTop`; CSS margins collapse and RN's do not; Yoga drops trailing padding when shrink-wrapping on the cross axis; a centred shrink-wrapped Text loses its last letter to pixel rounding. Each was proven by measuring on the phone (uiautomator bounds through Metro), not guessed — two first-guess fixes ("Toda", Contact card) were wrong and were reverted.
 - **Process:** triage (free) + Sonnet reviewers on crops found causes fast; one implementer skipped reading the Ionic source, so the brief now requires it; a Profile layout change broke PlumberDetail, which imports Profile styles — screens sharing another screen's styles are fragile.
 - **Phase 5:** 6 screens ported and merged the same day; 61 of 117 ported (all live screens).
+
+## 2026-11-05 - Overnight: Phase 6 ported, Phase 8 started, and what the phone and laptop taught us
+
+- **Phase 6 (16 hidden loyalty screens)** was ported in 5 batches with an independent review each; reviewers caught a wrong icon colour, a dead navigation link that hid a gap in the flags test, and a test check that could never fail. Topbath's own screens stayed unchanged (tested).
+- **A locked phone silently ruins captures:** with a PIN lock, waking the screen is not enough; every shot showed the lock screen. Check the first shot before trusting a run, and never type the user's PIN.
+- **Release builds are stricter than debug builds:** Topbath's `banner.png` is really a JPEG. Chrome and debug builds do not care; Android's resource compiler rejects it. Saving it under its real extension (same bytes) fixed it.
+- **A failed write can empty a file:** a Python write crashed on a character encoding after opening the file, and the empty file got committed. Always write with an explicit encoding and check the size before committing.
+- **The laptop is the limit, not tokens:** two Gradle builds were killed for low memory. One heavy job at a time.
