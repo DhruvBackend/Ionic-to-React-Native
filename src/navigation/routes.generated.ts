@@ -102,44 +102,48 @@ import r49 from '../screens/QuotationGenrateByPdf/route';
 import C49 from '../screens/QuotationGenrateByPdf';
 import r50 from '../screens/Registration/route';
 import C50 from '../screens/Registration';
-import r51 from '../screens/SalesExecAddDealer/route';
-import C51 from '../screens/SalesExecAddDealer';
-import r52 from '../screens/SalesExecAddPlumber/route';
-import C52 from '../screens/SalesExecAddPlumber';
-import r53 from '../screens/SalesExecAddSeller/route';
-import C53 from '../screens/SalesExecAddSeller';
-import r54 from '../screens/SalesExecHome/route';
-import C54 from '../screens/SalesExecHome';
-import r55 from '../screens/SalesExecPlumberDetail/route';
-import C55 from '../screens/SalesExecPlumberDetail';
-import r56 from '../screens/SalesExecPlumberList/route';
-import C56 from '../screens/SalesExecPlumberList';
-import r57 from '../screens/SalesPointTransfer/route';
-import C57 from '../screens/SalesPointTransfer';
-import r58 from '../screens/Scan/route';
-import C58 from '../screens/Scan';
-import r59 from '../screens/ScanPoint/route';
-import C59 from '../screens/ScanPoint';
-import r60 from '../screens/SelectRegistrationType/route';
-import C60 from '../screens/SelectRegistrationType';
-import r61 from '../screens/ShippingDetail/route';
-import C61 from '../screens/ShippingDetail';
-import r62 from '../screens/SubCategory/route';
-import C62 from '../screens/SubCategory';
-import r63 from '../screens/Super30/route';
-import C63 from '../screens/Super30';
-import r64 from '../screens/TaskClose/route';
-import C64 from '../screens/TaskClose';
-import r65 from '../screens/Terms/route';
-import C65 from '../screens/Terms';
-import r66 from '../screens/Transaction/route';
-import C66 from '../screens/Transaction';
-import r67 from '../screens/Video/route';
-import C67 from '../screens/Video';
-import r68 from '../screens/VideoCategory/route';
-import C68 from '../screens/VideoCategory';
-import r69 from '../screens/ViewProfile/route';
-import C69 from '../screens/ViewProfile';
+import r51 from '../screens/RetailerAddComplaint/route';
+import C51 from '../screens/RetailerAddComplaint';
+import r52 from '../screens/RetailerListComplaint/route';
+import C52 from '../screens/RetailerListComplaint';
+import r53 from '../screens/SalesExecAddDealer/route';
+import C53 from '../screens/SalesExecAddDealer';
+import r54 from '../screens/SalesExecAddPlumber/route';
+import C54 from '../screens/SalesExecAddPlumber';
+import r55 from '../screens/SalesExecAddSeller/route';
+import C55 from '../screens/SalesExecAddSeller';
+import r56 from '../screens/SalesExecHome/route';
+import C56 from '../screens/SalesExecHome';
+import r57 from '../screens/SalesExecPlumberDetail/route';
+import C57 from '../screens/SalesExecPlumberDetail';
+import r58 from '../screens/SalesExecPlumberList/route';
+import C58 from '../screens/SalesExecPlumberList';
+import r59 from '../screens/SalesPointTransfer/route';
+import C59 from '../screens/SalesPointTransfer';
+import r60 from '../screens/Scan/route';
+import C60 from '../screens/Scan';
+import r61 from '../screens/ScanPoint/route';
+import C61 from '../screens/ScanPoint';
+import r62 from '../screens/SelectRegistrationType/route';
+import C62 from '../screens/SelectRegistrationType';
+import r63 from '../screens/ShippingDetail/route';
+import C63 from '../screens/ShippingDetail';
+import r64 from '../screens/SubCategory/route';
+import C64 from '../screens/SubCategory';
+import r65 from '../screens/Super30/route';
+import C65 from '../screens/Super30';
+import r66 from '../screens/TaskClose/route';
+import C66 from '../screens/TaskClose';
+import r67 from '../screens/Terms/route';
+import C67 from '../screens/Terms';
+import r68 from '../screens/Transaction/route';
+import C68 from '../screens/Transaction';
+import r69 from '../screens/Video/route';
+import C69 from '../screens/Video';
+import r70 from '../screens/VideoCategory/route';
+import C70 from '../screens/VideoCategory';
+import r71 from '../screens/ViewProfile/route';
+import C71 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -212,6 +216,8 @@ export const routes: RouteDef[] = [
   { ...r67, component: C67 },
   { ...r68, component: C68 },
   { ...r69, component: C69 },
+  { ...r70, component: C70 },
+  { ...r71, component: C71 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
