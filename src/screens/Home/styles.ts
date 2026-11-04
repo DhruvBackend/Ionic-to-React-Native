@@ -117,14 +117,16 @@ export const styles = StyleSheet.create({
     height: PR.barHeight,
     borderRadius: PR.barRadius,
   },
-  pints: { alignItems: 'center' },
+  // `.pints` shrink-wraps and centres inside the flex li (text-align:center). RN: a shrink-wrapped Text centred at a fractional x
+  // can get its width rounded down 1px, and Android then wraps the last letter ("Today" drew as "Toda", phone pass 2026-11-04).
+  // Stretching the column to the card width and centring the text inside gives the same picture without the clip.
+  pints: { alignSelf: 'stretch', alignItems: 'center' },
   pintsValue: {
     ...textStyle(PR.valueFontSize, 700, homeMd.black, PR.valueFontSize * 1.2),
     paddingBottom: PR.valuePaddingBottom,
     textAlign: 'center',
   },
-  // `text-transform: capitalize` is applied in JS (index.tsx, src/ui/cssText.ts)
-  pintsLabel: { ...textStyle(PR.labelFontSize, 500, homeMd.black) },
+  pintsLabel: { ...textStyle(PR.labelFontSize, 500, homeMd.black), textTransform: 'capitalize', alignSelf: 'stretch', textAlign: 'center' },
   pintsUnit: {
     position: 'absolute',
     right: PR.unitRight,

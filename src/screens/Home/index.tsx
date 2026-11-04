@@ -21,7 +21,6 @@ import { useLoader } from '../../ui/useLoader';
 import { momentFormat } from '../../ui/angularPipes';
 import { AutoImage, GroupButton, SvgImg } from './parts';
 import { styles } from './styles';
-import { cssCapitalize } from '../../ui/cssText';
 
 // Ionic assets/imgs/logo.png and banner.png: the client's files, copied by scripts/use-client.mjs.
 const logo = require('../../assets/client/logo.png');
@@ -443,8 +442,7 @@ export default function HomeScreen({ navigation }: Props) {
     >
       <View style={styles.pints}>
         <Text style={styles.pintsValue}>{show(value)}</Text>
-        {/* text-transform:capitalize applied in JS: the style clips the last letters on Android (src/ui/cssText.ts) */}
-        <Text style={styles.pintsLabel}>{cssCapitalize(String(t(labelKey)))}</Text>
+        <Text style={styles.pintsLabel}>{t(labelKey)}</Text>
       </View>
       {/* NOTE (parity): `.pints` is not positioned, so `.pints span{position:absolute;right:-16px;bottom:35px}`
           anchors to the `li` card (position:relative) -> the unit is a direct child of the card. */}

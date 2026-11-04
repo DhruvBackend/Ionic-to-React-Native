@@ -9,8 +9,10 @@ export const styles = StyleSheet.create({
   // (no left/right: shrink-to-fit, at the static left edge + 16)
   // RN: the absolute box spans the content width; its padding is the card's 16px margin, and flex-start lets the card
   // shrink to its content (CSS shrink-to-fit), never wider than the width minus both margins.
-  mapAddBox: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 16, alignItems: 'flex-start' },
+  // (row + flexShrink on the card: Yoga's cross-axis fit-content ignored the right padding on the phone, main-axis shrink does not)
+  mapAddBox: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 16, flexDirection: 'row', alignItems: 'flex-start' },
   mapAdd: {
+    flexShrink: 1,
     padding: 16,
     backgroundColor: colors.white,
     boxShadow: '2px 0px 7px 0px rgba(0, 0, 0, 0.2)',
