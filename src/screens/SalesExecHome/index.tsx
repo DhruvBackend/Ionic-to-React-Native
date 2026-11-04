@@ -1,4 +1,5 @@
 // Ported from: src/pages/sales-exec-home/sales-exec-home.html + .ts + .scss
+import { bannerImage } from '../../assets/client/images';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import { db } from '../../api/client';
@@ -22,7 +23,8 @@ import { styles } from './styles';
 const logo = require('../../assets/client/logo.png');
 const logoSize = Image.resolveAssetSource?.(logo);
 const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSize.height : 1;
-const bannerPng = require('../../assets/client/banner.png');
+// the file keeps Ionic's bytes but is saved as .jpg (it is a JPEG named banner.png), see scripts/use-client.mjs
+const bannerPng = bannerImage;
 
 interface Props {
   navigation: { push: (name: string, params?: object) => void; addListener?: (e: string, cb: () => void) => () => void };

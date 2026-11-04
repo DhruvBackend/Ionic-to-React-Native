@@ -1,4 +1,5 @@
 // Ported from: src/pages/home/home.html + .ts + .scss
+import { bannerImage } from '../../assets/client/images';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, Linking, Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +28,8 @@ import { styles } from './styles';
 const logo = require('../../assets/client/logo.png');
 const logoSize = Image.resolveAssetSource?.(logo);
 const logoRatio = logoSize?.width && logoSize?.height ? logoSize.width / logoSize.height : 1;
-const bannerPng = require('../../assets/client/banner.png');
+// the file keeps Ionic's bytes but is saved as .jpg (it is a JPEG named banner.png), see scripts/use-client.mjs
+const bannerPng = bannerImage;
 const receiptPng = require('../../assets/client/receipt.png');
 
 interface Props {

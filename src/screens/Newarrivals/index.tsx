@@ -1,4 +1,5 @@
 // Ported from: src/pages/newarrivals/newarrivals.html + .ts + .scss (+ .module.ts)
+import { bannerImage } from '../../assets/client/images';
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
@@ -19,7 +20,8 @@ import { styles as gridStyles } from '../ProductDetail/styles';
 import { styles } from './styles';
 
 // Ionic assets/imgs/banner.png: the client's file, copied by scripts/use-client.mjs.
-const bannerPng = require('../../assets/client/banner.png');
+// the file keeps Ionic's bytes but is saved as .jpg (it is a JPEG named banner.png), see scripts/use-client.mjs
+const bannerPng = bannerImage;
 
 interface Props {
   navigation: { push: (name: string, params?: object) => void };
