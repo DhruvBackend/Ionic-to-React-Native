@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/sales_exec/dealer_dropdown",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {},
+  "ionicSource": "src/pages/sales-exec-add-plumber/sales-exec-add-plumber.ts:62"
+}

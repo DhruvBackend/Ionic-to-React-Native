@@ -84,32 +84,38 @@ import r40 from '../screens/QuotationGenrateByPdf/route';
 import C40 from '../screens/QuotationGenrateByPdf';
 import r41 from '../screens/Registration/route';
 import C41 from '../screens/Registration';
-import r42 from '../screens/SalesExecHome/route';
-import C42 from '../screens/SalesExecHome';
-import r43 from '../screens/SalesPointTransfer/route';
-import C43 from '../screens/SalesPointTransfer';
-import r44 from '../screens/ScanPoint/route';
-import C44 from '../screens/ScanPoint';
-import r45 from '../screens/SelectRegistrationType/route';
-import C45 from '../screens/SelectRegistrationType';
-import r46 from '../screens/ShippingDetail/route';
-import C46 from '../screens/ShippingDetail';
-import r47 from '../screens/SubCategory/route';
-import C47 from '../screens/SubCategory';
-import r48 from '../screens/Super30/route';
-import C48 from '../screens/Super30';
-import r49 from '../screens/TaskClose/route';
-import C49 from '../screens/TaskClose';
-import r50 from '../screens/Terms/route';
-import C50 from '../screens/Terms';
-import r51 from '../screens/Transaction/route';
-import C51 from '../screens/Transaction';
-import r52 from '../screens/Video/route';
-import C52 from '../screens/Video';
-import r53 from '../screens/VideoCategory/route';
-import C53 from '../screens/VideoCategory';
-import r54 from '../screens/ViewProfile/route';
-import C54 from '../screens/ViewProfile';
+import r42 from '../screens/SalesExecAddDealer/route';
+import C42 from '../screens/SalesExecAddDealer';
+import r43 from '../screens/SalesExecAddPlumber/route';
+import C43 from '../screens/SalesExecAddPlumber';
+import r44 from '../screens/SalesExecAddSeller/route';
+import C44 from '../screens/SalesExecAddSeller';
+import r45 from '../screens/SalesExecHome/route';
+import C45 from '../screens/SalesExecHome';
+import r46 from '../screens/SalesPointTransfer/route';
+import C46 from '../screens/SalesPointTransfer';
+import r47 from '../screens/ScanPoint/route';
+import C47 from '../screens/ScanPoint';
+import r48 from '../screens/SelectRegistrationType/route';
+import C48 from '../screens/SelectRegistrationType';
+import r49 from '../screens/ShippingDetail/route';
+import C49 from '../screens/ShippingDetail';
+import r50 from '../screens/SubCategory/route';
+import C50 from '../screens/SubCategory';
+import r51 from '../screens/Super30/route';
+import C51 from '../screens/Super30';
+import r52 from '../screens/TaskClose/route';
+import C52 from '../screens/TaskClose';
+import r53 from '../screens/Terms/route';
+import C53 from '../screens/Terms';
+import r54 from '../screens/Transaction/route';
+import C54 from '../screens/Transaction';
+import r55 from '../screens/Video/route';
+import C55 from '../screens/Video';
+import r56 from '../screens/VideoCategory/route';
+import C56 from '../screens/VideoCategory';
+import r57 from '../screens/ViewProfile/route';
+import C57 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -167,7 +173,10 @@ export const routes: RouteDef[] = [
   { ...r52, component: C52 },
   { ...r53, component: C53 },
   { ...r54, component: C54 },
+  { ...r55, component: C55 },
+  { ...r56, component: C56 },
+  { ...r57, component: C57 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.
-export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"SalesExecAddDealer","presentation":"card"},{"name":"SalesExecAddPlumber","presentation":"card"},{"name":"SalesExecAddSeller","presentation":"card"},{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"}];
+export const placeholderRoutes: { name: string; presentation: 'card' | 'modal' }[] = [{"name":"SalesExecPlumberDetail","presentation":"card"},{"name":"SalesExecPlumberList","presentation":"card"}];

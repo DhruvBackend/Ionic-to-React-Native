@@ -1,0 +1,43 @@
+[
+  {
+    "id": "SalesExecAddPlumber.default",
+    "screen": "SalesExecAddPlumber",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddPlumber'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SalesExecAddPlumber.empty",
+    "screen": "SalesExecAddPlumber",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "empty",
+      "app_karigar/sales_exec/seller_dropdown": "empty",
+      "app_karigar/sales_exec/dealer_dropdown": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddPlumber'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SalesExecAddPlumber.malformed",
+    "screen": "SalesExecAddPlumber",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "malformed",
+      "app_karigar/sales_exec/seller_dropdown": "malformed",
+      "app_karigar/sales_exec/dealer_dropdown": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddPlumber'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

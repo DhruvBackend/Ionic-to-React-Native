@@ -91,5 +91,11 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- sales-exec-add-seller.html:8/.ts:68: the mobile-length alert (Invalid) is unreachable (minlength/maxlength 10 already invalidate the form); ported as is.
+- html:60-62: pincode minlength=6 invalidates the form with no visible error, so Submit silently does nothing; ported.
+- .scss: `ion-item { --inner-padding-end }` is a no-op in Ionic 3; not ported.
+- .ts:45/:50: a null states/districts body throws inside Ionic subscribe; RN ignores it.
+
 ## States
 
+- default; empty (states/dropdowns empty); malformed (null lists); responses: SUCCESS, EXIST, other status, empty/null body, HTTP error (loader dismissed, Submit restored). No hin (no translate).

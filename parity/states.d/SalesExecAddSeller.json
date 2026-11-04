@@ -1,0 +1,39 @@
+[
+  {
+    "id": "SalesExecAddSeller.default",
+    "screen": "SalesExecAddSeller",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddSeller'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SalesExecAddSeller.empty",
+    "screen": "SalesExecAddSeller",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "empty"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddSeller'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SalesExecAddSeller.malformed",
+    "screen": "SalesExecAddSeller",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_master/getStates": "malformed"
+    },
+    "params": {},
+    "ionicNav": "nav.push(Page('SalesExecAddSeller'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
