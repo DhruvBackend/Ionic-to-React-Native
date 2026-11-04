@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/product_catalogue_list",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {},
+  "ionicSource": "src/pages/digitalcatalog/digitalcatalog.ts:46 (getpdflist, from ionViewDidLoad :28)"
+}

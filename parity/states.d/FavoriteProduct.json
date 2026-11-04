@@ -1,0 +1,25 @@
+[
+  {
+    "id": "FavoriteProduct.default",
+    "screen": "FavoriteProduct",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('FavoriteProduct'), params)",
+    "waitMs": 4500,
+    "deviceVersion": "15",
+    "ionicNavNote": "Phase 6, feature favorites: unreachable in Topbath (home.ts:880 goToFav() is never called); needs a client with the favorites flag on (_all-features). The request leaves 1000 ms after entry and the loader goes 1000 ms after the answer, hence the longer wait."
+  },
+  {
+    "id": "FavoriteProduct.empty",
+    "screen": "FavoriteProduct",
+    "role": "Dealer",
+    "lang": "en",
+    "variants": { "dealerData/favorite_product": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('FavoriteProduct'), params)",
+    "waitMs": 4500,
+    "deviceVersion": "15"
+  }
+]

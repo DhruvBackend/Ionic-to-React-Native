@@ -1,0 +1,25 @@
+[
+  {
+    "id": "News.default",
+    "screen": "News",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('News'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Phase 6, feature news: unreachable in Topbath (main-home.ts:60 goOnNewsPage() is never called); needs a client with the news flag on (_all-features)."
+  },
+  {
+    "id": "News.empty",
+    "screen": "News",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/newsList": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('News'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

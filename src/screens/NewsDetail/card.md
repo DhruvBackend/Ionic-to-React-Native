@@ -79,5 +79,12 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- news-detail.ts:24-29: getNewsDetail() runs before presentLoading(); the loader is dismissed BEFORE `r['news']` is read (:35-36). No error callback: after an HTTP error the loader stays. A null `news` is assigned and the template throws on `news_detail.image`: the last completed render (blank values) stays.
+- news-detail.html:9-13: `.fix` is `position: sticky; top: 0; z-index: 1`: the picture (`.pr-img`, 277 high, height 100%, `max-width: 100%`) pins to the top while the text scrolls under it (IonContent stickyChildIndices).
+- news-detail.html:15-22: `.box`, `.date`, `.social` have no top-level CSS: the `<i class="material-icons">` sits in its own line (24px + ~4px strut gap), then the `<p>` below it.
+- news-detail.html:24-26: `{{desc}}` is interpolation (plain text, not innerHTML). `.pr-about h1 { font-weight: semibold }` is invalid CSS (Ionic's 500 applies); title `| titlecase`, date `| date:'d MMM, y'`.
+- news-detail.ts:50-72: ionViewDidLeave popToRoot (same as News).
+
 ## States
 
+- default (picture, date, source, title, description), empty (news {}: blank values), malformed (news null: blank first render, no loader) and HTTP error (unit-tested: loader stays). No translated strings.

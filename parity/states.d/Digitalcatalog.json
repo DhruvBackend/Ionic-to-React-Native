@@ -1,0 +1,37 @@
+[
+  {
+    "id": "Digitalcatalog.default",
+    "screen": "Digitalcatalog",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Digitalcatalog'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Phase 6, feature digitalCatalog: unreachable in Topbath (home.html:101 button is commented out); needs a client with the digitalCatalog flag on (_all-features)."
+  },
+  {
+    "id": "Digitalcatalog.empty",
+    "screen": "Digitalcatalog",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_karigar/product_catalogue_list": "empty" },
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Digitalcatalog'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "Digitalcatalog.hin",
+    "screen": "Digitalcatalog",
+    "role": "Plumber",
+    "lang": "hin",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Digitalcatalog'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "The module has its own forRoot but the page never calls use(): the title follows the global language."
+  }
+]

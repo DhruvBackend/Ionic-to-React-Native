@@ -1,0 +1,25 @@
+[
+  {
+    "id": "NewsDetail.default",
+    "screen": "NewsDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": { "id": 11 },
+    "ionicNav": "nav.setRoot(Page('NewsDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "Phase 6, feature news: only linked from the dead News page (news.ts:30); needs a client with the news flag on (_all-features)."
+  },
+  {
+    "id": "NewsDetail.empty",
+    "screen": "NewsDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": { "app_master/newsDetail": "empty" },
+    "params": { "id": 11 },
+    "ionicNav": "nav.setRoot(Page('NewsDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]

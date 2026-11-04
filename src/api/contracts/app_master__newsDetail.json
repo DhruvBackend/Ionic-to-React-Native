@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/newsDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "news_id": 1 },
+  "ionicSource": "src/pages/news-detail/news-detail.ts:33 (getNewsDetail, from ionViewDidLoad :27; news_id = navParams.get('id'))"
+}

@@ -1,0 +1,17 @@
+{
+  "endpoint": "app_karigar/product_catalogue_list",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "pdf": [
+        { "id": 1, "pdf_name": "Showers and mixers 2026", "pdf": "showers_2026.pdf" },
+        { "id": 2, "pdf_name": "Concealed fittings", "pdf": "concealed.pdf" },
+        { "id": 3, "pdf_name": "Accessories", "pdf": "accessories.pdf" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "pdf": [] },
+    "malformed": { "status": "SUCCESS", "pdf": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}
