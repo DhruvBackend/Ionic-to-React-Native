@@ -1,0 +1,9 @@
+{
+  "endpoint": "master/surveyList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "user_id": "900001" },
+  "ionicSource": "src/pages/survey/survey-list/survey-list.ts:41 (getSurveyList, ionViewDidLoad)"
+}

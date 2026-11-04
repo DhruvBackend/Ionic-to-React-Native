@@ -1,0 +1,47 @@
+[
+  {
+    "id": "SurveyDetail.default",
+    "screen": "SurveyDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "id": 1
+    },
+    "ionicNav": "nav.push(Page('SurveyDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature survey off): needs the _all-features client for a RN capture. Pushed by SurveyList with {id} (class push, not a lazy string name). Sticky Total/Filled/Not Filled counters, three questions with radio answers, Save."
+  },
+  {
+    "id": "SurveyDetail.empty",
+    "screen": "SurveyDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "master/surveyDetail": "empty"
+    },
+    "params": {
+      "id": 1
+    },
+    "ionicNav": "nav.push(Page('SurveyDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "SurveyDetail.malformed",
+    "screen": "SurveyDetail",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "master/surveyDetail": "malformed"
+    },
+    "params": {
+      "id": 1
+    },
+    "ionicNav": "nav.push(Page('SurveyDetail'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "details: null throws in Ionic's change detection: the blank first render stays (empty title, no counters)."
+  }
+]

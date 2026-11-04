@@ -1,0 +1,64 @@
+[
+  {
+    "id": "NearestDealer.dealer",
+    "screen": "NearestDealer",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "type": "Dealer",
+      "pincode": "201010"
+    },
+    "ionicNav": "nav.push(Page('NearestDealer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature nearestDealer off): needs the _all-features client for a RN capture. Pushed by home.ts:738 / dealer-home.ts:146 with {pincode, type} by class (not a lazy string name). Three dealer boxes; the left letter badge cycles blue, yellow, red, purple, black."
+  },
+  {
+    "id": "NearestDealer.plumber",
+    "screen": "NearestDealer",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {
+      "type": "Plumber",
+      "pincode": "201010"
+    },
+    "ionicNav": "nav.push(Page('NearestDealer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "NearestDealer.empty",
+    "screen": "NearestDealer",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/nearestDealer": "empty"
+    },
+    "params": {
+      "type": "Dealer",
+      "pincode": "201010"
+    },
+    "ionicNav": "nav.push(Page('NearestDealer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  },
+  {
+    "id": "NearestDealer.malformed",
+    "screen": "NearestDealer",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {
+      "app_karigar/nearestDealer": "malformed"
+    },
+    "params": {
+      "type": "Dealer",
+      "pincode": "201010"
+    },
+    "ionicNav": "nav.push(Page('NearestDealer'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "dealerData: null throws in the template: the last completed render (title, empty list) stays."
+  }
+]

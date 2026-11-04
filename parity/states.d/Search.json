@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Search.default",
+    "screen": "Search",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Search'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature search off): nothing navigates to Search; needs the _all-features client for a RN capture. Opened by class name (the page has @IonicPage() but is imported eagerly, not a lazy string push). No endpoint is called, so no fixture variants apply. The two images (assets/imgs/main-imgs/*.svg) do not exist in the Ionic repo (404, alt empty)."
+  }
+]

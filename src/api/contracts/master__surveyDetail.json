@@ -1,0 +1,10 @@
+{
+  "endpoint": "master/surveyDetail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "id": "1", "user_id": "900001" },
+  "note": "id is String(navParams 'id'): 'undefined' when SurveyList passes no id.",
+  "ionicSource": "src/pages/survey/survey-detail/survey-detail.ts:48 (getSurveyDetail, ionViewDidLoad)"
+}

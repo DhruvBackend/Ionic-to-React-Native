@@ -89,5 +89,19 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- nearest-dealer.ts:37-40 / 44: the loader is dismissed first, then `r['dealerData']` is read: `dealerData: null` (or a null body) throws in the callback and in the template (`dealerData.length`), so the DOM of the last completed render (title, empty list) stays and `loadData` keeps its value. On an HTTP error the loader is dismissed (error callback present).
+- nearest-dealer.ts:49-65 getNearestDealerSearch(): no loader and an empty error callback; the searchbar runs it on `keyup.enter` only; an empty box falls back to the nav param pincode (:51).
+- nearest-dealer.html:4 `{{ 'Nearest' | translate}} {{search.type | titlecase}}`: search.type is set in ionViewDidLoad, so the first render is "Nearest " (the title shows "Nearest Dealer" a moment later).
+- nearest-dealer.html:19 the text is `No` + search.type + `Found In Your Area Kindly Contact Our Executive` (type printed as given, not title-cased); html:21 the Customer Care phone is hardcoded `tel:+91 8470012000`: client.contact.nearestDealerPhone.
+- nearest-dealer.html:30 `.prlist .box:nth-child(5n+n)` (the fifth letter-badge colour, #00b785) is invalid CSS (An+B), so every 5th box keeps the #000 badge (unverified on a capture).
+- nearest-dealer.html:46 `.loacte` is absolute against the `.box`; the map button is a plain `<button>` (UA padding 1px 6px) with the 30px location1.svg and the ~4px inline-img gap.
+- nearest-dealer.ts:67-83 show_loc(): launch-navigator is NOT in the shipped Topbath build (see src/native/navigate.ts), so the click does nothing in production; without lat/lng the toast 'No Location Found' shows.
+- Same row template for `Dealer` (company_name) and `Plumber` (first_name, mobile_no); a row without company_name / first_name throws and freezes the DOM.
+- nearest-dealer.module.ts: own TranslateModule.forRoot, no use(): global i18n. Pushed by class, not a lazy string name.
+
 ## States
 
+- `NearestDealer.dealer`: three dealer boxes, the second without a map button.
+- `NearestDealer.plumber`: three plumber cards.
+- `NearestDealer.empty`: the "No Dealer Found In Your Area ..." block with the Customer Care link.
+- `NearestDealer.malformed` (`dealerData: null`): title and search box only.

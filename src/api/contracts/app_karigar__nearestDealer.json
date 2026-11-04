@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/nearestDealer",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "pincode": "201010", "type": "Dealer" },
+  "note": "Same body from both call sites; pincode is navParams 'pincode' (or the search box text), type is navParams 'type' ('Dealer' | 'Plumber').",
+  "ionicSource": "src/pages/nearest-dealer/nearest-dealer.ts:34 (getNearestDealer, ionViewDidLoad) and :52 (getNearestDealerSearch, keyup.enter)"
+}

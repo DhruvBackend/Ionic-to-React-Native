@@ -1,0 +1,12 @@
+{
+  "endpoint": "search/search_alldata",
+  "server": "server_url",
+  "variants": {
+    "default": [
+      { "id": 1, "product_name": "wall mixer" },
+      { "id": 2, "product_name": "overhead shower" }
+    ],
+    "empty": [],
+    "malformed": null
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "endpoint": "master/surveyDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "details": {
+        "id": 1,
+        "title": "Customer Satisfaction Survey",
+        "question": [
+          {
+            "id": 101,
+            "question": "How satisfied are you with our products?",
+            "answers": [
+              { "id": 1011, "answer": "Very satisfied" },
+              { "id": 1012, "answer": "Satisfied" },
+              { "id": 1013, "answer": "Not satisfied" }
+            ]
+          },
+          {
+            "id": 102,
+            "question": "How quickly did your dealer deliver the order?",
+            "answers": [
+              { "id": 1021, "answer": "Within a day" },
+              { "id": 1022, "answer": "Within a week" }
+            ]
+          },
+          {
+            "id": 103,
+            "question": "Would you recommend us to other plumbers?",
+            "answers": [
+              { "id": 1031, "answer": "Yes" },
+              { "id": 1032, "answer": "No" }
+            ]
+          }
+        ]
+      }
+    },
+    "empty": { "status": "SUCCESS", "details": { "id": 1, "title": "Customer Satisfaction Survey", "question": [] } },
+    "malformed": { "status": "SUCCESS", "details": null }
+  }
+}

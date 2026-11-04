@@ -74,5 +74,15 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- search.ts:44 `onPostRequestDataFromApi(newObj, 'search/search_alldata', server_url).then(...)`: the helper returns an RxJS Observable, which has no `.then`: the TypeError is thrown inside the 500 ms timer, the cold observable is never subscribed, so NO request is ever sent, `data` never changes and `request` (set true at :39) never goes back to false. The contract file records the call site only; the test asserts that nothing is sent.
+- search.html:21 `*ngIf="!request && val && !data.length"` ('Data Not Available') can therefore never show; it is ported as written. The `ion-list` rows (html:13-17) and goToProductDetailPage() (:57-59, empty body, its push is commented out) are unreachable: rows not ported.
+- search.ts:53-55 getCategory(), :61-63 getsubCategory(), :66-68 getBrand(): empty methods (navigation commented out). 'Search By Category' is a dead button; getsubCategory/getBrand have no caller (dead code, not ported). `brandlist` (:15) is never read.
+- search.html:38 `Brand` button is commented out. search.scss is entirely commented out: the page is styled by global rules only.
+- search.html:25 / :36 `assets/imgs/main-imgs/nothing.svg` and `search-icons.svg` do not exist in the Ionic repo (the folder `main-imgs` is missing): both `<img alt="">` are 404s, not drawn (0 x 0, or 0 x 100 under `.nothing img`).
+- search.html:5 `ion-input` as the title: `input { font: inherit; color: inherit; margin: 0 !important }` gives 20px / 500 in the toolbar text colour, width `calc(100% - 16px)`.
+- search.module.ts has no TranslateModule: every text is a literal. Never pushed by anything; @IonicPage() but imported eagerly (not a lazy string push).
+
 ## States
 
+- `Search.default`: heading 'Search', the (missing) image gap and the 'Search By Category' button.
+- Typing any text: the heading block is removed and the page stays blank (request stays true); clearing the box brings the heading back.

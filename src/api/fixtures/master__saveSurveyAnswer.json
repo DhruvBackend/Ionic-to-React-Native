@@ -1,0 +1,9 @@
+{
+  "endpoint": "master/saveSurveyAnswer",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "msg": "success" },
+    "failed": { "status": "FAILED", "msg": "failed" },
+    "malformed": { "status": "SUCCESS" }
+  }
+}

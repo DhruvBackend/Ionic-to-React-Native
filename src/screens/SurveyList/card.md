@@ -73,5 +73,14 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- survey-list.html:11-22 + survey-list.ts:63-69: a first `<ion-content>` holds only the refresher; the second `<ion-content padding>` (html:24) covers it, so the refresher never pulls. doRefresh() is dead code (not ported).
+- survey-list.ts:43-47: the loader is dismissed first, then `response.surveyList['data']` throws on `surveyList: null`; the list keeps its last value. No error callback: after an HTTP error the 'Please wait...' loader stays.
+- survey-list.html:26 `!surveyList.length == 0` is `(!length) == 0` (true only for a non-empty list); html:34 `!surveyList.length` shows the no_found image.
+- survey-list.module.ts has its own TranslateModule.forRoot but the page never calls use(): global i18n.
+- Pushed by class (`push(SurveyListPage)`, home.ts:946), not a lazy string name, although the page has @IonicPage().
+
 ## States
 
+- `SurveyList.default`: three cards with a right arrow.
+- `SurveyList.empty`: only the no_found image.
+- `SurveyList.malformed` (`surveyList: null`): same as empty.
