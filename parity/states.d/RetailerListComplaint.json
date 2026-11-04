@@ -1,0 +1,13 @@
+[
+  {
+    "id": "RetailerListComplaint.default",
+    "screen": "RetailerListComplaint",
+    "role": "Customer",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.push(Page('RetailerListComplaint'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15"
+  }
+]
