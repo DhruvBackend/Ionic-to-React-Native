@@ -306,7 +306,7 @@ export default function ComplaintDetailScreen({ navigation, route }: Props) {
 
         {/* html:150-168 */}
         {d.complaintStatus == 'Closed' && d.amount == '0' ? ( // eslint-disable-line eqeqeq
-          <View testID="amount-form" style={styles.mainField}>
+          <View testID="amount-form" style={[styles.mainField, styles.amountForm]}>
             <Text style={[textStyle(16, 500, C.ink, 19), styles.amountHeading]}>Enter Amount If Paid</Text>
             <IonList style={styles.list}>
               <View style={styles.amountWrap}>

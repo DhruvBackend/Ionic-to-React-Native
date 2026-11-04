@@ -15,7 +15,7 @@ import { profileMd as P } from '../../theme/ionicMdProfile';
 import { salesExecPlumberListMd as M } from '../../theme/ionicMdSalesExecPlumberList';
 import { collapseWs, interp, titlecase } from '../../ui/angularPipes';
 import { noFoundSize, noFoundXml } from '../OfferList/noFound';
-import { strutDescent, styles } from './styles';
+import { styles } from './styles';
 
 // html:28 `src="assets/imgs/profile.jpg"`
 const defaultPhoto = require('./assets/profile.jpg');
@@ -156,13 +156,10 @@ export default function SalesExecPlumberListScreen({ navigation, route }: Props)
 
         {!loading && plumbers.length === 0 ? (
           <View testID="saeplist-empty" style={styles.empty}>
-            <View style={styles.emptyImgRow}>
-              <View style={styles.emptyImg}>
-                <SvgXml xml={noFoundXml} width={emptyImgW} height={emptyImgH} />
-              </View>
+            <View style={styles.emptyImg}>
+              <SvgXml xml={noFoundXml} width={emptyImgW} height={emptyImgH} />
             </View>
-            <View style={{ height: strutDescent }} />
-            <Text style={[textStyle(13, 400, M.emptyP), styles.centred]}>{`No ${pageTitle.toLowerCase()} in ${activeStatus} list`}</Text>
+            <Text style={[textStyle(13, 400, M.emptyP), styles.centred, styles.emptyP]}>{`No ${pageTitle.toLowerCase()} in ${activeStatus} list`}</Text>
           </View>
         ) : null}
 

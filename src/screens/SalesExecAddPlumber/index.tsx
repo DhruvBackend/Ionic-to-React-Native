@@ -49,6 +49,8 @@ function H3({ label, marginTop }: { label: string; marginTop: number }) {
   );
 }
 
+const NOT_SELECTED = '— Not selected —';
+
 export default function SalesExecAddPlumberScreen({ navigation }: Props) {
   const loader = useLoader();
   const alive = useRef(true);
@@ -294,17 +296,19 @@ export default function SalesExecAddPlumberScreen({ navigation }: Props) {
   csInput('city', { label: 'City', name: 'city' });
   csInput('pincode', { label: 'Pincode', name: 'pincode', type: 'tel', maxLength: 6, mb: 32, last: true });
 
+  // NOTE (parity): Ionic 3 `<ion-option [value]="null">` has no value of its own: option.value falls back to its TEXT. The null model therefore matches no option
+  // (select text stays empty), and choosing it stores the string below in form.sales_boy_id / dealer_id (sent as is).
   // Mapping (Optional) (html:68-93)
   h3('h3-mapping', 'Mapping (Optional)', R.helperMargin10);
   csSelect('sales_boy_id', {
     label: 'Select Seller',
     name: 'sales_boy_id',
-    options: [{ value: null, label: '— Not selected —' }, ...sellers.map((s: any) => ({ value: s.id, label: `${ng(s.first_name)} (${ng(s.mobile_no)})` }))],
+    options: [{ value: NOT_SELECTED, label: NOT_SELECTED }, ...sellers.map((s: any) => ({ value: s.id, label: `${ng(s.first_name)} (${ng(s.mobile_no)})` }))],
   });
   csSelect('dealer_id', {
     label: 'Select Dealer',
     name: 'dealer_id',
-    options: [{ value: null, label: '— Not selected —' }, ...dealers.map((d: any) => ({ value: d.id, label: `${ng(d.first_name)} (${ng(d.mobile_no)})` }))],
+    options: [{ value: NOT_SELECTED, label: NOT_SELECTED }, ...dealers.map((d: any) => ({ value: d.id, label: `${ng(d.first_name)} (${ng(d.mobile_no)})` }))],
   });
 
   const rendered: React.ReactNode[] = [];

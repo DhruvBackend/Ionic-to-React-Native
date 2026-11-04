@@ -431,6 +431,9 @@ describe('ion-list / ion-item / ion-list-header', () => {
     );
     expect(style('c1').borderBottomWidth).toBeUndefined();
     expect(style('c2')).toMatchObject({ borderBottomWidth: 1, borderBottomColor: listMd.borderColor });
+    // `.cs-input { min-height: 45px }` is the content height and the last item's border sits outside it: 45 + 1 in RN's border-box
+    expect(style('c1').minHeight).toBe(inputMd.csInput.minHeight);
+    expect(style('c2').minHeight).toBe(inputMd.csInput.minHeight + 1);
     act(() => tree.unmount());
     mount(
       <IonList>

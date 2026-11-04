@@ -49,7 +49,8 @@ export const styles = StyleSheet.create({
   partImg: { width: 100, height: 70, paddingLeft: 12 },
   partImgInner: { width: 88, height: 70 },
   // [T] 5068-5073 `.new-remark { border: solid 1px #ccc; margin: 16px; padding: 16px }`
-  newRemark: { borderWidth: 1, borderColor: C.line, margin: 16, padding: 16 },
+  // marginTop 0: it follows `.lists { margin-bottom: 32px }` (block siblings): max(32, 16) = 32, which the card's marginBottom already gives
+  newRemark: { borderWidth: 1, borderColor: C.line, marginTop: 0, marginHorizontal: 16, marginBottom: 16, padding: 16 },
   // [T] 5074-5081 `.timing { display: flex; align-items: center; justify-content: space-between; border-bottom: solid 1px #ccc; padding-bottom: 4px }`
   timing: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: C.line, paddingBottom: 4 },
   // [T] 5082-5090 `.date { display: flex }` > `h4 { margin-right: 22px !important }`

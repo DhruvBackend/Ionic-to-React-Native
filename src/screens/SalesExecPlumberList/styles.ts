@@ -2,11 +2,7 @@
 // Citations: [T] variables.scss line (Ionic source), [S] sales-exec-plumber-list.scss line.
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
-import { normalLineHeight } from '../../theme/ionicMdOverlays';
 import { profileMd as P } from '../../theme/ionicMdProfile';
-
-// An inline <img> sits on the baseline of a 14px line box: its descent shows below the image (brief: ~4px baseline gap).
-export const strutDescent = normalLineHeight(14) - Math.round((14 * 1900) / 2048);
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
@@ -17,9 +13,12 @@ export const styles = StyleSheet.create({
   // [S] 2-6 `.loader { text-align: center; padding: 40px 12px }`
   loader: { paddingVertical: 40, paddingHorizontal: 12 },
   centred: { textAlign: 'center' },
-  // [S] 8-27 `.empty { text-align: center; padding: 60px 24px }`
-  empty: { paddingVertical: 60, paddingHorizontal: 24, alignItems: 'stretch' },
-  emptyImgRow: { alignItems: 'center' },
+  // [S] 8-27 `.empty { text-align: center; padding: 60px 24px; background: transparent }` (specificity 0,1,1 beats the global one on those) + the global
+  // [T] 6589-6600 `.empty { height: 306px; margin-top: 10px; display: flex (row); align-items: center; justify-content: center; border-radius: 5px }`
+  // (Ionic resets box-sizing to border-box, so 306 includes the padding). The img and p are flex items: no baseline gap under the img.
+  empty: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 306, marginTop: 10, borderRadius: 5, paddingVertical: 60, paddingHorizontal: 24 },
+  // [T] 6596-6599 `.empty p { letter-spacing: 1px }` (font-size 13 / colour / margin 0 come from [S] 22-27)
+  emptyP: { letterSpacing: 1, flexShrink: 1 },
   // [S] 13-19 `.empty img { margin-bottom: 16px; opacity: .9 }`
   emptyImg: { marginBottom: 16, opacity: 0.9 },
   // [S] 29 `.profile { padding: 8px 12px 0 }` (beats the global `.profile { padding: 16px; padding-top: 0 }`)

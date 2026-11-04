@@ -13,8 +13,9 @@ export const styles = StyleSheet.create({
   // [T] 821-827 `.main-field { background: #F8FFFC; width: 100%; height: 100%; padding: 16px; position: relative }`
   mainField: { backgroundColor: C.fieldBg, width: '100%', padding: 16, position: 'relative' },
   // [T] 910-912 `.cs-form ion-list { margin: 0 }`
-  // + html:15,17 `.mb20` on list AND item (collapse to one 20px) and the textarea strut. NOTE: RN base gap underline->Submit is already 19dp (triage crop) vs 23, so only the +4 delta is added.
-  list: { margin: 0, marginBottom: 4 },
+  // html:15,17 `.mb20 { margin-bottom: 20px !important }` on the list AND its last item: the item's margin collapses through the list (no padding/border)
+  // into ONE 20px that beats `.cs-form ion-list { margin: 0 }` (!important). Underline -> Submit = 20 + the button's own 2dp.
+  list: { margin: 0, marginBottom: 20 },
   // [T] 1081-1083 `.cs-textarea { padding-left: 0 }`; [T] 4324-4331 `.pop-imge .main-field .cs-form ion-list ion-item { background: transparent !important }`
   item: { paddingLeft: 0, backgroundColor: 'transparent' },
   // [T] 2419-2423 `.enquiry-btn button { width: 100%; height: 46px }`; 2483-2490 `.enquiry-btn.my-btn button { border: 2px solid #fff; box-shadow; radius 6; bg #31A700 }`
