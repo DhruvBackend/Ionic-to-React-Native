@@ -3,6 +3,7 @@
 import React from 'react';
 import { Image, Pressable, View } from 'react-native';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
+import { LineClamp1 } from '../../components/ionic/LineClamp1';
 import { Text } from '../../components/ionic/IonText';
 import { textStyle } from '../../components/ionic/text';
 import { colors } from '../../theme';
@@ -44,9 +45,10 @@ export function ProductGrid({ list, url, onPress, testPrefix }: Props) {
                       )}
                     </View>
                     <View style={styles.content}>
-                      <Text testID={`${testPrefix}-name-${index}`} numberOfLines={1} ellipsizeMode="tail" style={[textStyle(13, 500, P.name, 20), styles.h6]}>
-                        {interp(l.product_name)}
-                      </Text>
+                      {/* `.content h6 { -webkit-line-clamp: 1 }`: "…" after the last whole word, like Chrome (kit LineClamp1) */}
+                      <LineClamp1 testID={`${testPrefix}-name-${index}`} style={[textStyle(13, 500, P.name, 20), styles.h6]}>
+                        {String(interp(l.product_name))}
+                      </LineClamp1>
                       <View style={styles.code}>
                         <Text testID={`${testPrefix}-code-${index}`} style={textStyle(12, 400, P.bodyText)}>
                           {interp(l.material_code)}

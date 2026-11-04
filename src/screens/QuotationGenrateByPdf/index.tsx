@@ -214,7 +214,7 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
       <IonContent>
         {/* html:10-30 */}
         <View style={styles.edit}>
-          <IonList>
+          <IonList style={styles.editList}>
             <IonInputItem
               testID="full_name"
               variant="edit"
@@ -262,10 +262,11 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
 
         {/* html:36-163 */}
         <View style={[styles.edit, styles.sprateBlock]}>
-          <IonList>
+          <IonList style={styles.editList}>
             <IonicSelectable
               testID="product_name"
               variant="editCsSelectable"
+              itemStyle={styles.mt16} // html:59 `<ion-item class="cs-selectable mt16">`
               label="Select Product"
               items={products}
               value={typeof d.product_name === 'object' && d.product_name ? d.product_name : null}
@@ -317,7 +318,8 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
             <IonInputItem testID="price" variant="edit" floating label="Price" labelStyle={labelStyle} type="tel" readOnly value={str(d.price)} />
             <IonInputItem testID="total_amount" variant="edit" floating label="Total Amount" labelStyle={labelStyle} type="tel" readOnly value={str(d.total_amount)} />
           </IonList>
-          <View>
+          {/* html:165 `<div class="mt16">` */}
+          <View style={styles.btnWrap}>
             <IonButton testID="add-to-list" csBtn disabled={addDisabled} onPress={addToList}>
               Add To List
             </IonButton>
@@ -350,7 +352,7 @@ export default function QuotationGenrateByPdfScreen({ navigation }: Props) {
 
         {/* html:190-192 */}
         {list.length > 0 ? (
-          <View>
+          <View style={styles.btnWrap}>
             <IonButton testID="quotation-save" csBtn onPress={submit}>
               Save
             </IonButton>
