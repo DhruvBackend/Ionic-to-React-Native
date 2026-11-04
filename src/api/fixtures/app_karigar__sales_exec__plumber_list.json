@@ -1,0 +1,30 @@
+{
+  "endpoint": "app_karigar/sales_exec/plumber_list",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "plumbers": [
+        { "id": 401, "first_name": "ramesh", "last_name": "KUMAR", "mobile_no": "9000000401", "status": "Verified", "is_active": 1, "balance_point": 1250, "last_login_at": "2026-10-30 18:05:00", "last_scan_at": "2026-10-29 09:15:00", "city": "sahibabad", "district": "ghaziabad", "state": "uttar pradesh" },
+        { "id": 402, "first_name": "SUNITA", "last_name": "pawar", "mobile_no": "9000000402", "status": "Pending", "is_active": 0, "balance_point": 0, "last_login_at": null, "last_scan_at": null, "city": "", "district": "", "state": "" },
+        { "id": 403, "first_name": "imran", "last_name": "sheikh", "mobile_no": "9000000403", "status": "Suspect", "is_active": 1, "balance_point": 40, "last_login_at": "2026-11-01 07:30:00", "last_scan_at": null, "city": "", "district": "", "state": "maharashtra" },
+        { "id": 404, "first_name": "deepak", "last_name": "rane", "mobile_no": "9000000404", "status": "Reject", "is_active": 0, "balance_point": 0, "last_login_at": "not a date", "last_scan_at": null, "city": "", "district": "pune", "state": "" }
+      ]
+    },
+    "sales_boy": {
+      "status": "SUCCESS",
+      "plumbers": [
+        { "id": 501, "first_name": "mohan", "last_name": "lal", "mobile_no": "9000000501", "status": "Verified", "is_active": 1, "balance_point": 300, "last_login_at": "2026-10-28 10:00:00", "last_scan_at": "2026-10-27 12:30:00", "linked_plumber_count": 4, "city": "noida", "district": "gautam buddha nagar", "state": "uttar pradesh" },
+        { "id": 502, "first_name": "kiran", "last_name": "shah", "mobile_no": "9000000502", "status": "Pending", "is_active": 0, "balance_point": 0, "last_login_at": null, "last_scan_at": null, "linked_plumber_count": 0, "city": "", "district": "", "state": "" }
+      ]
+    },
+    "dealer": {
+      "status": "SUCCESS",
+      "plumbers": [
+        { "id": 601, "first_name": "anil", "last_name": "traders", "mobile_no": "9000000601", "status": "Verified", "is_active": 1, "balance_point": 5200, "last_login_at": "2026-10-31 09:10:00", "last_scan_at": "2026-10-30 16:45:00", "linked_plumber_count": 12, "city": "meerut", "district": "meerut", "state": "uttar pradesh" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "plumbers": [] },
+    "malformed": null
+  }
+}

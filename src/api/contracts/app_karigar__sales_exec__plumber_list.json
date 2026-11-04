@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/sales_exec/plumber_list",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "sales_executive_id": "", "status": "=Verified", "list_type": "=Plumber" },
+  "note": "Runs on every ionViewWillEnter and on every segment change. status is the segment (Verified/Pending/Suspect/Reject); list_type is the nav param (Plumber/Sales_Boy/Dealer, default Plumber).",
+  "ionicSource": "src/pages/sales-exec-plumber-list/sales-exec-plumber-list.ts:36"
+}
