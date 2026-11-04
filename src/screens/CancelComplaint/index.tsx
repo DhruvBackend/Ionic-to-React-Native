@@ -20,6 +20,7 @@ export default function CancelComplaintScreen({ navigation, route }: Props) {
   // NOTE (parity): `label` is passed by ComplaintDetail but its read (:32) is commented out.
   const complaintId = useRef<any>(undefined);
   const [remark, setRemark] = useState<string | undefined>(undefined); // complaint.remark
+  const [pageHeight, setPageHeight] = useState(0); // `.my-module .scroll-content` starts at 25% of this (see styles.page)
   useEffect(() => {
     complaintId.current = route?.params?.id;
   }, [route]);
@@ -56,7 +57,7 @@ export default function CancelComplaintScreen({ navigation, route }: Props) {
   }
 
   return (
-    <View testID="cancel-complaint" style={styles.page}>
+    <View testID="cancel-complaint" style={[styles.page, { paddingTop: pageHeight / 4 }]} onLayout={e => setPageHeight(e.nativeEvent.layout.height)}>
       <View testID="pop-imge" style={styles.pop}>
         {/* html:11-35 form > .main-field > .cs-form > ion-list > ion-item.cs-textarea */}
         <View style={styles.mainField}>

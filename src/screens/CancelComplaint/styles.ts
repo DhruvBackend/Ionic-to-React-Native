@@ -6,8 +6,10 @@ import { imageViewerMd } from '../../theme/ionicMdScroll';
 import { complaintMd as C } from '../../theme/ionicMdComplaint';
 
 export const styles = StyleSheet.create({
-  // ion-content.my-module { background: rgba(0,0,0,.9) !important } + .scroll-content { top: 50%; translateY(-50%) }: centred vertically
-  page: { flex: 1, backgroundColor: imageViewerMd.backdrop, justifyContent: 'center' },
+  // ion-content.my-module { background: rgba(0,0,0,.9) !important }; `.my-module .scroll-content { top: 50%; translateY(-50%) }` keeps
+  // Ionic's `bottom: 0`, so the scroll box is half the page tall and moved up by a quarter: the popup starts at 25% of the page height
+  // (not centred; phone pass 2026-11-05: it sat 43dp lower). index.tsx sets paddingTop = page height / 4 from onLayout.
+  page: { flex: 1, backgroundColor: imageViewerMd.backdrop },
   // [T] 4297-4303 `.pop-imge { padding: 0; margin: 13px; position: relative; border-radius: 5px }`
   pop: { margin: 13, padding: 0, position: 'relative', borderRadius: 5 },
   // [T] 821-827 `.main-field { background: #F8FFFC; width: 100%; height: 100%; padding: 16px; position: relative }`
