@@ -1,0 +1,31 @@
+{
+  "endpoint": "app_karigar/sales_exec/plumber_detail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "plumber": { "id": 401, "first_name": "ramesh", "last_name": "KUMAR", "mobile_no": "9000000401", "status": "Verified", "is_active": 1, "balance_point": 1250, "last_login_at": "2026-10-30 18:05:00", "last_scan_at": "2026-10-29 09:15:00", "city": "sahibabad", "district": "ghaziabad", "state": "uttar pradesh", "seller_name": "mohan lal", "seller_mobile": "9000000501", "dealer_name": "anil traders", "dealer_mobile": "9000000601" },
+      "recent_scans": [{ "code": "QR1001", "scanned_at": "2026-10-29 09:15:00", "points": 50 }]
+    },
+    "pending": {
+      "status": "SUCCESS",
+      "plumber": { "id": 402, "first_name": "SUNITA", "last_name": "pawar", "mobile_no": "9000000402", "status": "Pending", "is_active": 0, "balance_point": 0, "last_login_at": null, "last_scan_at": null, "city": "", "district": "", "state": "uttar pradesh", "seller_name": "mohan lal", "seller_mobile": "", "dealer_name": "", "dealer_mobile": "" },
+      "recent_scans": []
+    },
+    "suspect": {
+      "status": "SUCCESS",
+      "plumber": { "id": 403, "first_name": "imran", "last_name": "sheikh", "mobile_no": "9000000403", "status": "Suspect", "is_active": 1, "balance_point": 40, "last_login_at": "2026-11-01 07:30:00", "last_scan_at": null, "city": "", "district": "", "state": "", "seller_name": "", "seller_mobile": "", "dealer_name": "anil traders", "dealer_mobile": "9000000601" }
+    },
+    "reject": {
+      "status": "SUCCESS",
+      "plumber": { "id": 404, "first_name": "deepak", "last_name": "rane", "mobile_no": "9000000404", "status": "Reject", "is_active": 0, "balance_point": 0, "last_login_at": "not a date", "last_scan_at": null, "city": "pune", "district": "", "state": "" }
+    },
+    "bare": {
+      "status": "SUCCESS",
+      "plumber": { "id": 405, "first_name": "meena", "last_name": null, "mobile_no": "9000000405", "status": "Blocked", "is_active": 0, "balance_point": null, "last_login_at": null, "last_scan_at": null }
+    },
+    "failed": { "status": "FAILED" },
+    "empty": {},
+    "malformed": null
+  }
+}

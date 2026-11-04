@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/sales_exec/plumber_detail",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "sales_executive_id": "", "plumber_id": 0 },
+  "note": "Runs on ionViewDidLoad, only when the user id and the plumber_id nav param are set.",
+  "ionicSource": "src/pages/sales-exec-plumber-detail/sales-exec-plumber-detail.ts:32"
+}

@@ -90,5 +90,14 @@ Classes defined by the page SCSS and used in the template: `active`, `card-item`
 
 ## Quirks
 
+- sales-exec-plumber-list.html:51 / .scss:50-51: the global `span { margin: 0 !important }` beats `.dot { margin-left: 6px }`: the dot text sits right after the status (flex row).
+- .html:49 '+91' hard-coded; formatDate (.ts:57-64) uses the device locale (toLocaleDateString + toLocaleTimeString); an unparsable date prints as given, an empty one as an em dash.
+- .ts:29 ionViewWillEnter reloads on every entry (also back from the detail); .ts:41-44 no loader overlay, only the in-page 'Loading…'; an HTTP error just ends loading (the empty state shows).
+- .ts:42 a null body / missing `plumbers` gives []; .html:65 the linked count shows only when listType !== 'Plumber' and the count is truthy.
+- The segment (ionChange) reloads with the new status; .scss:32-36 `.card-item:active` scale(.99) is a pressed-state transform (no transition).
+
+- Global `.profile .profile-detail .name p` / `a` / `a i` (0,3,1 / 0,3,2) beat the page `.name` rules (0,2,2 / 0,2,3): name 14px weight 500, status 12px, icon 18px (not the 15/16, 11/12, 13/14 of the page SCSS).
+
 ## States
 
+- default (Plumber, Verified, four cards: Verified/Pending/Suspect/Reject, active and inactive, dashes, an unparsable date), sales_boy (list_type Sales_Boy: title Sellers, linked count), dealer (list_type Dealer: title Dealers), empty (+ empty_sales_boy, empty_dealer: 'No sellers/dealers in Verified list'), malformed (null body). No hin (no translation).
