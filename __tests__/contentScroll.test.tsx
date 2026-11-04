@@ -831,7 +831,7 @@ describe('spinners', () => {
 describe('WebEmbed / ImageViewer', () => {
   test('iframe default has the 2px inset border; border="none" has none', () => {
     mount(<WebEmbed testID="w" uri="https://example.test/v" height={180} />);
-    expect(style('w')).toMatchObject({ height: 180, width: '100%', borderWidth: 2, borderTopColor: '#000', borderLeftColor: '#000', borderBottomColor: '#545454', borderRightColor: '#545454' });
+    expect(style('w')).toMatchObject({ height: 180, width: '100%', borderWidth: 2, borderTopColor: '#9a9a9a', borderLeftColor: '#9a9a9a', borderBottomColor: '#eeeeee', borderRightColor: '#eeeeee' });
     act(() => tree.unmount());
     mount(<WebEmbed testID="w" uri="https://example.test/m" height="100%" border="none" />);
     expect(style('w').borderWidth).toBeUndefined();

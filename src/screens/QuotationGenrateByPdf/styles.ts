@@ -7,12 +7,12 @@ import { quotationMd } from '../../theme/ionicMdQuotationGenrateByPdf';
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
-  // [T] 8813 `.edit { margin: 0 16px }`; `mt16` and `item-flex` have no CSS rule anywhere (card)
-  edit: { marginHorizontal: 16 },
+  // [T] 8813 `.edit { margin: 0 16px }`; `item-flex` has no CSS rule; `.edit.mt16` gets `.mt16 { margin-top: 16px !important }` (main.css)
+  edit: { marginHorizontal: 16, marginTop: 16 },
   // [P] 147-152 `.sprate-block { padding: 10px; border: 1px dashed #2e5ea2; border-radius: 6px; margin-top: 16px }`
   sprateBlock: { padding: 10, borderWidth: 1, borderStyle: 'dashed', borderColor: quotationMd.blockBorder, borderRadius: 6, marginTop: 16 },
-  // [T] 459 `.cs-btn { height: 40px !important; width: 100% }` sits in a `div.mt16` (no rule)
-  btnWrap: {},
+  // [T] 459 `.cs-btn { height: 40px !important; width: 100% }` sits in a `div.mt16` (`.mt16 { margin-top: 16px !important }`)
+  btnWrap: { marginTop: 16 },
   // [P] 2-3 `.card-list { display: flex; flex-direction: column-reverse }`
   cardList: { flexDirection: 'column-reverse' },
   // [P] 5-19 `.card-item`

@@ -266,13 +266,9 @@ export const iframeDefaults = {
   // (typo for frameborder), so they keep Chromium's UA `iframe{border:2px inset}`; the other 2 have no border:
   // contact.html (style="border:0") and point-location.html (frameborder="0" style="border:0").
   insetWidth: 2,
-  // Chromium (Blink CalculateBorderStyleColor, from WebKit calculateBorderStyleColor): for `inset`, top/left are the
-  // DARKER pair and bottom/right the LIGHTER pair. The border colour is currentColor = #000 (Ionic md body text). For
-  // black the darken side stays #000 (not lighter than the 0x202020 base dark colour) and the lighten side becomes
-  // Color::Light() of black = #545454.
-  // NOTE (parity): from memory of Chromium's logic, not measured: verify in the parity harness.
-  insetTopLeft: '#000',
-  insetBottomRight: '#545454',
+  // Measured in Chrome for `iframe{border:2px inset}` (currentColor #000): top/left #9a9a9a, bottom/right #eeeeee.
+  insetTopLeft: '#9a9a9a',
+  insetBottomRight: '#eeeeee',
   videoHeight: 180, // [P] height="180"
 } as const;
 

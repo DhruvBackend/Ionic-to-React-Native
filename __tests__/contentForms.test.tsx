@@ -896,12 +896,12 @@ describe('ion-input / ion-textarea', () => {
     expect(StyleSheet.flatten(input('c-input').props.style).height).toBe(100);
     expect(style('c-wrapper').minHeight).toBe(100 + 8 + 8 + 20); // absolute label takes no room; element padding 10 10
   });
-  test('.edit floating input: the ion-input element has the 1px #b5b5b5 border and 35 height', () => {
+  test('.edit floating input: the ion-input element has the 1px #b5b5b5 border and 37 height (35 input + 2 border)', () => {
     mount(<IonInputItem variant="edit" floating label="Name" value="" onChangeText={() => undefined} testID="e" />);
     let n: any = input('e-input').parent;
     while (n && !(typeof n.type === 'string' && StyleSheet.flatten(n.props.style)?.borderWidth === 1)) n = n.parent;
-    expect(StyleSheet.flatten(n.props.style)).toMatchObject({ borderWidth: 1, borderColor: '#b5b5b5', height: 35 });
-    expect(style('e-wrapper').minHeight).toBe(0 + 14 + 0 + 35);
+    expect(StyleSheet.flatten(n.props.style)).toMatchObject({ borderWidth: 1, borderColor: '#b5b5b5', height: 37 });
+    expect(style('e-wrapper').minHeight).toBe(0 + 14 + 0 + 37);
   });
   test('edit page input: 13px, padding-left 8, 35 high; cs-input has no underline colours', () => {
     mount(<IonInputItem variant="edit" floating label="Name" value="" onChangeText={() => undefined} testID="f" />);
