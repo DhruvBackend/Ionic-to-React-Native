@@ -116,20 +116,22 @@ import r56 from '../screens/SubCategory/route';
 import C56 from '../screens/SubCategory';
 import r57 from '../screens/Super30/route';
 import C57 from '../screens/Super30';
-import r58 from '../screens/SurveyList/route';
-import C58 from '../screens/SurveyList';
-import r59 from '../screens/TaskClose/route';
-import C59 from '../screens/TaskClose';
-import r60 from '../screens/Terms/route';
-import C60 from '../screens/Terms';
-import r61 from '../screens/Transaction/route';
-import C61 from '../screens/Transaction';
-import r62 from '../screens/Video/route';
-import C62 from '../screens/Video';
-import r63 from '../screens/VideoCategory/route';
-import C63 from '../screens/VideoCategory';
-import r64 from '../screens/ViewProfile/route';
-import C64 from '../screens/ViewProfile';
+import r58 from '../screens/SurveyDetail/route';
+import C58 from '../screens/SurveyDetail';
+import r59 from '../screens/SurveyList/route';
+import C59 from '../screens/SurveyList';
+import r60 from '../screens/TaskClose/route';
+import C60 from '../screens/TaskClose';
+import r61 from '../screens/Terms/route';
+import C61 from '../screens/Terms';
+import r62 from '../screens/Transaction/route';
+import C62 from '../screens/Transaction';
+import r63 from '../screens/Video/route';
+import C63 from '../screens/Video';
+import r64 from '../screens/VideoCategory/route';
+import C64 from '../screens/VideoCategory';
+import r65 from '../screens/ViewProfile/route';
+import C65 from '../screens/ViewProfile';
 
 export const routes: RouteDef[] = [
   { ...r0, component: C0 },
@@ -197,6 +199,7 @@ export const routes: RouteDef[] = [
   { ...r62, component: C62 },
   { ...r63, component: C63 },
   { ...r64, component: C64 },
+  { ...r65, component: C65 },
 ];
 
 // Reachable Ionic pages not ported yet (docs/inventory.json); RootNavigator registers a placeholder for each.

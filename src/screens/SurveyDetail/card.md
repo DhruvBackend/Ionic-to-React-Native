@@ -79,5 +79,18 @@ Classes defined by the page SCSS and used in the template: `count-box`, `survey-
 
 ## Quirks
 
+- survey-detail.ts:51-58: the loader is dismissed first, then `response.details` / `details['question']` are read: `details: null` throws in the callback AND in the template (`surveyDetail.title`), so the DOM of the last completed render (blank) stays. No error callback: after an HTTP error the loader stays.
+- survey-detail.html:12 `!detail.length == 0` is `(!length) == 0`; the inner `*ngIf="detail.length == 0"` 'Data not Found' block (html:13-15) can never show (not ported).
+- survey-detail.html:35-47 / .ts:69-86: one `ion-list radio-group [(ngModel)]="list.selected_answer"` PER ANSWER, all bound to the same model; each group emits its initial (undefined) value once, so checkcount() runs after the first render and the blank Filled count becomes 0.
+- survey-detail.html:42 `value={{ans.id}}` is a string: selected_answer is sent to saveSurveyAnswer as a string.
+- survey-detail.html:52 `<p>{{selected_answer}}</p>`: a field never assigned: an empty p with no height.
+- survey-detail.ts:96-98 alert texts copied: 'All questions fill compulsory. ' (trailing space), 'Your form Submit Succesfully' (sic). Any msg other than "success" does nothing.
+- survey-detail.scss `.item.item-md .checkbox-md` is a rule for a checkbox the page does not have (dead). `.survey-count` is `position: sticky` -> IonContent stickyChildIndices.
+- `ion-radio class="mr5"`: IonRadio has no style prop; a negative-margin wrapper (styles.radioStart) gives margin-right 5.
+- survey-detail.module.ts: own TranslateModule.forRoot, no use(): global i18n. Pushed by class from SurveyList (not a lazy string name).
+
 ## States
 
+- `SurveyDetail.default`: three questions, counters 3 / 0 / 3, Save.
+- `SurveyDetail.empty` (`question: []`): title only.
+- `SurveyDetail.malformed` (`details: null`): blank page (no title).
