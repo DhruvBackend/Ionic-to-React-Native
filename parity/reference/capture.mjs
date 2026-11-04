@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
+import { PNG } from 'pngjs';
 import { FIXTURES, OUT, REPO, loadStates, parseArgs, selectStates, shotName } from '../lib/common.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -287,10 +288,24 @@ export async function waitForFonts(page) {
   }, REF_FONT_FAMILIES);
 }
 
+// The Ionic WebView on the capture phone is as tall as the app window: 793 dp (`dumpsys window`: h793dp, 1080x2378).
+// Rendering at 800 made `body.android-15{height:94%}` 6.6 dp taller than the phone's frame, so every bottom-anchored
+// bar, alert backdrop and vh-sized block sat ~7 dp lower in the reference (phone pass 2026-11-04). Override: REF_VIEWPORT_H.
+export const REF_VIEWPORT_H = Number(process.env.REF_VIEWPORT_H || 793);
+// Shots stay 1080x2400 (white-padded at the bottom) so they pair 1:1 with the padded RN shots (capture-rn.mjs fitToRef).
+function padToRefHeight(file) {
+  const png = PNG.sync.read(fs.readFileSync(file));
+  if (png.height >= 2400) return;
+  const out = new PNG({ width: png.width, height: 2400 });
+  out.data.fill(255);
+  png.data.copy(out.data, 0, 0, png.height * png.width * 4);
+  fs.writeFileSync(file, PNG.sync.write(out));
+}
+
 export async function captureState(browser, port, state, outFile, { log = () => {}, beforeShot } = {}) {
   const session = sessionFor(state.role);
   const context = await browser.newContext({
-    viewport: { width: 360, height: 800 },
+    viewport: { width: 360, height: REF_VIEWPORT_H },
     deviceScaleFactor: 3,
     isMobile: true,
     hasTouch: true,
@@ -345,6 +360,7 @@ export async function captureState(browser, port, state, outFile, { log = () => 
     }
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     await page.screenshot({ path: outFile });
+    padToRefHeight(outFile);
   } finally {
     await context.close();
   }
