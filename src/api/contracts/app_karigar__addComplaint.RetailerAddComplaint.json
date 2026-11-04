@@ -1,0 +1,22 @@
+{
+  "endpoint": "app_karigar/addComplaint",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "complaint": {
+      "type": "Service",
+      "first_name": "Ramesh Kumar",
+      "mobile_no": "9000000001",
+      "address": "12 Rajnagar Extension",
+      "state": "UTTAR PRADESH",
+      "district": "GHAZIABAD",
+      "city": "Sahibabad",
+      "pincode": "201010",
+      "nature_problem": "Tap leaks",
+      "customer_id": "900001"
+    }
+  },
+  "ionicSource": "src/pages/retailer-add-complaint/retailer-add-complaint.ts:71"
+}
