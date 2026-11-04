@@ -169,7 +169,7 @@ describe('states (card States)', () => {
   test('HTTP error: nothing shown, the loader stays up (empty error callback)', async () => {
     installSpy(true);
     await mount();
-    expect(textOf('product-subdetail-title')).toBe('');
+    expect(find('product-subdetail-title')).toHaveLength(0); // empty <h4>: no line box, nothing drawn
     expect(openLoaders()).toHaveLength(1);
   });
 });

@@ -123,7 +123,8 @@ export const styles = StyleSheet.create({
     paddingBottom: PR.valuePaddingBottom,
     textAlign: 'center',
   },
-  pintsLabel: { ...textStyle(PR.labelFontSize, 500, homeMd.black), textTransform: 'capitalize' },
+  // `text-transform: capitalize` is applied in JS (index.tsx, src/ui/cssText.ts)
+  pintsLabel: { ...textStyle(PR.labelFontSize, 500, homeMd.black) },
   pintsUnit: {
     position: 'absolute',
     right: PR.unitRight,

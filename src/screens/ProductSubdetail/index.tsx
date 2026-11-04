@@ -198,9 +198,12 @@ export default function ProductSubdetailScreen({ navigation, route }: Props) {
         <View testID="product-subdetail-detais" style={styles.detais}>
           {/* html:13-16 */}
           <View style={styles.detailPrize}>
-            <Text testID="product-subdetail-title" style={[textStyle(16, 600, P.title, 19.2), styles.h4]}>
-              {interp(d.product_name ? d.product_name : d.desc)}
-            </Text>
+            {/* NOTE (parity): an empty <h4> has no line box in the browser (height 0, margins 0), so nothing is drawn for '' */}
+            {interp(d.product_name ? d.product_name : d.desc) !== '' ? (
+              <Text testID="product-subdetail-title" style={[textStyle(16, 600, P.title, 19.2), styles.h4]}>
+                {interp(d.product_name ? d.product_name : d.desc)}
+              </Text>
+            ) : null}
             <Text testID="product-subdetail-price" style={[textStyle(30, 500, P.price, 36), styles.h3]}>
               <Text style={textStyle(22, 500, P.price, 36)}>₹</Text>
               {interp(d.price)}/-

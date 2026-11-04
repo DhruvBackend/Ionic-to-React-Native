@@ -12,6 +12,8 @@ export const styles = StyleSheet.create({
   // [T] 12572 `.padding16 { padding: 16px !important }`
   padding16: { padding: 16 },
   // [T] 4696-4708 `.product-data`: grid 100px 1fr, column gap 10, min-height 100, margin 30 0 40, border 1px, radius 6, padding 0 10
+  // the 30px top margin of a row after the first collapses into the 40px bottom margin above it (CSS block siblings)
+  collapsedTop: { marginTop: 0 },
   productData: {
     backgroundColor: colors.white,
     borderWidth: 1,

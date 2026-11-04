@@ -11,8 +11,9 @@ export const styles = StyleSheet.create({
   filter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' },
   fullWidth: { width: '100%' },
   // [T] 1825-1826 `.listing.grid-listing { background: #f8f8f8 }` on the ion-content element
-  // [T] 5560-5565 `.listing { margin: 16px 0 }`: the ion-content is absolutely positioned, so the margin shrinks it top and bottom
-  content: { backgroundColor: C.gridBg, marginVertical: 16 },
+  // [T] 5560-5565 `.listing { margin: 16px 0 }` on `.ion-page>ion-content{position:absolute;top:0;height:100%}` (main.css): the
+  // margin moves the content down 16 and the page clips its bottom 16 (the height stays 100%; phone pass 2026-11-04)
+  content: { backgroundColor: C.gridBg, marginTop: 16, marginBottom: -16 },
   // [T] 1827-1836 `.main-div`: flex wrap, space-between, `padding-top: 0 !important; padding: 16px`, margin-bottom 32
   mainDiv: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', paddingTop: 0, paddingHorizontal: 16, paddingBottom: 16, marginBottom: 32 },
   // [T] 1837-1839 `ion-list { width: calc(50% - 8px) !important; margin-bottom: 16px !important }`: a 50% cell with 8px on the inner side

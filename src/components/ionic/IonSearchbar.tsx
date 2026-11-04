@@ -229,7 +229,7 @@ function geometry(context: SearchbarContext) {
       paddingRight: a.inputPadding.right,
       fontSize: a.fontSize,
       letterSpacing: a.letterSpacing,
-      shadow: true,
+      shadow: false, // `.search ion-searchbar .searchbar-input{box-shadow:none!important}` also matches `.search.add-search` (main.css; phone pass 2026-11-04)
       iconLeft: a.iconLeft,
       iconTop: a.iconTop,
       iconBox: a.iconBox,

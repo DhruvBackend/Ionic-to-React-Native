@@ -22,7 +22,8 @@ export function CatalogueRow({ row, index, testIDPrefix, onPress, centerTitle }:
   // NOTE (parity): a null/undefined row (concat of a missing `category`) makes Ionic's template throw; RN draws an empty row.
   const list = row ?? {};
   return (
-    <Pressable testID={`${testIDPrefix}-row-${index}`} style={styles.productData} onPress={onPress}>
+    // NOTE (parity): sibling block margins collapse in CSS (40 bottom + 30 top = 40); RN adds them, so rows after the first drop the top margin
+    <Pressable testID={`${testIDPrefix}-row-${index}`} style={[styles.productData, index > 0 && styles.collapsedTop]} onPress={onPress}>
       <View style={styles.thumbnail}>
         {!list.actual_image_name ? <MaterialIcon name="perm_media" color={C.ink} /> : null}
         {list.actual_image_name ? (

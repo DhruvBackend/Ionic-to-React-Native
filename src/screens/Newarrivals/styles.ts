@@ -6,8 +6,9 @@ import { productListMd as P } from '../../theme/ionicMdProductList';
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
-  // [T] 1825-1827 `.listing.grid-listing { background: #f8f8f8 }` on the ion-content (`ion-content { margin/padding: 0 !important }` cancels `.listing`'s own margin/padding)
-  content: { backgroundColor: P.gridListingBackground },
+  // [T] 1825-1827 `.listing.grid-listing { background: #f8f8f8 }` on the ion-content. `.listing { margin: 16px 0 }` applies too (no
+  // rule cancels it): `.ion-page>ion-content` is absolute with height 100%, so it moves down 16 and the bottom 16 is clipped
+  content: { backgroundColor: P.gridListingBackground, marginTop: 16, marginBottom: -16 },
   // [T] 1827-1836 `.listing.grid-listing .main-div`: flex row wrap, space-between, flex-start; padding 16 (top 0 !important); margin-bottom 32
   mainDiv: {
     flexDirection: 'row',
