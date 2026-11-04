@@ -74,12 +74,14 @@ export default function ContactScreen({ navigation }: Props) {
           {/* html:12 `<iframe src=... width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy">` */}
           <WebEmbed testID="contact-map" uri={client.contact.mapEmbedUrl} height="100%" border="none" iframe />
           {/* html:13-37 */}
-          <View style={styles.mapAdd}>
+          {/* .map-add is absolutely positioned without left/right: shrink-to-fit, at most the content width minus its 16px margins */}
+          <View testID="contact-map-add-box" style={styles.mapAddBox} pointerEvents="box-none">
+          <View testID="contact-map-add" style={styles.mapAdd}>
             {/* html:16-22 */}
             <View style={styles.li}>
               <MaterialIcon name="room" size={24} color={md.textColor} style={styles.icon} />
               {/* NOTE (parity): the template appends a literal "." after the interpolation */}
-              <Text testID="contact-address" style={textStyle(14, 400, md.textColor)}>
+              <Text testID="contact-address" style={[textStyle(14, 400, md.textColor), styles.p]}>
                 {collapseWs(t(client.contact.addressKey)) + '.'}
               </Text>
             </View>
@@ -97,6 +99,7 @@ export default function ContactScreen({ navigation }: Props) {
                 <Text style={linkText}>{client.contact.email}</Text>
               </Pressable>
             </View>
+          </View>
           </View>
         </View>
         {/* NOTE (parity): descender gap below the inline iframe, outside the body so .map-add stays bottom-aligned */}

@@ -23,8 +23,9 @@ export interface WebEmbedProps {
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // the page Ionic's <iframe width="100%" height="100%" frameborder="0" style="border:0"> lives in (cordova-android serves it from https://localhost)
+// html/body get height:100% so the iframe's height:100% fills the WebView (without it the iframe falls back to 150px: phone pass 2026-11-04)
 export function iframeHtml(uri: string): string {
-  return `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="margin:0;padding:0;overflow:hidden"><iframe src="${esc(uri)}" width="100%" height="100%" frameborder="0" style="border:0;display:block;width:100%;height:100%"></iframe></body></html>`;
+  return `<!DOCTYPE html><html style="height:100%"><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="margin:0;padding:0;overflow:hidden;height:100%"><iframe src="${esc(uri)}" width="100%" height="100%" frameborder="0" style="border:0;display:block;width:100%;height:100%"></iframe></body></html>`;
 }
 
 export function WebEmbed({ uri, height, border = 'inset', testID = 'web-embed', iframe = false }: WebEmbedProps) {
