@@ -82,5 +82,14 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- enquiry.ts:32-37 name and mobile are prefilled from `userStorageData` in ionViewDidLoad (stale ng-* classes like Registration); `product_id` from the `id` param.
+- enquiry.ts:39-60 submit(): no loader, no error callback; only `status == 'Product Enquiry successfully.'` shows ThankYou! and opens Tabs 0.
+- html:34 e-mail pattern `....[a-zA-Z]{2,3}$`; mobile keypress filter allows `+ - space` (enquiry.ts:88-94).
+- html:9/15/26... all text hardcoded English incl. typos ("poosible", "fill In"); title `enquiry` lowercase.
+- `.enquriy` rules (not `.main-field`): input font 16px, no ion-textarea padding, item shadow 3px 3px; the kit csInput variant is adjusted with item/input style overrides.
+- enquiry.ts:81-86 showAlert() is never called (dead, not ported).
+
 ## States
 
+- `default` (id param, Customer)
+- `malformed`/`other` status: jest only (no visible change).
