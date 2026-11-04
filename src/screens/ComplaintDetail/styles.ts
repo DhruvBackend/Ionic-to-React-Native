@@ -21,6 +21,8 @@ export const styles = StyleSheet.create({
   tr: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: C.rowBorder },
   trLast: { borderBottomWidth: 0 },
   td: { flex: 1, padding: 8 },
+  // `<td class="w120">` `.w120{width:120px!important}` (border-box, so the padding is inside the 120)
+  tdFirst: { flex: 0, width: 120 },
   // [T] 2837-2838 `.gallery { padding: 0 16px 16px }`
   gallery: { paddingHorizontal: 16, paddingBottom: 16 },
   // `.select-img ul { display: flex; flex-wrap: wrap }`
@@ -58,8 +60,8 @@ export const styles = StyleSheet.create({
   // [T] 3008-3027 `.plumber-rating { background: #F5F5F5; padding: 5px 32px 25px }`, `li { padding-right: 26px }`
   plumberRating: { backgroundColor: C.ratingBg, paddingTop: 5, paddingHorizontal: 32, paddingBottom: 25 },
   rateStar: { paddingRight: 26 },
-  // [T] 2419-2481 `.enquiry-btn.task-btn { display: flex }` + `.padding16` + `button { margin: 3px; border: 2px solid #fff; shadow; radius 6; height 46 }`
+  // [T] 2419-2481 `.enquiry-btn.task-btn { display: flex }` + `.padding16` + `button { margin: 0 !important (later `.enquiry-btn.task-btn button`); border: 2px solid #fff; shadow; radius 6; height 46 }`
   taskBtn: { flexDirection: 'row', padding: 16 },
-  taskButton: { flex: 1, margin: 3, height: 46, borderWidth: 2, borderColor: C.white, borderRadius: 6, boxShadow: C.buttonShadow },
+  taskButton: { flex: 1, margin: 0, height: 46, borderWidth: 2, borderColor: C.white, borderRadius: 6, boxShadow: C.buttonShadow },
   taskLabel: { fontSize: 14, letterSpacing: 2, color: C.white, fontWeight: '400' },
 });

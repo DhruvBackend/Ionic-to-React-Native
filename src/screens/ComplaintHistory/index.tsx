@@ -157,7 +157,7 @@ export default function ComplaintHistoryScreen({ navigation, route }: Props) {
         {interp(mobile)}
       </Text>
       <Pressable testID={`${testID}-dial`} onPress={() => dial(mobile, id)} style={styles.dialer}>
-        <IonIcon name="md-call" size={32} color={ionicColors.primary} />
+        <IonIcon name="md-call" size={20} color={ionicColors.primary} />
       </Pressable>
     </View>
   );

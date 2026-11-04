@@ -217,7 +217,7 @@ export default function ComplaintDetailScreen({ navigation, route }: Props) {
           <View testID="basic-table" style={styles.basicTable}>
             {rows.map((r, i) => (
               <View key={r.key} testID={`row-${r.key}`} style={[styles.tr, i === rows.length - 1 ? styles.trLast : null]}>
-                <View style={styles.td}>
+                <View style={[styles.td, styles.tdFirst]}>
                   <Text style={cell}>{r.label}</Text>
                 </View>
                 <View style={styles.td}>

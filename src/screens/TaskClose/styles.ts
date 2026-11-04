@@ -24,7 +24,8 @@ export const styles = StyleSheet.create({
     marginTop: C.upload.marginTop,
   },
   uploadPrompt: { alignItems: 'center' },
-  uploadP: { textAlign: 'center' },
+  // html:24 inline `<i>` + `<br>`: its line box is ~4dp taller than the icon (measured gap 24 vs 20)
+  uploadP: { textAlign: 'center', marginTop: 4 },
   // `img { height: 100%; object-fit: contain }`: the width follows the natural ratio (see index.tsx)
   uploadImage: { height: C.upload.size },
   // `.enquiry-btn.task-btn` (display: flex; width 100%) with the inline `style="padding: 16px"`
