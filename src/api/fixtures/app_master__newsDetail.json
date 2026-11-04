@@ -1,0 +1,20 @@
+{
+  "endpoint": "app_master/newsDetail",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "news": {
+        "id": 11,
+        "title": "NEW BATHROOM COLLECTION LAUNCHED THIS SEASON",
+        "image": "https://example.invalid/img/news1.png",
+        "date_created": "2026-03-14 10:30:00",
+        "source": "Business Standard",
+        "desc": "The new range of showers, mixers and concealed fittings is now available at all authorised dealers across the country."
+      }
+    },
+    "empty": { "status": "SUCCESS", "news": {} },
+    "malformed": { "status": "SUCCESS", "news": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

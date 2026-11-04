@@ -1,0 +1,17 @@
+{
+  "endpoint": "dealerData/favorite_product",
+  "server": "sfa",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "product_list": [
+        { "id": 41, "product_name": "Rain shower with extension arm chrome finish", "price": 2499, "actual_image_name": "shower_a.png" },
+        { "id": 42, "product_name": "Single lever wall mixer", "price": 1250, "actual_image_name": "mixer.png" },
+        { "id": 43, "product_name": "Concealed stop cock", "price": 899, "actual_image_name": "stopcock.png" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "product_list": [] },
+    "malformed": { "status": "SUCCESS", "product_list": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

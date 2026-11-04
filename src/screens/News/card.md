@@ -79,5 +79,12 @@ Classes defined by the page SCSS and used in the template: _none_
 
 ## Quirks
 
+- news.ts:25-26: getNewsList() is called before presentLoading(); the loader (dismissOnPageChange true) is dismissed BEFORE `r['news']` is read (:39-40), so a null body leaves the page blank without a loader. No error callback: after an HTTP error the loader stays.
+- news.ts:60: `r['news']==''` is loose: [] and '' end paging for good (flag=1, no complete()); a null `news` is not == '' and appends a null row (concat(null)), which makes Ionic's template throw: the DOM of the last render stays.
+- news.ts:56: offset `filter.limit = news_list.length`; news_list starts as '' (string), so a null/undefined list makes loadData die before the request.
+- news.html:12-14 / 18-22: image inline at natural size (max-width 100%, ~4px baseline gap), title `lowercase | titlecase`; `.glsec .figuree .csr .csl` have no CSS, `.m16` = margin 16 !important.
+- news.ts:75-98: ionViewDidLeave popToRoot when the active page is a root page and the previous one is not (same as Products).
+
 ## States
 
+- default (3 articles), empty (no rows), malformed (news null: blank, no loader) and HTTP error (unit-tested: blank, loader stays). No translated strings (hardcoded English).

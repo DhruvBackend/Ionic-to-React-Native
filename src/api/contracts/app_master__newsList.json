@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_master/newsList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0 } },
+  "ionicSource": "src/pages/news/news.ts:36 (getNewsList, from ionViewDidLoad :25; loadData at :57 sends the same {filter} with limit = news_list.length)"
+}

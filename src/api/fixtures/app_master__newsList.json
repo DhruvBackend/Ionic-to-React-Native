@@ -1,0 +1,17 @@
+{
+  "endpoint": "app_master/newsList",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS",
+      "news": [
+        { "id": 11, "title": "NEW BATHROOM COLLECTION LAUNCHED THIS SEASON", "image": "https://example.invalid/img/news1.png" },
+        { "id": 12, "title": "dealer meet held in jaipur", "image": "https://example.invalid/img/news2.png" },
+        { "id": 13, "title": "Water saving fittings now with five year warranty", "image": "https://example.invalid/img/news3.png" }
+      ]
+    },
+    "empty": { "status": "SUCCESS", "news": [] },
+    "malformed": { "status": "SUCCESS", "news": null },
+    "error": { "$httpError": 500, "body": {} }
+  }
+}

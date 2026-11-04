@@ -1,0 +1,9 @@
+{
+  "endpoint": "dealerData/favorite_product",
+  "helper": "onPostRequestDataFromApi",
+  "server": "sfa",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "user_id": "900001", "start": 0 }, "userType": "=drLogin" },
+  "ionicSource": "src/pages/favorite-product/favorite-product.ts:114 (get_favorite_product, 1000 ms after ionViewWillEnter :42; filter.search is added once the user types; loadData :144 posts to rootUrl but is dead code: its infinite scroll is commented out in the html)"
+}
