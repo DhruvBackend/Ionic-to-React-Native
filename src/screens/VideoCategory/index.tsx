@@ -15,7 +15,7 @@ import { collapseWs } from '../../ui/angularPipes';
 import { colors } from '../../theme';
 import { md } from '../../theme/ionicMd';
 import { imgSize as noFoundSize, noFoundXml } from './noFound';
-import { styles } from './styles';
+import { styles, stripeColor } from './styles';
 
 interface Props {
   navigation: { push: (name: string, params?: object) => void };
@@ -100,7 +100,7 @@ export default function VideoCategoryScreen({ navigation }: Props) {
                 testID={`videocat-item-${i}`}
                 button
                 noLines
-                style={styles.item}
+                style={[styles.item, { borderLeftColor: stripeColor(i + 1) }]}
                 innerStyle={styles.itemInner}
                 onPress={() => goToVideosPage(row.category)}
               >

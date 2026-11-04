@@ -320,10 +320,13 @@ export default function ShippingDetailScreen({ navigation, route }: Props) {
             <Text testID="shipping-gift-title" style={h2}>
               {sh.giftTitle}
             </Text>
+            {/* NOTE (parity): the 18px span inside the 13px / line-height 20 p grows Chrome's line box: strut (Roboto ascent .927, descent .244:
+                above baseline 12.06 + 2.38 = 14.44, below 3.17 + 2.38 = 5.56) vs the 18px inline box with line-height 20 (16.7 - .55 = 16.15 above,
+                4.39 - .55 = 3.85 below) -> 16.15 + 5.56 = 21.7, rendered as a 22px line. RN's span lineHeight is 22 for the same height. */}
             <Text testID="shipping-points" style={p13}>
               <Text style={strong}>Points</Text>
               {' '}
-              <Text style={textStyle(18, 600, S.pointsColor, 20)}>{sh.points}</Text>
+              <Text style={textStyle(18, 600, S.pointsColor, 22)}>{sh.points}</Text>
             </Text>
             <Text testID="shipping-status" style={p13}>
               <Text style={strong}>Gift Status</Text>

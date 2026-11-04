@@ -142,6 +142,8 @@ export default function ProductsScreen({ navigation, route }: Props) {
           <View testID="products-empty" style={[styles.nothingHere, { height: viewport * 0.8 }]}>
             <View style={styles.innear}>
               <SvgXml xml={noFoundXml} width={imgW} height={(imgW * noFoundSize.height) / noFoundSize.width} />
+              {/* NOTE (parity): the inline <img> sits on the text baseline: ~4px descender gap below it before the <p> */}
+              <View style={styles.imgGap} />
               <Text style={[textStyle(14, 400, C.noDataText), styles.noDataText]}>Data not Available</Text>
             </View>
           </View>
