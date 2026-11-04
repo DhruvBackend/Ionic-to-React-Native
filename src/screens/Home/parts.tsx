@@ -83,7 +83,7 @@ export function GroupButton({
   endMargin,
   testID,
 }: {
-  icon: string;
+  icon?: string; // omitted: the button has no <i class="material-icons"> (the inner row then holds the label and the arrow only)
   label: string;
   end?: string;
   onPress?: () => void;
@@ -113,7 +113,7 @@ export function GroupButton({
       style={{ marginTop: 0, marginBottom: bottom }}
     >
       <View style={{ width: inner, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <MaterialIcon name={icon} color={fg} />
+        {icon ? <MaterialIcon name={icon} color={fg} /> : null}
         <Text
           numberOfLines={1}
           ellipsizeMode="clip" // `.button { white-space: nowrap }` clips, the inner row has no text-overflow

@@ -8,9 +8,17 @@ import { resetMock, setFixtureVariant } from '../../api/mock';
 import i18n from '../../i18n';
 import { resetMockNative, setMockScan, setMockNativeFailure } from '../../native';
 import { _resetOverlaysForTests, overlayStore } from '../../ui/overlays';
+import { findRoute } from '../../navigation/routes';
+import allFeatures from '../../../clients/_all-features/client.json';
+import type { ClientConfig } from '../../config/types';
 import HomeScreen from './index';
 
 jest.mock('../../native', () => ({ ...jest.requireActual('../../native'), shareText: jest.fn() }));
+// The client config can be swapped per test (flag tests): `__holder.client` is what `client` reads; it starts as the real (Topbath) one.
+jest.mock('../../config/client', () => {
+  const holder = { client: jest.requireActual('../../config/client').client };
+  return { __holder: holder, get client() { return holder.client; } };
+});
 
 let tree: ReactTestRenderer.ReactTestRenderer;
 const act = ReactTestRenderer.act;
@@ -561,5 +569,42 @@ describe('quirks', () => {
     await mount('Sales_Boy');
     await press('home-box-products');
     expect(navigation.push).toHaveBeenCalledWith('Category', { mode: 'home' });
+  });
+});
+
+// Phase 6 entry points: the buttons Ionic comments out (home.html:101, :105, :310) are drawn only when the target route is enabled.
+describe('Phase 6 entry points behind flags', () => {
+  const holder = require('../../config/client').__holder;
+  const realClient = holder.client;
+  afterEach(() => {
+    holder.client = realClient;
+  });
+  const ids = ['home-digital-catalogue', 'home-nearest-plumbers', 'home-survey'];
+
+  test('default client (flags off): none of them is drawn, for any role', async () => {
+    for (const role of ['Customer', 'Plumber', 'Sales_Boy']) {
+      await mount(role);
+      ids.forEach(id => expect(find(id)).toHaveLength(0));
+      expect(allText().some(x => x.includes('Digital Catalogue') || x.includes('Nearest Plumbers') || x.includes('Survey'))).toBe(false);
+      act(() => tree.unmount());
+    }
+  });
+
+  test('_all-features: Customer gets Digital Catalogue (Digitalcatalog) and Nearest Plumbers once their routes exist', async () => {
+    holder.client = allFeatures as ClientConfig;
+    await mount('Customer');
+    expect(find('home-digital-catalogue').length > 0).toBe(!!findRoute('Digitalcatalog', allFeatures as ClientConfig));
+    expect(find('home-nearest-plumbers').length > 0).toBe(!!findRoute('NearestDealer', allFeatures as ClientConfig));
+    expect(findRoute('Digitalcatalog', allFeatures as ClientConfig)).toBeDefined();
+    expect(textOf('home-digital-catalogue')).toBe('Digital Catalogue');
+    await press('home-digital-catalogue');
+    expect(navigation.push).toHaveBeenCalledWith('Digitalcatalog');
+  });
+
+  test('_all-features: Plumber gets Survey once the SurveyList route exists', async () => {
+    holder.client = allFeatures as ClientConfig;
+    await mount('Plumber');
+    expect(find('home-survey').length > 0).toBe(!!findRoute('SurveyList', allFeatures as ClientConfig));
+    expect(find('home-digital-catalogue')).toHaveLength(0); // not in the Plumber block
   });
 });

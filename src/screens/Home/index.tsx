@@ -10,6 +10,7 @@ import { IonBarButton, IonButtons, IonHeader, IonToolbar } from '../../component
 import { IonRefresher, IonRefresherContent } from '../../components/ionic/IonRefresher';
 import { IonSlide, IonSlides } from '../../components/ionic/IonSlides';
 import { MaterialIcon } from '../../components/ionic/MaterialIcon';
+import { findRoute } from '../../navigation/routes';
 import { useIonViewWillEnter } from '../../navigation/useIonViewWillEnter';
 import { client } from '../../config/client';
 import { scanQr, shareText, initPushNotification } from '../../native';
@@ -216,6 +217,19 @@ export default function HomeScreen({ navigation }: Props) {
   const goOnnotification = () => navigation.push('Notification'); // :953-955
   const goToVideosPage = (cat: string) => navigation.push('Video', { cat }); // :922-926
   const goOnVideoPage = () => navigation.push('VideoCategory'); // :949-951
+  // Phase 6 entry points: Ionic comments these buttons out (home.html:101, :105, :310); they are drawn only when the client has the target
+  // screen (its feature flag is on; for Topbath they stay hidden, so the UI is unchanged).
+  const hasRoute = (name: string) => findRoute(name) !== undefined;
+  const goTodigitalcat = () => navigation.push('Digitalcatalog'); // :957-959
+  const SurveyList = () => navigation.push('SurveyList'); // :946-948
+  // :736-748 (the page's pincode is sent as it is)
+  const goToNearestDealers = (type: string) => {
+    if (offline()) {
+      offlineAlert();
+    } else {
+      navigation.push('NearestDealer', { pincode: karigarDetail.current.pincode, type });
+    }
+  };
   const goOnQuotationPage = () => navigation.push('QuotationGenrateByPdf', { mode: 'home' }); // :1091-1095
   const pointTransfer = () => navigation.push('Pointtranfer', { totalPoint: totalBalenceRef.current }); // :657-659
   const gotoPointTransfer = () => navigation.push('SalesPointTransfer', { totalPoint: totalBalenceRef.current }); // :661-663
@@ -616,6 +630,10 @@ export default function HomeScreen({ navigation }: Props) {
             <GroupButton testID="home-add-service" icon="build" label={t('Add Service Request')} onPress={safe(() => goOnComplaintAdd('Service'))} />
             <GroupButton testID="home-add-installation" icon="build" label={t('Add Installation Request')} onPress={safe(() => goOnComplaintAdd('Installation'))} />
             <GroupButton testID="home-new-arrivals" icon="new_releases" label={t('New Arrivals')} onPress={safe(goToNewArrivals)} />
+            {/* html:101-104 (commented out in Ionic): shown only when the Digitalcatalog route is enabled for the client */}
+            {hasRoute('Digitalcatalog') ? <GroupButton testID="home-digital-catalogue" label={t('Digital Catalogue')} onPress={safe(goTodigitalcat)} /> : null}
+            {/* html:105-108 (commented out in Ionic; `*ngIf type != 'Plumber'` is always true in this block) */}
+            {hasRoute('NearestDealer') ? <GroupButton testID="home-nearest-plumbers" label={t('Nearest Plumbers')} onPress={safe(() => goToNearestDealers('Plumber'))} /> : null}
             <GroupButton testID="home-videos" icon="play_arrow" label={t('Videos')} onPress={safe(goOnVideoPage)} />
             <GroupButton testID="home-customer-care" as="a" icon="support_agent" label={t('Customer Care')} end="call" endMargin={homeMd.mb16} onPress={callCustomerCare} />
           </View>
@@ -665,6 +683,8 @@ export default function HomeScreen({ navigation }: Props) {
             <GroupButton testID="home-point-transfer" icon="transfer_within_a_station" label={t('Point Transfer')} onPress={safe(pointTransfer)} />
             <GroupButton testID="home-scan" icon="qr_code_2" label={t('Scan or enter QR Code for coupon')} onPress={safe(scanPlumber)} />
             <GroupButton testID="home-checkin" icon="location_on" label={t('Start Checkin')} onPress={safe(checkin)} />
+            {/* html:310-313 (commented out in Ionic): shown only when the SurveyList route is enabled for the client */}
+            {hasRoute('SurveyList') ? <GroupButton testID="home-survey" label={t('Survey')} onPress={safe(SurveyList)} /> : null}
             <GroupButton testID="home-customer-care" as="a" icon="support_agent" label={t('Customer Care')} end="call" last onPress={callCustomerCare} />
           </View>
           <View testID="home-h50" style={styles.h50} />
