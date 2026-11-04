@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/giftList",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "filter": { "limit": 0, "search": "", "redeemable": "" }, "karigar_id": "900001" },
+  "note": "filter is one object mutated by every call: getGiftList sets limit 0, search and redeemable (navParams 'mode', '' when absent); loadData sets limit to gift_list.length.",
+  "ionicSource": "src/pages/gift-gallery/gift-list/gift-list.ts:71 (getGiftList: ionViewWillEnter, doRefresh, search) and :101 (loadData, filter.limit = gift_list.length)"
+}
