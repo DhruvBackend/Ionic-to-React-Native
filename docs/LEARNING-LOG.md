@@ -579,3 +579,10 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Faithful sometimes means unusable.** In Ionic, the search box on My Complaints can't be typed into, because the status dropdown's invisible cover sits over the whole row. The copy reproduces it, and it is flagged for the phone check.
 
 **Interview angle:** "How do you keep a shared UI library clean when many people (or agents) need small variations?" â†’ variations go into the library as small optional props with defaults that change nothing, each with a test and a source citation; screens never fork library code; and disputes are decided by measuring the real target (here, the shipped CSS).
+
+## 2026-11-04 — Phone passes: the harness lies too
+
+- **What happened:** the first phone pass of Phases 2-4 (205 states) found ~45 real misses, but also a harness error: the Ionic reference was rendered 7dp taller than the phone's window, which made every bottom-anchored element look wrong. Fixing the harness first saved chasing ~20 phantom diffs.
+- **Recurring RN traps found:** `margin: 0` does not override a component's own `marginTop`; CSS margins collapse and RN's do not; Yoga drops trailing padding when shrink-wrapping on the cross axis; a centred shrink-wrapped Text loses its last letter to pixel rounding. Each was proven by measuring on the phone (uiautomator bounds through Metro), not guessed — two first-guess fixes ("Toda", Contact card) were wrong and were reverted.
+- **Process:** triage (free) + Sonnet reviewers on crops found causes fast; one implementer skipped reading the Ionic source, so the brief now requires it; a Profile layout change broke PlumberDetail, which imports Profile styles — screens sharing another screen's styles are fragile.
+- **Phase 5:** 6 screens ported and merged the same day; 61 of 117 ported (all live screens).

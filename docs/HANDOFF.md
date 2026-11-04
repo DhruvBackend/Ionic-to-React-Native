@@ -2,6 +2,16 @@
 
 *Written 2026-11-03 (~19:00) at the end of session 3, to start **Phase 3** in a fresh session. Read this file first, then the plan sections it points to.*
 
+## Update 2026-11-04 (session 4, evening): phone passes + Phase 5 merged
+
+- **Phase 2 + 3 phone pass done (3 rounds):** 129 states; 89 DIFF / 40 OK in round 1 -> 68 / 61 final; 27 fixes. Report `parity/out/report.html`. **Pending: Dhruv's sign-off (`node parity/signoff.mjs <id> ok "<note>"`) and tap checks.** Open 1-5dp drifts (OfferList, Offers, Super30, About, Transaction, ShippingDetail, PointList, PointHistory, GiftDetail hin, ProductSubdetail broken-image slot): cause unproven, listed as open.
+- **Harness fix:** Ionic references now render at the phone's window height **793dp** (`REF_VIEWPORT_H`), padded to 2400 (was 800: every bottom bar/alert/vh block sat ~7dp off). All Phase 2-4 refs re-captured.
+- **Phase 4 phone pass round 1 done:** 63 RN + 62 refs (PlumberDetail.malformed cannot boot in Ionic: NOREF). ~15 misses fixed and merged. **Round 2 shots pending: phone disconnected at the end of the day.** Script: scratchpad `cap4.sh` (refs skipped, RN only) or loop `node parity/capture-rn.mjs --only <Screen>. -s 444538eb`.
+- **Phase 5 (6 Sales Executive screens) ported, S8-reviewed, merged. 61 of 117 ported** (all live screens). Phase 5 phone pass not done.
+- master `b6db3eb`+docs: jest 1739/1739, tsc clean, eslint 0 errors, parity 14/14. New APK built (not installed: phone disconnected) -> `adb -s 444538eb install -r android/app/build/outputs/apk/debug/app-debug.apk`.
+- Lessons (also in the briefs): RN `margin: 0` does not cancel a kit's marginTop/Bottom; CSS sibling margins collapse; `.mtNN/.mbNN/.plNN` exist in main.css; Yoga ignores trailing padding for cross-axis fit-content (use a row + flexShrink); centred shrink-wrapped Text clips on Android (stretch + textAlign center); Angular keeps the last completed render when a binding throws; kit `LineClamp1` for `-webkit-line-clamp:1`. Fast checks: Metro + `adb reverse tcp:8081 tcp:8081` + uiautomator bounds. Implementer brief now requires reading the Ionic sources in full (one agent skipped it).
+- NEXT: reconnect phone -> install APK -> Phase 4 round 2 shots + triage + report -> Phase 5 phone pass -> Dhruv's sign-offs + tap checks -> speed build for the TL demo. Restore phone settings after (`settings put system screen_off_timeout 30000`, `svc power stayon false`): **not restored yet.**
+
 ## Update 2026-11-04 (session 4, day): Phase 4 merged
 
 - **All 15 Phase 4 screens ported, independently reviewed (S8) and merged** (master `9832c2c` + this docs commit), plus `__tests__/flows/complaint.test.tsx`. Gates: jest 1636/1636 (107 suites), tsc clean, eslint 0 errors (77 warnings), parity:test 14/14. No worktrees left. **55 of 117 screens ported** (Phase 1 signed off; Phases 2-4 ported + reviewed, phone pass pending).
