@@ -1,0 +1,22 @@
+{
+  "endpoint": "app_karigar/sales_exec/add_plumber",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": {
+    "plumber": {
+      "first_name": "",
+      "mobile_no": "",
+      "dob": "",
+      "state": "",
+      "district": "",
+      "city": "",
+      "pincode": "",
+      "sales_boy_id": "",
+      "dealer_id": "",
+      "sales_executive_id": ""
+    }
+  },
+  "ionicSource": "src/pages/sales-exec-add-plumber/sales-exec-add-plumber.ts:76"
+}

@@ -1,0 +1,21 @@
+{
+  "endpoint": "app_karigar/sales_exec/add_plumber",
+  "server": "root",
+  "variants": {
+    "default": {
+      "status": "SUCCESS"
+    },
+    "EXIST": {
+      "status": "EXIST"
+    },
+    "other": {
+      "status": "FAILED"
+    },
+    "empty": {},
+    "malformed": null,
+    "error": {
+      "$httpError": 500,
+      "body": {}
+    }
+  }
+}
