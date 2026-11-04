@@ -15,6 +15,7 @@ You port Ionic 3 page(s) to React Native as an **exact 1:1 copy** in your worktr
 `src/screens/<Name>/index.tsx`, `styles.ts`, `route.ts` (`feature` from `docs/inventory.json`; `presentation: 'modal'` where Ionic used `modalCtrl`), `<Name>.test.tsx`; `src/api/contracts/<endpoint>.json` (with `ionicSource` file:line); `src/api/fixtures/<endpoint>.json` variants (`default`, `empty`, `malformed`, plus each status the screen branches on; real server types: ids/flags/points are NUMBERS); `parity/states.d/<Name>.json`; `.maestro/screens/<Name>.yaml`. Fill the card's **Quirks** and **States** (`default`, each role / `*ngIf` branch, `empty`, `malformed`, `hin` if translated).
 
 ## Steps
+0. **Read the Ionic `.html`, `.ts`, `.scss` and `.module.ts` of every page you port, in full, before writing code.** The card is a summary, not the source; a port made from the card or from a similar screen is rejected.
 1. Contracts and fixtures from the Ionic call sites.
 2. Failing tests first: one `expectContract` per endpoint driven through the real press/entry path; a render test per state (key texts or i18n keys); a nav test per target (Ionic params); `malformed` renders without throwing.
 3. Implement. Template element order and hierarchy as in Ionic; SCSS px → dp 1:1 plus the global `variables.scss` rules that apply.
