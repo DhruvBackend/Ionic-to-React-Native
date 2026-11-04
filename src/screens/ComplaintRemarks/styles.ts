@@ -7,7 +7,8 @@ import { complaintRemarksMd as R } from '../../theme/ionicMdComplaintRemarks';
 export const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
   // [T] 5015-5020 `.remark ion-list { margin: 0; box-shadow; margin-bottom: 20px; border: solid 1px #cccccc91 }`
-  list: { margin: 0, boxShadow: R.listShadow, marginBottom: 20, borderWidth: 1, borderColor: R.listBorder },
+  // explicit marginTop: the kit IonList's marginTop beats a `margin: 0` shorthand in RN
+  list: { margin: 0, marginTop: 0, boxShadow: R.listShadow, marginBottom: 20, borderWidth: 1, borderColor: R.listBorder },
   // [T] 5021-5024 `button { padding-left: 0; min-height: inherit !important }`
   item: { paddingLeft: 0, minHeight: 0 },
   // [T] 5025-5026 `.item-inner { padding: inherit; padding-right: 0 !important }` (all of the button's paddings are 0 here); min-height inherit

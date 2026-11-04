@@ -299,17 +299,20 @@ export default function ProfileScreen({ navigation }: Props) {
     return (
       <View style={styles.profile}>
         <View style={styles.profileDetail}>
-          {profilePic()}
-          <View style={styles.name}>
-            {nameP()}
-            {type == 'Plumber' ? plumberStatus() : null}
-            {type != 'Plumber' ? (
-              <View style={styles.nameLink}>
-                <Text style={t12(400, P.statusDefault)}>
-                  {type === 'Sales_Boy' ? 'Seller' : type === 'Sales_Executive' ? 'Sales Executive' : s(type)}
-                </Text>
-              </View>
-            ) : null}
+          {/* the first flex line of `.profile-detail` (pic + name, centred); the 100%-wide .rating-area wraps below it */}
+          <View testID="profile-first-line" style={styles.firstLine}>
+            {profilePic()}
+            <View style={styles.name}>
+              {nameP()}
+              {type == 'Plumber' ? plumberStatus() : null}
+              {type != 'Plumber' ? (
+                <View style={styles.nameLink}>
+                  <Text style={t12(400, P.statusDefault)}>
+                    {type === 'Sales_Boy' ? 'Seller' : type === 'Sales_Executive' ? 'Sales Executive' : s(type)}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
           </View>
           {pencil}
 
@@ -431,8 +434,10 @@ export default function ProfileScreen({ navigation }: Props) {
     return (
       <View style={styles.profile}>
         <View style={styles.profileDetail}>
-          {profilePic()}
-          <View style={styles.name}>{nameP()}</View>
+          <View testID="profile-first-line" style={styles.firstLine}>
+            {profilePic()}
+            <View style={styles.name}>{nameP()}</View>
+          </View>
           {pencil}
           <View style={styles.ratingArea}>
             {row('Mobile No.', s(d.mobile_no), false, true)}

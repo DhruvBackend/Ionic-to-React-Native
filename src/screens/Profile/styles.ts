@@ -17,16 +17,16 @@ export const styles = StyleSheet.create({
   // NOTE (parity): `.profile:after` (white 140px block, z-index -1) is painted BEHIND `.profile`'s own background, so it never shows.
   profile: { padding: 16, paddingTop: 0, backgroundColor: P.bg },
   // [T] 3067-3080 `.profile-detail`
+  // RN: the wrapped flex lines are explicit (Yoga lost the 16px margin and the pic's strut height on the wrapped line, phone
+  // pass 2026-11-04): a column holding `firstLine` (row, align-items center) and the full-width .rating-area below it.
   profileDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
     boxShadow: '0 0 8px 4px rgba(0, 0, 0, 0.1)',
     backgroundColor: colors.white,
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
   },
+  firstLine: { flexDirection: 'row', alignItems: 'center' },
   // [T] 3082-3084 `.profile-pic { margin-right: 16px; position: relative }`
   profilePic: { marginRight: 16, width: 50, height: 50 + strutDescent },
   // [T] 3085-3093 `.profile-pic img`
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
   },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }`
   // NOTE (parity): profile.html:40 / :211 `<div class="rating-area mt16">`; `.mt16{margin-top:16px!important}` (main.css)
-  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16, alignSelf: 'flex-start' },
+  ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },
   // [T] 2954-2958 `.border-box`
   borderBox: { flexDirection: 'row', alignItems: 'center', width: '100%', borderBottomWidth: 1, borderBottomColor: P.line },
   // [T] 2959-2978 `.boxs`: padding 5 10, width 50%, border-right 1 #ccc (the last child has none)

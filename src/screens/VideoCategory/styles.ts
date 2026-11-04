@@ -26,7 +26,8 @@ export const styles = StyleSheet.create({
   itemInner: { paddingTop: 0, paddingBottom: 0, paddingLeft: 16, paddingRight: 0 },
   // [T] 1807-1812 `ion-label { display: flex; align-items: center; justify-content: space-between; margin: 0 -5px 0 0 !important }`
   // + [CSS] `.listing ion-list button ion-label { margin: 0; height: 60px }` (global, later): the card is 8 + 60 + 8 = 76 tall
-  label: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 0, marginRight: -5, height: 60 },
+  // explicit sides: the kit label's marginTop/marginBottom (11) beat a `margin: 0` shorthand in RN (phone pass 2026-11-04: card was 102dp)
+  label: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: -5, height: 60 },
 });
 
 // [CSS] `.listing button:nth-child(...)` in cascade order (all !important, later wins): 4n+4 indigo, 3n+3 pink, 2n+2 red, else yellow.
