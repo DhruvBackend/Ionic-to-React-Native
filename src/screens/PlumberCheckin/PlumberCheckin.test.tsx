@@ -130,11 +130,11 @@ describe('render', () => {
     expect(exists('complaint-select-cover')).toBe(false);
   });
 
-  test('malformed (complaintList null): renders without throwing, blank content', async () => {
+  test('malformed (complaintList null): the empty state of the initial [] render stays (Angular CD throws, DOM kept)', async () => {
     setFixtureVariant('app_karigar/checkinComplaintList', 'malformed');
     await mount();
     expect(allText()).toContain('Checkin');
-    expect(exists('checkin-empty')).toBe(false);
+    expect(exists('checkin-empty')).toBe(true);
     expect(exists('complaint-select-cover')).toBe(false);
   });
 

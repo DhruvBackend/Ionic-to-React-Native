@@ -32,6 +32,7 @@ export default function PlumberCheckinScreen({ navigation }: Props) {
   // NOTE (parity): plumber-checkin.module.ts has its own TranslateModule.forRoot, but the page never calls setDefaultLang/use(), so the
   // language is whatever the app has (global in RN too).
   const [complaintList, setComplaintList] = useState<any>([]); // complaint_list
+  const lastRendered = useRef<any[]>([]); // the list of the last render Angular completed (see the NOTE above `broken`)
   const listRef = useRef<any>([]);
   const complaintDetail = useRef<any>({}); // complaint_detail (stored, shown nowhere: the template block that used it is commented out)
   const filter = useRef<any>({});
@@ -185,10 +186,16 @@ export default function PlumberCheckinScreen({ navigation }: Props) {
   }
 
   // html:13 `*ngIf="complaint_list.length"`, html:68 `*ngIf="!complaint_list.length"`
-  // NOTE (parity): a null / undefined list (malformed response) makes both bindings throw in Angular: nothing of the content renders.
+  // NOTE (parity): a null / undefined list (malformed response; `null != ''` lets it through, ts:175-176) makes both bindings
+  // throw in Angular's change detection, which leaves the DOM of the LAST successful render on screen: the initial `[]`
+  // (empty state) or the previous list. The Ionic reference of PlumberCheckin.malformed shows the empty state (phone pass 2026-11-04).
   const broken = complaintList === null || complaintList === undefined;
-  const has = !broken && complaintList.length > 0;
-  const empty = !broken && !has;
+  if (!broken) {
+    lastRendered.current = complaintList;
+  }
+  const shown: any[] = broken ? lastRendered.current : complaintList;
+  const has = shown.length > 0;
+  const empty = !has;
 
   return (
     <View style={styles.screen}>
@@ -207,7 +214,7 @@ export default function PlumberCheckinScreen({ navigation }: Props) {
                 isLast
                 label={t('Complaint')}
                 value={selected}
-                options={complaintList.map((row: any) => ({
+                options={shown.map((row: any) => ({
                   value: interp(row.complaintId),
                   label: collapseWs(`${interp(row.customerName)}  ${t('COM')}# ${interp(row.complaintId)} (${interp(row.complaint_type)})`),
                 }))}
