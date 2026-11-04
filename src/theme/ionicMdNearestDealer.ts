@@ -12,4 +12,6 @@ export const nearestDealerMd = {
   listBoxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
   // [CSS] `.list-box .mid .content-info .left-info .circle { background: #fff; box-shadow: 0 3px 6px rgba(0,0,0,.16) }`
   circleShadow: '0 3px 6px rgba(0, 0, 0, 0.16)',
+  // [CSS] `.list-box .mid .tag-info a i { color: #00b900; font-size: 20px }` (main.css 8114)
+  callIcon: '#00b900',
 } as const;

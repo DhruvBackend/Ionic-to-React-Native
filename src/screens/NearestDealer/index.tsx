@@ -224,7 +224,7 @@ export default function NearestDealerScreen({ route }: Props) {
                   </View>
                   <View style={styles.tagInfo}>
                     <Pressable testID={`nd-plumber-dial-${i}`} onPress={() => dial(interp(data.mobile_no))}>
-                      <MaterialIcon name="phone" color={colors.primary} />
+                      <MaterialIcon name="phone" size={20} color={N.callIcon} />
                     </Pressable>
                   </View>
                 </View>
