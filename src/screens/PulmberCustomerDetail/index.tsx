@@ -90,8 +90,8 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
           } else {
             setUpperOnly(null);
             setDetail(details);
-            setComplaintId(route?.params?.id); // `COM#{{complaint_id}}` is a root interpolation too
           }
+          setComplaintId(route?.params?.id); // complaint_id is set in ionViewDidLoad: COM#71 shows even when the response has no `image`
         }
         // :151 remark_count is assigned before the loop below can throw
         if (alive.current) {
@@ -211,6 +211,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
   // the status-driven blocks before html:132: created from the new status, their bindings not updated
   const b: any = cut ? { complaintStatus: upperOnly } : d;
   const ink = C.inkSoft;
+  const addressText = `${interp(titlecase(d.address))} ${interp(titlecase(d.city))}${interp(titlecase(d.district))}${interp(titlecase(d.state))}${interp(d.pincode)}`;
   const mediaList: any[] = Array.isArray(media) ? media : [];
   const ulWidth = win.width - 32; // gallery: the screen minus its 2 x 16 padding
   const imageIndexes = mediaList.map((m, i) => (m?.type == 'image' ? i : -1)).filter(i => i >= 0); // eslint-disable-line eqeqeq
@@ -237,12 +238,17 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
         </View>
       </View>
       <View style={styles.name}>
-        <Text testID={`${testID}-name`} style={[h4Style, styles.nameH4]}>
-          {interp(titlecase(name))}
-        </Text>
-        <Text testID={`${testID}-mobile`} style={pBlue}>
-          {`${interp(mobile)}${suffix}`}
-        </Text>
+        {/* an empty <h4> / <p> has no height in the browser: render nothing */}
+        {interp(titlecase(name)) !== '' ? (
+          <Text testID={`${testID}-name`} style={[h4Style, styles.nameH4]}>
+            {interp(titlecase(name))}
+          </Text>
+        ) : null}
+        {`${interp(mobile)}${suffix}`.trim() !== '' ? (
+          <Text testID={`${testID}-mobile`} style={pBlue}>
+            {`${interp(mobile)}${suffix}`}
+          </Text>
+        ) : null}
         <Pressable testID={`${testID}-dial`} onPress={() => dial(mobile)} style={styles.phoneCall}>
           <MaterialIcon name="call" size={22} color={C.callGreen} />
         </Pressable>
@@ -274,8 +280,8 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
   const checkinButton = (
     <View testID="checkin-block" style={styles.checkinBlock}>
-      {/* `class="mb16"` is defined nowhere; `ml10` = margin-left 10 on the icon */}
-      <IonButton testID="checkin-button" color="primary" block round textTransform="capitalize" iconAfter={{ name: 'arrow-forward', marginLeft: 10 }} onPress={() => { checkin(); setMode(0); }}>
+      {/* `class="mb16"` = margin-bottom 16 (!important, main.css); `ml10` = margin-left 10 on the icon */}
+      <IonButton testID="checkin-button" color="primary" block round style={{ marginTop: 0, marginBottom: 16 }} textTransform="capitalize" iconAfter={{ name: 'arrow-forward', marginLeft: 10 }} onPress={() => { checkin(); setMode(0); }}>
         {collapseWs(t('Start Checkin'))}
       </IonButton>
     </View>
@@ -289,7 +295,7 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
       <IonContent>
         {/* html:11-23 */}
-        <View style={styles.lists}>{person('seller', d.sales_boy_name, d.sales_boy_mobile_no, ' (Seller)', true)}</View>
+        <View style={[styles.lists, styles.listsFirst]}>{person('seller', d.sales_boy_name, d.sales_boy_mobile_no, ' (Seller)', true)}</View>
 
         {/* html:24-122 */}
         <View style={styles.lists}>
@@ -297,9 +303,11 @@ export default function PulmberCustomerDetailScreen({ navigation, route }: Props
 
           <View>
             {/* html:34-38 `.add p.pb0` */}
-            <Text testID="address" style={[textStyle(13, 400, ink, 18), styles.addP]}>
-              {`${interp(titlecase(d.address))} ${interp(titlecase(d.city))}${interp(titlecase(d.district))}${interp(titlecase(d.state))}${interp(d.pincode)}`}
-            </Text>
+            {addressText.trim() !== '' ? (
+              <Text testID="address" style={[textStyle(13, 400, ink, 18), styles.addP]}>
+                {addressText}
+              </Text>
+            ) : null}
           </View>
 
           <View>

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   // [T] 4446-4451 `.serach-filter { display: flex; align-items: center; justify-content: space-between; padding: 10px }`
   serachFilter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 10 },
   // `<ion-list style="width: 100%">` + `.serach-filter ion-list { margin: 0 }`
-  list: { width: '100%', margin: 0 },
+  list: { width: '100%', margin: 0, marginTop: 0, marginBottom: 0 }, // the kit IonList has its own margin: set the sides
   // [T] 4455-4457 `.serach-filter ion-list ion-item { padding-left: 15px; border-radius: 23px }`
   searchItem: { paddingLeft: 15, borderRadius: 23 },
   // [T] 4393-4402 `.data-not { width: 100%; height: calc(100% - 50px); flex column centred }` (the height is set at run time)
@@ -46,6 +46,7 @@ export const styles = StyleSheet.create({
   com: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   h3: { paddingBottom: 4 },
   addP: { paddingBottom: 14 },
+  add: { marginTop: 15 }, // `.add.mt15` (`.mt15 { margin-top: 15px !important }`, main.css)
   // [T] 4109-4119 `.pro-12 { display: flex }` > `h4 { padding-right: 17px }`
   pro12: { flexDirection: 'row' },
   shrink: { flexShrink: 1 },
