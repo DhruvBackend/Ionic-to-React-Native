@@ -1,0 +1,9 @@
+{
+  "endpoint": "app_karigar/sales_exec/summary",
+  "helper": "onPostRequestDataFromApi",
+  "server": "root",
+  "method": "POST",
+  "headers": "user",
+  "body": { "sales_executive_id": "900004" },
+  "ionicSource": "src/pages/sales-exec-home/sales-exec-home.ts:40"
+}

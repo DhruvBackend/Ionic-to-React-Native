@@ -1,0 +1,48 @@
+[
+  {
+    "id": "SalesExecHome.default",
+    "screen": "Tabs",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {},
+    "params": { "lang": "en" },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "SalesExecHome is the first tab of Tabs for Sales_Executive (tabs.ts): the tab bar is part of the capture."
+  },
+  {
+    "id": "SalesExecHome.noOffers",
+    "screen": "Tabs",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": { "app_karigar/offerList": "empty" },
+    "params": { "lang": "en" },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "No offers: the login banners slider shows."
+  },
+  {
+    "id": "SalesExecHome.empty",
+    "screen": "Tabs",
+    "role": "Sales_Executive",
+    "lang": "en",
+    "variants": {
+      "app_karigar/offerList": "empty",
+      "app_karigar/loginBannersApp": "empty",
+      "app_karigar/sales_exec/summary": "empty"
+    },
+    "params": { "lang": "en" },
+    "ionicNav": "nav.setRoot(Page('Tabs'), params)",
+    "waitMs": 5000,
+    "rnWaitMs": 8000,
+    "readyId": "ion-tabbar",
+    "deviceVersion": "15",
+    "ionicNavNote": "No offers, no login banners (bundled banner), zero counts."
+  }
+]

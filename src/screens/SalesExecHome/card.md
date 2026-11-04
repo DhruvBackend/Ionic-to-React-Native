@@ -108,5 +108,13 @@ Classes defined by the page SCSS and used in the template: `company-logo`, `gree
 
 ## Quirks
 
+- sales-exec-home.ts:106 goGiftGallery and :110 goTransaction are never called from the template (dead, not ported; GiftList/Transaction not linked).
+- sales-exec-home.ts:37-48 summary has no error callback or loader; only status SUCCESS replaces the zero defaults.
+- sales-exec-home.html:25-39 offers slides are not tappable; pager+autoplay on offers and login banners, none on the bundled banner.
+- sales-exec-home.scss:9-24 h2/p/h3 margins are overridden by the global `margin:0 !important` (variables.scss:391-401).
+- sales-exec-home.html:80-120 last group button: `.group-btn button:last-child` margin 0 beats `.mb16`.
+- sales-exec-home.ts:121 logout clears the phone only (security, not changed).
+
 ## States
 
+`default` (offers slider), `noOffers` (login banners), `empty` (bundled banner, zero counts), `failed` summary and `malformed` (jest only). No hin: no translated text.

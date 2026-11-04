@@ -1,0 +1,10 @@
+{
+  "endpoint": "app_karigar/sales_exec/summary",
+  "server": "root",
+  "variants": {
+    "default": { "status": "SUCCESS", "total_plumbers": 42, "active_count": 30, "inactive_count": 12, "my_total_points": 1250 },
+    "empty": { "status": "SUCCESS", "total_plumbers": 0, "active_count": 0, "inactive_count": 0, "my_total_points": 0 },
+    "failed": { "status": "FAILED" },
+    "malformed": { "status": "SUCCESS", "total_plumbers": null, "active_count": null, "inactive_count": null, "my_total_points": null }
+  }
+}
