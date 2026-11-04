@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Scan.default",
+    "screen": "Scan",
+    "role": "Plumber",
+    "lang": "en",
+    "variants": {},
+    "params": {},
+    "ionicNav": "nav.setRoot(Page('Scan'), params)",
+    "waitMs": 2800,
+    "deviceVersion": "15",
+    "ionicNavNote": "UNREACHABLE in Topbath (feature scanPage off): needs the _all-features client for a RN capture. An empty page; any tap pushes CoupanCode."
+  }
+]
