@@ -985,6 +985,7 @@ GiftList, PointDetail, Scan, LoginScreen, Digitalcatalog, EditProfile, Enquiry, 
 - [ ] **Gate:** the flags test is green, and the parity sign-off is done.
 
 ### Phase 7: SFA module (40, flagged `sfa`, backend `rootUrlSfa`)
+> **DEFERRED (Dhruv, 2026-11-04):** all 40 SFA screens are unreachable in Topbath (no Employee/DrLogin registration option, SFA start-up routing commented out at app.component.ts:284-289, inventory status DEAD, `features.sfa: false`). Topbath ships without Phase 7; SFA can follow later as a store update (needs a full regression, the SFA backend and test accounts). Pending TL confirmation.
 - [ ] **Pre-task (orchestrator):**
   - Add the Employee/DrLogin radio options to SelectRegistrationType behind `features.sfa`.
   - Restore the SFA start-up branches (`app.component.ts:258-299`) into `decideStartRoute`, with tests for the `SFA`, `Employee` and `DrLogin` sessions.
