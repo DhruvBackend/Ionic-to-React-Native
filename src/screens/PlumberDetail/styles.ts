@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
   pb10: { paddingBottom: 10 },
   pb2: { paddingBottom: 2 },
   // html:71 `.heading.line.mt18.mb10`: `.mt18 { margin-top: 18px !important }`, `.mb10 { margin-bottom: 10px !important }` (`.heading` / `.line` have no rule)
-  heading: { marginTop: 18, marginBottom: 10 },
+  // its 18px top margin collapses with .profile-detail's 10px bottom margin (block siblings): 18 in total, so RN adds 8
+  heading: { marginTop: 8, marginBottom: 10 },
   // [S] 3-8 `.adhar`: white, radius 10, shadow 0 3px 6px rgba(0,0,0,.3), margin-bottom 10
   adhar: {
     backgroundColor: colors.white,

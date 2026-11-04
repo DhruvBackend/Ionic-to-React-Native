@@ -130,6 +130,8 @@ export default function PlumberDetailScreen({ route }: Props) {
         <View testID="plumberdetail-profile" style={[profileStyles.profile, styles.pt16]}>
           {/* html:16 */}
           <View style={profileStyles.profileDetail}>
+            {/* the first flex line of `.profile-detail` (pic + name), see Profile/styles.ts firstLine */}
+            <View testID="plumberdetail-first-line" style={profileStyles.firstLine}>
             {/* html:17-28 NOTE (parity): the picture's (click)="viewProfiePic()" has no such method in plumber-detail.ts: a tap does nothing. */}
             <View style={profileStyles.profilePic}>
               {d.profile != '' ? (
@@ -158,6 +160,7 @@ export default function PlumberDetailScreen({ route }: Props) {
                   <Text testID="plumberdetail-type" style={textStyle(12, 400, P.statusDefault)}>{s(d.type)}</Text>
                 </View>
               ) : null}
+            </View>
             </View>
 
             {/* html:54-92 `.rating-area.mt16` */}
