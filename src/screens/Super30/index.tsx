@@ -1,7 +1,7 @@
 // Ported from: src/pages/super30/super30.html + .ts + .scss (+ .module.ts)
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, View } from 'react-native';
-import Svg, { Defs, LinearGradient, Rect, Stop, SvgXml } from 'react-native-svg';
+import Svg, { Defs, Line, LinearGradient, Rect, Stop, SvgXml } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../api/client';
 import { IonContent } from '../../components/ionic/IonContent';
@@ -18,6 +18,15 @@ import { collapseWs, interp, titlecase } from '../../ui/angularPipes';
 import { useLoader } from '../../ui/useLoader';
 import { noFoundSize, noFoundXml } from '../OfferList/noFound';
 import { styles } from './styles';
+
+// 2dp wide, 3dp bars, 2dp gaps, #ccc (see styles.dashTop NOTE)
+function DashLine() {
+  return (
+    <Svg width={2} height="100%">
+      <Line x1={1} y1={0} x2={1} y2="100%" stroke={S.line} strokeWidth={2} strokeDasharray="3 2" />
+    </Svg>
+  );
+}
 
 interface Props {
   navigation?: object;
@@ -204,8 +213,8 @@ export default function Super30Screen(_props: Props) {
                   <View style={styles.label}>
                     <View style={styles.list}>
                       {/* `.list:first-child:before` / `:last-child:after` are removed on the first/last row ([T] 4986-5008) */}
-                      {i !== 0 ? <View testID={`super30-dash-top-${i}`} style={styles.dashTop}><View style={styles.dashLine} /></View> : null}
-                      {i !== list.length - 1 ? <View testID={`super30-dash-bottom-${i}`} style={styles.dashBottom}><View style={styles.dashLine} /></View> : null}
+                      {i !== 0 ? <View testID={`super30-dash-top-${i}`} style={styles.dashTop}><DashLine /></View> : null}
+                      {i !== list.length - 1 ? <View testID={`super30-dash-bottom-${i}`} style={styles.dashBottom}><DashLine /></View> : null}
                       <View testID={`super30-point-${i}`} style={[styles.point, active ? styles.pointActive : null]}>
                         <Text style={textStyle(14, 400, active ? colors.white : itemContentMd.textColor)}>{i + 1}</Text>
                       </View>

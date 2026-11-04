@@ -37,8 +37,8 @@ export const styles = StyleSheet.create({
   listTags: { flexShrink: 0 },
   // [T] 3447-3452 `.list-tags h1 { text-align left; color white; font-size 15; letter-spacing 1; weight 600 }` (+ h1 line-height 1.2 = 18)
   h1: { textAlign: 'left', letterSpacing: 1, marginBottom: 2 }, // `.wthspan h1 { display: flex; align-items: center; margin-bottom: 2px !important }` ([T] 3459-3464)
-  // [T] 3453-3458 `.list-tags p { font-size 12; weight 400; margin-top 1px !important }`; `.item-md p { margin: 0 0 2px; line-height: normal }` ([CSS] main.css) beats `.label-md` 1.5
-  p: { textAlign: 'left', marginTop: 1, marginBottom: 2 },
+  // [T] 3453-3458 `.list-tags p { font-size 12; weight 400; margin-top 1px !important }`; `.item-md p { margin: 0 0 2px; line-height: normal }` ([CSS] main.css) beats `.label-md` 1.5; NOTE (parity): the global `p { margin: 0 !important }` ([CSS] main.css) beats `.item-md p { margin: 0 0 2px }`, so no bottom margin
+  p: { textAlign: 'left', marginTop: 1, marginBottom: 0 },
   // [T] 3489-3492 `.errow i { font-size: 28px; color: white }`
   arrow: { flexShrink: 0 },
 });

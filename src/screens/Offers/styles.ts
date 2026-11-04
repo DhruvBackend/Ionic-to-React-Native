@@ -44,7 +44,12 @@ export const styles = StyleSheet.create({
   // [T] 3300-3303 `.head-detail { display: flex; align-items: center; width: calc(100% - 50px) }` (the label holds this + the 50px image)
   headDetail: { flexGrow: 1, flexShrink: 1, flexBasis: 0, flexDirection: 'row', alignItems: 'center' },
   // [T] 3304-3309 `.head { padding: 12px 20px; text-align: center; position: relative; min-width: 100px }`
-  head: { flexShrink: 1, minWidth: 100, paddingVertical: 12, paddingHorizontal: 20 },
+  // NOTE (parity): CSS weights flex-shrink by the flex base size = the CONTENT box (c), and padding is never shrunk: the .head (c + 40 padding) and
+  // the .detail (width 100% = W, margin-left 16) overflow by c + 56, the head gives up (c + 56) * c / (c + W). Yoga weights by the border-box
+  // basis (c + 40), which shrinks the head too much (divider at x=122 instead of 134 on the Ionic build). Yoga does not shrink margins and
+  // leaves them out of the weight, so the 20px side padding is a margin here (min-width 100 is border-box: 100 - 40 = 60 for the box itself);
+  // the divider (right: 0) and the verified icon (left: 4) are offset by the 20px, they are positioned against the padding box.
+  head: { flexShrink: 1, minWidth: 60, paddingVertical: 12, marginHorizontal: 20 },
   // offers.scss `.head span` (12px, #747474); the span sits in the .head's anonymous line box (strut of the 14px label font)
   headSpanLine: { height: normalLineHeight(16) },
   headSpan: { textAlign: 'center', marginTop: 4 },
@@ -56,12 +61,12 @@ export const styles = StyleSheet.create({
   redeem: { height: normalLineHeight(12) },
   redeemText: { position: 'absolute', top: 0, left: 0, width: 260 },
   // [T] 3322-3328 `.head a { position: absolute; top: 5px; left: 4px }`
-  verified: { position: 'absolute', top: 5, left: 4 },
+  verified: { position: 'absolute', top: 5, left: -16 }, // left: 4 of the padding box (see `head`)
   // [T] 3316-3321 `.head:after`: absolute, top 50%, translateY(-50%), right 0, height 50, border 1px solid #DEDEDE (width 0)
   divider: {
     position: 'absolute',
     top: '50%',
-    right: 0,
+    right: -20, // padding box edge (see `head`)
     width: 2,
     height: 50,
     borderWidth: 1,

@@ -37,5 +37,6 @@ export const styles = StyleSheet.create({
   // [T] 7353-7362 `.nothing-here { height: 80% }` (of the ion-content height, set from the measured layout); 7850-7860 `.outer`/`.innear`: table cell, middle, centred
   nothingHere: { width: '100%' },
   innear: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  imgGap: { height: 4 },
   noDataText: { letterSpacing: 1, textAlign: 'center' },
 });
