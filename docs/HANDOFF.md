@@ -2,6 +2,28 @@
 
 *Written 2026-11-03 (~19:00) at the end of session 3, to start **Phase 3** in a fresh session. Read this file first, then the plan sections it points to.*
 
+## Update 2026-11-05 (evening): ported + phone-tested; APK with the testing team; waiting for feedback and TL decisions
+
+**State:** 77 of 117 screens ported and phone-tested (Phases 1-6); Phase 7 (SFA, 40 screens) deferred: unreachable in the live app (registration offers only Plumber/Sales_Boy/Retailer in the shipped bundle; SFA start-up routing commented out). master pushed to origin on 2026-11-05. Gates: jest 1930/1930, tsc clean, eslint 0 errors, parity 14/14.
+
+**Done today:**
+- Phase 6 phone pass (33 states): fixed the sticky-header layout (IonContent wraps sticky children), GiftList, NearestDealer, FavoriteProduct, Digitalcatalog, SurveyList.
+- Re-captured the stale Tabs states on both sides; PlumberDetail.malformed reference via harness `bootVariants`; PointDetail gift drawn with `SvgCss`; status tick full circle; Profile first line wraps (`flex-wrap`); blank page for fixture media (mock mode + harness); **Hindi text no longer clipped** in IonLabel/IonParagraph/IonListHeader (measured on the phone: ink 6px below the box top).
+- Phase 8: 8.2 icons/splash pixel-identical to the live bundle; 8.3 signed `bundleRelease` verified with a throwaway key (the test `.aab` was deleted); 8.1 push JS side (Ionic tap tables, `update_token`, `PushProvider` seam) behind `features.push` (off for Topbath); 8.4 `docs/RELEASE.md`.
+- Tester APK: `Topsan-RN-test-9470dd1.apk` (releaseRn speed build, DEV, Topbath config) sent to the testing team by Dhruv.
+
+**Waiting on:**
+1. **Testing team feedback** on the APK. Fix → gates → retake the affected states → new speed build (`cd android && ./gradlew assembleReleaseRn`; check the bundle has `topbath`, not `_all-features`; copy to the Desktop as `Topsan-RN-test-<sha>.apk`, remove the old one).
+2. **Dhruv:** parity sign-off (Phases 1-6) and tap checks.
+3. **TL / release owner (docs/RELEASE.md):** signing key / Play App Signing, versionCode above the live one, Firebase project (push native side), login carry-over (Task 8.5), GiftList search bar (A keep 1:1 / B move under the balance / C per-client option).
+4. Then the release build: `MODE = 'LIVE'`, versionCode raised, real key, checklist in RELEASE.md, internal track first.
+
+**Open harness items (screenshots only, not app bugs):** YouTube videos blocked in the Ionic harness (Video.*), Home banner, 1-4dp line-height drifts.
+
+**How to work (Dhruv):** after every step an `APK changed: yes/no` line + a Summary; honest status; measure on the device before saying "fixed"; token use is the top concern; learning-log entry per step. Phone: keep `adb shell svc power stayon usb` set while connected; check `isKeyguardShowing=false` before every capture batch; never enter the PIN. Debug APK needs Metro + `adb reverse tcp:8081 tcp:8081` (re-apply before every capture). Phase 6 screens are behind flags: for captures switch the JS config with `node scripts/use-client.mjs _all-features --skip-assets`, then back with `node scripts/use-client.mjs topbath` + `git checkout -- src/config/client.ts android/app/src/main/res/values/splash_colors.xml`. Never run gates while the `_all-features` config is in place (a test resets the config). One Gradle build at a time.
+
+**A second app** (a different client, new repo) is being ported in a separate session with the kit at `C:\Users\dhruv\OneDrive\Desktop\RN-migration-kit\` (START-HERE.md). That session reads this repo but never writes to it. Shared resources: the phone, Metro port 8081, Gradle memory: one session at a time.
+
 ## Update 2026-11-05 (overnight): Phase 6 ported, Phase 4/5 done, Phase 8 started
 
 - **Phase 6: all 16 screens ported, S8-reviewed, merged**, plus `__tests__/flags.test.ts` and the Home entry buttons behind flags (hidden for Topbath, tested). Kit: `IonContent stickyChildIndices`, `LineClamp1`. **77 of 117 ported; Phase 7 (SFA, 40) deferred** (Dhruv, pending TL OK).
