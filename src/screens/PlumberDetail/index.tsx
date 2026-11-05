@@ -92,6 +92,8 @@ export default function PlumberDetailScreen({ route }: Props) {
 
   const d = karigarDetail ?? {};
   const viewerType = db.userStorageData?.type; // html:27 / :37 / :63 dbService.userStorageData.type
+  // html:57 Working Address <p>
+  const workingAddress = ws(`${tc(d.address)} ${tc(d.state)} ${tc(d.district)} ${tc(d.city)} ${s(d.pincode)}`);
   const boxP = textStyle(12, 400, P.ink); // `.boxs p`
   const boxH4 = [textStyle(12, 400, scssColors.black, 22), { textTransform: 'capitalize' as const }]; // `.boxs h4`
   const rLabel = (key: string) => (
@@ -179,9 +181,12 @@ export default function PlumberDetailScreen({ route }: Props) {
 
               <View style={[profileStyles.ratings, profileStyles.borderBottom]}>
                 {rLabel('Working Address')}
-                <Text testID="plumberdetail-address" style={textStyle(12, 500, P.ink, 20)}>
-                  {ws(`${tc(d.address)} ${tc(d.state)} ${tc(d.district)} ${tc(d.city)} ${s(d.pincode)}`)}
-                </Text>
+                {/* a <p> holding only spaces collapses to no height in HTML; an RN Text with a space keeps a line */}
+                {workingAddress.trim() !== '' ? (
+                  <Text testID="plumberdetail-address" style={textStyle(12, 500, P.ink, 20)}>
+                    {workingAddress}
+                  </Text>
+                ) : null}
               </View>
               {d.permanent_address ? (
                 <View testID="plumberdetail-permanent" style={profileStyles.ratings}>

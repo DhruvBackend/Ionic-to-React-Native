@@ -174,7 +174,10 @@ const ICON_CSS = `
 // therefore declared again, in-page, with the local origin (like REF_FONT_CSS); without it every .material-icons glyph drew its ligature name as text.
 const REF_ICON_CSS = "@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(/__fonts/MaterialIcons-Regular.ttf)}";
 
-function installRoutes(context, port, state, log) {
+// `phase.booting`: true until the state's ionicNav runs. A state's `bootVariants` (if any) answer the app's start-up calls
+// instead of `variants`: app.component.ts:403 calls app_karigar/profile at boot too, and a malformed variant meant for the
+// screen broke the boot itself (PlumberDetail.malformed never got a root page).
+function installRoutes(context, port, state, log, phase = { booting: false }) {
   const origin = `http://127.0.0.1:${port}`;
   return context.route('**/*', async route => {
     const req = route.request();
@@ -189,7 +192,8 @@ function installRoutes(context, port, state, log) {
       }
       const api = parseApiUrl(req.url());
       if (api) {
-        const body = fixtureResponse(api.endpoint, state.variants || {});
+        const variants = phase.booting && state.bootVariants ? state.bootVariants : state.variants;
+        const body = fixtureResponse(api.endpoint, variants || {});
         if (body !== null) {
           log(`api ${req.method()} ${api.endpoint} -> fixture`);
           // Same latency as the RN MOCK transport (src/api/mock MOCK_DELAY_MS = 300). Answering instantly made Ionic dismiss
@@ -314,7 +318,8 @@ export async function captureState(browser, port, state, outFile, { log = () => 
     serviceWorkers: 'block',
   });
   try {
-    await installRoutes(context, port, state, log);
+    const phase = { booting: true };
+    await installRoutes(context, port, state, log, phase);
     const page = await context.newPage();
     page.on('pageerror', e => log(`pageerror ${e.message.slice(0, 160)}`));
     await page.addInitScript(
@@ -342,6 +347,7 @@ export async function captureState(browser, port, state, outFile, { log = () => 
         return t.use(l).toPromise();
       }, state.lang);
     }
+    phase.booting = false;
     if (state.ionicNav) {
       await page.evaluate(
         async ({ expr, params }) => {
