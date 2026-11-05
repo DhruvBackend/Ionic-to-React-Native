@@ -1002,17 +1002,17 @@ GiftList, PointDetail, Scan, LoginScreen, Digitalcatalog, EditProfile, Enquiry, 
 
 ## Phase 8: Native & release (Topbath)
 
-- [ ] **Task 8.1 – Push.**
+- [ ] **Task 8.1 – Push.** (JS side done 2026-11-05; native provider waits for the Firebase decision)
   - Add `@react-native-firebase/app` and `@react-native-firebase/messaging`, and the POST_NOTIFICATIONS runtime prompt.
   - Port `app.component.ts:896-1015` and `home.ts:960-1040`: token → `update_token` via `post_rqst` with `{ registration_id, id }` after 5 s, and tap routing by `additionalData.type`.
   - Gate it on `client.features.push` (Topbath is `false`).
   - Tests: routing per type and the `update_token` contract, both with the push wrapper mocked.
-- [ ] **Task 8.2 – Icons and splash.** Generate them per client in `use-client.mjs`: adaptive icon, Android 12 splash and notification icon. Verify on the phone.
-- [ ] **Task 8.3 – Release signing outside the repo.**
+- [x] **Task 8.2 – Icons and splash.** (2026-11-05: pixel-identical to the live bundle; notification icon waits for push) Generate them per client in `use-client.mjs`: adaptive icon, Android 12 splash and notification icon. Verify on the phone.
+- [x] **Task 8.3 – Release signing outside the repo.** (2026-11-05, verified with a test key)
   - `signingConfigs.release` reads from `~/.gradle/gradle.properties` (`TB_STORE_FILE`, `TB_STORE_PASSWORD`, `TB_KEY_ALIAS`, `TB_KEY_PASSWORD`). The build fails with a clear message if they're missing.
   - Run `./gradlew bundleRelease` with a **local test keystore**. Expected: an `.aab` is produced.
   - The real key is supplied by the release owner, so this step is outside the migration scope.
-- [ ] **Task 8.4 – Release hand-off notes** in `docs/RELEASE.md`:
+- [x] **Task 8.4 – Release hand-off notes** in `docs/RELEASE.md`:
   - forced-update rollout order (spec §6.1)
   - `versionName` and `versionCode` to set
   - Play App Signing / keystore question

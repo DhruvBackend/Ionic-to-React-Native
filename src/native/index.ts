@@ -11,5 +11,5 @@ export { reverseGeocode } from './geocode';
 export { openNavigation } from './navigate';
 export { uploadMultipart, type UploadOptions, type UploadResponse } from './upload';
 export { onNetworkChange, getNetworkState, emitMockNetwork, type NetworkState } from './network';
-export { initPushNotification } from './push';
+export { initPushNotification, setPushProvider, type PushProvider, type PushHandlers } from './push';
 export { setMockScan, setMockNativeFailure, resetMockNative, type NativeName } from './mock';

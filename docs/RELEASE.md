@@ -53,6 +53,9 @@ production app or the live server.
 ## 5. Push notifications (Task 8.1)
 
 - Topbath has push **off** (`features.push: false`), exactly like the shipped app's behaviour for these screens. The tap routing in Ionic (`app.component.ts:896-1015`, `home.ts:960-1040`) is the only way to Feedback / Transaction / ShippingDetail.
+- JS side done (2026-11-05, `src/native/push.ts`, `__tests__/push.test.ts`): the Ionic tap tables (app and Home), `update_token`
+  with `{ registration_id, id }` 5 s after registration, gated on `features.push`. It waits for a native `PushProvider`
+  (`setPushProvider`, Firebase Messaging + the Android 13 notification permission), which is not built yet.
 - **(release owner / TL)** Firebase project: Topbath's Ionic config points at `grafedoer`, another client's project. Decide whether to keep it or create a Topbath project, and supply that project's `google-services.json` before the native Firebase libraries are added. Until then no Firebase code is in the build.
 
 ## 6. Open security notes (copied from Ionic on purpose, not changed)

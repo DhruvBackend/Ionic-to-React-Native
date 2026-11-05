@@ -159,7 +159,7 @@ export default function HomeScreen({ navigation }: Props) {
   useEffect(() => {
     mounted.current = true;
     // constructor, :95-120 (in this order)
-    initPushNotification(); // :98 initPushNotification(): a no-op for Topbath (client.features.push is false, no push plugin)
+    initPushNotification('home'); // :98 initPushNotification(): a no-op for Topbath (client.features.push is false, no push plugin)
     loginBanner(); // :101
     getCountWithLiveServer(); // :104
     // NOTE (parity): :111-114 events.subscribe('getCountProducts', ...) is not ported: nothing publishes that event (its only
