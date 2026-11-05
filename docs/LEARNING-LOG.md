@@ -605,3 +605,11 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - CSS overflow of a one-word line: start-aligned, overflows right. RN wraps or ellipsizes instead; a wrapper with minWidth 100% + negative right margin + alignItems center reproduces it.
 - Debug APKs load JS from Metro: `adb reverse tcp:8081 tcp:8081` is lost on any USB blip (red "Unable to load script"). Re-apply it before every capture.
 - `__tests__/use-client.test.ts` runs the real use-client script in the project folder, so gates switch src/config/client.ts back to topbath mid-run. Run gates with the topbath config, never while an _all-features config is in place.
+
+
+## 2026-11-05 - Phase 8 (8.1 JS, 8.2, 8.3)
+
+- Icons/splash: compare decoded pixels (pngjs), not file hashes: re-encoded PNGs differ byte-wise but were pixel-identical.
+- A test-key `.aab` must not stay in build outputs: verify (`keytool -printcert -jarfile`), then delete it.
+- Push: phonegap-plugin-push keeps one native callback, so the last init wins; Ionic had two tables (app root nav, Home nav). Ported as a PushProvider seam so the Firebase choice stays open.
+- A debug APK needs Metro + adb reverse; give testers the releaseRn speed build (bundled JS).
