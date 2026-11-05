@@ -613,3 +613,13 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - A test-key `.aab` must not stay in build outputs: verify (`keytool -printcert -jarfile`), then delete it.
 - Push: phonegap-plugin-push keeps one native callback, so the last init wins; Ionic had two tables (app root nav, Home nav). Ported as a PushProvider seam so the Firebase choice stays open.
 - A debug APK needs Metro + adb reverse; give testers the releaseRn speed build (bundled JS).
+
+
+## 2026-11-05 - Hindi clipping, retakes
+
+- I said the Hindi labels were fixed from a visual comparison; Dhruv was right that they were still cut. Measure instead: uiautomator bounds of the Text + the first ink row in the screencap (`gapTop 0` = clipped). The taller Text box was cut back by the label's own overflow:hidden.
+- A style fix in a parent with overflow:hidden is invisible in jest (the style is right there) - only the device shows it.
+- Profile `.profile-detail` is a wrapping flex row: a long status must drop below the picture. Splitting the lines into explicit Views lost the wrap.
+- SVG with an internal <style>: use SvgCss, not SvgXml (drew the PointDetail gift black).
+- Fixture media names do not exist on DEV: blank page on both sides in mock mode.
+- The phone locks if the screen goes off: `svc power stayon usb` stays set; each capture batch checks isKeyguardShowing first.
