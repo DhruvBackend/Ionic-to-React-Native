@@ -176,6 +176,11 @@ export function setTransport(t: Transport): void {
 export function switchToMockTransport(): void {
   transport = mockTransport;
 }
+// True while requests are answered from src/api/mock (MODE 'MOCK' or a mock=1 debug link): media named by the fixtures
+// does not exist on the server, so WebEmbed shows an empty page instead of the server's 404 (parity captures).
+export function isMockTransport(): boolean {
+  return transport === mockTransport;
+}
 
 function send(method: 'GET' | 'POST', serverURL: string, fn: string, headers: Headers, data?: any): Promise<any> {
   return transport({

@@ -9,6 +9,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { isMockTransport } from '../api/client';
 import { iframeDefaults } from '../theme/ionicMdScroll';
 
 export interface WebEmbedProps {
@@ -28,8 +29,15 @@ export function iframeHtml(uri: string): string {
   return `<!DOCTYPE html><html style="height:100%"><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="margin:0;padding:0;overflow:hidden;height:100%"><iframe src="${esc(uri)}" width="100%" height="100%" frameborder="0" style="border:0;display:block;width:100%;height:100%"></iframe></body></html>`;
 }
 
-export function WebEmbed({ uri, height, border = 'inset', testID = 'web-embed', iframe = false }: WebEmbedProps) {
+// Uploaded media while answering from the mock transport (parity captures): the fixtures name files that do not exist on
+// the server, so an empty page is shown instead of the server's 404 page (the Ionic harness serves the same blank page).
+export function embedUri(uri: string): string {
+  return isMockTransport() && uri.includes('/uploads/') ? 'about:blank' : uri;
+}
+
+export function WebEmbed({ uri: rawUri, height, border = 'inset', testID = 'web-embed', iframe = false }: WebEmbedProps) {
   const d = iframeDefaults;
+  const uri = embedUri(rawUri);
   return (
     <View
       testID={testID}

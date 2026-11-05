@@ -61,7 +61,8 @@ export const styles = StyleSheet.create({
   nameLink: { flexDirection: 'row', alignItems: 'center' },
   // [T] 3131-3146 `.name a i`: font-size 18, 15x15 border-box with padding 6 (content box 3x3), flex-centred, margin-right 6
   statusIcon: { width: 15, height: 15, alignItems: 'center', justifyContent: 'center', marginRight: 6 },
-  statusIconGlyph: { width: 18, flexShrink: 0, textAlign: 'center' },
+  // the 18px glyph overflows the 15px box (CSS overflow visible); its own height stops the 15px box squeezing the Text (Android clipped the circle)
+  statusIconGlyph: { width: 18, height: 18, flexShrink: 0, textAlign: 'center' },
   // [T] 4664-4691 `.edit-profile.pencil-btn`: absolute right 8 top 8; button 30x30, radius 30 0 30 30, primary
   pencil: { position: 'absolute', right: 8, top: 8 },
   pencilButton: {

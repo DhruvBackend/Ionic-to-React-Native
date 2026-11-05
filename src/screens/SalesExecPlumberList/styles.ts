@@ -53,7 +53,8 @@ export const styles = StyleSheet.create({
   nameLink: { flexDirection: 'row', alignItems: 'center' },
   // [T] 3131-3146 `.name a i`: 15x15 border-box, padding 6, flex-centred, margin-right 6; page [S] font-size 13 loses to the global (0,3,2) 18px
   statusIcon: { width: 15, height: 15, alignItems: 'center', justifyContent: 'center', marginRight: 6 },
-  statusIconGlyph: { width: 18, flexShrink: 0, textAlign: 'center' },
+  // the 18px glyph overflows the 15px box (CSS overflow visible); its own height stops the 15px box squeezing the Text (Android clipped the circle)
+  statusIconGlyph: { width: 18, height: 18, flexShrink: 0, textAlign: 'center' },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }` + `.mt16 { margin-top: 16px !important }`
   ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },
   // [T] 2954-2958 `.border-box`

@@ -48,7 +48,8 @@ export const styles = StyleSheet.create({
   // RN: the 18dp glyph box overflowed the 15dp view and the glyph's bottom ~2dp was cut on the phone. The view is the glyph's own 18dp box instead, with
   // -1.5dp vertical margins so it still takes 15dp of row height (same layout as Ionic's 15px box whose 18px glyph overflows it).
   statusIcon: { width: 18, height: 18, marginVertical: -1.5, alignItems: 'center', justifyContent: 'center', marginRight: 3 },
-  statusIconGlyph: { width: 18, flexShrink: 0, textAlign: 'center' },
+  // the 18px glyph overflows the 15px box (CSS overflow visible); its own height stops the 15px box squeezing the Text (Android clipped the circle)
+  statusIconGlyph: { width: 18, height: 18, flexShrink: 0, textAlign: 'center' },
   // [T] 2949-2953 `.rating-area { border: solid 1px #DEDEDE; border-radius: 6px; width: 100% }` + `.mt16 { margin-top: 16px !important }`
   ratingArea: { borderWidth: 1, borderColor: P.line, borderRadius: 6, width: '100%', marginTop: 16 },
   // [T] 2954-2958 `.border-box`

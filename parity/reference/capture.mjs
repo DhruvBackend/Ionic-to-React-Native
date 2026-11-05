@@ -190,6 +190,13 @@ function installRoutes(context, port, state, log, phase = { booting: false }) {
       if (req.method() === 'OPTIONS') {
         return route.fulfill({ status: 204, headers: cors });
       }
+      // Uploaded media (complaint videos in an <iframe>): the fixtures name files that do not exist on the server. Both
+      // sides show an empty page: here a blank HTML document, in RN WebEmbed loads about:blank while answering from
+      // the mock transport. Pictures keep the image branch below.
+      if (url.pathname.includes('/uploads/') && !/\.(png|jpe?g|gif|webp|svg)$/i.test(url.pathname)) {
+        log(`blank media page ${url.pathname}`);
+        return route.fulfill({ status: 200, contentType: 'text/html', headers: cors, body: '<!DOCTYPE html><html><body></body></html>' });
+      }
       const api = parseApiUrl(req.url());
       if (api) {
         const variants = phase.booting && state.bootVariants ? state.bootVariants : state.variants;
