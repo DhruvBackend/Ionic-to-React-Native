@@ -13,7 +13,7 @@
     "rnWaitMs": 6500,
     "readyId": "ion-tabbar",
     "deviceVersion": "15",
-    "ionicNavNote": "Compare the tab bar and frame only: the tab ROOT pages are other screens (not ported yet), so RN shows a placeholder where Ionic shows the real page. Production reaches Tabs by Otp push(Tabs,{lang}); the harness uses setRoot, the same view since Tabs has no navbar."
+    "ionicNavNote": "The tab ROOT pages are the real ported screens (Home, Offers, ...): the page inside the frame must match too (re-captured 2026-11-05 on both sides; the Home banner is the open harness item, as in Home.*). Production reaches Tabs by Otp push(Tabs,{lang}); the harness uses setRoot, the same view since Tabs has no navbar."
   },
   {
     "id": "Tabs.Sales_Boy",
