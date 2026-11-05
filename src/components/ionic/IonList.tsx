@@ -128,18 +128,37 @@ export interface IonLabelProps {
 // ion-label.label-md: margin 13px 8px 13px 0; flex 1; overflow hidden; text nowrap + ellipsis; font-size inherits the item's 16px
 const DEVANAGARI = /[\u0900-\u097F]/;
 
+// True when any text in `node` (strings, and the children of elements) is Devanagari.
+function hasDevanagari(node: React.ReactNode): boolean {
+  return React.Children.toArray(node).some(c =>
+    typeof c === 'string'
+      ? DEVANAGARI.test(c)
+      : React.isValidElement(c)
+        ? hasDevanagari((c.props as { children?: React.ReactNode }).children)
+        : false,
+  );
+}
+
+// The clip-safe line box for a single-line Devanagari Text (see IonLabel), or null for other text.
+function devanagariLineBox(children: React.ReactNode, style: StyleProp<TextStyle>): TextStyle | null {
+  if (!hasDevanagari(children)) {
+    return null;
+  }
+  const flat = StyleSheet.flatten(style) ?? {};
+  const fontSize = flat.fontSize ?? 14;
+  const box = clipSafeLineBox(fontSize, typeof flat.lineHeight === 'number' ? flat.lineHeight : fontSize);
+  return { lineHeight: box.lineHeight, marginVertical: box.marginVertical };
+}
+
 export function IonLabel({ children, color, style, textStyle: ts, fontSize = itemContentMd.fontSize, disabled, testID = 'ion-label' }: IonLabelProps) {
   const text = textStyle(fontSize, 400, color ?? itemContentMd.textColor);
   // Devanagari marks rise above the Roboto line box: Chrome draws them (and grows a line-height:normal box for the fallback
-  // font), Android clips them. A taller Text box with a negative margin keeps the CSS layout height (clipSafeLineBox).
-  let clipSafe: TextStyle | null = null;
-  if (typeof children === 'string' && DEVANAGARI.test(children)) {
-    const flat = StyleSheet.flatten([text, ts]) ?? {};
-    const box = clipSafeLineBox(flat.fontSize ?? fontSize, flat.lineHeight ?? text.lineHeight!);
-    clipSafe = { lineHeight: box.lineHeight, marginVertical: box.marginVertical };
-  }
+  // font), Android clips them. A taller Text box with a negative margin keeps the CSS layout height (clipSafeLineBox), and the
+  // label box stops clipping (the label's overflow: hidden cut the taller Text back to 19dp, measured 2026-11-05; the Text's own
+  // numberOfLines={1} still ellipsizes). NOTE (parity): Chrome's ion-label overflow:hidden likely clips these marks in Ionic too.
+  const clipSafe = typeof children === 'string' ? devanagariLineBox(children, [text, ts]) : null;
   return (
-    <View testID={testID} style={[styles.label, disabled && { opacity: itemContentMd.controlDisabledOpacity }, style]}>
+    <View testID={testID} style={[styles.label, disabled && { opacity: itemContentMd.controlDisabledOpacity }, style, clipSafe && styles.labelUnclipped]}>
       {typeof children === 'string' || typeof children === 'number' ? (
         <Text numberOfLines={1} style={[text, ts, clipSafe]}>
           {children}
@@ -164,8 +183,9 @@ export interface IonListHeaderProps {
 
 // <p> inside an ion-item / ion-list-header: `.item-md p` = 14px, #666, 400 (margin 0), nowrap + ellipsis inherited from ion-label.
 export function IonParagraph({ children, style, testID = 'ion-paragraph' }: { children?: React.ReactNode; style?: StyleProp<TextStyle>; testID?: string }) {
+  const base = textStyle(itemContentMd.paragraph.fontSize, 400, itemContentMd.paragraph.color);
   return (
-    <Text testID={testID} numberOfLines={1} style={[textStyle(itemContentMd.paragraph.fontSize, 400, itemContentMd.paragraph.color), styles.shrink, style]}>
+    <Text testID={testID} numberOfLines={1} style={[base, styles.shrink, style, devanagariLineBox(children, [base, style])]}>
       {children}
     </Text>
   );
@@ -209,10 +229,13 @@ export function IonListHeader({ color, borderHeading, afterList, style, labelSty
     <View testID={testID} style={[wrap, style]}>
       <View testID={`${testID}-inner`} style={styles.headerInner}>
         <View testID={`${testID}-wrapper`} style={styles.wrapper}>
-          <View testID={`${testID}-label`} style={[styles.label, styles.headerLabel, borderHeading && { marginLeft: bh.label.marginLeft }]}>
+          <View
+            testID={`${testID}-label`}
+            style={[styles.label, styles.headerLabel, borderHeading && { marginLeft: bh.label.marginLeft }, hasDevanagari(children) && styles.labelUnclipped]}
+          >
             {nodes.map((c, i) =>
               typeof c === 'string' || typeof c === 'number' ? (
-                <Text key={i} numberOfLines={1} style={[text, styles.shrink, mixed && styles.grow, labelStyle]}>
+                <Text key={i} numberOfLines={1} style={[text, styles.shrink, mixed && styles.grow, labelStyle, devanagariLineBox(c, [text, labelStyle])]}>
                   {c}
                 </Text>
               ) : (
@@ -380,6 +403,7 @@ const styles = StyleSheet.create({
     marginBottom: itemContentMd.label.marginBottom,
     marginLeft: itemContentMd.label.marginLeft,
   },
+  labelUnclipped: { overflow: 'visible' }, // Devanagari labels (IonLabel): the marks above the line must not be cut
   // .item-inner of an ion-list-header: flex 1, min-height 45 (no padding, no border: the header has no item-block class)
   headerInner: { flex: 1, flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch', overflow: 'hidden', minHeight: listHeaderMd.minHeight },
   // the label's content is a row: projected text + elements share the line

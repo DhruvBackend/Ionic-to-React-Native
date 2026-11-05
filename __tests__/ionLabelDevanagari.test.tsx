@@ -26,3 +26,14 @@ test('an English label is unchanged', () => {
   expect(s.lineHeight).toBe(normalLineHeight(16));
   expect(s.marginVertical).toBeUndefined();
 });
+
+test('a Hindi IonParagraph (list header text) gets the same clip-safe box', () => {
+  const { IonParagraph } = require('../src/components/ionic/IonList');
+  let r!: ReactTestRenderer.ReactTestRenderer;
+  act(() => {
+    r = ReactTestRenderer.create(<IonParagraph>भाषा चुनिए / Choose Your Language</IonParagraph>);
+  });
+  const s = StyleSheet.flatten(r.root.findByProps({ testID: 'ion-paragraph' }).props.style);
+  expect(s.marginVertical).toBeLessThan(0);
+  expect(s.lineHeight! + 2 * (s.marginVertical as number)).toBeCloseTo(normalLineHeight(14));
+});

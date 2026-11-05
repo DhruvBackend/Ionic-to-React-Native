@@ -26,7 +26,8 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
   },
-  firstLine: { flexDirection: 'row', alignItems: 'center' },
+  // `.profile-detail { flex-wrap: wrap }`: a name/status block too wide for the space beside the picture drops to its own line (Profile.plumberPending)
+  firstLine: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' },
   // [T] 3082-3084 `.profile-pic { margin-right: 16px; position: relative }`
   profilePic: { marginRight: 16, width: 50, height: 50 + strutDescent },
   // [T] 3085-3093 `.profile-pic img`
