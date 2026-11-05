@@ -153,7 +153,7 @@ export default function NearestDealerScreen({ route }: Props) {
                   <View style={styles.distName}>
                     <Text
                       testID={`nd-letter-${i}`}
-                      style={[textStyle(14, 700, colors.white, 38), styles.firstLetter, { backgroundColor: N.letterBackground[i % 5] }]}
+                      style={[textStyle(14, 700, colors.white, 38), styles.firstLetter, { backgroundColor: N.letterBackground }]}
                     >
                       {letter}
                     </Text>

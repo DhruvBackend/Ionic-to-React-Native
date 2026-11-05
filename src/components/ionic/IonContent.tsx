@@ -319,7 +319,20 @@ export const IonContent = forwardRef<IonContentHandle, IonContentProps>(function
               <View pointerEvents="none" testID={`${testID}-refresher-edge`} style={[styles.edge, { top: spacer - 1 }]} />
             </>
           ) : null}
-          {children}
+          {stickyChildIndices
+            ? // RN's ScrollViewStickyHeader clones a sticky child with `style: {flex: 1}` and moves its style to a wrapper,
+              // which drops the child's own layout (a row became a column). A plain wrapper View takes that instead.
+              // Indexed with toArray, like ScrollView itself (nulls skipped).
+              React.Children.toArray(children).map((child, i) =>
+                stickyChildIndices.includes(i) ? (
+                  <View key={(child as React.ReactElement).key ?? i} collapsable={false}>
+                    {child}
+                  </View>
+                ) : (
+                  child
+                ),
+              )
+            : children}
         </ScrollView>
         {fixedContent}
       </View>

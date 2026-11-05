@@ -107,7 +107,9 @@ export default function SurveyListScreen({ navigation }: Props) {
                     >
                       {collapseWs(interp(row?.title))}
                     </Text>
-                    <IonIcon name="arrow-forward" size={22} color={cardMd.header.color} style={styles.arrow} />
+                    <View style={styles.arrow}>
+                      <IonIcon name="arrow-forward" size={22} color={cardMd.header.color} />
+                    </View>
                   </IonCardHeader>
                 </Pressable>
               </IonCard>

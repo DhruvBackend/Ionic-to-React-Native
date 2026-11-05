@@ -23,9 +23,9 @@ export const styles = StyleSheet.create({
   // [T] 1840-1845 `.main-div ion-list button { padding: 0 !important; border: 0 !important; margin-bottom: 0 !important }`, `.item-inner { padding: 0 !important }`;
   // [T] 5560 `.listing button { border-radius: 6px; background: $white }`; [T] 1969-1972 `.tydo-list ion-list button { box-shadow: inherit !important }` (the list has none)
   item: { borderRadius: 6, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0, marginBottom: 0 },
-  itemInner: { padding: 0 },
+  itemInner: { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }, // explicit sides: the kit's beat a shorthand
   // [T] 1848-1852 `ion-label { display: block; margin: 0 !important; height: inherit; padding: 0 }` (the label's nowrap / overflow hidden stay)
-  label: { flex: 1, overflow: 'hidden' },
+  label: { flex: 1, overflow: 'hidden', marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0 }, // explicit sides: the kit label margins beat a shorthand
   // [T] 1853-1868 `.image-manage { height: 120px; flex centred; padding: 10px 10px 0; overflow: hidden }`, `img { height: 100% }` (110 content box);
   // html:14 `style="width: 60%"` beats `width: auto`
   imageManage: { height: 120, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingTop: 10, paddingHorizontal: 10, paddingBottom: 0, overflow: 'hidden' },

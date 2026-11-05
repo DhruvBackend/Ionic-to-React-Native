@@ -23,10 +23,10 @@ export const styles = StyleSheet.create({
     borderLeftWidth: 6,
     borderLeftColor: D.cardBorder,
   },
-  // `1fr`: takes what the 289px column leaves, never less than its content (the 36px picture)
-  col1: { flex: 1, minWidth: 36 },
+  // `1fr`: takes what the 289px column leaves (~14px on a 360dp phone). Its min-content is 0, not 36: the picture has the global
+  // `img { max-width: 100% }` (main.css), and a percentage max-width makes an img's min-content contribution 0, so the picture shrinks.
+  col1: { flex: 1, minWidth: 0 },
   // `289px`
   col2: { width: 289, flexShrink: 0 },
-  // [S] 6-9 `.main img { width: 36px }`: height auto from the natural 1200 x 1474
-  pdfIcon: { width: 36, height: (36 * 1474) / 1200 },
+  // the picture is sized in index.tsx: min(36, this column's width), height from 1200 x 1474 (a % width + aspectRatio mis-measures)
 });

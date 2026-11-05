@@ -256,9 +256,11 @@ export default function GiftListScreen({ navigation, route }: Props) {
                   <View style={styles.headDetail}>
                     {/* html:30-33 */}
                     <View style={styles.head}>
-                      <Text testID={`giftlist-points-${i}`} style={[textStyle(20, 600, colors.text, 24), styles.headText]}>
-                        {interp(gift.coupon_points)}
-                      </Text>
+                      <View style={styles.headNumWrap}>
+                        <Text testID={`giftlist-points-${i}`} style={textStyle(20, 600, colors.text, 24)}>
+                          {interp(gift.coupon_points)}
+                        </Text>
+                      </View>
                       <Text style={[textStyle(14, 400, colors.textMuted), styles.headText]}>Points</Text>
                       <View style={styles.headAfter} />
                     </View>
@@ -267,11 +269,11 @@ export default function GiftListScreen({ navigation, route }: Props) {
                       <Text testID={`giftlist-title-${i}`} numberOfLines={1} style={[textStyle(16, 600, colors.text, 19.2), styles.detailH1]}>
                         {collapseWs(interp(titlecase(gift.gift_title)))}
                       </Text>
-                      <Text testID={`giftlist-offer-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(11, 400, colors.textMuted), styles.detailP]}>
+                      <Text testID={`giftlist-offer-${i}`} numberOfLines={1} style={[textStyle(11, 400, colors.textMuted), styles.detailP]}>
                         {/* html:36 <span>Offer Points:</span>{{list.offer_balance || 0}}: no space between the span and the number */}
                         {`Offer Points:${collapseWs(interp(gift.offer_balance || 0))}`}
                       </Text>
-                      <Text testID={`giftlist-offer-title-${i}`} numberOfLines={1} ellipsizeMode="clip" style={[textStyle(11, 400, colors.textMuted), styles.detailP]}>
+                      <Text testID={`giftlist-offer-title-${i}`} numberOfLines={1} style={[textStyle(11, 400, colors.textMuted), styles.detailP]}>
                         {collapseWs(`${interp(titlecase(gift.title))} | ${datePipe(gift.end_date, 'd MMMM y')}`)}
                       </Text>
                     </View>

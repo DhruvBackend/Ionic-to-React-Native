@@ -24,10 +24,16 @@ interface Props {
   route?: { params?: object };
 }
 
+// [S] 6-9 `.main img { width: 36px }` + global `img { max-width: 100% }`; height auto from the natural 1200 x 1474
+const PDF_W = 36;
+const PDF_NATURAL_W = 1200;
+const PDF_NATURAL_H = 1474;
+
 export default function DigitalcatalogScreen(_props: Props) {
   const { t } = useTranslation(); // re-renders on i18n.changeLanguage, like the `| translate` pipe
   const loader = useLoader();
   const alive = useRef(true);
+  const [col1W, setCol1W] = useState(0); // the `1fr` column's width: the picture's max-width: 100%
   const [pdf, setPdf] = useState<any>([]); // :12 pdf:any=[]
   const uploadUrl = db.upload_url3; // :17 this.uploadUrl = dbService.upload_url3
 
@@ -106,8 +112,13 @@ export default function DigitalcatalogScreen(_props: Props) {
               <View key={i} style={styles.main}>
                 <Pressable testID={`digitalcatalog-item-${i}`} onPress={() => openPdf(l.pdf)}>
                   <View style={styles.part1}>
-                    <View style={styles.col1}>
-                      <Image testID={`digitalcatalog-icon-${i}`} source={pdfPng} resizeMode="stretch" style={styles.pdfIcon} />
+                    <View style={styles.col1} onLayout={e => setCol1W(e.nativeEvent.layout.width)}>
+                      <Image
+                        testID={`digitalcatalog-icon-${i}`}
+                        source={pdfPng}
+                        resizeMode="stretch"
+                        style={{ width: Math.min(PDF_W, col1W), height: (Math.min(PDF_W, col1W) * PDF_NATURAL_H) / PDF_NATURAL_W }}
+                      />
                     </View>
                     <View style={styles.col2}>
                       {/* `a { color: $link-color }` (the primary colour) reaches the span */}

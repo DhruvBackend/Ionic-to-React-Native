@@ -25,13 +25,13 @@ export const styles = StyleSheet.create({
   search: { flexDirection: 'row', paddingLeft: 16, marginTop: -23, maxHeight: 40 },
   // ion-searchbar is `width: 100%` and a shrinking flex item of .search
   searchHost: { width: '100%', flexShrink: 1 },
-  // [CSS] `.listing { margin: 16px 0; padding: 0 16px }`. NOTE (parity): the last button's `margin-bottom: 16px` collapses with the
-  // .listing's own 16px bottom margin in CSS (RN adds them), so the bottom margin lives on the buttons only.
-  listing: { marginTop: 16, marginBottom: 0, paddingHorizontal: 16 },
+  // [CSS] `.listing { margin: 16px 0; padding: 0 16px }`
+  listing: { marginTop: 16, marginBottom: 16, paddingHorizontal: 16 },
   // [CSS] `.listing button { margin-bottom: 16px; border-radius: 6px; background: #fff; box-shadow: 0 3px 6px 0 #ccc; display: flex;
   // padding-right: 16px !important; padding-left: 0 }` + `.listing button:nth-child(..) { border-left: 5px solid .. !important }`
+  // NOTE (parity): the global `button { margin: 0 !important }` beats `.listing button { margin-bottom: 16px }`: the cards touch.
   item: {
-    marginBottom: 16,
+    marginBottom: 0,
     borderRadius: 6,
     backgroundColor: colors.white,
     boxShadow: giftListMd.itemShadow,
@@ -49,13 +49,17 @@ export const styles = StyleSheet.create({
   // [CSS] `.head { padding: 12px 20px; text-align: center; position: relative; min-width: 80px }`
   head: { paddingVertical: 12, paddingHorizontal: 20, minWidth: 80, flexShrink: 1 },
   headText: { textAlign: 'center' },
+  // h1 is one word that never wraps; in CSS a line too long for its box is start-aligned and overflows right (CSS Text 3 §6.1).
+  // The wrapper may grow past the box (negative right margin = room to measure), is at least the box wide, and centres the number:
+  // it fits -> centred in the box; too long -> starts at the box's left edge and overflows right.
+  headNumWrap: { alignSelf: 'flex-start', minWidth: '100%', marginRight: -200, alignItems: 'center' },
   // [CSS] `.head:after { position: absolute; top: 50%; transform: translateY(-50%); right: 0; height: 50px; border: 1px solid #dedede }`
   headAfter: { position: 'absolute', top: '50%', marginTop: -25, right: 0, width: 2, height: 50, borderWidth: 1, borderColor: colors.border },
   // [CSS] `.detail { margin-left: 16px; width: 100%; overflow: hidden }`
   detail: { marginLeft: 16, width: '100%', flexShrink: 1, minWidth: 0, overflow: 'hidden' },
   // [CSS] `.detail h1 { margin-top: 0 !important; margin-bottom: 2px !important; text-align: left; nowrap; ellipsis }`
   detailH1: { marginTop: 0, marginBottom: 2, textAlign: 'left' },
-  // [CSS] `.detail p { margin-bottom: 0 !important; text-align: left; white-space: nowrap }` (p is not overflow:hidden: clipped by .detail, no ellipsis)
+  // [CSS] `.detail p { margin-bottom: 0 !important; text-align: left; text-overflow: ellipsis; white-space: nowrap }` (shipped main.css; the phone shows the "...")
   detailP: { marginBottom: 0, textAlign: 'left' },
   // [CSS] `.product-img { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center }`
   giftImg: { width: 50 },

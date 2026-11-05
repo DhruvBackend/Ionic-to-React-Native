@@ -594,3 +594,14 @@ Two Sonnet builders worked in parallel, each with its own independent reviewer (
 - **Release builds are stricter than debug builds:** Topbath's `banner.png` is really a JPEG. Chrome and debug builds do not care; Android's resource compiler rejects it. Saving it under its real extension (same bytes) fixed it.
 - **A failed write can empty a file:** a Python write crashed on a character encoding after opening the file, and the empty file got committed. Always write with an explicit encoding and check the size before committing.
 - **The laptop is the limit, not tokens:** two Gradle builds were killed for low memory. One heavy job at a time.
+
+
+## 2026-11-05 - Phase 6 phone pass
+
+- RN's ScrollViewStickyHeader clones a sticky child with `style: {flex: 1}` and moves the child's style to its wrapper: a sticky row became a column (SurveyDetail count boxes). IonContent now wraps sticky children in a plain View. jest's ScrollView mock does not run the sticky header, so the test checks the structure passed to the ScrollView.
+- A percentage `top` on an absolutely positioned Text is not applied on Android; centre with a full-height wrapper View (top 0 / bottom 0 / justifyContent center).
+- A % width + aspectRatio on an Image inside a flex:1/basis-0 column mis-measures (very tall picture). Measure the column with onLayout and size the picture from it.
+- CSS: a global `button { margin: 0 !important }` beats `.listing button { margin-bottom: 16px }`; a base `background: #000 !important` beats later non-important nth-child colours; `img { max-width: 100% }` lets a grid `1fr` column shrink an img below its width. Read the whole cascade, not the page rule.
+- CSS overflow of a one-word line: start-aligned, overflows right. RN wraps or ellipsizes instead; a wrapper with minWidth 100% + negative right margin + alignItems center reproduces it.
+- Debug APKs load JS from Metro: `adb reverse tcp:8081 tcp:8081` is lost on any USB blip (red "Unable to load script"). Re-apply it before every capture.
+- `__tests__/use-client.test.ts` runs the real use-client script in the project folder, so gates switch src/config/client.ts back to topbath mid-run. Run gates with the topbath config, never while an _all-features config is in place.
