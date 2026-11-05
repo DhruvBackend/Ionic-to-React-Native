@@ -23,9 +23,18 @@ production app or the live server.
   ```
   Without them the build stops at once with: `Release signing is not configured: missing ...`.
 - Verified 2026-11-05: without the properties the build fails with that message; with a throwaway local test keystore
-  (not committed, not the real key) `bundleRelease` produces a signed `.aab`.
+  (not committed, not the real key) `bundleRelease` produced a 57 MB `.aab` signed by that key (`keytool -printcert -jarfile`),
+  package `com.topsan.app`. That test `.aab` was deleted: an upload must be built with the real key.
 - **(release owner)** Is Play App Signing on for `com.topsan.app`? If yes, the file above is the *upload* key. If no, it must be the original app signing key, or Play rejects the update.
 - **(release owner)** The Ionic repo has a release keystore committed. Treat it as exposed: rotate it (upload-key reset in Play Console when Play App Signing is on) and keep the new key in the team's secret store.
+
+## 2b. Icons and splash (Task 8.2), checked 2026-11-05
+
+- Launcher icon: `mipmap-*/ic_launcher.png` is pixel-identical to the live app bundle's at all 6 densities; `ic_launcher_round` is the
+  same picture (Ionic had no round or adaptive icon). App name `Topsan`, as in `config.xml`.
+- Splash: `ic_splash.png` is pixel-identical to the bundle's `ic_cdv_splashscreen.png` (2732 x 2732), white background, the same
+  Android 12 SplashScreen theme cordova-android generated; seen on the phone.
+- Notification icon: not checkable while push is off (see section 5).
 
 ## 3. Version and forced update (spec §6.1)
 
