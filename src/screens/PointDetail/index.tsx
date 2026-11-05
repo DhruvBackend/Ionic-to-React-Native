@@ -1,7 +1,7 @@
 // Ported from: src/pages/points/point-detail/point-detail.html + .ts + .scss (+ .module.ts)
 import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import { SvgCss } from 'react-native-svg/css'; // the picture colours its paths through an internal <style>: SvgXml ignores it (all black)
 import { db } from '../../api/client';
 import { IonContent } from '../../components/ionic/IonContent';
 import { IonHeader, IonNavbar } from '../../components/ionic/IonNavbar';
@@ -129,7 +129,7 @@ export default function PointDetailScreen({ navigation, route }: Props) {
             </Text>
           ) : null}
           {/* html:12 assets/imgs/gift-1.svg: an inline <img> on the baseline, then the strut gap */}
-          <SvgXml testID="pointdetail-image" xml={gift1Svg} width={gift1Size.width} height={gift1Size.height} />
+          <SvgCss testID="pointdetail-image" xml={gift1Svg} width={gift1Size.width} height={gift1Size.height} />
           <View style={styles.imgGap} />
           {/* html:13 */}
           <Text testID="pointdetail-point" style={textStyle(24, 500, md.textColor, 28.8)}>
