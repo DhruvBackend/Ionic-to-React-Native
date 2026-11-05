@@ -13,7 +13,7 @@ import { ionicColors } from '../../theme';
 import { colorContrast, itemContentMd, listHeaderMd, listMd } from '../../theme/ionicMdContent';
 import { itemVerticalMargins, type FieldVariant } from './IonField';
 import { RippleButton } from './RippleButton';
-import { textStyle } from './text';
+import { clipSafeLineBox, textStyle } from './text';
 
 // What an ion-radio / ion-checkbox tells its ion-item (radio-button.js:23-29, checkbox via BaseInput): the item gets
 // `item-radio` / `item-radio-checked` / `item-*-disabled` classes and the control's `button.item-cover` covers the item.
@@ -126,12 +126,22 @@ export interface IonLabelProps {
 }
 
 // ion-label.label-md: margin 13px 8px 13px 0; flex 1; overflow hidden; text nowrap + ellipsis; font-size inherits the item's 16px
+const DEVANAGARI = /[\u0900-\u097F]/;
+
 export function IonLabel({ children, color, style, textStyle: ts, fontSize = itemContentMd.fontSize, disabled, testID = 'ion-label' }: IonLabelProps) {
   const text = textStyle(fontSize, 400, color ?? itemContentMd.textColor);
+  // Devanagari marks rise above the Roboto line box: Chrome draws them (and grows a line-height:normal box for the fallback
+  // font), Android clips them. A taller Text box with a negative margin keeps the CSS layout height (clipSafeLineBox).
+  let clipSafe: TextStyle | null = null;
+  if (typeof children === 'string' && DEVANAGARI.test(children)) {
+    const flat = StyleSheet.flatten([text, ts]) ?? {};
+    const box = clipSafeLineBox(flat.fontSize ?? fontSize, flat.lineHeight ?? text.lineHeight!);
+    clipSafe = { lineHeight: box.lineHeight, marginVertical: box.marginVertical };
+  }
   return (
     <View testID={testID} style={[styles.label, disabled && { opacity: itemContentMd.controlDisabledOpacity }, style]}>
       {typeof children === 'string' || typeof children === 'number' ? (
-        <Text numberOfLines={1} style={[text, ts]}>
+        <Text numberOfLines={1} style={[text, ts, clipSafe]}>
           {children}
         </Text>
       ) : (
